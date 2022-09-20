@@ -1,0 +1,98 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Equipment Manufacturers
+{% endblock %}
+
+{% block body %}
+<style>
+  @media only screen and (max-width: 1519px) {
+    th, td{
+      font-size: 16px;
+    }
+    .lapping-mobile{
+      margin-top: 16px;
+    }
+  }
+  input{
+    opacity: 1 !important;
+  }
+  .customer-sup{    
+    white-space: pre-wrap; /* CSS3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+  }
+</style>
+<div class="container">
+  <h2>Equipment Manufacturers</h2>
+  <a class="waves-effect waves-light btn-small hidden-stuff phone-button lapping-btn" onclick="goBack()">Go Back</a>
+      <form action="/action_page.php">
+       
+    
+      </form>
+      <div ><a 
+        class="waves-effect waves-light btn-small phone-button lapping-mobile"  href="{% url 'create_manufacturer_view' %}">Create Manufacturer</a>
+        <a 
+        class="waves-effect waves-light btn-small phone-button lapping-mobile" id="models_toggle" onclick="modelsToggle()" href="#">Collapse Models</a>
+      </div>
+      
+        <table class="highlight" id="typestable" style="margin-bottom: 100px; margin-top: 10px;">
+          
+          <tr style="">
+            <th style="position: sticky; top: 0; box-shadow: 0px -1px inset ">Name</th>
+            <th style="position: sticky; top: 0; box-shadow: 0px -1px inset " class="computer-screen"> <span class="model-shown">Models</span><span class="hidden-stuff model-hidden">Model Count</span> </th>
+            <th class="computer-screen" style="width: 50%; position: sticky; top: 0; box-shadow: 0px -1px inset">Customer Support</th>
+          </tr>
+      
+          {% for manufacturer in manufacturers %}
+          <tr>
+            <td><a class="comp-font-ml" href="{% url 'eq_manufacturer' manufacturer.id %}">{{ manufacturer.name }}</a></td>
+            <td class="computer-screen">
+              {% for model in manufacturer.model_manufacturer.all %}
+              <div class="model-shown" style="padding: 6px 0">{{ model.name }} </div>
+              {%empty%}              
+              <span class="model-shown" style="color: #999;">&#8212;&#8212;&#8212;</span> 
+              {%endfor%}
+              <span class="hidden-stuff model-hidden">{{manufacturer.model_manufacturer.count}}</span>
+            </td>            
+            <td class="computer-screen customer-sup">{{ manufacturer.customer_support }}</td>            
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <script>
+        models_toggle = true
+        function modelsToggle(){
+          if(models_toggle){
+            models_toggle = false
+            $(".model-shown").hide()
+            $(".model-hidden").show()
+            $("#models_toggle").html("Show Models")
+          }else{
+            models_toggle = true
+            $(".model-shown").show()
+            $(".model-hidden").hide()
+            $("#models_toggle").html("Collapse Models")
+          }
+        }
+        $('.change_class').change(function(){    
+          var check_id = $(this).attr('id')
+          console.log("++++++++")
+          $('.parent_'+check_id).prop('checked', true)
+          $('.parent_'+check_id).change()
+        
+        })
+        $('#test_checkbox').change(function(){    
+          console.log("+++++++++++++++++")
+        $('#test_gc').prop('checked', true)
+        
+        })
+        
+        
+        function goBack() {
+          window.history.back();
+        }
+    </script>
+{% endblock %}

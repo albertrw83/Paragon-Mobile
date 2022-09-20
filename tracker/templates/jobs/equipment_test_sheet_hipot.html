@@ -1,0 +1,62 @@
+
+<div class="col s12 m12 l6 is-hipot comp-padding">
+  <table class="border-table-bottom">
+    <caption class="h5-style">Hipot <span class="phone-font-med comp-font-med">@</span> <input class="test-input phone-font-med" type="number" name="hipot_test_voltage" id="hipot_test_voltage" style="max-width: 80px;" {% if test_results.hipot_test_voltage %} value="{{ test_results.hipot_test_voltage }}"{% endif %} > <span class="phone-font-med comp-font-med">Volts</span> <br><span class="comp-font-med phone-font-med" style="color: #888;" >(di-electric withstand test)</span>
+      {%if equipment.equipment_type.is_switchgear%} <br><span class="comp-font-med phone-font-med" style="color: #aaa;">Phase to Ground with other phases grounded</span> {%endif%} </caption>
+    {%if not equipment.equipment_type.is_switchgear%}
+    <tr class="noselect" style="border-bottom: none;">                                      
+      <td colspan="3" style="border-right: none; text-align: center; padding: 10px;">phase-to-phase</td>
+    </tr>
+    <tr class="noselect">
+      <td style="text-align: center;">
+        A-B <br><input class="test-input" type="text" name="hipot_ptp_ab" id="hipot_ptp_ab" style="width: 70px;" {% if test_results.hipot_ptp_ab %} value="{{ test_results.hipot_ptp_ab.normalize }}"{% endif %}  >
+        milliAmps
+      </td>
+      <td style="text-align: center;">B-C <br>
+        <input class="test-input" type="text" name="hipot_ptp_bc" id="hipot_ptp_bc" style="width: 70px;" {% if test_results.hipot_ptp_bc %} value="{{ test_results.hipot_ptp_bc.normalize }}"{% endif %}  >  
+        milliAmps
+      </td>                    
+      <td style="text-align: center; border-right: none;">C-A <br>
+        <input class="test-input" type="text" name="hipot_ptp_ca" id="hipot_ptp_ca" style="width: 70px;" {% if test_results.hipot_ptp_ca %} value="{{ test_results.hipot_ptp_ca.normalize }}"{% endif %}  >   
+        milliAmps
+      </td>                    
+    </tr>
+    {%endif%}          
+    <tr class="noselect" style="border-bottom: none;">
+      <td colspan="3" style="border-right: none;text-align: center; padding: 10px;">phase-to-ground</td>
+    </tr>
+    <tr class="noselect">
+      <td style="text-align: center;">
+        A-G <br><input class="test-input" type="text" name="hipot_ptg_a" id="hipot_ptg_a" style="width: 70px;" {% if test_results.hipot_ptg_a %} value="{{ test_results.hipot_ptg_a.normalize }}"{% endif %}  >
+        milliAmps
+      </td>
+      <td style="text-align: center;">B-G <br>
+        <input class="test-input" type="text" name="hipot_ptg_b" id="hipot_ptg_b" style="width: 70px;" {% if test_results.hipot_ptg_b %} value="{{ test_results.hipot_ptg_b.normalize }}"{% endif %}  >  
+        milliAmps
+      </td>                    
+      <td style="text-align: center; border-right: none;">C-G <br>
+        <input class="test-input" type="text" name="hipot_ptg_c" id="hipot_ptg_c" style="width: 70px;" {% if test_results.hipot_ptg_c %} value="{{ test_results.hipot_ptg_c.normalize }}"{% endif %}  >   
+        milliAmps
+      </td>                    
+    </tr>
+    {%if not equipment.equipment_type.is_switchgear%}
+    <tr class="noselect" style="border-bottom: none;">
+      <td colspan="3" style="border-right: none;text-align: center; padding: 10px;">line-to-load</td>
+    </tr>
+    <tr class="noselect">
+      <td style="text-align: center;">
+        A-A' <br><input class="test-input" type="text" name="hipot_ltl_a" id="hipot_ltl_a" style="width: 70px;" {% if test_results.hipot_ltl_a %} value="{{ test_results.hipot_ltl_a.normalize }}"{% endif %}  >
+        milliAmps
+      </td>
+      <td style="text-align: center;">B-B' <br>
+        <input class="test-input" type="text" name="hipot_ltl_b" id="hipot_ltl_b" style="width: 70px;" {% if test_results.hipot_ltl_b %} value="{{ test_results.hipot_ltl_b.normalize }}"{% endif %}  >  
+        milliAmps
+      </td>                    
+      <td style="text-align: center; border-right: none;">C-C' <br>
+        <input class="test-input" type="text" name="hipot_ltl_c" id="hipot_ltl_c" style="width: 70px;" {% if test_results.hipot_ltl_c %} value="{{ test_results.hipot_ltl_c.normalize }}"{% endif %}  >   
+        milliAmps
+      </td>                    
+    </tr>            
+    {%endif%}          
+  </table>
+</div>

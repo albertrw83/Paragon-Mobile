@@ -1,0 +1,258 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 20px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report <br>
+            <i style="font-family: 'Rubik', sans-serif; color: #666; font-size: 14px;">Created {{now}}</i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="c4">
+            <div style="padding-right: 42px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+                {% include "jobs/test_sheet_jobinfo.html" with test_sheet=test_sheet equipment=equipment job=job %}
+            </div>
+        </div>
+        <div class="c8">
+            <div class="row">
+                <h3 class="normal-header">Equipment Information</h3>
+            </div>
+            <div class="row">
+                <div class="c6">
+                    <div>
+                        <table class="table-all center lato-300" style="width: 100%;">
+                            <tr>
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Serial Number
+                                </td>
+                                <td style="padding-left: 7px;">{{equipment.serial_number_data | default_if_none:"None"}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Source Point
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_starting_point | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">End Point
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_ending_point | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Manufacturer
+                                </td>
+                                <td style="padding-left: 7px;">{{equipment.equipment_model.model_manufacturer}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Model
+                                </td>
+                                <td style="padding-left: 7px;">{{equipment.equipment_model}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Type
+                                </td>
+                                <td style="padding-left: 7px;">{{equipment.equipment_type}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">System Voltage
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.operating_cable_voltage_data.normalize}} kV</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Voltage Rating 
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_voltage_rating_data.normalize}} kV</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Conductor Size</td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_size_data.normalize}}&nbsp;{{test_sheet.cable_size_units_data}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Conductor Material
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_conductor_material_data}}</td>
+                            </tr>
+                        </table>
+                    
+                    </div>
+                </div>
+                <div class="c6">                    
+                    <div style="padding-left: 32px;">
+                        <table class="table-all center lato-300" style="width: 100%;">
+                            <tr>
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Insulation Material
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_insulation_material_data }}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Insulation Thickness
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_insulation_thickness_data.normalize }} {{test_sheet.cable_insulation_thickness_units_data }}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Insulation Rating
+                                </td>
+                                <td style="padding-left: 7px;"> {{ test_sheet.cable_insulation_rating_data | default_if_none:"_____" }} %</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Cable Length
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_length_data | default_if_none:"_____"}} {{test_sheet.cable_length_units_data | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;"> Source Termination Type
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_starting_termination_type_data | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">End Termination Type
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.cable_ending_termination_type_data | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Ambient Temperature
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.ambient_temp.normalize }} &#176{{test_sheet.ambient_temp_units | default_if_none:""}}</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Humidity
+                                </td>
+                                <td style="padding-left: 7px;">{{test_sheet.humidity | default_if_none:""}} %</td>
+                            </tr>
+                            <tr style=" border-top: 1px solid #ededed;">
+                                <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Date Manufactured</td>
+                                <td style = "padding-left: 7px;">{{test_sheet.date_manufactured | default_if_none:""}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div> 
+    <div class="row">
+        <div class="c6">
+            <table class="table-all center lato-300" style="width: 95%;">
+                <caption style="font-weight: 500; padding-top: 22px; font-size: 18px; ">Visual and Mechanical Inspections
+                </caption>
+                <tr>
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_cable_data_specs_match %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Cable data matches drawings/specs</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_no_physical_damage %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">No physical damage to exposed sections</td>
+                </tr>      
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_connection_verification %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Electrical connections verification via ductor, torque wrench, or thermographic survey</td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_compression_match %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Compression-applied connectors match cables and have proper indentation </td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_shield_supports_terminations %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Shield grounding, cable supports, and terminations inspected</td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_bend_radius %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">All cable bend radius meet or exceed ICEA and manufacturers minimum</td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_fireproofing %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Fireproofing is acceptable in common cable areas</td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_window_ct_correct %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">If terminated through window-type current transformers, neutral and ground conductors are correctly placed and shields terminated correctly for operation of protective devices</td>
+                </tr>        
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_id_arrangments_correct %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Identification and arrangments are correct</td>
+                </tr>         
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.is_cable_jacket_insulation_ok %}Pass{%else%}Fail{%endif%}
+                    </td>
+                    <td style="padding-left: 7px;">Cable jacket and insulation are in acceptable condition</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="c6">
+            {% if test_sheet.eq.is_cable %}
+            <div style="font-family: 'Lato', sans-serif; font-weight: 300">    
+                <table class="table-all lato-300" style="width: 95%;">
+                    <caption style="font-weight: 500; padding-top: 22px; font-size: 18px; ">Shield Continuity Test
+                    </caption>
+                    <tr>
+                        <td class="cell-borders" style="border-top: none;"><span style="font-weight: 600;">Phase A</span>&nbsp;&nbsp;&nbsp;<span style="color: #bbb;">|</span>&nbsp;&nbsp;&nbsp;1.6 Ohms</td>
+                        <td class="cell-borders" style="border-top: none;"><span style="font-weight: 600;">Phase B</span>&nbsp;&nbsp;&nbsp;<span style="color: #bbb;">|</span>&nbsp;&nbsp;&nbsp;2.2 Ohms</td>
+                        <td class="cell-borders" style="border-top: none;"><span style="font-weight: 600;">Phase C</span>&nbsp;&nbsp;&nbsp;<span style="color: #bbb;">|</span>&nbsp;&nbsp;&nbsp;1.2 Ohms</td>
+                    </tr>
+                </table> <br>
+    
+                <table class="lato-300" style="width: 95%;">
+                    <caption style="font-weight: 500; padding-top: 22px; font-size: 18px; ">High Potential Insulation Test
+                    </caption>   
+                    <tr>
+                        <td class="cell-borders" style="border-top: none;"><span style="font-weight: 600;">Test Set Type</span>&nbsp;&nbsp;&nbsp;<span style="color: #bbb;">|</span>&nbsp;&nbsp;&nbsp;{% if test_sheet.is_cable_dc_test %}DC{%elif test_sheet.is_cable_dc_test%}Fail{%endif%}{{test_sheet.is_cable_dc | default_if_none:""}}</td>
+                        <td class="cell-borders" style="border-top: none;"><span style="font-weight: 600;">Max Test Voltage</span>&nbsp;&nbsp;&nbsp;<span style="color: #bbb;">|</span>&nbsp;&nbsp;&nbsp;{{test_sheet.max_test_voltage | default_if_none:"N/A"}}</td>
+                    </tr>
+                </table>
+                <table class="table-all lato-300" style="width: 50%; font-size: 14px;">
+                    <tr>
+                        <th class="cell-borders" style="border-top: none ;">Time <br> <span style="color: #444; font-weight: 300;">(Minutes)</span> </th>
+                        <th class="cell-borders" style="border-top: none ;">Volts <br><span style="color: #444; font-weight: 300;">(KV)</span></th>
+                        <th class="cell-borders" style="border-top: none ;">Phase A <br><span style="color: #444; font-weight: 300;">(microAmps)</span></th>
+                        <th class="cell-borders" style="border-top: none ;">Phase B <br><span style="color: #444; font-weight: 300;">(microAmps)</span></th>
+                        <th class="cell-borders" style="border-top: none ;">Phase C <br><span style="color: #444; font-weight: 300;">(microAmps)</span></th>
+                    </tr>
+                    {% for test in test_sheet.cable_test_data.all|slice:cable_test_q %}
+                    <tr>
+                        <td class="cell-borders" style="padding: 2px 0 2px 0;">{% if test.time %} {{test.time.normalize}}{%else%}<span style="visibility: hidden;">|</span>{%endif%}</td>
+                        <td class="cell-borders" style="padding: 2px 0 2px 0;">{% if test.test_voltage %} {{test.test_voltage.normalize}}{%else%}<span style="visibility: hidden;">|</span>{%endif%}</td>
+                        <td class="cell-borders" style="padding: 2px 0 2px 0;">{% if test.phase_a %} {{test.phase_a.normalize}}{%else%}<span style="visibility: hidden;">|</span>{%endif%}</td>
+                        <td class="cell-borders" style="padding: 2px 0 2px 0;">{% if test.phase_b %} {{test.phase_b.normalize}}{%else%}<span style="visibility: hidden;">|</span>{%endif%}</td>
+                        <td class="cell-borders" style="padding: 2px 0 2px 0;">{% if test.phase_c %} {{test.phase_c.normalize}}{%else%}<span style="visibility: hidden;">|</span>{%endif%}</td>
+                    </tr>
+                    {%empty%}
+                    <tr>
+                        <td class="cell-borders">N/A</td>
+                        <td class="cell-borders">N/A</td>
+                        <td class="cell-borders">No Results</td>
+                        <td class="cell-borders">No Results</td>
+                        <td class="cell-borders">No Results</td>
+                    </tr>
+                    {%endfor%}
+                    
+                </table>
+    
+                
+            </div>
+            {%endif%}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,210 @@
+
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 20px; text-align: right; font-weight: 500;"> 
+            {{equipment.equipment_type}}<br> Test Report <i style="color: #666;">(Page 2 of 2)</i>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="c4">
+            <div style="padding-right: 22px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+            </div>
+        </div>             
+    </div>
+    {% if test_sheet.eq.is_primary_injection %}
+    <div class="row">
+        <table class="table-all lato-300" style="width: 100%;">
+            <caption class="normal-header">Primary Current Injection
+            </caption>
+            <col style="width: 22%">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+            <col style="width: 6%;">
+
+            <thead>
+            <tr>
+                <td style="text-align: center;" colspan="4"></td>
+                <td style="text-align: center;border-right: 1px solid #d3d3d3;" colspan="3">As Found</td>
+                <td style="text-align: center;border-right: 1px solid #d3d3d3;" colspan="3">As Left</td>
+                <td style="text-align: center;" colspan="2">Tolerance</td>
+            </tr>
+            </thead>
+            <tr>
+                <td class="cell-borders" style="border-top: none; width: max-content;">Tested Function </td>
+                <td class="center-cells" style="border-top: none; border-left: none; border-right: none;" >Setting</td>
+                <td class="center-cells" style="border-top: none; border-left: none; border-right: none;">Test Amps</td>
+                <td class="center-cells" style="border-top: none; border-left: none;">xPickup </td>
+                <td class="center-cells">A</td>
+                <td class="center-cells">B</td>
+                <td class="center-cells">C</td>
+                <td class="center-cells">A</td>
+                <td class="center-cells">B</td>
+                <td class="center-cells">C</td>
+                <td class="center-cells">min</td>   
+                <td class="cell-borders">max</td>  
+            </tr>
+            <tr>
+                <td class="cell-borders">Long Time Pickup (amps)</td>
+                <td class="center-cells">{{test_sheet.pi_setting_ltpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells">{{test_sheet.a_af_ltpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_ltpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_ltpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_ltpu %}{{test_sheet.a_al_ltpu.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_ltpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_ltpu %}{{test_sheet.b_al_ltpu.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_ltpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_ltpu %}{{test_sheet.c_al_ltpu.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_ltpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_ltpu.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_ltpu.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders">Long Time Delay(sec) </td>
+                <td class="center-cells">{{test_sheet.pi_setting_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_testamps_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_xpu_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.a_af_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_ltd.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_ltd %}{{test_sheet.a_al_ltd.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_ltd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_ltd %}{{test_sheet.b_al_ltd.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_ltd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_ltd %}{{test_sheet.c_al_ltd.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_ltd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_ltd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_ltd.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders">Short Time Pickup(amps)</td>
+                <td class="center-cells">{{test_sheet.pi_setting_stpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells">{{test_sheet.a_af_stpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_stpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_stpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_stpu %}{{test_sheet.a_al_stpu.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_stpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_stpu %}{{test_sheet.b_al_stpu.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_stpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_stpu %}{{test_sheet.c_al_stpu.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_stpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_stpu.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_stpu.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders">Short Time Delay(sec)</td>
+                <td class="center-cells">{{test_sheet.pi_setting_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_testamps_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_xpu_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.a_af_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_std.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_std %}{{test_sheet.a_al_std.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_std.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_std %}{{test_sheet.b_al_std.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_std.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_std %}{{test_sheet.c_al_std.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_std.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_std.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_std.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders">Instantaneous</td>
+                <td class="center-cells">{{test_sheet.pi_setting_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_testamps_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.pi_xpu_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.a_af_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_inst.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_inst %}{{test_sheet.a_al_inst.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_inst.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_inst %}{{test_sheet.b_al_inst.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_inst.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_inst %}{{test_sheet.c_al_inst.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_inst.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_inst.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_inst.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders">Ground Fault Pickup</td>
+                <td class="center-cells">{{test_sheet.pi_setting_gfpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells" style="background-color: #ccc;"></td>
+                <td class="center-cells">{{test_sheet.a_af_gfpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.b_af_gfpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{{test_sheet.c_af_gfpu.normalize | default_if_none:""}}</td>
+                <td class="center-cells">{% if text_sheet.a_al_gfpu %}{{test_sheet.a_al_gfpu.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_gfpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.b_al_gfpu %}{{test_sheet.b_al_gfpu.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_gfpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{% if text_sheet.c_al_gfpu %}{{test_sheet.c_al_gfpu.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_gfpu.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="center-cells">{{test_sheet.min_af_gfpu.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_gfpu.normalize | default_if_none:""}}</td>
+            </tr>
+            <tr>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">Ground Fault Delay</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.pi_setting_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3; background-color: #ccc;">{{test_sheet.pi_testamps_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.pi_xpu_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.a_af_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.b_af_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.c_af_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{% if text_sheet.a_al_gfd %}{{test_sheet.a_al_gfd.normalize | default_if_none:""}}{%else%}{{test_sheet.a_af_gfd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{% if text_sheet.b_al_gfd %}{{test_sheet.b_al_gfd.normalize | default_if_none:""}}{%else%}{{test_sheet.b_af_gfd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{% if text_sheet.c_al_gfd %}{{test_sheet.c_al_gfd.normalize | default_if_none:""}}{%else%}{{test_sheet.c_af_gfd.normalize | default_if_none:""}}{%endif%}</td>
+                <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{{test_sheet.min_af_gfd.normalize | default_if_none:""}}</td>
+                <td class="cell-borders">{{test_sheet.max_al_gfd.normalize | default_if_none:""}}</td>
+            </tr>
+        </table>
+    </div>
+    {%endif%}
+    <br>
+    <div class="row">
+        {% if test_sheet.eq.is_secondary_injection %}
+            <table class="table-all lato-300" style="width: 100%;">
+                <caption class="normal-header">Secondary Current Injection
+                </caption>
+                <tr>
+                    <th class="lato-300">Test</th>
+                    <th class="lato-300">A</th>
+                    <th class="lato-300">B</th>
+                    <th class="lato-300">C</th>
+                </tr>
+                <tr>
+                    <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">Minimum Pick Up</td>
+                    <td class="cell-borders">{%if test_sheet.si_pu_a%} {{test_sheet.si_pu_a}}{%else%}_________ &nbsp;{%endif%}amps</td>
+                    <td class="cell-borders">{%if test_sheet.si_pu_b%} {{test_sheet.si_pu_b}}{%else%}_________ &nbsp;{%endif%}amps</td>
+                    <td class="cell-borders">{%if test_sheet.si_pu_c%} {{test_sheet.si_pu_c}}{%else%}_________ &nbsp;{%endif%}amps</td>
+                </tr>_
+                <tr>
+                    <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">Long Time</td>
+                    <td class="cell-borders">{%if test_sheet.si_lt_current_a%}{{test_sheet.si_lt_current_a.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_lt_d_a %}{{test_sheet.si_lt_d_a.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                    <td class="cell-borders">{%if test_sheet.si_lt_current_b%}{{test_sheet.si_lt_current_b.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_lt_d_b %}{{test_sheet.si_lt_d_b.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                    <td class="cell-borders">{%if test_sheet.si_lt_current_c%}{{test_sheet.si_lt_current_c.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_lt_d_c %}{{test_sheet.si_lt_d_c.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                </tr>
+                <tr>
+                    <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">Short Time</td>
+                    <td class="cell-borders">{%if test_sheet.si_st_current_a%}{{test_sheet.si_st_current_a.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_st_d_a %}{{test_sheet.si_st_d_a.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                    <td class="cell-borders">{%if test_sheet.si_st_current_b%}{{test_sheet.si_st_current_b.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_st_d_b %}{{test_sheet.si_st_d_b.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                    <td class="cell-borders">{%if test_sheet.si_st_current_c%}{{test_sheet.si_st_current_c.normalize }}{%else%}_________ &nbsp;{%endif%}&nbsp;amps in {%if test_sheet.si_st_d_c %}{{test_sheet.si_st_d_c.normalize }}{%else%}_________{%endif%}&nbsp;seconds</td>
+                </tr>
+                <tr>
+                    <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">Instantaneous </td>
+                    <td class="cell-borders">{%if test_sheet.si_inst_current_a%}{{test_sheet.si_inst_current_a.normalize}}{%else%}_________ &nbsp;{%endif%} &nbsp; amps</td>
+                    <td class="cell-borders">{%if test_sheet.si_inst_current_b%}{{test_sheet.si_inst_current_b.normalize}}{%else%}_________ &nbsp;{%endif%} &nbsp; amps</td>
+                    <td class="cell-borders">{%if test_sheet.si_inst_current_c%}{{test_sheet.si_inst_current_c.normalize}}{%else%}_________ &nbsp;{%endif%} &nbsp; amps</td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+
+<div style="padding-left: 22px;font-family: 'Lato', sans-serif; font-weight: 300">
+            
+    <table class="table-all lato-300" style="width: 100%;">
+        <caption class="normal-header">High Potential Test
+        </caption>
+        <tr>
+            <td colspan="4" style="text-align: center;">
+                Tested at {% if test_sheet.hipot_test_voltage %}{{test_sheet.hipot_test_voltage }} {% else %} ______ {% endif %} Volts
+            </td>
+        </tr>
+        <tr>
+            <td class="cell-borders">Phase-to-Phase </td>
+            <td class="cell-borders">A-B <br>{% if test_sheet.hipot_ptp_ab %}  {{test_sheet.hipot_ptp_ab.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">B-C <br>{% if test_sheet.hipot_ptp_bc %}  {{test_sheet.hipot_ptp_bc.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">C-A <br>{% if test_sheet.hipot_ptp_ca %}  {{test_sheet.hipot_ptp_ca.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+        </tr>
+        <tr>
+            <td class="cell-borders">Line-to-Load</td>
+            <td class="cell-borders">A-A' <br>{% if test_sheet.hipot_ltl_a %}  {{test_sheet.hipot_ltl_a.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">B-B' <br>{% if test_sheet.hipot_ltl_b %}  {{test_sheet.hipot_ltl_b.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">C-C' <br>{% if test_sheet.hipot_ltl_c %}  {{test_sheet.hipot_ltl_c.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+        </tr>
+        <tr>
+            <td class="cell-borders">Phase-to-Ground</td>
+            <td class="cell-borders">A-G <br>{% if test_sheet.hipot_ptg_a %} {{test_sheet.hipot_ptg_a.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">B-G <br>{% if test_sheet.hipot_ptg_b %} {{test_sheet.hipot_ptg_b.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+            <td class="cell-borders">C-G <br>{% if test_sheet.hipot_ptg_c %} {{test_sheet.hipot_ptg_c.normalize }} {% else %} ______ {% endif %} milliAmps</td>
+        </tr>
+                       
+    </table>
+
+    
+</div>

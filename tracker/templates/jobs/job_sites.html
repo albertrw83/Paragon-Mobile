@@ -1,0 +1,46 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Job Sites
+{% endblock %}
+
+{% block body %}
+<style>
+   @media only screen and (max-width: 1519px) {
+    th, td{
+      font-size: 16px;
+    }
+  }
+</style>
+<div class="container"><a class="waves-effect waves-light btn-small lapping-btn phone-button" onclick="goBack()">Go Back</a> </div>
+
+<h2>Job Sites</h2>
+
+<div class="container">
+    <table class="highlight" id="jobsites_table" style="margin-bottom: 100px; margin-top: 10px;">
+        <a class="waves-effect waves-light btn phone-button" href="{% url 'create_job_site_view' %}">Create Job Site</a>
+        <tr>
+          <th style="position: sticky; top: 0; box-shadow: 0px -1px inset ">Name</th>
+          <th style="position: sticky; top: 0; box-shadow: 0px -1px inset ">Owner</th>
+          <th style="position: sticky; top: 0; box-shadow: 0px -1px inset ">Address</th>
+          <th style="position: sticky; top: 0; box-shadow: 0px -1px inset " class="computer-screen">Site Contact</th>
+        </tr>
+        {% for site in job_sites %}
+        <tr>
+            <td><a href="{% url 'job_site' site.id %}">{{ site.name }}</a></td>
+            <td>{{ site.owner }}</td>
+            <td>{{ site.address }}</td>
+            <td class="computer-screen">{% if site.site_contact %}{{ site.site_contact }} <br> <span style="white-space: pre-line;" >{{site.site_contact_info}}</span>{% else %} None {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+{% endblock %}
+

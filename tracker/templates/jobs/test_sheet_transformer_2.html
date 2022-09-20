@@ -1,0 +1,32 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 30px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 18px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report <i style="color: #666;">(Page 2 of 2)</i>  <br><span style="opacity: 0;">|</span>
+            <br>
+        </div>
+    </div>
+</div>
+
+    
+    {% if test_sheet.eq.is_xfmr_insulation_resistance%}
+    {% include "jobs/test_sheet_xfmr_ir.html" with test_sheet=test_sheet equipment=equipment job=job %}
+{%endif%}
+{% if test_sheet.eq.is_winding_resistance%}
+    {% include "jobs/test_sheet_xfmr_wr.html" with test_sheet=test_sheet equipment=equipment job=job %}
+{%endif%}
+{% if test_sheet.eq.is_ttr%}
+{% include "jobs/test_sheet_xfmr_ttr.html" with test_sheet=test_sheet equipment=equipment job=job %}
+{%endif%}
+
+</div>
+{% endblock %}

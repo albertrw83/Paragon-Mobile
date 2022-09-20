@@ -1,0 +1,421 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Jobs
+{% endblock %}
+
+{% block body %}
+<style>
+  
+
+.sort{
+  font-weight: normal;
+}
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 16px;
+    color: #039be5;
+}
+.mobile-flip{
+  text-align: right;
+}
+@media only screen and (max-width: 1519px) {
+  .mobile-flip{
+    text-align: left;
+  }
+  .equip-action-dropdown{
+  line-height: 75px !important;
+  height: 75px !important; 
+  padding-top: 0 !important;
+}
+  .sort.desc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #000000;
+  }
+  .sort.asc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000000;
+  }
+  ul.dropdown-content {
+    line-height: 250px;
+    /* min-width: 200px; */
+  }
+  .dropdown-li{
+    line-height: 75px !important;
+    height: 75px !important;
+    width: auto !important;
+  }
+  .dropdown-a{
+    height: 75px;
+    /* width: 200px; */
+    display: block;
+    padding: 0 30px !important;
+  }
+  .dropdown-i{
+    line-height: 75px !important;
+    height: 75px !important;
+    padding: 0px 30px ;
+  }
+  .asc:after{
+  font-size: 60px !important;  
+  width: 60px;
+  height: 40px;
+
+  }
+  .desc::after {
+  font-size: 60px !important;  
+  }
+
+}
+.dropdown-auto{
+  width: auto !important;
+}
+</style>
+<div class="container ">
+  <h2>Jobs</h2>
+  <div class="row noselect"> 
+    <div class="col s12 m12 l12 xl6 mobile-pad">
+      <a class="waves-effect waves-light btn-small phone-button " href="{% url 'new_job' 'full' %}" data-target="add_eq_dropdown">
+        <i class="material-icons left">add</i>Full Job
+      </a>
+      <a class="waves-effect waves-light btn-small phone-button" href="{% url 'new_job' 'quick' %}" data-target="add_eq_dropdown">
+        <i class="material-icons left">add</i>Quick Job
+      </a>
+
+    </div>
+    <div class="col s12 m12 l12 xl6 mobile-pad mobile-flip" style="font-size: 0;" >
+      <a class="waves-effect waves-light btn-small phone-button" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" href="{% url 'job_archive' %}">Archive</a>
+      <a class="waves-effect waves-light btn-small phone-button disabled hidden-stuff" href="{% url 'birdseye' %}">Birdseye</a>
+      <a class="waves-effect waves-light btn-small phone-button" style=" margin-left: 0;border-bottom-left-radius: 0; border-top-left-radius: 0;" href="{% url 'job_trash' %}">Trash </a> 
+      <span id="job_manage_help" style="margin-left: 5px;" class="help-btn hover-item "> About<i class="material-icons-outlined inline-icon" style="margin-right: 6px;">info</i></span>
+    </div>
+  </div>
+</div>
+{% if my_jobs or not_my_jobs %}
+{% else%}
+  <h4>No jobs.</h4>
+  {%if not_my_jobs%}
+  <p>{{not_my_jobs}}</p>
+  {%endif%}
+{% endif %}
+{% if my_jobs %}
+<div class="container computer-screen" id="my_jobstable_div">
+  <div style="padding-top: 2rem;">
+    <input class="search phone" placeholder="Search/Filter Jobs" style="max-width: 300px;"/>
+  </div>
+  <table class="highlight" id="jobstable" style="margin-bottom: 25px;">
+    <caption class="noselect" style="font-size: 25px;">My Jobs <span id="my_job_help" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span></caption>
+    <tr>
+      <th style="max-width: 195px;"><button class="sort" data-sort="name" id="name_sort_btn">Job Name <i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+      <th><button class="sort" data-sort="number">Job Number<i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+      <th><button class="sort" data-sort="start_date">Start Date<i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+      <th>Address <button class="sort" data-sort="address" style="display: none;">ADDRESS</button> </th>
+      <th>Status</th>
+      <th>Remove Job</th>
+      <th>Offline</th>
+    </tr>
+    <tbody class="list">
+    {% for job in my_jobs %}
+    <tr>
+      <td style="max-width: 195px;" class="name"> 
+        <span hidden>
+        {% if job.job_name %}
+        {{ job.job_name }} 
+        {% else %}
+        ---
+        {% endif %}</span> 
+        <a href="{% url 'job' job.id %}">
+        {% if job.job_name %}
+        {{ job.job_name }}
+        {% else %}
+        ---
+        {% endif %}
+      </a> || {{ job.change_key}}</td>
+      <td class="number">{{ job.job_number}}</td>
+      <td class="start_date">{{ job.start_date}}</td>
+      <td class="address">{{ job.job_site.address }}</td>
+      <td style="width: 130px;">{{ job.job_complete }}</td>
+      <td style="width: 130px;" class="noselect">
+        <a style="display: inline-block;" class="confirm-check" href="{% url 'archive_job' job.id %}">
+          <i class="material-icons tooltipped" style="font-size: 1.25rem;padding-right: 1.25rem; padding-left: .5rem;" data-position="top" data-tooltip="move to archive">archive</i>
+          </a>
+        <a style="display: inline-block;" class="confirm-check" href="{% url 'trash_job' job.id %}"> 
+          <i class="material-icons tooltipped" style="font-size: 1.25rem;" data-position="top" data-tooltip="move to trash">delete</i>
+        </a>
+      </td>
+      <td style="width: 130px;" class="noselect">
+        <div class="switch">
+          <label>
+            
+            <input type="checkbox" checked>
+            <span class="lever"></span>
+            
+          </label>
+        </div>
+      
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+<div class="container computer-screen" id="other_jobstable_div">
+  <input class="search" placeholder="Search/Filter Jobs" style="max-width: 300px;"/>
+  <table class="highlight" style="margin-bottom: 100px;">
+    {% if my_jobs %}
+    <caption class="noselect" style="font-size: 25px;" >Other Jobs <span id="other_job_help" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span></caption>
+    {% else %}
+      <caption style="font-size: 25px;">All Jobs</caption>
+    {% endif %}
+    <tr>
+      <th style="max-width: 195px;"><button class="sort" data-sort="name_2" id="name_sort_btn_2" style="white-space: normal;">Job Name  <i class="material-icons tiny">sort</i></button></th>
+      <th><button class="sort" data-sort="number_2">Job Number<i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+      <th><button class="sort" data-sort="start_date_2">Start Date<i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+      <th>Address <button class="sort" data-sort="address_2" style="display: none;">ADDRESS</button></th>
+      <th>Status</th>
+      <th>Remove Job</th>
+    </tr>
+    <tbody class="list">
+    {% for job in not_my_jobs %}
+    <tr>
+      <td style="max-width: 195px;" class="name_2"> 
+        <span hidden>
+        {% if job.job_name %}
+        {{ job.job_name }}
+        {% else %}
+        ---
+        {% endif %}</span> 
+        <a href="{% url 'job' job.id %}" >
+        {% if job.job_name %}
+        {{ job.job_name }}
+        {% else %}
+        ---
+        {% endif %}
+        </a>
+      </td>
+      <td class="number_2">{{ job.job_number }}</td>
+      <td class="start_date_2">{{ job.start_date}}</td>
+      <td class="address_2" >{{ job.job_site.address }}</td>
+      <td style="width: 130px;">{{ job.job_complete }}</td>
+      <td style="width: 130px;" class="noselect">
+        <a style="display: inline-block;" class="confirm-check" href="{% url 'trash_job' job.id %}"> 
+          <i class="material-icons tooltipped" style="font-size: 1.25rem;padding-right: 1.25rem; padding-left: .5rem;" data-position="top" data-tooltip="move to archive">archive</i> 
+          </a>
+        <a style="display: inline-block;" class="confirm-check" href="{% url 'trash_job' job.id %}"> 
+          <i class="material-icons tooltipped" style="font-size: 1.25rem;" data-position="top" data-tooltip="move to trash">delete</i> 
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="container phone-screen" id="my_jobs_cards">
+{% if my_jobs %}
+<h4 style="color: #023b59;">My Jobs</h4>
+<div class="row">
+   <div class="col s12 m8 l6"><input class="search phone-font-ml" placeholder="Search/Filter Jobs"/></div> 
+</div>
+<div class="row">
+   <div class="col 12">
+     <a  class="sort btn-small phone-font-sml phone-button" style="max-width: 32%; min-width: fit-content;  font-size: 16px !important;" data-sort="name_a"><i class="material-icons tiny phone-font-sml">sort</i> <span class="computer-screen">Job </span>Name</a>
+    <a class="sort btn-small phone-font-sml phone-button " style="max-width: 32%;  min-width: fit-content; font-size: 16px !important" data-sort="number_a"><i class="material-icons tiny phone-font-sml">sort</i>Job <span class="computer-screen">Number</span><span class="phone-screen">#</span></a>
+    <a  class="sort btn-small phone-font-sml phone-button" style="max-width: 32%;  min-width: fit-content; font-size: 16px !important" data-sort="start_date_a"><i class="material-icons tiny phone-font-sml">sort</i><span class="computer-screen">Start </span>Date</a>
+  </div>
+   <span style="display: none;"><a  class="sort phone-font-lrg" data-sort="address_a" style="display: none;">address</a></span> 
+</div>
+
+   
+<div class="list">
+  {% for job in my_jobs %}
+  <div class="row">
+    <span class="name_a" style="display: none;">{% if job.job_name %}{{ job.job_name }}{% else %}---(no name)---{% endif %}</span>
+      <span class="number_a" style="display: none;">{{ job.job_number}}</span>
+      <span class="start_date_a" style="display: none;">{{ job.start_date}}</span>
+      <span class="address_a" style="display: none;">{{ job.job_site.address}}</span>
+    <div class="col s12 m12">      
+      
+      <div class="card z-depth-3">
+        <div class="card-content">
+          <span class="card-title">
+            <span hidden>
+              {% if job.job_name %}
+              {{ job.job_name }} 
+              {% else %}
+              ---
+              {% endif %}</span> 
+             
+            <a href="{% url 'job' job.id %}" class="phone-title-font">
+              {% if job.job_name %}
+              {{ job.job_name }}
+              {% else %}
+              ---
+              {% endif %}
+            </a>
+          </span>
+          <span class="phone-font-sml">Job Number: {{ job.job_number}}</span><br>
+          <span class="phone-font-sml" style="color: {% if job.completion %} #008000 {% else %} #999900 {% endif %};">Completion Status: {{ job.job_complete }}</span><br> 
+          <span class="phone-font-sml">Dates: {{ job.start_date}}</span><br>
+          <span class="phone-font-sml">
+            {% if job.job_site %}
+              Address: {{ job.job_site.address }}
+            {% else %}
+              No Address Entered
+            {% endif %}
+          </span><br>
+        </div>
+        <div class="card-action phone-font-med">
+          {% if job.job_site %}
+          <a href="{{job.job_site.nav_link}}" class="quick-link" target="_blank">Navigate</a>
+          {% else %}
+          No Maps Link
+          {% endif %}
+          <a class="confirm-check quick-link" href="{% url 'archive_job' job.id %}" >Move to Archive</a>
+          <a class="confirm-check quick-link" href="{% url 'trash_job' job.id %}">Move to Trash</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+{% if my_jobs %}
+  <h4 style="color: #023b59;">All Other Jobs</h4>
+{% elif not_my_jobs %}
+  <h4 style="color: #023b59;">All Jobs</h4>
+{% endif %}
+</div>
+<div class="container phone-screen" id="other_jobscards_div">
+{% if not_my_jobs %}
+  <div class="row">
+      <div class="col s12 m8 l6"><input class="search phone-font-ml" placeholder="Search/Filter Jobs"/> </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+    <a  class="sort btn-small phone-font-sml phone-button" style="max-width: 32%; min-width: fit-content; font-size: 16px !important;" data-sort="name_2a" ><i class="material-icons tiny phone-font-ml">sort</i> <span class="computer-screen">Job </span>Name</a>
+    <a class="sort btn-small phone-font-sml phone-button " style="max-width: 32%; min-width: fit-content; font-size: 16px !important" data-sort="number_2a" ><i class="material-icons tiny phone-font-ml">sort</i>Job <span class="computer-screen">Number</span><span class="phone-screen">#</span></a>
+    <a  class="sort btn-small phone-font-sml phone-button" style="max-width: 32%; min-width: fit-content; font-size: 16px !important" data-sort="start_date_2a" ><i class="material-icons tiny phone-font-ml">sort</i><span class="computer-screen">Start </span>Date</a>
+    <a  class="sort phone-font-lrg" data-sort="address_2a" style="display: none;">address</a>
+    </div>
+</div>
+ 
+  <div class="list">
+    {% for job in not_my_jobs %}
+    <div class="row">
+      <span class="name_2a" style="display: none;" >{% if job.job_name %}{{ job.job_name }}{% else %}---(no name)---{% endif %}</span>
+      <span class="number_2a" style="display: none;" >{{ job.job_number}}</span>
+      <span class="start_date_2a" style="display: none;">{{ job.start_date}}</span>
+      <span class="address_2a" style="display: none;">{{ job.job_site.address}}</span>
+      <div class="col s12 m12">
+        <div class="card z-depth-3">
+          <div class="card-content ">
+            <span class="card-title">
+              <span hidden>
+                {% if job.job_name %}
+                {{ job.job_name }}
+                {% else %}
+                ---(no name)---
+                {% endif %}</span> 
+              
+              <a href="{% url 'job' job.id %}" class="phone-title-font">
+                {% if job.job_name %}
+                {{ job.job_name }}
+                {% else %}
+                ---
+                {% endif %}
+              </a>
+            </span>
+            <span class="phone-font-sml">Job Number: {{ job.job_number}}</span><br>
+              
+            <span class="phone-font-sml" style="color: {% if job.completion %} #008000 {% else %} #999900 {% endif %};">Completion Status: {{ job.job_complete }}</span><br> 
+                
+            <span class="phone-font-sml">Dates: {{ job.start_date}}</span><br>
+            <span class="phone-font-sml">
+              {% if job.job_site %}
+                Address: {{ job.job_site.address }}
+              {% else %}
+                No Address Entered
+              {% endif %}
+            </span><br>
+          </div>
+          <div class="card-action phone-font-med">
+            {% if job.job_site %}
+            <a class="quick-link" href="{{job.job_site.nav_link}}" target="_blank" >Navigate</a>
+            {% else %}
+            No Maps Link
+            {% endif %}
+            <a class="quick-link confirm-check" href="{% url 'archive_job' job.id %}">Move to Archive</a>
+            <a class="quick-link confirm-check" href="{% url 'trash_job' job.id %}">Move to Trash</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+</div>
+
+<script>
+  
+  $("#job_manage_help").click(function(){
+    helpFunction('Managing Jobs','The job archive is for jobs that are finished and and will not need to be accessed regularly. Trashing jobs is for cancelled jobs. All trashed and archived jobs can always be restored.')
+  })
+  $("#my_job_help").click(function(){
+    helpFunction('My Jobs','Someone has added you to these job(s). To remove or add yourself to a job, open it and go to the Dashboard tab.')
+  })
+  $("#other_job_help").click(function(){
+    helpFunction('Other Jobs','You are not added to these jobs. To remove or add yourself to a job, open it and go to the Dashboard tab.')
+  })
+   $(document).ready(function(){
+
+    $('.tooltipped').tooltip();
+    $('#name_sort_btn').click();
+    $('#name_sort_btn_2').click();
+    $('.dropdown-trigger').dropdown();
+    var scrollpos = localStorage.jobs_offset
+    if(scrollpos) window.scrollTo(0, scrollpos);    
+   })
+    {% if my_jobs %}
+    var options = {
+          valueNames: [ 'name', 'number', 'start_date', 'address']
+        };
+
+    var modelList = new List('my_jobstable_div', options);
+
+    var options_a = {
+      valueNames: ['name_a', 'number_a', 'start_date_a', 'address_a']
+    }
+    var modelLista = new List('my_jobs_cards', options_a);
+    {% endif %}
+
+    {% if not_my_jobs %}
+    var options2 = {
+      valueNames: [ 'name_2', 'number_2', 'start_date_2', 'address_2']
+    };
+
+    var modelList2 = new List('other_jobstable_div', options2);
+
+    var options2a = {
+      valueNames: [ 'name_2a', 'number_2a', 'start_date_2a', 'address_2a']
+    };
+
+    var modelList2a = new List('other_jobscards_div', options2a);
+    {% endif %}
+    function confirmExit() {
+        if (stopLeave) {
+            return "Some changes has not been saved. Do you want to leave anyways?";
+        }
+    }
+    window.onbeforeunload = function(e){
+      console.log('unload')
+      localStorage.setItem('jobs_offset', window.scrollY)
+    }
+</script>
+{% endblock %}
+
+

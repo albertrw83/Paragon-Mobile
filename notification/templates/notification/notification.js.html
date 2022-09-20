@@ -1,0 +1,21 @@
+<script>
+    const roomName = '{{ user.id }}';
+    const notificationSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/notification/'
+        + roomName
+        + '/'
+    );
+
+    notificationSocket.onmessage = function (e) {
+        let data = JSON.parse(JSON.parse(e.data));
+        console.log(data)
+        document.querySelector('#notification_count').innerText = data.count;
+    };
+
+    notificationSocket.onclose = function (e) {
+        console.error('notification socket closed unexpectedly');
+    };
+
+</script>

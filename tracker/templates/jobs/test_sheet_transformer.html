@@ -1,0 +1,199 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<style>
+    .is_c_t_hide{
+        {%if is_ct %}
+        display: none;
+        {%endif %}
+    }
+</style>
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 20px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report {% if not equipment.equipment_type.name == 'Control Power Transformer (CPT)' %}  <i style="color: #666;">(Page 1 of 2)</i>{% endif %} <br>
+            <i style="font-family: 'Rubik', sans-serif; color: #666; font-size: 14px;">Created {{now}}</i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="c4" style="padding-top: 0;">
+            <div style="padding-right: 22px;">
+                <div style="padding-top: 1px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+                {% include "jobs/test_sheet_jobinfo.html" with test_sheet=test_sheet equipment=equipment job=job %}
+            </div>
+        </div>
+        <div class="c7">
+            <h3 class="normal-header">Equipment Information</h3>
+            <div class="c6">            
+                <table class="table-all center lato-300" style="width: 100%;">
+                    <tr>
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Serial Number
+                        </td>
+                        <td style="padding-left: 7px;">{{equipment.serial_number_data | default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Equipment Location
+                        </td>
+                        <td style="padding-left: 7px;">{{equipment.equipment_location_data | default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Manufacturer
+                        </td>
+                        <td style="padding-left: 7px;">{{equipment.equipment_model.model_manufacturer}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Model
+                        </td>
+                        <td style="padding-left: 7px;">{{equipment.equipment_model}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Type
+                        </td>
+                        <td style="padding-left: 7px;">{{equipment.equipment_type}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Power Rating
+                        </td>
+                        <td style="padding-left: 7px;"> {%if test_sheet.power_rating %}{{test_sheet.power_rating | default_if_none:""}}{{test_sheet.power_rating_units | default_if_none:"______"}}{%endif%} </td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Primary Config
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.primary_winding_config}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Secondary Config
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.secondary_winding_config}}</td>
+                    </tr>                    
+                </table>
+            </div>
+            <div class="c6" >
+                <div style="padding-left: 25px;">
+                <table class="table-all center lato-300" style="width: 100%; ">
+                    <tr>
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Primary Voltage
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.primary_voltage}} &nbsp;V</td>
+                    </tr>
+                    
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Secondary Voltage
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.secondary_voltage}} &nbsp;V</td>
+                    </tr>    
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Control Voltage
+                        </td>
+                        <td style="padding-left: 7px;"> {% if test_sheet.control_voltage %}  {{test_sheet.control_voltage.normalize}}{% else %} ______{% endif %}  VAC</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Weight
+                        </td>
+                        <td style="padding-left: 7px;"> {% if test_sheet.weight %}  {{test_sheet.weight.normalize}} {{test_sheet.weight_units | default_if_none:""}}{% endif %} </td>
+                    </tr>     
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Temperature Rise
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.temp_rise.normalize}} &#176{{test_sheet.temp_rise_units}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Impedance
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.impedance.normalize}}%</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Class
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.xfmr_class| default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Ambient Temperature
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.ambient_temp.normalize}}&#176{{test_sheet.ambient_temp_units| default_if_none:""}}</td>
+                    </tr>
+                    
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Number of Taps
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.tap_qty| default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Tap Position
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.tap_position| default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;" class="is_c_t_hide">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Insulation Type
+                        </td>
+                        <td style="padding-left: 7px;">{% if is_oft %}{{test_sheet.oil_type}}{%else%}Air{%endif%}</td>
+                    </tr>
+                    {% if is_oft %}
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Fluid Type
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.fluid_type| default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Fluid Capacity
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.fluid_capacity| default_if_none:""}} {% if test_sheet.fluid_capacity %} {{test_sheet.fluid_capacity_units| default_if_none:""}}{% endif %}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Liquid Level
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.liquid_level| default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Pressure
+                        </td>
+                        <td style="padding-left: 7px;"> {% if test_sheet.pressure%}{{test_sheet.pressure.normalize}} {{test_sheet.pressure_units | default_if_none:""}}{%endif%}</td>
+                    </tr>
+                    {% endif %}
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Date Manufactured</td>
+                        <td style = "padding-left: 7px;">{{test_sheet.date_manufactured | default_if_none:""}}</td>
+                    </tr>
+                </table>
+            </div>
+            </div>
+
+
+        </div>
+    </div> <br>
+    <div class="row" >
+        <div class="col s12">                
+            {% include "jobs/test_sheet_inspections.html" with test_sheet=test_sheet equipment=equipment electrical_inspection=False %}
+        </div>
+    </div>   
+    {% if is_fuse %} 
+    {% include "jobs/test_sheet_fuse_1.html" with test_sheet=test_sheet equipment=equipment secondary=True %}
+    {% endif %} 
+    {% if is_ct %}
+        {% if test_sheet.eq.is_xfmr_insulation_resistance%}
+            {% include "jobs/test_sheet_xfmr_ir.html" with test_sheet=test_sheet equipment=equipment job=job is_ct=is_ct %}
+        {%endif%}
+        {% if test_sheet.eq.is_ttr%}
+            {% include "jobs/test_sheet_xfmr_ttr.html" with test_sheet=test_sheet equipment=equipment job=job %}
+        {%endif%}
+    {%endif%}
+    {% if is_cpt %}
+        {% if test_sheet.eq.is_xfmr_insulation_resistance%}
+            {% include "jobs/test_sheet_xfmr_ir.html" with test_sheet=test_sheet equipment=equipment job=job %}
+        {%endif%}
+        {% if test_sheet.eq.is_ttr%}
+            {% include "jobs/test_sheet_xfmr_ttr.html" with test_sheet=test_sheet equipment=equipment job=job %}
+        {%endif%}
+    {%endif%}
+    </div>
+{% endblock %}

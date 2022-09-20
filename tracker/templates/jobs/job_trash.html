@@ -1,0 +1,59 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Job Trash
+{% endblock %}
+
+{% block body %}
+      
+
+      <div class = "container">
+      <div style = "text-align: left; font-size: 28px">
+        <a class="waves-effect waves-light btn-small lapping-btn" href="{% url 'jobs' %}">◀ All Jobs</a> 
+        <a class="waves-effect waves-light btn-small lapping-btn" href="{% url 'job_archive' %}">Job Archive </a></div>
+        <div id="jobs">
+          
+        <input class="search" placeholder="Search" style="max-width: 300px;"/>
+          <h4 style = "text-align: center">Job Trash</h4>
+          <table class = "searchable sortable highlight">
+            <thead>
+              <th><button class="sort" data-sort="name">Job Name</button></th>
+              <th><button class="sort" data-sort="number">Job Number</button></th>
+              <th><button class="sort" data-sort="date">Start Date</button></th>
+              <th><button class="sort" data-sort="address">Address</button></th>
+              <th><button class="sort" data-sort="status">Status</button></th>
+              <th>Move Job</th>
+            <thead>
+            <tbody class="list">
+              {% for job in trashed_jobs %}
+                <tr>
+                  <td class="name" ><a href="{% url 'job' job.id %}">{{ job.job_name }}</a></td>
+                  <td class="number" >{{ job.job_number }}</td>
+                  <td class="date">{{ job.start_date}}</td>
+                  <td class="address">{{ job.address }}</td>
+                  <td class="status">{{ job.job_complete }}</td>
+                  <td>
+                    <a href="{% url 'untrash_job' job.id %}">Restore to Jobs</a> <br>
+                    <a href="{% url 'archive_job' job.id %}">Move to Archive</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+        <script>
+          function goBack() {
+          window.history.back();
+        }
+        var options = {
+          valueNames: [ 'name', 'number', 'date', 'address', 'status']
+        };
+
+        var jobList = new List('jobs', options);
+
+        </script>
+
+{% endblock %}

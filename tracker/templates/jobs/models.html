@@ -1,0 +1,92 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Equipment Models
+{% endblock %}
+
+{% block body %}
+<style>
+  @media only screen and (max-width: 1519px) {
+    th, td{
+      font-size: 16px;
+    }    
+    .search{
+      height: 5rem !important;
+      margin-bottom: 30px !important;
+    }
+    .container{
+      width: 95% !important;
+    }
+  }
+</style>
+<div class="container">
+  <h2>Equipment Models</h2>
+  <a class="waves-effect waves-light btn-small lapping-btn phone-button hidden-stuff" onclick="goBack()">Go Back</a>
+</div>
+      
+      <div class="container" id="models">
+        <input class="search phone-font-lrg" placeholder="Filter" style="max-width: 300px;"/> <br>
+        <a class="waves-effect waves-light btn-small phone-button" onclick="clearSearch()">Reset</a>
+        <a class="waves-effect waves-light btn-small phone-button hidden-stuff" onclick="privateOnly()">Filter to Private</a>
+        <a class="waves-effect waves-light btn-small phone-button" href="{% url 'create_model_view' %}">Create New Model</a>
+        <table class="searchable sortable highlight" id="modelstable" style="margin-bottom: 100px; margin-top: 10px;">
+         
+          <thead>
+            <tr>
+              <th style="position: sticky; top: 0; box-shadow: 0px -1px inset "><button class="sort" data-sort="name" id="name_sort_btn">Name<i class="material-icons tiny phone-font-ml">sort</i> </button></th>
+              <th style="position: sticky; top: 0; box-shadow: 0px -1px inset "><button class="sort" data-sort="manufacturer">Manufacturer<i class="material-icons tiny phone-font-ml">sort</i> </button> </th>
+              <th style="position: sticky; top: 0; box-shadow: 0px -1px inset "><button class="sort" data-sort="type">Type<i class="material-icons tiny phone-font-ml">sort</i> </button></th>
+              <th style="color: #002366; position: sticky; top: 0; box-shadow: 0px -1px inset " class="computer-screen">Mandatory Test Sets <br> <span style="color: #bf5700;">Conditional Test Sets</span> </th>
+            </tr>
+          </thead>
+          <tbody class="list">
+            {% for model in models %}
+            <tr>
+              <td class="name"><span hidden>{{model.name}}</span>
+                <a href="{% url 'eq_model' model.id %}">
+                  {{ model.name }}  {% if model.is_private %} <span class="phone-font-ml" style="color: #dc143c; font-style: italic;">pvt.</span> {% endif %}
+                </a>
+              </td>
+              <td class="manufacturer">{{ model.model_manufacturer }}</td>
+              <td class="type">{{ model.model_type }}</td>   
+              <td style="color: #002366;"  class="computer-screen">
+                {% for mte in model.mandatory_model_test_equipment.all %}
+                {{ mte }}<br>
+                {% endfor %}
+                <span style="color: #bf5700;">
+                {% for ote in model.optional_model_test_equipment.all %}
+                {{ ote }}<br>
+                {% endfor %}
+              </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <script>
+        $(document).ready(function(){
+          $('#name_sort_btn').click()
+        })
+        function goBack() {
+          window.history.back();
+        }
+
+        var options = {
+          valueNames: [ 'name', 'manufacturer', 'type']
+        };
+
+        var modelList = new List('models', options);
+
+        function clearSearch() {
+          $(".search").val("")
+          modelList.search("")
+        }
+
+        function privateOnly() {
+          $(".search").val("pvt")
+          modelList.search("pvt")
+        }
+        
+    </script>
+{% endblock %}

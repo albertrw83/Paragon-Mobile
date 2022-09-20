@@ -1,0 +1,1176 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Site | {{ jobsite.name }}
+{% endblock %}
+
+{% block body %}
+<style>
+  .collection .collection-item:last-child {
+    border-bottom: none !important;
+  }
+  .dropdown-auto{
+    width: auto !important;
+  } 
+  @media only screen and (max-width: 1519px) {
+    .job-picker{
+      position: sticky;
+      top: 168px;
+    }
+    
+  .dropdown-trigger i{
+    font-size: 40px;
+  }
+
+  ul.dropdown-content {
+    line-height: 300px;
+    min-height: 300px;
+    min-width: 200px;
+  }
+  .dropdown-li{
+    line-height: 75px !important;
+    height: 75px !important;
+    width: auto !important;
+  }
+  .dropdown-a{
+    height: 75px;
+    width: 200px;
+    display: block;
+    padding: 0 30px !important;
+  }
+  .dropdown-i{
+    line-height: 75px !important;
+    height: 75px !important;
+    padding: 0px 30px ;
+  }
+  .equip-action-dropdown{
+    line-height: 75px !important;
+    height: 75px !important; 
+    padding-top: 0 !important;
+    z-index: 102 !important;
+  }
+}
+.equip-action-dropdown{
+  color: #039be5 !important;
+}
+
+.disable-button {
+background: #aaa;
+pointer-events: none;
+}
+
+@media only screen and (min-width: 1520px) {
+  .job-picker{
+      position: sticky;
+      top: 0;
+    }
+  .dropdown-a{
+    height: 50px;
+    display: block;
+  }
+}
+  .sticky-eq-act{
+    z-index: 101;
+     position: sticky;
+    top: 0;
+    margin: 10px;
+  }
+  .dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#search_input {
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+#search_input:focus {outline: 3px solid #ddd;}
+
+.quick-drop {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content-div {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 330px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdown-content-div a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.quick-drop a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+   @media only screen and (max-width: 1519px) {
+    .dropdown-content-div{
+      min-width: 700px;
+    }
+     .sticky-eq-act{
+       margin: 15px;
+     }
+    th, td{
+      font-size: 16px;
+    }
+    input{
+      font-size: 18px !important;
+      min-height: 5rem !important;
+    }
+    label{
+      font-size: 28px !important;
+    }
+   /* .material-icons{
+      font-size: 318px !important;
+    } */
+    .tab{
+          line-height: 80px !important;
+    height: 80px !important;
+    }
+    .tabs{
+      height: fit-content;
+    }
+    .compact-mobile-button{
+    padding: 0 9px !important;
+      height: 42px !important;
+      line-height: 42px !important;
+    }
+  }
+  .editable-field{
+    display: none;
+  }
+</style>
+<form style="margin-right: 50px; margin-left: 15px;" id="add_note_form" action="{% url 'add_jobsite_note' jobsite.id %}" method="post"> {% csrf_token %}
+</form>
+<form id="file_add_form" action="{% url 'add_jobsite_files' jobsite.id %}" method="post"
+enctype="multipart/form-data" style="padding-left: 1rem; padding-right:1rem;">
+{% csrf_token %}
+</form>
+<div class="container">
+  <a class="btn-small phone-button lapping-btn" href="#" onclick="goBack()">◀ Previous</a>
+  <a class="btn-small phone-button lapping-btn" href="{% url 'job_sites' %}">All Job Sites</a>
+  <div class="phone-font-lrg comp-font-med noselect" style="text-align: center; color: #888; font-weight: 500;">job site</div>
+  
+  <h3 onclick="compactEquipment()" style="text-align: center" class="phone-font-xl" onclick="tabclickFun()">{{ jobsite.name }}</h3>      
+  <ul class="tabs z-depth-1 noselect">
+    <li class="tab col s3"> <a class="phone-font-lrg" id="equipment_tab_trigger" class="active" href="#equipment">Equipment</a></li>
+    <li class="tab col s3"> <a class="phone-font-lrg" id="overview_tab_trigger" href="#overview">Overview</a></li>
+    <li class="tab col s3"> <a class="phone-font-lrg" id="jobs_tab_trigger" href="#jobs">Jobs</a></li>
+  </ul>
+
+  <div class="row tab_div"id="equipment" >
+    <form id="site_id_edit" action="{% url 'edit_site_id_free'  %}" method="post">
+      {% csrf_token %} 
+      <input form="site_id_edit" type="hidden" id="batchSiteIdData" name="batchSiteIdData" value=""> 
+    </form>
+    <div class="fixed-action-btn" id="edit_id_div" hidden>
+      <button id="edit_site_id_submit"  class="btn tooltipped pulse phone-button" data-position="left" data-tooltip="Commit changes to site ID" style="text-align: center; background-color: #bf5700; color: white;" type="submit" name="site_id_action" onclick="onEditSiteId()">Commit New IDs</button>
+    </div>
+    <div class="row search-div-dynamic" style="position: sticky; top: 0;z-index: 100; border-top-right-radius: 0; border-top-left-radius: 0; background-color: white; padding-bottom: 10px;">
+    <div class="col s12 batch-act " id="top_div" >
+      <ul id='equip_actions' class='dropdown-content' style="z-index: 101;">
+        <li><a class="phone-font-ml equip-action-dropdown hover-item" onclick="openCopier()">Copy</a></li>
+        <li><a class="phone-font-ml equip-action-dropdown hover-item" id='batch_move' onclick="onBatchAction('move');initiateWait()">Move</a></li>
+        <li><a class="phone-font-ml equip-action-dropdown hover-item" onclick="editSiteIds()">Edit Site ID's</a></li>
+        <li><a class="phone-font-ml equip-action-dropdown hover-item" id='batch_trash' onclick="onBatchAction('trash');initiateWait()">Move to Trash</a></li>
+        <li><a class="phone-font-ml equip-action-dropdown" href="{% url 'trashed_job_site_equipment' jobsite.id %}" onclick=" initiateWait()">View Equipment Trash</a></li>
+      </ul>      
+      <div class="search-div noselect" id="eq_child_div-container" style="margin-left: 15px; float: right; position: -webkit-sticky; position: sticky;">
+        <input class="orange-underline search-input" style="text-align: center; min-height: 1rem !important;" id="search_eq_child_div" type="text" placeholder="Search Equipment"/>
+          <div id="eq_child_div-move-text" class="phone-font-med" style="display: none; color: #888">
+              <span id="eq_child_div-matched-text"></span>
+              <div style="float: right">
+                <span class="phone-font-lrg hover-item search-arrows comp-font-ml " onclick="previousSearchNote('eq_child_div');" id="eq_child_div-previous-text" >▲</span>
+                <span class=" phone-font-lrg hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('eq_child_div');" id="eq_child_div-next-text">▼</span>
+              </div>  
+            </div>
+            <button id="search_eq_child_div_button" onclick="searchNote('eq_child_div', 'eq_child_toggle', 'eq-site-id');" hidden>Search</button>
+
+      </div>
+      <a class="phone-button btn-small phone-btn-spacer" id="create_eq_button" style="margin-top: 10px;"  href="{% url 'add_equipment_to_job_site_page' jobsite.id %}" >Create Equipment</a>
+      <a class="phone-button btn-small phone-btn-spacer" style="margin-top: 10px;" id='show_job_add_div' onclick="displayJobAdd()" >Add to Job</a>
+      <a class='dropdown-trigger dropdown-auto btn-small phone-font-lrg phone-btn-spacer phone-button quick-disable' id="more_actions_trigger" style="margin-top: 10px;" href='#' data-target='equip_actions'> More <i class="material-icons right">menu</i> </a>
+      <a id='batch_copy'style="z-index: 100; color: white; margin-top: 10px; background-color: #bf5700" onclick="onBatchAction('copy');initiateWait()" class="btn pulse phone-button right phone-btn-spacer noselect quick-hide hidden-stuff" >Create Copies</a>
+      <form id="batch_actions_form" action="{% url 'equipment_batch_actions' jobsite.id %}" method="post" style="display: none;">
+        {% csrf_token %}
+        <div style="display: inline-block; white-space: nowrap;">
+          <input id="copy_count" name="copy_count" type="number" placeholder="Enter number of copies" value="1"  style="max-width: 100px; text-align: center;"> <span class="phone-font-med noselect">copies</span>
+          <input type="hidden" id="batchActionsData" name="batchActionsData" value="">
+        </div>
+      </form>
+    </div>
+
+    <div class="col s12 quick-hide noselect hidden-stuff" style="" id="eq_add_div">
+        <div class="phone-font-lrg comp-font-ml" style="margin: 0 0 10px 0; background-color: white;">Choose a job to add equipment to  </div>
+        <div class="quick-drop">
+          <a onclick="jobSelect()" id="select_job_trigger" class="btn-large phone-button batch-act noselect compact-mobile-button" style="border: none">
+            <span id="trigger_toggle">▼</span> <span id='trigger_text'>Select Job</span> 
+          </a>
+          <div id="myDropdown" class="dropdown-content-div " style="z-index: 101;">
+            <input type="text" placeholder="Search.." id="search_input" style="background-color: white;" onkeyup="filterFunction()">
+            {% for job in active_jobs %}          
+            <a class="drop-link phone-font-lrg" id="job_selector_{{job.pk}}" onclick="selectJob({{job.pk}})">{{job.job_name}}</a>
+            {% empty %}
+            <a class="drop-link phone-font-lrg noselect" style="color: #888; background-color: #ddd; cursor: not-allowed;" onclick="return false;">No Jobs with This Jobsite</a>
+            {%endfor%}
+            
+          </div>
+          <a id='batch_add'  onclick="onBatchAction('site_add');initiateWait()" 
+          style="display: none; float: right; background-color: #bf5700; color: white; " 
+          class="btn-large phone-button noselect compact-mobile-button">
+            Add Now <i class="material-icons right">send</i>
+          </a>
+          <input id="selected_job" name="selected_job" type="text" form="batch_actions_form" style="display: none;">
+        </div>
+        <a class="modal-trigger comp-font-med phone-font-lrg" href="#add_to_jobsite_modal" style="color: #039be5">&nbsp &nbsp ⓘ</a>
+        <div id="add_to_jobsite_modal" class="modal">
+          <div class="modal-content">
+            <h4>About adding equipment from a job site</h4>
+            <p class="phone-font-med">
+              Equipment can be added to a job from a job site on this page. Simply select a Job from the dropdown, check the boxes of the equipment, and hit Add Now. 
+              Information about that equipment will populate automatically in the job, along with all the data associated with that equipment. Upon selecting a job, any equipment that is already added will
+              be grayed out because multiple copies of one piece of equipment cannot be added to a job. If you select equipment without selecting their ancestors, the ancestors will automatically get selected. This
+              is to maintain the data structure and is useful for reporting and tracking. <br><br>
+              <span style="color: #949494;" class="phone-font-ml comp-font-xl">Already Added &#x2192</span> 
+              <label>
+                <input
+                    class="filled-in check-input" disabled = disabled
+                     type="checkbox"  value="yes" /><span class="check-span"></span>
+              </label>
+            </p>
+          </div>
+        </div>
+    </div>      
+    <div class="col s12 noselect">
+      <a class="waves-effect waves-light btn-small phone-button phone-btn-spacer compact-mobile-button" id='select_all_eq' onclick="selectAllEq()"><i class="material-icons-outlined left phone-font-lrg ">library_add_check</i>Select All</a>
+      <a class="waves-effect waves-light btn-small phone-button phone-btn-spacer" id='deselect_all_eq' style="display: none;" onclick="deSelectAllEq()"><i class="material-icons-outlined left phone-font-lrg ">library_add_check</i>Deselect All</a>
+    </div>    
+  </div>
+  <div class="mobile-container" style="padding-left: 5px; padding-right: 5px;">
+    
+<div class="row move-btn" style="display: none;">
+  <a class="waves-effect waves-light left btn-large phone-button phone-font-lrg move-btn pulse" onclick="BatchMove('0')" id="moveto_0" style="text-decoration: none; color: white; background-color: #bf5700; display: none;">
+    Move to Top Level
+  </a>
+</div>
+    {% for equipment in equipments %}
+    {% include "jobs/equipment_data.html" with equipment=equipment %}    
+    {%empty%}
+    <div class="col s12">
+      <h4>No equipment have been added yet.</h4> 
+      <div class="row" style="text-align: center;">
+        <a
+                class="waves-effect waves-light btn-small phone-button"
+                href="{% url 'add_equipment_to_job_site_page' jobsite.id %}"
+        >
+            <i class="material-icons left phone-font-lrg ">add</i>
+            Add Equipment
+        </a></div>
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+  <div class="row tab_div"id="overview">
+    <div class="row" style="margin-bottom: 5px;text-align: right;"><a href="#" id="edit_info_toggle" onclick="editToggle()" class="btn-small phone-button  " style="z-index: 500;" >Edit Job Site Information</a>    </div>
+    
+    <div class="fixed-action-btn hidden-stuff" id="edit_submit_div">
+      <button id="edit_submit" class="btn-large tooltipped pulse phone-button" data-position="left" data-tooltip="Must Save Changes to Take Effect" 
+      style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "type="submit" name="action" form="jobsite_edit">Save Changes</button>
+    </div>
+    <form id="jobsite_edit" action="{% url 'edit_jobsite' jobsite.id %}" method="post">{% csrf_token %}
+    <div class="row">
+      <div class="col s12 m12 l12 xl5 mobile-container">
+        <table class="highlight">
+          <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >General</caption>
+          <tr>
+            <td class="phone-font-med" >Site Name</td>
+            <td class="phone-font-med">
+            {{jobsite.name}}
+            <textarea id="name" name="name" class="materialize-textarea editable-field job_edit" >{{jobsite.name}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Site Contact</td>
+            <td class="phone-font-med" style="white-space:pre-line;">{{jobsite.site_contact}}<br>{{jobsite.site_contact_info}}
+              <textarea id="site_contact" name="site_contact" class="materialize-textarea editable-field job_edit" >{{jobsite.site_contact}}</textarea>
+              <textarea id="site_contact_info" name="site_contact_info" class="materialize-textarea editable-field job_edit" >{{jobsite.site_contact_info}}</textarea></td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Owner</td>
+            <td class="phone-font-med">
+              {{jobsite.owner}} 
+              <textarea id="owner" name="owner" class="materialize-textarea editable-field job_edit" >{{jobsite.owner}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Facility Manager</td>
+            <td class="phone-font-med">
+              {{jobsite.facility_manager}} 
+              <textarea id="facility_manager" name="facility_manager" class="materialize-textarea editable-field job_edit" >{{jobsite.facility_manager}}</textarea>
+            </td>
+          </tr>          
+          <tr>
+            <td class="phone-font-med" >Other Contacts</td>
+            <td class="phone-font-med" style="white-space:pre-line;">{{jobsite.other_contacts}}
+              <textarea id="other_contacts" name="other_contacts" class="materialize-textarea editable-field job_edit" >{{jobsite.other_contacts}}</textarea>
+            </td>
+          </tr>
+        </table>
+        <table class="highlight">
+          <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 5rem;">Site Safety</caption>
+          <tr>
+            <td class="phone-font-med" >Safety Training</td>
+            <td class="phone-font-med">
+            <b>Required</b>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Items Required for Safety Training</td>
+            <td class="phone-font-med">             
+              {{jobsite.safety_training_item_requirements}}
+              <textarea id="safety_training_item_requirements" name="safety_training_item_requirements" class="materialize-textarea editable-field job_edit" >{{jobsite.safety_training_item_requirements}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Safety Training Location</td>
+            <td class="phone-font-med">
+              {{jobsite.safety_training_location}}
+              <textarea id="safety_training_location" name="safety_training_location" class="materialize-textarea editable-field job_edit" >{{jobsite.safety_training_location}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Safety Training Schedule</td>
+            <td class="phone-font-med">
+              {{jobsite.safety_training_time}}
+              <textarea id="safety_training_time" name="safety_training_time" class="materialize-textarea editable-field job_edit" >{{jobsite.safety_training_time}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Safety Training Procedure</td>
+            <td class="phone-font-med">
+              {{jobsite.safety_training_procedure}}
+              <textarea id="safety_training_procedure" name="safety_training_procedure" class="materialize-textarea editable-field job_edit" >{{jobsite.safety_training_procedure}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Required Site PPE</td>
+            <td class="phone-font-med">
+              <div class="col s12" style="text-transform: capitalize;">
+                {#                  Always Visible                   #}
+                <span
+                  {% if not jobsite.is_hardhat %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Hardhat
+                </span><br>
+
+                <span
+                  {% if not jobsite.is_safety_glasses %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Safety Glasses</span><br>
+                <span
+                  {% if not jobsite.is_safety_shoes %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Safety Shoes</span><br>
+                <span
+                  {% if not jobsite.is_safety_vest %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Hi-visibility vest</span><br>
+
+                <span
+                  {% if not jobsite.is_safety_gloves %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Safety gloves</span><br>
+
+                <span
+                  {% if not jobsite.is_fr_clothes %}
+                      style="text-decoration: line-through"
+                  {% endif %}
+                >Standard flame retardant clothes</span><br>
+
+
+                <span
+                {% if not jobsite.is_h2s_monitor %}
+                    style="text-decoration: line-through"
+                {% endif %}>H2S monitor</span><br>
+
+                {% if job.other_ppe_requirements %}
+                <span>{{ job.other_ppe_requirements }}</span><br>
+                {% endif %}
+
+                  <div class="editable-field" >
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_hardhat"
+                              name="is_hardhat"
+                                {% if jobsite.is_hardhat %}
+                                    checked="checked"
+                                    style="border: 4px solid green;"
+                                {% endif %}
+                        />
+                        <span>Hardhat</span>
+                      </label>
+                    </p>
+
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_safety_glasses"
+                              name="is_safety_glasses"
+                                {% if jobsite.is_safety_glasses %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>Safety Glasses</span>
+                      </label>
+                    </p>
+
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_safety_shoes"
+                              name="is_safety_shoes"
+                                {% if jobsite.is_safety_shoes %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>Safety Shoes</span>
+                      </label>
+                    </p>
+
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_safety_vest"
+                              name="is_safety_vest"
+                                {% if jobsite.is_safety_vest %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>Hi-visibility Vest</span>
+                      </label>
+                    </p>
+
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_safety_gloves"
+                              name="is_safety_gloves"
+                                {% if jobsite.is_safety_gloves %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>Safety Gloves</span>
+                      </label>
+                    </p>
+
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_fr_clothes"
+                              name="is_fr_clothes"
+                                {% if jobsite.is_fr_clothes %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>Standard Flame Retardant Clothes</span>
+                      </label>
+                    </p>
+
+                    <p>
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in is_h2s_monitor"
+                              name="is_h2s_monitor"
+                                {% if jobsite.is_h2s_monitor %}
+                                    checked="checked"
+                                {% endif %}
+                        />
+                        <span>H2S Monitor</span>
+                      </label>
+                    </p>
+                  </div>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Additional PPE Requirements</td>
+            <td class="phone-font-med">
+              {{jobsite.additional_ppe_requirements }}
+              <textarea id="additional_ppe_requirements" name="additional_ppe_requirements" class="materialize-textarea editable-field job_edit" >{{jobsite.additional_ppe_requirements | default_if_none:''}}</textarea>
+            </td>
+          </tr>
+        </table>
+        <div class = "row">
+          <h4 class="phone-font-lrg" style="color: #023b59;">Site Notes</h4>          
+          <textarea id="add_note" name="add_note" class="materialize-textarea quick-disable" placeholder="Type Note Here"
+                  form="add_note_form" oninput="$('#submit-btn-notes').prop('disabled', false)" required ></textarea>      
+          <div class="row">
+            <button
+                    class="btn waves-effect waves-light phone-button right quick-disable"
+                    type="submit"
+                    name="action"
+                    id="submit-btn-notes"
+                    form="add_note_form"
+            >Add Note<i class="material-icons right ">send</i></button>
+          </div>
+
+
+
+
+          <ul class="collection " style="border: none;">
+            {% for note in jobsite_notes %}
+            <li class="collection-item " style="border: none; padding: 16px 0">
+              <div class="note-lightgrey">
+                <span class="phone-font-sml search-text" style="font-weight: 600;">
+                  {{ note.author.first_name | default_if_none:"Admin" }} {{ note.author.last_name | default_if_none:"" }}
+                </span><br>
+                <span class="note-content phone-font-med search-text">
+                  {{note.note}}                 
+                </span>
+              </div>
+                <span class="phone-font-xs search-text" style="color: #aaa; float: right;">{{note.created_at}}</span>       
+            </li>
+            {% empty %}
+            <li class="collection-item">No notes for this Job Site.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="col s12 m12 l12 xl6 push-xl1 mobile-container">
+        <table class="highlight ">
+          <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >Location</caption>
+          <tr>
+            <td class="phone-font-med" >Address</td>
+            <td class="phone-font-med" >
+            {{jobsite.address}}
+            <input class="editable-field" id="address" name="address" type="text" value="{{ jobsite.address }}" >
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med">Navigation Link</td>
+            <td class="phone-font-med wrapwords">
+              <a href="{{jobsite.nav_link}}" target="_blank" class="waves-effect waves-light btn-small computer-screen" style="margin-bottom: 10px" {% if not jobsite.nav_link %} disabled {% endif %}>Open Navigation</a>
+                <a href="{{jobsite.nav_link}}" target="_blank" class="waves-effect waves-light btn-large phone-screen white-button phone-font phone-button" style="margin-bottom: 10px" {% if not jobsite.nav_link %} disabled {% endif %}>Navigate</a> <br>
+               {{jobsite.nav_link}}
+               <input class="editable-field" id="nav_link" name="nav_link" type="url" value="{{ jobsite.nav_link|default_if_none:'' }}" >
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Layout/Logistics</td>
+            <td class="phone-font-med">
+            {{jobsite.site_navigation}}
+            <textarea id="site_navigation" name="site_navigation" class="materialize-textarea editable-field job_edit" >{{jobsite.site_navigation}}</textarea>
+          </tr>
+        </table>
+        <table class="highlight ">
+          <caption class="phone-font-lrg computer-font-lrg" id="site_caption" style="padding-top: 5rem;">Site Access</caption>
+          <tr>
+            <td class="phone-font-med" >Background Check</td>
+            <td class="phone-font-med">
+              <b>Required. </b><br>
+            {{jobsite.background_check_procedure}}
+            <textarea id="background_check_procedure" name="background_check_procedure" class="materialize-textarea editable-field job_edit" >{{jobsite.background_check_procedure}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Items Required for Access</td>
+            <td class="phone-font-med">
+            {{jobsite.documents_required_for_access}}
+            <textarea id="documents_required_for_access" name="documents_required_for_access" class="materialize-textarea editable-field job_edit" >{{jobsite.documents_required_for_access}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Entry Procedure</td>
+            <td class="phone-font-med">
+            {{jobsite.entry_procedure}}
+            <textarea id="entry_procedure" name="entry_procedure" class="materialize-textarea editable-field job_edit" >{{jobsite.entry_procedure}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Driving</td>
+            <td class="phone-font-med">
+            {{jobsite.driving_vehicles}}
+            <textarea id="driving_vehicles" name="driving_vehicles" class="materialize-textarea editable-field job_edit" >{{jobsite.driving_vehicles}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Parking</td>
+            <td class="phone-font-med">
+            {{jobsite.parking_considerations}}
+            <textarea id="parking_considerations" name="parking_considerations" class="materialize-textarea editable-field job_edit" >{{jobsite.parking_considerations}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Restricted Items</td>
+            <td class="phone-font-med">
+            {{jobsite.restricted_items}}
+            <textarea id="restricted_items" name="restricted_items" class="materialize-textarea editable-field job_edit" >{{jobsite.restricted_items}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" >Additional Access Requirements</td>
+            <td class="phone-font-med">
+            {{jobsite.access_requirements}}
+            <textarea id="access_requirements" name="access_requirements" class="materialize-textarea editable-field job_edit" >{{jobsite.access_requirements}}</textarea>
+            </td>
+          </tr>
+        </table>
+        <div class="row">
+          <h4 class="phone-font-lrg" style="color: #023b59;">Site Files</h4>      
+            <div class="row">
+              <div class="file-field input-field">
+                <div class="btn-small tooltipped phone-button" data-tooltip="Add Files" id="file_add_button">
+                  <span><i class="material-icons phone-font-lrg">add</i></span>
+                  <input id="file_add" form="file_add_form" name="file_add" type="file" multiple>
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate phone-font-ml" form="file_add_form" type="text" placeholder="Select New File">
+                </div>
+              </div>
+              <div class="col s12 m12 l6 xl4">
+                <div class="input-field">
+                  <input placeholder="optionally name the file" style="max-width: 300px;" form="file_add_form" class="phone-font-ml text-input " id="eq_file_name" name="eq_file_name" type="text">
+                </div>
+              </div>
+              <div class="col s12 m12 l6 xl4">          
+                <button class="btn waves-effect waves-light right phone-button" type="submit" name="action"
+                  form="file_add_form" id="submit-btn-file"> Upload File
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+          </div>
+          <ul class="collection" style="margin-right: 20px; border: none;" id="site_files_ul">
+            {% csrf_token %}
+              {% for file in jobsite_files %}
+              <li class="collection-item" style="border-bottom: 1px solid #00000012; background: transparent;">
+                <a href="{{file.jobsite_file.url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;"><i class="material-icons left phone-font-med">insert_drive_file</i>
+                  {% if file.file_name %}
+                  {{file.file_name}}
+                  {% else %}
+                  {{file.filename}}
+                  {% endif %}
+                </a></br><a style="color: #aaa" class="phone-font-sml">Added: {{file.created_at}}</a>
+              </li>
+              {% empty %}
+              <li class="collection-item" >No site files.  </li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+  <div class="row tab_div"id="jobs">
+    <h4>Active Jobs</h4>
+    <table class="highlight" id="jobs_table" style="">
+      <tr style="">
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Name</button></th>
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Start Date</button></th>
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Completion</button></th>
+      </tr>
+      <tbody class="list">
+        {% for job in active_jobs %}
+        <tr>
+            <td style="" class="xx"><a href="{% url 'job' job.id %}">{{job.job_name}}</a> </td>
+            <td style="" class="xx">{{job.start_date}}</td>
+            <td style="" class="xx">{% if job.completion %}Complete{%else%}Incomplete{%endif%}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h4>Inactive Jobs</h4>
+    <table class="highlight" id="jobs_table" style="">
+      <tr style="">
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Name</button></th>
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Start Date</button></th>
+          <th style=""><button class="sort" data-sort="xx" id=""><i class="material-icons tiny phone-font-lrg">sort</i>Status</button></th>
+      </tr>
+        <tbody class="list">
+        {% for job in inactive_jobs %}
+        <tr>
+            <td style="" class="xx"><a href="{% url 'job' job.id %}">{{job.job_name}}</a> </td>
+            <td style="" class="xx">{{job.start_date}}</td>
+            <td style="" class="xx">{% if job.archived%}Archived{%endif%}{% if job.trashed%}Trashed{%endif%}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
+  
+</div>
+
+    <script>
+      function compactEquipment(){
+
+      }
+      var editmode = false
+      function editToggle(){
+        if(editmode){
+        $(".editable-field").hide()
+        $('#edit_submit_div').hide()
+        $('#edit_info_toggle').html('Edit Job Site Information')
+          editmode = false
+        }else{
+        $(".editable-field").show()
+        $('#edit_submit_div').show()
+          editmode =true
+        $('#edit_info_toggle').html('Exit Edit Mode')
+        }
+      }
+      var stopLeave = false
+        function displayJobAdd(){
+          // $('#top_div').removeClass('search-div-dynamic')
+          $('#eq_add_div').show()
+            $('.dropdown-trigger').hide();
+          // $('#eq_add_div').addClass('job-picker')
+        }
+      function onEq_Actions_Trigger(){        
+        $('#batch_acts').show()
+        $('#batch_move').show()
+        $('#batch_trash').show()
+        $('#equip_actions_trigger').hide()               
+      }
+      function openCopier(){
+        $("#create_eq_button").hide()
+        $('#show_job_add_div').hide()
+        $('#more_actions_trigger').hide()        
+        $('#cancel-div').show()
+        $('#batch_copy').show()
+        $('#batch_actions_form').show()
+        $('#batch_acts').hide()    
+        $('#eq_add_div').hide()
+        $('.dropdown-trigger').attr('disabled', true);
+        
+      }
+      function getEditedEquipments() {    
+        var id_elements = $(".site_id_edit_input").filter(function(){
+          return this.value;
+        });
+        var id_result = [];
+
+        for (var i = 0; i < id_elements.length; i++) {
+          id_result.push($(id_elements[i]).siblings(".site_id_edit_pk").val())
+          id_result.push(id_elements[i].value);
+        }
+        
+        return id_result;
+      }
+      function editSiteIds(){
+        stopLeave = true
+        $('.site_id_edit_input').show()
+        $(edit_id_div).show();   
+        $('.dropdown-trigger').attr('disabled', true);
+      }
+      function onEditSiteId() {
+        stopLeave = false
+        var selectedSiteIds = getEditedEquipments();
+        if (selectedSiteIds.length > 0) {
+          $('#batchSiteIdData').val(selectedSiteIds.join(','));
+          document.getElementById("site_id_edit").submit();
+        }
+        else {
+          M.toast({ html: 'No Equipment Names' })
+        }
+      }
+      var toast = true
+      $('.equipment-item').change(function(){
+        if(job_is_selected){
+          let eq_id = $(this).val()
+          // console.log(eq_id)
+          let parent_id = $(this).parent().attr('id').match(/\d+/)
+          if($(this).is(':checked')){}else{
+            desc=$('#eq_child_div-'+eq_id+'container').find('.equipment-item')
+            console.log(desc)
+            desc.prop('checked', false)
+                               
+          }
+          if(parent_id != null){
+            parent = $('#checkbox_parent_'+parent_id)
+            if(parent.is(':enabled')){
+            parent.prop('checked', "checked")
+            parent.change()
+            }
+          }
+        }
+      })
+      //make a variable for each job; each of those variable will have a list of all equipment ids in that job
+{% for job in jobs %}
+  var job_{{job.id}}_eq = [{%for equipment in job.equipment.all %}{{equipment.equipment_mold.id}},{%endfor%}]
+{% endfor %}
+
+function jobSelect() {
+  if($('#myDropdown').is(':visible')){$('#trigger_toggle').html('▼ ')}else{$('#trigger_toggle').html('▲ ')}
+  document.getElementById("myDropdown").classList.toggle("show");
+  
+  
+}
+var job_is_selected = false
+
+function selectJob(element){
+  $('.modal-trigger').hide()
+  $('#create_eq_button').hide()
+  $('#show_job_add_div').hide()
+  $('#cancel-div').show()
+  if($('.equipment-item')){
+    $('.equipment-item').prop("disabled", false)
+  }
+  //disable checkboxes for equipment already on job
+  if(window['job_'+element+'_eq']){
+    window['job_'+element+'_eq'].forEach(selectDisable)
+  }
+  
+  $('#selected_job').val(element)
+  job_is_selected = true
+  toast=false
+  if($('.equipment-item')){
+    $('.equipment-item').filter(':checked').toArray().forEach(function(roots){
+      let parent_id = $(roots).parent().attr('id').match(/\d+/)
+      if(parent_id != null){
+        parent = $('#checkbox_parent_'+parent_id)
+        if(parent.is(':enabled')){
+        parent.prop('checked', "checked")
+        parent.change()
+        }
+      }
+    })
+  }
+
+  toast=true
+  var selected_job_name=$('#job_selector_'+element).text()
+  $('#job_name').html(selected_job_name)
+  $('#adding_text').html(selected_job_name)
+  $('#trigger_text').text(selected_job_name)
+  
+  // $('#job_name').addClass('yellow-light')
+  $('#select_job_trigger').click()
+  // $('#job_select_div').css({"position": "sticky","top": "0" })
+  $('#batch_add').show()
+  // $('#eq_add_div').addClass('sticky-top')
+  $(".quick-hide").not($('#eq_add_div')).hide();
+}
+function selectDisable(eq_id){
+  $('#checkbox_parent_'+eq_id).prop("disabled", true)
+  $('#checkbox_parent_'+eq_id).prop("checked", false)
+}
+
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("search_input");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = $('.drop-link');
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+        function goBack() {
+            window.history.back();
+        }
+
+  function showSubEquipments(equipment_id) {
+      let sub_equipments = `sub_${equipment_id}`;
+      let sub_equipment_elements = document.getElementsByClassName(sub_equipments);
+      for (let i=0; i<sub_equipment_elements.length; i++) {
+          sub_equipment_elements[i].removeAttribute("hidden");
+      }
+      let show_button = document.getElementById(`show_${equipment_id}`);
+      show_button.setAttribute('hidden', true);
+
+      let hide_button = document.getElementById(`hide_${equipment_id}`);
+      hide_button.removeAttribute('hidden');
+
+  }
+
+  function hideSubEquipments(equipment_id) {
+      let sub_equipments = `sub_${equipment_id}`;
+      let sub_equipment_elements = document.getElementsByClassName(sub_equipments);
+      for (let i=0; i<sub_equipment_elements.length; i++) {
+          sub_equipment_elements[i].setAttribute("hidden", true);
+      }
+      let show_button = document.getElementById(`show_${equipment_id}`);
+      show_button.removeAttribute('hidden');
+
+      let hide_button = document.getElementById(`hide_${equipment_id}`);
+      hide_button.setAttribute('hidden', true);
+  }
+  
+  $('.parent-checkbox').click(function(){
+    var check_id = "checkbox_"+$(this).attr('id')
+    // console.log(check_id)
+    var checked = true
+    checkbox_parent=$('#'+check_id)
+    // console.log($(this)
+    checkbox_parent.trigger("change")
+    let ba = $(".batch-act")
+    $('#equip_actions_trigger').html("&#9654 edit")
+    if(checkbox_parent.is(':checked')){
+      // console.log(checkbox_parent)
+      checkbox_parent.prop('checked', false)
+      checked=false
+    }
+    else{
+      // console.log('notchecked')
+      checkbox_parent.prop('checked', true)
+    }
+    checkChild(check_id, checked)
+  });
+
+function checkChild(check_id, checked){
+  // console.log('checkchildenter')
+  //get child
+  var children = $('.childof-'+check_id)
+
+
+  //get child id
+  if(checked){
+    children.prop('checked', true)
+    $(`#moveto_${check_id.replace(/^\D+/g, '')}`).hide()
+  }else{
+    children.prop('checked', false)
+      if (batchAction == 'move') {
+        $(`#moveto_${check_id.replace(/^\D+/g, '')}`).show()
+      }
+  }
+  //check if children exist
+  if(children.length){
+    //loop through each child
+    children.each(function(){
+      //propogate the function with recursion
+      let child_id = $( this ).attr('id')
+        if (checked && batchAction == 'move') {
+            $(this).prop('disabled', true)
+            $(`#parent_${this.value}`).addClass('disable-button')
+        } else {
+            $(this).prop('disabled', false)
+            $(`#parent_${this.value}`).removeClass('disable-button')
+        }
+      checkChild(child_id, checked)
+    })
+
+  }
+}
+
+let job_site_hidden_equipment_ids = []
+
+function siteEqToggle(eq_id){
+  let eq_child_div = $('#eq_child_div' + eq_id)
+  if(eq_child_div.is(":visible")){
+    job_site_hidden_equipment_ids.push(eq_id)
+    localStorage.setItem('job_site_hidden_equipment_list', JSON.stringify(job_site_hidden_equipment_ids))
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-0")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-1")
+    eq_child_div.slideUp(function() {
+      console.log('push')
+      $('#eq_toggle_sign'+eq_id).html("&#9660");
+      $('#eq_child_toggle'+eq_id).css("color","#282828");    
+      $('#eq_toggle_sign'+eq_id).parent().css("color", "#ff4500")
+  });
+
+  }
+  else{
+    const index = job_site_hidden_equipment_ids.indexOf(eq_id)
+    job_site_hidden_equipment_ids.splice(index, 1);
+    localStorage.setItem('job_site_hidden_equipment_list', JSON.stringify(job_site_hidden_equipment_ids))
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-1")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-0")
+    eq_child_div.slideDown( function(){
+      $('#eq_toggle_sign'+eq_id).html("&#9650");
+      $('#eq_child_toggle'+eq_id).css("color","#505050");
+      $('#eq_toggle_sign'+eq_id).parent().css("color", "#aaa")
+    });
+
+  }
+}
+// $('.eq-child-toggle').click(function(){
+// })
+
+let tabInstance = null
+let theSelectedJob = localStorage.selectedJob
+$(document).ready(function(){
+  $('.dropdown-trigger').dropdown();
+
+    $('.modal').modal();
+    const myTabs = document.querySelector('.tabs');
+    tabInstance = M.Tabs.init(myTabs, {
+       onShow: function(selectedTab) {
+         //store selected tab to local storage
+         localStorage.site_tab = selectedTab.id
+       }
+      
+     })
+    if(!isNaN(theSelectedJob)){
+        tabInstance.select("equipment")
+        $("#show_job_add_div").click()
+        selectJob(theSelectedJob)
+        $('#select_job_trigger').click()
+    }else if(localStorage.site_tab){
+      tabInstance.select(localStorage.site_tab)
+    }
+    if (localStorage.getItem('job_site_hidden_equipment_list') != null ){
+            job_site_hidden_equipment_ids = JSON.parse([localStorage.getItem('job_site_hidden_equipment_list')])
+      Array.from(job_site_hidden_equipment_ids).forEach((element) => {
+        let eq_child_div = $('#eq_child_div' + element)
+        eq_child_div.hide()
+        if(eq_child_div.is(":hidden")){
+          $('#eq_toggle_sign'+element).html("&#9660");
+          $('#eq_toggle_sign'+element).parent().css("color", "#ff4500")          
+          $('#eq_child_toggle'+element).css("color","#282828");
+          $('#eq_child_toggle'+element).removeClass("z-depth-0")
+          $('#eq_child_toggle'+element).addClass("z-depth-1")
+        }
+      } )
+
+    }
+    {#bindExternalTab()#}
+    // $('.dropdown-trigger').dropdown({
+
+    //   hover: false,
+    //   closeOnClick: false,
+    //   autoTrigger: true,
+    //   coverTrigger: true,
+    // });
+    {#$('.tooltipped').tooltip();#}
+    {#const myTabs = document.querySelector('.tabs');#}
+    {# var tabInstance = M.Tabs.init(myTabs, {#}
+    {#   onShow: function(selectedTab) {#}
+    {#     var selectedTabId = selectedTab.getAttribute('id')#}
+    {#     window.localStorage.setItem('job-details-selected-tab-id', selectedTabId)#}
+    {#   }#}
+    {##}
+    {# })#}
+    {#var previousTabId = window.localStorage.getItem('job-details-selected-tab-id')#}
+    {#if (previousTabId) {#}
+    {#  tabInstance.select(previousTabId)#}
+    //}
+  });
+  $("input[id^='checkbox_parent_']").change( function (e) {
+        let target = e.target
+      if (batchAction == 'move') {
+          checkChild(`checkbox_parent_${this.value}`, target.checked);
+      }
+  });
+
+    let batchAction = null; 
+    function onBatchAction(act) {
+      var user_confirm = true
+    var selectedEquipments = getSelectedEquipments();
+    if (selectedEquipments.length > 0) {
+        batchAction = act
+      var batchActionsDataElement = document.querySelector('#batchActionsData');
+      batchActionsDataElement.value = act+',' + selectedEquipments.join(',');
+      if(act == 'move'){
+        $('.move-btn').show()
+        mover_clicked=true
+        $('.equipment-item').each(function(){
+          if($(this).is(':checked')){
+            $(this).change()
+            let eq_id = $(this).attr('id').replace(/^\D+/g, '');
+            $(`#moveto_${eq_id}`).hide()
+            $(this).prop('checked', true)
+          }
+        })
+      }else{
+        if(act=='trash'){
+            response = confirm('WARNING. Trashing equipment on a job site also removes that equipment from all jobs.  It is not recommended to trash equipment that has been removed from service. Consider adding "decommisioned" to the name. Do you want to proceed? ')
+            if(!response){
+              user_confirm=false
+            }
+          }
+        if(user_confirm){
+          
+          document.getElementById("batch_actions_form").submit();
+        }
+      }
+        $('.dropdown-trigger').attr('disabled', true);
+    }
+    else {
+      M.toast({ html: 'No Equipment Selected' })
+    }
+  }
+
+  function BatchMove(parent){
+    var selectedEquipments = getSelectedEquipments();
+    if (selectedEquipments.length > 0) {
+      var batchActionsDataElement = document.querySelector('#batchActionsData');
+      batchActionsDataElement.value = parent+',' + selectedEquipments.join(',');
+      document.getElementById("batch_actions_form").submit();
+    }
+    else {
+      M.toast({ html: 'No Equipment Selected' })
+    }
+  }
+
+    function getSelectedEquipments() {
+    var elements = document.querySelectorAll('input.equipment-item:checked');
+    var result = [];
+    for (var i = 0; i < elements.length; i++) {
+      result.push(elements[i].value);
+    }
+
+    return result;
+  }
+  window.onunload = function() {
+      localStorage.selectedJob = false
+
+  }
+  function initiateWait(){
+    waiter = false
+  }
+    function selectAllEq(){
+    $('.equipment-item').prop('checked', true)
+    $('#select_all_eq').hide()
+    $('#deselect_all_eq').show()
+    {#let ba = $(".batch-act")#}
+    {#ba.css({"position":"sticky","top":"0"})#}
+    {#ba.slideDown()#}
+    {#ba.addClass("em-border")#}
+    $('#equip_actions_trigger').html("&#9654 edit")
+  }
+  function deSelectAllEq(){
+    $('.equipment-item').prop('checked', false)
+    $('#select_all_eq').show()
+    $('#deselect_all_eq').hide()
+    {#let ba = $(".batch-act")#}
+    {#ba.css({"position":"sticky","top":"0"})#}
+    {#ba.slideDown()#}
+    {#ba.addClass("em-border")#}
+    $('#equip_actions_trigger').html("&#9654 edit")
+  }
+    </script>
+
+{% endblock %}

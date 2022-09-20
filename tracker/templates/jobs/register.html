@@ -1,0 +1,33 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block body %}
+<style>
+  @media only screen and (max-width: 1519px) {
+  label{    
+      font-size: 24px;
+    }
+  input{
+    font-size: 18px !important;
+    height: 46px !important;
+  }
+  }
+</style>
+<div class="container">
+  <div class="row">
+  <div class="col s12 m12 l12 xl8">
+    <h1 style = "text-align: center; margin-top: 43px"> Register </h1>
+    <form method="post" class="phone-font-sml">
+      {% csrf_token %}
+      <label for="username" class="comp-font-med phone-font-med">We recommended that you <u>use your email address</u> as your Username</label>
+      {{ form.as_p }}
+      
+      <button type="submit" class="btn phone-button">Register</button>
+    </form>
+  </div>
+  </div>
+</div>
+{% endblock %}

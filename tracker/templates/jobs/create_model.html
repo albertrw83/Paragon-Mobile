@@ -1,0 +1,440 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Create Model
+{% endblock %}
+
+{% block body %}
+<style>
+  .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .chips.focus{
+      border-bottom: 1px solid #BF5700;
+      -webkit-box-shadow: 0 1px 0 0 #BF5700;
+      box-shadow: 0 1px 0 0 #BF5700;
+    }
+   @media only screen and (max-width: 1519px) {
+     label{
+       font-size: 14px;
+     }
+     
+      [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+        background-color: #bf5700;
+        border: 0px;
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+
+      ul.dropdown-content span {
+        font-size: 16px;
+        overflow-wrap: break-word;
+        line-height: normal;
+      }
+      .autocomplete-content{
+        width: 100% !important;
+      }
+      .chips input.input{
+        font-size: 16px;
+      }
+      .chip{
+       font-size: 16px;
+       /* padding-top: 0; */
+       /* overflow: visible; */
+      }
+      .chip i.close{
+        font-size: 45px;
+        color: #670A0A;
+      }
+    .{
+      height: 6rem !important;
+    }
+    .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        [type="checkbox"] + span:not(.lever) {
+        font-size: 24px;
+        padding-left: 65px;
+        }
+        .check-parent{
+        height: 35px !important;
+        width: 35px !important;
+        }
+        input.check-input{
+        height: 35px !important;
+        width: 35px !important;
+        
+        }
+        span.check-span {
+        height: 35px !important;
+        width: 35px !important;
+        margin-left: 75px !important;
+        }
+        [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):before {
+            top: 0;
+            width: 18px;
+            height: 30px;
+        }
+   }
+</style>
+<div class="container">
+<a style="display: block; max-width: max-content; margin-bottom: 15px;" class="waves-effect waves-light btn-small lapping-btn phone-button"
+                href="{% url 'models' %}" >◀ Models</a>
+<h4 style="text-align: center">Create New Model</h4>
+
+  <form id="model_form" class="col s12" action="{% url 'create_model' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="input-field col s12 m12 l12 xl4">
+        <label class="active  " for="model_type">Model Type (required)</label>
+        <input type="text" id="model_type" name="model_type" class="autocomplete  " autocomplete="off"
+          onClick="this.select()" required> 
+      </div>
+      <div class="input-field col s12 m12 l12 xl4">
+        <label class="active  " for="manufacturer">Manufacturer (required)</label>
+        <input type="text" id="manufacturer" name="manufacturer" class="autocomplete  " autocomplete="off"
+          onClick="this.select()" required>
+      </div>
+      <div class="input-field col s12 m12 l12 xl4">
+        <label class="active  " for="model_name">Model Name (required)</label>
+        <input id="model_name" name="model_name" type="text" placeholder="e.g. QB 830" onfocusout="modelChecker(this.value)" autocomplete="off" required>
+      </div>
+    </div>
+    <div class="row" style="display: none;">
+      <div class="input-field col s12 m12 l12 xl4">
+        <div class="btn phone-button" id="type_test_sheet_btn">
+          <a id="type_test_sheet_link" href="" target="_blank" style="color: white">View Type Test Sheet</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      
+
+      <div class="file-field input-field col s12 m12 l12 xl4">
+        <div class="btn-small phone-button">
+          <span>Product Manual</span>        
+          
+          <input id="model_manual" name="model_manual" type="file" multiple>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate " type="text" placeholder="optional">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m12 l12 xl6">
+        <div class="input-field" style="display: table-cell; width: 100%;">
+          <textarea id="model_customer_support" name="model_customer_support" class="materialize-textarea "></textarea>
+          <label class="active  " for="model_customer_support">Model Customer Support, if Applicable</label>         
+        </div>
+        <span id="model_customer_support_about" style="display: table-cell; width: fit-content; white-space: nowrap;" class="help-btn hover-item"> &nbsp; About<i class="material-icons-outlined inline-icon">info</i></span> 
+
+      </div>
+     
+    </div>
+    <div class="row">
+      <div class=" col s12 m12 l12 xl6">
+        <div class="row">
+          <div class="input-field col s12">
+            <h6 style="font-size: 14px; color:#9e9e9e">Mandatory Model-Specific Test Sets</h6>
+            <div id="m_test_equipment-chips" class="chips chips-autocomplete">
+            </div>
+            <span id="mandatory_te_help" style="float: right;" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span> 
+            <input class="hidden-stuff" id="mandatory_test_equipment" name="mandatory_test_equipment" value="">
+          </div>
+
+        </div>
+      </div>
+      <div class=" col s12 m12 l12 xl6">
+        <div class="row">
+          <div class="input-field col s12">
+            <h6 style="font-size: 14px; color:#9e9e9e">Conditional Model-Specific Test Sets</h6>
+            <div id="o_test_equipment-chips" class="chips chips-autocomplete">
+            </div>
+            <span id="conditional_te_help" style="float: right;" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span> 
+            <input class="hidden-stuff" id="optional_test_equipment" name="optional_test_equipment" value="">
+          </div>
+        </div>
+      </div>
+      <div class="input-field col s4  m4 l2 hidden-stuff">
+        <div class="row">
+          <label class="active  " for="quote_default">Default Hours to Quote </label>
+          <input type="number" min="0" id="quote_default" name="quote_default"  >
+        </div>
+        <div class="row hidden-stuff" style="padding-left: 10px;">
+          <label class="check-label">
+            <input id="is_private" name="is_private" type="checkbox" class="filled-in">
+            <span >Keep Private </span>
+          </label>
+        </div>
+      </div>
+      
+    </div>
+    <div class="quickhide">
+      <i>Uploading Manual</i>
+      <div id="create_model_progress" class="progress">
+        <div class="indeterminate"></div>
+      </div>
+      </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <button class="btn waves-effect waves-light phone-button right" type="submit" onclick="onSubmit();" name="action" id="submit-btn"> Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+    
+ 
+  </form>
+  
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  function modelChecker(think){
+    var eqModels = {{ eq_models|safe }}
+    if(eqModels.includes(think)){
+      $('#model_name').val('')
+      $('#model_name').css("background-color", "#fffce4");
+      M.toast({ html: ''})
+    }
+    console.log(think)
+  }
+
+  $("#model_customer_support_about").click(function(){
+        helpFunction('Model Customer Support','You can enter customer support information for this model or product-line. For example, if General Electric has a phone number, email, or website dedicated to support on their relays, enter that here. Do not enter general support information for the manufactuer here, that should be entered in the manufacturer. For example, If General Electric has a phone number for customer support for <i>all</i> of there electrical products, you can enter that by opening Manufacturers, selecting General Electric, and adding it under <i>Manufacturer Support</i>.')
+    })    
+    $("#mandatory_te_help").click(function(){
+        helpFunction('Mandatory Test Sets','<i>Note: These can always be added/removed later.</i><br><br> Select the test sets that are always required when testing this model of equipment. For example, if testing an Eaton VFI transformer and you consider it always neccessary to have the <i>VFI Tester</i> test set that is produced by the manufacturer, you could select that here. Do not enter test sets that like <i>5kV Insulation Resistance</i>; that should entered under the Type(Medium Voltage Oil-Filled Transformer). Also do not enter test sets that are required based off scope conditions. For example, if adding a Square D Micrologic Series B model, do not enter <i>Secondary Injection Test Kit for Legacy Micrologic UTS3</i> because that is only required when secondary injection is in the scope. Enter that under the Conditionally Required Model-Specific Test Sets. ')
+    })   
+    $("#conditional_te_help").click(function(){
+        helpFunction('Conditional Test Sets','<i>Note: These can always be added/removed later.</i><br><br> Select the test sets that are only required depending on the testing scope. For example, if adding a Square D Micrologic Series B model, you can add <i>Secondary Injection Test Kit for Legacy Micrologic UTS3</i> because that is only required when secondary injection is in the scope. Do not enter test sets that are not specific to this model or model series. For example, if adding a Square D Micrologic Series B model, do not select <i>Primary Injection Test Set</i>, because it is not specific to this model. That should be entered under the type Low Voltage Molded Case Circuit Breaker.')
+    })  
+
+  var types = [{%for type in equipment_types%}"{{type.name}}",{%endfor%}]
+  $('#model_type').focusout(function(){  
+  setTimeout(() => {
+    if(!types.includes($(this).val())){
+      $(this).val('')
+      $(this).css("background-color", "#fffce4")
+      M.toast({ html: 'Must Select Valid Type' })
+    }else{
+      $(this).css("background-color", "white")
+    }
+  }, 250);
+  
+  })
+  var manufacturers = [{%for manufacturer in manufacturers%}"{{manufacturer.name}}",{%endfor%}]
+  $('#manufacturer').focusout(function(){  
+  setTimeout(() => {
+    if(!manufacturers.includes($(this).val())){
+      $(this).val('')
+      $(this).css("background-color", "#fffce4")
+      M.toast({ html: 'Must Select Valid Manufactuer' })
+    }else{
+      $(this).css("background-color", "white")
+    }
+  }, 250);
+  
+  })
+  function onSubmit() {
+    $('.quickhide').show();
+    $('#submit-btn').hide();
+    var mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_test_equipment").val(mandatoryValue);
+
+    var optionalInstance = M.Chips.getInstance($("#o_test_equipment-chips"));
+    var optionalValue = Array.from(optionalInstance.chipsData.map(x => x.tag)).join(",");
+    $("#optional_test_equipment").val(optionalValue);
+
+  }
+
+  $('#m_test_equipment-chips').chips({
+    placeholder: 'Search/Select',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+        },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+        var instance = M.Chips.getInstance($(elem));
+
+        var selectedItems = instance.chipsData;
+        var existingItems = instance.options.autocompleteOptions.data;
+        
+        for (var i =0;i<selectedItems.length; i++) {
+          var tag = selectedItems[i].tag;
+          if (!(tag in existingItems)) {
+            
+            instance.deleteChip(i);
+            alert( tag + ' is not a valid selection. Must select from existing test sets.');
+          }
+        }
+      }
+    });
+
+    window.model_types = [
+          {% for equipment_type in equipment_types %}
+          {
+            name:'{{equipment_type.name}}',
+            mandatory_type_test_equipment: [
+              {% for mtt in equipment_type.mandatory_type_test_equipment.all %}
+              '{{mtt.name}}',
+              {% endfor %}
+            ],
+            optional_type_test_equipment: [
+              {% for ott in equipment_type.optional_type_test_equipment.all %}
+              '{{ott.name}}',
+              {% endfor %}
+            ],
+            test_sheet: 
+            {% if equipment_type.test_sheet %}
+              
+              '{{equipment_type.test_sheet.url}}'
+            {% else %}
+              ''
+            {% endif %}
+              
+          },
+          {% endfor %}
+          ];
+
+  $(document).ready(function(){
+
+    
+    $('#type_test_sheet_btn').hide();
+    $('.quickhide').hide();
+    $('#model_type').autocomplete({
+      data:  {
+          {% for equipment_type in equipment_types %}
+            '{{equipment_type.name}}': null,
+          {% endfor %}
+      },
+      limit: Infinity,
+      minLength: 0, 
+      onAutocomplete: function(value) {
+        
+
+        var results = jQuery.grep(window.model_types, function(t, i) {
+          return t.name === value;
+        });
+
+        if (results.length>0) {
+          var mandatory_types = results[0].mandatory_type_test_equipment;
+          var optional_types = results[0].optional_type_test_equipment;
+          var test_sheet = results[0].test_sheet;
+          var type_test_sheet_link = $('#type_test_sheet_link').val();
+          type_test_sheet_link.href=test_sheet;
+
+          if (test_sheet && test_sheet != '') {
+
+          
+          $('#type_test_sheet_link').attr('href', test_sheet);
+          $('#type_test_sheet_btn').show();
+          } else {
+            $('#type_test_sheet_btn').hide();
+          }
+          var instance = M.Chips.getInstance($("#m_test_equipment-chips"));
+          
+          for (var i = 0; instance.chipsData.length; i++) {
+            instance.deleteChip(0)
+          }
+
+          for (var i = 0; i < mandatory_types.length; i++) {
+            instance.addChip({
+              tag: mandatory_types[i],
+              image: '', // optional
+            });
+          }
+
+          var instance = M.Chips.getInstance($("#o_test_equipment-chips"));
+          
+
+          for (var i = 0; instance.chipsData.length; i++) {
+            instance.deleteChip(0)
+          }
+
+          for (var i = 0; i < optional_types.length; i++) {
+            instance.addChip({
+              tag: optional_types[i],
+              image: '', // optional
+            });
+          }
+        }
+      }     
+    });
+  });    
+  $(document).ready(function(){
+    $('#manufacturer').autocomplete({
+      data:  {
+          {% for manufacturer in manufacturers %}
+            '{{manufacturer.name}}': null,
+          {% endfor %}
+      },
+      limit: Infinity,
+      minLength: 0, 
+    });
+  });
+
+  $('#o_test_equipment-chips').chips({
+    placeholder: 'Search/Select',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+        },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+        var instance = M.Chips.getInstance($(elem));
+
+       
+
+        var selectedItems = instance.chipsData;
+        var existingItems = instance.options.autocompleteOptions.data;
+        
+      
+
+        for (var i =0;i<selectedItems.length; i++) {
+          var tag = selectedItems[i].tag;
+          
+          if (!(tag in existingItems)) {
+           
+            instance.deleteChip(i);
+            alert( tag + ' is not a valid selection. Must select from existing test sets.');
+          }
+        }
+      }
+    });
+
+</script>
+
+
+{% endblock %}

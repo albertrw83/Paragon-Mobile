@@ -1,0 +1,230 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Birdseye
+{% endblock %}
+
+{% block body %}
+<style>
+  
+.td-brd-rt{
+  border-right: 1px solid #0000001f;
+}
+.sort{
+  font-weight: normal;
+}
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 16px;
+    color: #039be5;
+}
+.t-r > td > table:last-child > tbody > tr {
+    border-bottom: none;
+}
+/* .trta > tbody > tr:last-child {
+    border-bottom: none;
+} */
+
+@media only screen and (max-width: 1519px) {
+  .equip-action-dropdown{
+  line-height: 75px !important;
+  height: 75px !important; 
+  padding-top: 0 !important;
+}
+  .sort.desc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #000000;
+  }
+  .sort.asc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000000;
+  }
+  ul.dropdown-content {
+    line-height: 250px;
+    /* min-width: 200px; */
+  }
+  .dropdown-li{
+    line-height: 75px !important;
+    height: 75px !important;
+    width: auto !important;
+  }
+  .dropdown-a{
+    height: 75px;
+    /* width: 200px; */
+    display: block;
+    padding: 0 30px !important;
+  }
+  .dropdown-i{
+    line-height: 75px !important;
+    height: 75px !important;
+    padding: 0px 30px ;
+  }
+  .asc:after{
+  font-size: 60px !important;  
+  width: 60px;
+  height: 40px;
+
+  }
+  .desc::after {
+  font-size: 60px !important;  
+  }
+}
+.dropdown-auto{
+  width: auto !important;
+}
+</style>
+
+<div class="container ">
+    <div style="text-align: left;" class="noselect"> 
+      <a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'jobs' %}">Jobs</a>
+      <span id="job_manage_help" class="help-btn hover-item hidden-stuff"> About<i class="material-icons-outlined inline-icon">info</i></span>
+    </div>
+    <h4>Job Sites</h4>
+    <div class="row">
+      <div class="col s12">
+        <ul class="collapsible " id="jobsites_collapsible" style="margin-top: 1.5rem;">   
+          {% for jobsite in jobsites %}
+          <li>
+            <div class="collapsible-header phone-font-ml noselect"><span class="phone-font-lrg model-toggle-sign" style="font-weight: 700;">&#x21D5; &nbsp;&nbsp;&nbsp;</span>{{jobsite.name}}</div>
+            <div class="collapsible-body phone-font-med">
+              
+              <h4>Jobs</h4>
+              <ul class="collapsible " id="jobs_collapsible" style="margin-top: 1.5rem;">   
+                {% for job in jobsite.job_site.all %}
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect"><span class="phone-font-lrg model-toggle-sign" style="font-weight: 700;">&#x21D5; &nbsp;&nbsp;&nbsp;</span>{{job.job_name}}</div>
+                  <div class="collapsible-body phone-font-med">                      
+                    <h4>Equipment</h4>
+                    <ul class="collapsible " id="jobs_collapsible" style="margin-top: 1.5rem;">   
+                      {% for eq in job.equipment.all %}
+                      <li>
+                        <div class="collapsible-header phone-font-ml noselect"><span class="phone-font-lrg model-toggle-sign" style="font-weight: 700;">&#x21D5; &nbsp;&nbsp;&nbsp;</span>{{eq}}</div>
+                        <div class="collapsible-body phone-font-med">                          
+                            <table class="highlight">
+                              <caption>Equipment Overview</caption>
+                              <tr style="border-top: none;">
+                                <td style="border-top: none;">Type</td>
+                                <td style="border-top: none;">{{eq.equipment_type}}</td>
+                              </tr>
+                              <tr>
+                                <td>Make</td>
+                                <td>{{eq.equipment_model.model_manufacturer}}{{eq.equipment_model}}</td>
+                              </tr>
+                            </table>              
+                            <table class="highlight">
+                              <caption>Equipment Files</caption>
+                              <tr style="border-top: none;">
+                                <th style="border-top: none;">Name</th>
+                                <th style="border-top: none;">Date Uploaded</th>
+                              </tr>
+                              {% for eq_file in eq.equipment.all %}
+                              <tr style="border-top: none;">
+                                <td style="border-top: none;">{{eq_file.filename}}</td>
+                                <td style="border-top: none;">{{eq_file.created_at}}</td>
+                              </tr>       
+                              {% endfor %}           
+                            </table>          
+                        </div>
+                      </li>
+                      {% endfor %}
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        
+
+      </div>
+
+    </div>
+    <table>
+        <tr style="position: sticky; top: 0;">
+            <th>Jobsite</th>
+            <th style="">Job</th>
+            <th>Equipment</th>
+        </tr>
+
+        {% for jobsite in jobsites %}
+          {% if jobsite.get_jobs.count > 0 %}         
+            <tr class="t-r">
+                <td style="width: 15%; max-width: 20%; " class="td-brd-rt" rowspan="{{jobsite.get_eq_count}}">
+                    <a href="{% url 'job_site' jobsite.pk%}" class="{% if jobsite.job_site.count > 100 %}quickly-rotate{%endif%}">{{jobsite.name}}</a>
+                </td>
+                <td class="td-brd-rt" rowspan="{{jobsite.get_jobs.first.get_eq_count}}">
+                  <a href="{% url 'job' jobsite.get_jobs.first.pk %}">{{jobsite.job_site.first.job_name}}</a>                  
+                </td>
+                {% if jobsite.get_jobs.first.get_eq%}
+                <td>
+                  <a href="{% url 'equipment' jobsite.get_jobs.first.get_eq.first.pk%}">{{jobsite.get_jobs.first.get_eq.first.site_id}}</a>                  
+                </td>
+                {%endif%}
+            </tr>
+            {% for eq in jobsite.get_jobs.first.get_eq|slice:"1:" %}
+            <tr class="t-r">
+              <td>{{eq.site_id}}</td>
+            </tr>
+            {% endfor %}
+
+
+
+
+            {% if jobsite.get_jobs.count > 1 %} 
+              {% for job in jobsite.get_jobs|slice:"1:" %}
+                {% if job.get_eq.count > 0 %} 
+                  <tr class="t-r">
+                      <td class="td-brd-rt" rowspan="{{job.get_eq_count}}">
+                        {{job.job_name}} 
+                      </td>
+                      <td>
+                        {{job.equipment.first.site_id}}                        
+                      </td>
+                  </tr>
+                  {% for eq in job.get_eq|slice:"1:" %}  
+                    <tr class="t-r">
+                      <td>{{eq.site_id}} </td>
+                    </tr>
+                  {% endfor %}
+                {%else%}
+                  <tr class="t-r">
+                      <td class="td-brd-rt" rowspan="{{job.get_eq_count}}">
+                        {{job.job_name}} 
+                      </td>
+                      <td style="color: #aaa;">
+                        No Equipment
+                      </td>
+                  </tr>
+                {%endif%}
+
+              {% endfor %}
+            {%endif%}
+          {%else%}          
+            <tr class="t-r">
+              <td style="width: 15%; max-width: 20%; " class="td-brd-rt" rowspan="{{jobsite.get_eq_count}}">
+                <a href="{% url 'job_site' jobsite.pk%}" class="{% if jobsite.job_site.count > 100 %}quickly-rotate{%endif%}">{{jobsite.name}} | {{jobsite.get_eq_count}}</a>
+              </td>
+              <td style="color: #aaa;" class="td-brd-rt">
+                No Jobs
+              </td>
+              <td>
+                --
+              </td>
+            </tr>
+          {%endif%}
+        {% empty %}
+        <h6>Nothing yet. You can start by creating a Job or Jobsite</h6>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<script>
+  
+  $('.collapsible').collapsible();
+</script>
+
+{% endblock %}

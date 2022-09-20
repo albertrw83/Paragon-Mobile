@@ -1,0 +1,69 @@
+{% extends "jobs/base.html" %}
+
+{% block body %}
+
+<style>
+  @media only screen and (max-width: 1519px) {
+    .input-field{
+      margin-top: 50px;
+    }
+  }
+</style>
+<div class="container">
+<h1 class="phone-font-xl" style="text-align: center; font-family: 'Goldman', Verdana;">PARAGON<sub class="phone-font-xs" style="font-size: 1.2rem; color: #aaa; padding-left: 7px;"><em style="font-family: 'Roboto', sans-serif;">by Blue Sky Software</em></sub></h1>
+<h4 style="text-align: left; padding-left: 1rem;">Login</h4>
+{% if message %}
+    <div style="color: red; text-align: left; font-weight: 500; padding: 1rem;" class="phone-font-med comp-font-med">
+        {{ message }}
+    </div>
+{% endif %}
+<div class="row">
+  <div id="help" class="modal">
+    <div class="modal-content">
+      <p class="phone-font-med">
+        Login with the username and password created during registration. You may have used your email for your username during registration. 
+      
+      </p>
+      <p class="phone-font-med">
+        If you have not created an account and have a company key, hit "Register". If you have not obtained a company key, we would be happy to create one immediately. Give us a call/text at 210-303-0471 or email albert@blueskysw.com.
+      </p>
+    </div>
+  </div>
+  <form class="col s12" action="{% url 'login' %}" method="post">
+
+      {% csrf_token %}
+      <div class="row">
+        <div class="input-field col s11 m11 l11 xl5">
+          <input class="phone-font-lrg" name="username" type="text" placeholder="username"/>
+        </div>
+        <div class="input-field col s1">
+           <a class=" modal-trigger" tabindex="-1" href="#help"><i class="material-icons left" >help</i></a> 
+        </div>
+        <div class="input-field col s12 m12 l12 xl6">
+          <input class="phone-font-lrg" name="password" type="password" placeholder="password"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input class="btn phone-button right" type="submit" value="Login"/><a class="waves-effect z-depth-0 left waves-light btn-small phone-button" href="{% url 'register' %}">Register</a>
+        </div>
+      </div>
+      <div class="row">
+        <span style="color: #666;">If you are looking for the informational website for Blue Sky Software LC, it is located at <a href="https://blueskysw.com/">blueskysw.com</a> You are currently on the login page for the Paragon platform.</span>
+      </div>
+  </form>
+  
+</div>
+
+  
+  </div>
+  <br><br><br><br><br>
+  <h1 style="text-align: center; font-family: 'Goldman', Verdana; font-size: 189px;" hidden>PARAGON<sub style="font-size: 4.8rem; color: #aaa; padding-left: 28px;">
+    <em style="font-family: 'Roboto', sans-serif;">by Blue Sky Software</em></sub></h1>
+    <script>
+        $(document).ready(function(){
+    $('.modal').modal();
+    $('.tooltipped').tooltip();
+  });
+    </script>
+{% endblock %}

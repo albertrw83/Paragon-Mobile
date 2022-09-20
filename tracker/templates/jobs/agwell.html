@@ -1,0 +1,250 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+ Well | {{ well.name }}
+{% endblock %}
+
+{% block body %}
+<style>
+  h6{
+    text-align: center;
+    
+  }
+  .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .chips.focus{
+      border-bottom: 1px solid #bf5700;
+      -webkit-box-shadow: 0 1px 0 0 #bf5700;
+      box-shadow: 0 1px 0 0 #bf5700;
+    }
+  @media only screen and (min-width: 1519px) {
+    .computer-font-med{
+      font-size: 20px;
+    }
+  }
+  @media only screen and (max-width: 1519px) {
+  .collapsible-body{
+    padding: .5rem;
+  }
+     /* input[type="number"]{
+        font-size: 36px !important;
+      } */
+      [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+        background-color: #bf5700;
+        border: 0px;
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+
+      ul.dropdown-content span {
+        font-size: 16px;
+        overflow-wrap: break-word;
+        line-height: normal;
+      }
+      .autocomplete-content{
+        width: 100% !important;
+      }
+      .chips input.input{
+        font-size: 22px;
+      }
+      .chip{
+       font-size: 18px;
+       padding-top: 0;
+       /* overflow: visible; */
+      }
+      .chip i.close{
+        font-size: 45px;
+        color: #670A0A;
+      }
+    th, td{
+      font-size: 16px;
+    }
+    .exp-list-item {
+  padding-top: 1rem; overflow: hidden;
+  }
+  .exp-list-item:hover {
+    overflow: visible;
+  }
+  .exp-list-item:hover a{
+    background-color: white;
+  }
+  /* .material-icons{
+    font-size: 36px !important;
+  } */
+  }
+</style>
+<div class="container">
+  <a href="{% url 'agwells' %}" class="waves-effect waves-light btn-small lapping-btn phone-button">&#9664; All Wells</a>
+  <h3 style="text-align: center">{{well.name}}</h3>    
+    <ul class="tabs z-depth-1 noselect" style="margin-top: 30px;">
+      <li class="tab col s3"> <a class="phone-font-lrg" id="equipment_tab_trigger" class="active" href="#well_info">Info</a></li>
+      <li class="tab col s3"> <a class="phone-font-lrg" id="maintenance_tab_trigger" href="#maintenance">Maintenance</a></li>
+    </ul>
+    <div class="row tab_div"id="well_info" >
+      <form id="edit_well_form" name="edit_well_form" action="{% url 'ag_edit_well' well.id %}" method="post">{% csrf_token %} 
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="edit_well_name" name="edit_well_name" value="{{well.name}}"> 
+          <label for="new_well_name">Name</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="location" placeholder="e.g. SW SECTION 3" name="location" value="{{well.location|default_if_none:''}}"> 
+          <label for="location">Location</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="motor" placeholder="e.g. CAT C9.3" name="motor" value="{{well.motor|default_if_none:''}}"> 
+          <label for="motor">Motor</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="oil_type" placeholder="e.g. 3W30" name="oil_type" value="{{well.oil_type|default_if_none:''}}"> 
+          <label for="oil_type">Oil Type</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="fuel_type" placeholder="e.g. Natural Gas" name="fuel_type" value="{{well.fuel_type|default_if_none:''}}"> 
+          <label for="fuel_type">Fuel Type</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="oil_filter" placeholder="e.g. CAT 2492347 " name="oil_filter" value="{{well.oil_filter|default_if_none:''}}"> 
+          <label for="oil_filter">Oil Filter</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="text" id="air_filter" placeholder="e.g. CAT 380-5840" name="air_filter" value="{{well.air_filter|default_if_none:''}}"> 
+          <label for="air_filter">Air Filter</label>
+        </div>
+        <div class="input-field col s6 m6 l6 xl4" style="white-space: nowrap;" >
+          <label for="oil_capacity" style="white-space: nowrap;">Oil Capacity</label>
+            <input class="well_input"  form="edit_well_form" style="max-width: 60%;" type="number" id="oil_capacity" name="oil_capacity" step=".001" {% if well.oil_capacity %} value="{{ well.oil_capacity.normalize }}"{% endif %}> gal
+        </div>
+        <div class="input-field col s6 m6 l6 xl4">
+          <input class="well_input" form="edit_well_form" type="url" id="nav_link" placeholder="https://maps.google.com" name="nav_link" value="{{well.nav_link|default_if_none:''}}"> 
+          <label for="nav_link">Navigation Link</label>
+        </div>
+      </form>
+      {% if well.nav_link %}<a href="{{well.nav_link}}" class="btn-small phone-button" target="_blank" >Navigate</a>{% endif %}
+      <div class="row" style="padding-top: 20px;">
+        <button id="edit_well_submit" form="edit_well_form" class="btn-small right phone-button hidden-stuff" style="border: 1px solid #bf5700;" type="submit" name="edit_well_submit">Save</button>
+      </div>
+    </div>
+    <div class="row tab_div"id="maintenance">
+      <div class="row">
+        <h5 style="text-align: center; color: #01579b;">Create New</h5>
+        <form id="new_maint_form" name="new_maint_form" action="{% url 'ag_new_maint' well.id %}" method="post">
+          {% csrf_token %} 
+            <div class="input-field col s6 m6 l6 xl3">
+              <input class="" required form="new_maint_form" type="text" id="new_maint_name" name="new_maint_name" placeholder="e.g. Oil Change" value=""> 
+              <label for="new_maint_name">Title</label>
+            </div>
+            <div class="col s6 m6 l6 xl3">
+              <button id="new_maint_submit"  class="btn-small phone-button" type="submit" name="new_maint_submit" form="new_maint_form">Create<i class="material-icons right">send</i></button>
+            </div>
+        </form>
+      </div>      
+      <div class="row">
+        <ul class="collapsible">
+          {% for maint in maints %}
+          <form id="file_add_form{{maint.id}}" name="file_add_form{{maint.id}}" class="col s12" style="padding: 0" action="{% url 'add_maint_file' maint.id %}" method="post"
+                  enctype="multipart/form-data">{% csrf_token %}</form>
+          <li>
+            <div class="collapsible-header phone-font-med">▼ {{maint.title}}  <span style="color: #888">|{% if maint.oil_change_date %}{{maint.oil_change_date}}{%else%}No Date{%endif%} </span></div>
+            <div class="collapsible-body">
+              <div class="row">
+                <form id="edit_maint_{{maint.id}}_form" name="edit_maint_{{maint.id}}_form" action="{% url 'ag_edit_maint' maint.id %}" method="post">{% csrf_token %}
+                  <div class="row">
+                    <div class="input-field col s6 m6 l6 xl4">
+                      <input class="maint_{{maint.id}}_input" oninput='formInput({{maint.id}})' form="edit_maint_{{maint.id}}_form" type="text" id="edit_maint_title" name="edit_maint_title" value="{{maint.title}}"> 
+                      <label for="edit_maint_title">Title</label>
+                    </div>    
+                    <div class="input-field col s6 m6 l6 xl4">
+                      <label for="oil_change_date">Date Completed</label>
+                      <input class ="datepicker" class="active" onchange='formInput({{maint.id}})' type="text" value="{{maint.date | default_if_none:''}}" id="oil_change_date" name="oil_change_date" placeholder="Click to Select">
+                    </div>
+                    <div class="input-field col s6 m6 l6 xl4" style="white-space: nowrap;" >
+                      <label for="hours" style="white-space: nowrap;">Engine Hours</label>
+                      <input class="maint_{{maint.id}}_input" oninput='formInput({{maint.id}})' form="edit_maint_{{maint.id}}_form" style="max-width: 60%;" type="number" id="hours" placeholder="0" name="hours" step=".01" {% if maint.hours %}value="{{ maint.hours.normalize }}"{% endif %}> hrs
+                    </div>
+                    <div class="input-field col s12 m12 l12 xl8">
+                      <textarea class="maint_{{maint.id}}_input materialize-textarea" oninput='formInput({{maint.id}})' form="edit_maint_{{maint.id}}_form" id="edit_maint_description" name="edit_maint_description" placeholder="."
+                        class="">{{maint.description | default_if_none:''}}</textarea> 
+                      <label for="edit_maint_description">Description</label>
+                    </div>                    
+                      {% csrf_token %}
+                      <div class="col s12 " style="padding: 0">
+                          <div class="file-field input-field col s6 m6 l6 xl3" style="padding: 0" id="file_add_div">
+                              <div class="btn-small phone-button">
+                                  <span><i class="material-icons phone-font-lrg">add</i></span>
+                                  <input id="file_add{{maint.id}}" onchange="$('#file_sub_div{{maint.id}}').show(); $('#file_name_div{{maint.id}}').show() " name="file_add{{maint.id}}" form="file_add_form{{maint.id}}" type="file" multiple>
+                              </div>
+                              <div class="file-path-wrapper">
+                                  <input class="file-path validate" form="file_add_form{{maint.id}}" type="text" placeholder="+ File/Photo">
+                              </div>
+                          </div>
+                          <div class="input-field col s6 m6 l6 xl3 hidden-stuff" id="file_name_div{{maint.id}}">
+                            <input placeholder="optionally name the file" form="file_add_form{{maint.id}}" id="file_name{{maint.id}}" name="file_name{{maint.id}}" type="text" >
+                            <label class="phone-font-sml" for="file_name{{maint.id}}">Name (optional)</label>
+                          </div>                          
+                      </div>
+                      <div class="col s12 hidden-stuff" id="file_sub_div{{maint.id}}">
+                        <button class="btn waves-effect waves-light right phone-button " form="file_add_form{{maint.id}}" type="submit" name="action" id="submit-btn"> Upload File/Link
+                          <i class="material-icons right">send</i>
+                        </button>
+                      </div>
+                    {% if maint.maint_event_file.exists %}
+                    <div class="input-field col s12">
+                      <ul class="collection with-header">
+                        <li class="collection-header"><h5>Photos/Files</h5></li>
+                        {% for mfile in maint.maint_event_file.all %}
+                          <li class="collection-item"><div>{{mfile.file_name}}<a style="color: #0000FF;" target="_blank" href="{{mfile.maint_file.url}}" class="secondary-content"><i class="material-icons">file_open</i></a></div></li>
+                        {%endfor%}
+                      </ul>
+                    </div>
+                    {%endif%}
+                  </div>
+                  <div class="row">
+                    <button id="edit_maint_submit{{maint.id}}" form="edit_maint_{{maint.id}}_form" class="btn-small phone-button edit_maint_submit_btn hidden-stuff" style="border: 1px solid #bf5700;" type="submit" name="edit_maint_submit{{maint.id}}">Save</button>
+                  </div>
+          
+                </form>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+          
+        </ul>
+      </div>
+      {% for maint in maints %}
+      {% endfor %}
+    </div>      
+</div>
+  
+<script>
+$("#edit_well_form :input").on("input", function() {
+  $('#edit_well_submit').show()
+})
+function formInput(mid){
+  $('#edit_maint_submit'+mid).show()
+}
+let agTabInstance = null
+$(document).ready(function(){
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoClose: true
+    });
+    const myTabs = document.querySelector('.tabs');
+    agTabInstance = M.Tabs.init(myTabs, {
+       onShow: function(selectedTab) {
+         //store selected tab to local storage
+         localStorage.well_tab = selectedTab.id
+       }
+     })     
+     agTabInstance.select(localStorage.well_tab)
+    $('.collapsible').collapsible();
+
+})
+
+</script>
+
+{% endblock %}

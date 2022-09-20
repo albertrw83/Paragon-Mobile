@@ -1,0 +1,325 @@
+
+<div class="col s12 is-ttr" >
+  <h5 class="blue-heading" style="border-bottom: 1px solid #f1f1f1;padding-bottom: 10px;">
+  Transformer Turns Ratio</h5> 
+  <div class="col s12 m12 l4 xl4" style="text-align: center;">
+    Key:
+    <span class="phone-font-sml " style=" background-color: #b5cbbb; font-style: italic; border-radius: 6px; padding: 4px; white-space: nowrap">Acceptable</span>
+      <span class="phone-font-sml " style=" background-color: #FF9494; font-style: italic; border-radius: 6px; padding: 4px; text-decoration: underline; white-space: nowrap">Out of Tolerance</span>
+  </div>
+  <div class="col  s12 m6 l4 xl4" style="text-align: center;">
+      <span style="white-space: nowrap">Max Tolerance(+%)</span> 
+    <input  class="test-input mobile-input-text" type="number" id="ttr_upper_tolerance" name="ttr_upper_tolerance" step=".0001" style="max-width: 35%;" {% if test_results.ttr_upper_tolerance %} value="{{ test_results.ttr_upper_tolerance.normalize }}"{% endif %} onkeyup="secondaryChange()">                
+  </div>
+  <div class="col  s12 m6 l4 xl4" style="text-align: center;">
+    <span style="white-space: nowrap">Min Tolerance(-%)</span>
+    <input  class="test-input mobile-input-text" type="number" id="ttr_lower_tolerance" name="ttr_lower_tolerance" step=".0001" style="max-width: 35%;" {% if test_results.ttr_lower_tolerance %} value="{{ test_results.ttr_lower_tolerance.normalize }}"{% endif %} onkeyup="secondaryChange()">
+  </div>
+  <div>
+    <div class="col s12 m6 l6 xl3">
+      <table>
+      <tr>
+        <td class="tap-label" colspan="2">Tap 1</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-1"> <input  class="test-input mobile-input-text" type="number" id="tap_one_volts" name="tap_one_volts" min="0" step="1"  value="{{ test_results.tap_one_volts | default_if_none:"" }}" onkeyup="primaryChange('one')" >  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-1 expected-ttr"><span id="tap_one_expected_ttr">  </span>  </td> 
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-1"> <input  class="test-input mobile-input-text tap-1" type="number" id="tap_one_h12_x02_ttr" name="tap_one_h12_x02_ttr" step=".00001"  {% if test_results.tap_one_h12_x02_ttr %} value="{{ test_results.tap_one_h12_x02_ttr.normalize }}"{% endif %} onkeyup="errorChange('one', 'h12_x02')" >  </td>
+        
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-1 error-cell"> <span id="tap_one_h12_x02_ttr_error">  </span></td> 
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>                    
+        <td class="tap-1"> <input  class="test-input mobile-input-text tap-1" type="number" id="tap_one_h23_x03_ttr" name="tap_one_h23_x03_ttr" step=".00001"  {% if test_results.tap_one_h23_x03_ttr %} value="{{ test_results.tap_one_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('one', 'h23_x03')" >  </td> 
+        
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-1 error-cell">  <span id="tap_one_h23_x03_ttr_error">  </span></td> 
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-1"> <input  class="test-input mobile-input-text tap-1" type="number" id="tap_one_h31_x01_ttr" name="tap_one_h31_x01_ttr" step=".00001"  {% if test_results.tap_one_h31_x01_ttr %} value="{{ test_results.tap_one_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('one', 'h31_x01')" >  </td>
+        
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-1 error-cell">  <span id="tap_one_h31_x01_ttr_error">  </span></td> 
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      
+    <table class="tap-2">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 2</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-2"> <input  class="test-input mobile-input-text" type="number" id="tap_two_volts" name="tap_two_volts" min="0" step="1"  value="{{ test_results.tap_two_volts | default_if_none:"" }}" onkeyup="primaryChange('two')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-2 expected-ttr"><span id="tap_two_expected_ttr">  </span>  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-2"> <input  class="test-input mobile-input-text tap-2" type="number" id="tap_two_h12_x02_ttr" name="tap_two_h12_x02_ttr" step=".00001"  {% if test_results.tap_two_h12_x02_ttr %} value="{{ test_results.tap_two_h12_x02_ttr.normalize }}"{% endif %}         onkeyup="errorChange('two', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-2 error-cell"> <span id="tap_two_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-2"> <input  class="test-input mobile-input-text tap-2" type="number" id="tap_two_h23_x03_ttr" name="tap_two_h23_x03_ttr" step=".00001"  {% if test_results.tap_two_h23_x03_ttr %} value="{{ test_results.tap_two_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('two', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-2 error-cell">  <span id="tap_two_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-2"> <input  class="test-input mobile-input-text tap-2" type="number" id="tap_two_h31_x01_ttr" name="tap_two_h31_x01_ttr" step=".00001"  {% if test_results.tap_two_h31_x01_ttr %} value="{{ test_results.tap_two_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('two', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-2 error-cell">  <span id="tap_two_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      <table class="tap-3">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 3</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-3"> <input  class="test-input mobile-input-text" type="number" id="tap_three_volts" name="tap_three_volts" min="0" step="1"  value="{{ test_results.tap_three_volts | default_if_none:"" }}" onkeyup="primaryChange('three')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-3 expected-ttr"><span id="tap_three_expected_ttr">  </span>  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-3"> <input  class="test-input mobile-input-text tap-3" type="number" id="tap_three_h12_x02_ttr" name="tap_three_h12_x02_ttr" step=".00001"  {% if test_results.tap_three_h12_x02_ttr %} value="{{ test_results.tap_three_h12_x02_ttr.normalize }}"{% endif %} onkeyup="errorChange('three', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-3 error-cell"> <span id="tap_three_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-3"> <input  class="test-input mobile-input-text tap-3" type="number" id="tap_three_h23_x03_ttr" name="tap_three_h23_x03_ttr" step=".00001"  {% if test_results.tap_three_h23_x03_ttr %} value="{{ test_results.tap_three_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('three', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-3 error-cell">  <span id="tap_three_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-3"> <input  class="test-input mobile-input-text tap-3" type="number" id="tap_three_h31_x01_ttr" name="tap_three_h31_x01_ttr" step=".00001"  {% if test_results.tap_three_h31_x01_ttr %} value="{{ test_results.tap_three_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('three', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-3 error-cell">  <span id="tap_three_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      <table class="tap-4">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 4</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-4"> <input  class="test-input mobile-input-text" type="number" id="tap_four_volts" name="tap_four_volts" min="0" step="1"  value="{{ test_results.tap_four_volts | default_if_none:"" }}" onkeyup="primaryChange('four')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-4 expected-ttr"><span id="tap_four_expected_ttr">  </span>  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-4"> <input  class="test-input mobile-input-text tap-4" type="number" id="tap_four_h12_x02_ttr" name="tap_four_h12_x02_ttr" step=".00001"  {% if test_results.tap_four_h12_x02_ttr %} value="{{ test_results.tap_four_h12_x02_ttr.normalize }}"{% endif %}     onkeyup="errorChange('four', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-4 error-cell"> <span id="tap_four_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-4"> <input  class="test-input mobile-input-text tap-4" type="number" id="tap_four_h23_x03_ttr" name="tap_four_h23_x03_ttr" step=".00001"  {% if test_results.tap_four_h23_x03_ttr %} value="{{ test_results.tap_four_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('four', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-4 error-cell">  <span id="tap_four_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-4"> <input  class="test-input mobile-input-text tap-4" type="number" id="tap_four_h31_x01_ttr" name="tap_four_h31_x01_ttr" step=".00001"  {% if test_results.tap_four_h31_x01_ttr %} value="{{ test_results.tap_four_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('four', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-4 error-cell">  <span id="tap_four_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      <table class="tap-5">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 5</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-5"> <input  class="test-input mobile-input-text" type="number" id="tap_five_volts" name="tap_five_volts" min="0" step="1"  value="{{ test_results.tap_five_volts | default_if_none:"" }}" onkeyup="primaryChange('five')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-5 expected-ttr"><span id="tap_five_expected_ttr">  </span>  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-5"> <input  class="test-input mobile-input-text tap-5" type="number" id="tap_five_h12_x02_ttr" name="tap_five_h12_x02_ttr" step=".00001"  {% if test_results.tap_five_h12_x02_ttr %} value="{{ test_results.tap_five_h12_x02_ttr.normalize }}"{% endif %}     onkeyup="errorChange('five', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-5 error-cell"> <span id="tap_five_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-5"> <input  class="test-input mobile-input-text tap-5" type="number" id="tap_five_h23_x03_ttr" name="tap_five_h23_x03_ttr" step=".00001"  {% if test_results.tap_five_h23_x03_ttr %} value="{{ test_results.tap_five_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('five', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-5 error-cell">  <span id="tap_five_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-5"> <input  class="test-input mobile-input-text tap-5" type="number" id="tap_five_h31_x01_ttr" name="tap_five_h31_x01_ttr" step=".00001"  {% if test_results.tap_five_h31_x01_ttr %} value="{{ test_results.tap_five_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('five', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-5 error-cell">  <span id="tap_five_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      <table class="tap-6">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 6</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-6"> <input  class="test-input mobile-input-text" type="number" id="tap_six_volts" name="tap_six_volts" min="0" step="1"  value="{{ test_results.tap_six_volts | default_if_none:"" }}" onkeyup="primaryChange('six')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+        <td class="tap-6 expected-ttr"><span id="tap_six_expected_ttr">  </span>  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-6"> <input  class="test-input mobile-input-text tap-6" type="number" id="tap_six_h12_x02_ttr" name="tap_six_h12_x02_ttr" step=".00001"  {% if test_results.tap_six_h12_x02_ttr %} value="{{ test_results.tap_six_h12_x02_ttr.normalize }}"{% endif %}         onkeyup="errorChange('six', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-6 error-cell"> <span id="tap_six_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-6"> <input  class="test-input mobile-input-text tap-6" type="number" id="tap_six_h23_x03_ttr" name="tap_six_h23_x03_ttr" step=".00001"  {% if test_results.tap_six_h23_x03_ttr %} value="{{ test_results.tap_six_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('six', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-6 error-cell">  <span id="tap_six_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-6"> <input  class="test-input mobile-input-text tap-6" type="number" id="tap_six_h31_x01_ttr" name="tap_six_h31_x01_ttr" step=".00001"  {% if test_results.tap_six_h31_x01_ttr %} value="{{ test_results.tap_six_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('six', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-6 error-cell">  <span id="tap_six_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>  
+    </div>
+    <div class="col s12 m6 l6 xl3">
+      <table class="tap-7">
+      <tr>
+        <td class="tap-label" colspan="2">Tap 7</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Primary Tap Voltage</td>
+        <td class="tap-7"> <input  class="test-input mobile-input-text" type="number" id="tap_seven_volts" name="tap_seven_volts" min="0" step="1"  value="{{ test_results.tap_seven_volts | default_if_none:"" }}" onkeyup="primaryChange('seven')">  </td> 
+      </tr>
+      {%if job %}
+      <tr>
+        <td class="tap-prop">Expected Ratio</td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H1-H2:X0-X2<br>Ratio Result</td>
+        <td class="tap-7"> <input  class="test-input mobile-input-text tap-7" type="number" id="tap_seven_h12_x02_ttr" name="tap_seven_h12_x02_ttr" step=".00001"  {% if test_results.tap_seven_h12_x02_ttr %} value="{{ test_results.tap_seven_h12_x02_ttr.normalize }}"{% endif %} onkeyup="errorChange('seven', 'h12_x02')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-7 error-cell"> <span id="tap_seven_h12_x02_ttr_error">  </span></td>
+      </tr>
+      <tr>
+        <td class="tap-prop">H2-H3:X0-X3<br>Ratio Result</td>
+        <td class="tap-7"> <input  class="test-input mobile-input-text tap-7" type="number" id="tap_seven_h23_x03_ttr" name="tap_seven_h23_x03_ttr" step=".00001"  {% if test_results.tap_seven_h23_x03_ttr %} value="{{ test_results.tap_seven_h23_x03_ttr.normalize }}"{% endif %} onkeyup="errorChange('seven', 'h23_x03')">  </td>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-7 error-cell">  <span id="tap_seven_h23_x03_ttr_error">  </span></td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">H3-H1:X0-X1<br>Ratio Result</td>
+        <td class="tap-7"> <input  class="test-input mobile-input-text tap-7" type="number" id="tap_seven_h31_x01_ttr" name="tap_seven_h31_x01_ttr" step=".00001"  {% if test_results.tap_seven_h31_x01_ttr %} value="{{ test_results.tap_seven_h31_x01_ttr.normalize }}"{% endif %} onkeyup="errorChange('seven', 'h31_x01')">  </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="tap-prop">Error</td>
+        <td class="border-bottom tap-7 error-cell">  <span id="tap_seven_h31_x01_ttr_error">  </span></td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>                
+  </div>
+  
+</div>

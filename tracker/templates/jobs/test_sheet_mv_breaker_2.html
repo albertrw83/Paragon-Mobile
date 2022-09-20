@@ -1,0 +1,39 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 20px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report <i style="color: #666;">(Page 2 of 2)</i> <br>
+            <i style="font-family: 'Rubik', sans-serif; color: #666; font-size: 14px;">Created {{now}}</i>
+        </div>
+    </div>
+
+    <div class="row">
+        
+        <div class="c4">
+            <div style="padding-right: 32px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+            </div>
+        </div>
+    </div> 
+      
+{% if test_sheet.eq.is_insulation_resistance or test_sheet.eq.is_contact_resistance%}
+    {% include "jobs/test_sheet_insul_contact_resistance.html" with test_sheet=test_sheet equipment=equipment %}
+{%endif%}
+{% if test_sheet.eq.is_hipot %}
+    {% include "jobs/test_sheet_hipot.html" with test_sheet=test_sheet equipment=equipment %}
+{%endif%}
+
+</div> 
+{% endblock %}

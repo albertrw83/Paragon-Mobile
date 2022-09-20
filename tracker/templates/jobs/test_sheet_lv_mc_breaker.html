@@ -1,0 +1,176 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 20px; text-align: right; font-weight: 500;"> 
+            {{equipment.equipment_type}}<br> Test Report <i style="color: #666;">(Page 1 of 2)</i>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="c4">
+            <div style="padding-right: 22px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+                {% include "jobs/test_sheet_jobinfo.html" with test_sheet=test_sheet equipment=equipment job=job %}
+            </div>
+        </div>
+        <div class="c3">
+            <h3 class="normal-header">Equipment Information</h3>
+            <table class="table-all center lato-300" style="width: 100%;">
+                <tr>
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Serial Number
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.serial_number_data | default_if_none:""}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Equipment Location
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_location_data | default_if_none:""}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Manufacturer
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_model.model_manufacturer}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Model
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_model}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Type
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_type}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Max Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.equipment_voltage_data.normalize}} {% if test_sheet.is_dc_equipment_voltage_data %}DC{%else%} AC{%endif%}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">System Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.system_voltage_data.normalize}} {% if test_sheet.is_dc_system_voltage_data %}DC{%else%}AC{%endif%}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Frame Rating
+                    </td>
+                    <td style="padding-left: 7px;">{% if test_sheet.frame_size%}{{test_sheet.frame_size}}&nbsp;A{% endif%}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Mount Style</td>
+                    <td style="padding-left: 7px; text-transform: capitalize;">{{test_sheet.mount_style}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Control Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{% if test_sheet.control_voltage %} {{test_sheet.control_voltage.normalize}} {% if test_sheet.is_dc_control_voltage_data %}DC{% else %}AC{% endif %}{% endif %} </td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Trip Coil Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{% if test_sheet.trip_coil_voltage %} {{test_sheet.trip_coil_voltage.normalize}} {% if test_sheet.is_dc_trip_voltage_data %}DC{% else %}AC{% endif %}{% endif %}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Date Manufactured</td>
+                    <td style = "padding-left: 7px;">{{test_sheet.date_manufactured | default_if_none:""}}</td>
+                </tr>
+            </table>
+        </div>
+        
+        {% if test_sheet.eq.is_trip_unit %}
+        <div class="c5">
+            <div style="padding-left: 22px;">
+                <h3 class="normal-header">trip unit information</h3>
+                <table class="table-all lato-300" style="width: 100%;">
+                    <tr>
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Manufacturer
+                        </td>
+                        <td style="padding-left: 7px;"> {{test_sheet.trip_unit_manufacturer|default_if_none:'-' }}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Model</td>
+                        <td style="padding-left: 7px;">{{test_sheet.trip_unit_model|default_if_none:'-'}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Serial Number
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.trip_unit_serial_number|default_if_none:'-'}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Rating Plug (In)</td>
+                        <td style="padding-left: 7px;">{{test_sheet.trip_unit_rating_plug|default_if_none:'-'}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Curve #</td>
+                        <td style="padding-left: 7px;">{{test_sheet.trip_unit_curve}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Phase CT Ratio
+                        </td>
+                        <td style="padding-left: 7px;">{{test_sheet.trip_unit_phase_ct_high}}:{{test_sheet.trip_unit_phase_ct_low}}</td>
+                    </tr>
+                </table>
+                
+                <table class="table-all center lato-300" style="width: 100%;">
+                    <caption class="normal-header">Settings As Found and As Left
+                    </caption>
+                    <tr>
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;"></td>
+                        <td style="padding-left: 7px;text-align: center;">Pickup</td>
+                        <td style="padding-left: 7px;text-align: center;">Delay@6xPickup</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Long Time</td>
+                        <td style="padding-left: 7px; text-align: center;">{{test_sheet.settings_af_ltpu.normalize}}xIn</td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_ltd.normalize}} sec</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Short Time</td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_stpu.normalize}}xIn</td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_std.normalize}}sec</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Instantaneous
+                        </td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_inst.normalize}}xIn</td>
+                        <td style="padding-left: 7px;text-align: center;">N/A</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Ground Fault
+                        </td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_gfpu.normalize}}</td>
+                        <td style="padding-left: 7px;text-align: center;">{{test_sheet.settings_af_gfd.normalize}} sec</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {%endif%}
+        
+    </div>
+    
+    <div class="row" >
+        <div class="col s12">                
+            {% include "jobs/test_sheet_inspections.html" with test_sheet=test_sheet equipment=equipment electrical_inspection=False %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        {% if test_sheet.eq.is_insulation_resistance or test_sheet.eq.is_contact_resistance%}
+            {% include "jobs/test_sheet_insul_contact_resistance.html" with test_sheet=test_sheet equipment=equipment %}
+        {%endif%}
+</div>
+</div>
+{% endblock %}

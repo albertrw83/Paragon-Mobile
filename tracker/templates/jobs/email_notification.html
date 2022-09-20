@@ -1,0 +1,61 @@
+{% autoescape off %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Notification</title>
+</head>
+<body>
+    <style>
+        
+  @media only screen and (min-width: 1519px) {
+    .s6{
+      width: 50%;
+    }
+  }
+  @media only screen and (max-width: 1519px) {
+    .s6{
+      width: 82%;
+    }
+  }
+    </style>
+    <h3>
+        <span style="color: #666;">{% if note.parent_note %}Reply {%else%}Note {%endif%}</span>
+        {% if is_eq %}
+        <span style="color: #666;">about Equipment: </span><u style="color: black;">{{note.equipment.site_id}}</u>
+        <span style="color: #666;">on Job: </span><u style="color: black;">{% with note.equipment.equipments.all|first as job %}{{job.job_name}}{% endwith %}</u>
+        {% elif is_job %}
+        <span style="color: #666;">about Job: </span><u style="color: black;">{{note.job.job_name}}</u>
+        {%endif%}
+    </h3>    
+    <div class="s6" style="margin: auto">
+        <div style="display: block; border-radius: 14px; padding: 10px; background-color: #f0f2f5; border: 1px solid white;">
+            <span style="font-weight: 600; text-decoration: underline;">
+                {{ note.author_name }}
+            </span><br>
+            {{note.note}}
+        </div>
+        <span style="color: #aaa; margin-top: 6px;float: right;">{{note.created_at}}</span>
+    </div>
+    {% if note.parent_note %}
+    <br><br><br>
+    <h3>In response to:</h3>
+        <div class="s6" style="margin: auto">
+            <div style="display: block; border-radius: 14px; padding: 10px; background-color: #f0f2f5; border: 1px solid white;">
+                <span style="font-weight: 600; text-decoration: underline;">
+                    {{ note.parent_note.author_name }}
+                </span><br>
+                {{note.parent_note.note}}
+            </div>
+            <span style="color: #aaa; margin-top: 6px;float: right;">{{note.created_at}}</span>
+        </div>
+    {%endif%}
+    <a href="{{domain}}{%if is_job%}{% url 'job' note.job.id %}{%else%}{% url 'equipment' note.equipment.id %}{%endif%}">View in Paragon</a>
+    <span>{{ request.META.HTTP_HOST }}</span> 
+    <i style="color: #aaa;">(Must be logged in)</i>
+</body>
+</html>
+{% endautoescape %}

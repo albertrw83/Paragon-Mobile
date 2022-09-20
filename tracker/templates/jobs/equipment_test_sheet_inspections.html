@@ -1,0 +1,2680 @@
+
+{% if equipment.equipment_type.is_switchgear %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical, electrical, and mechnical condition of cords and connectors</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, grounding, and required area clearances</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean and all shipping bracing, loose parts, and documentation have been removed from inside cubicles</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_fuse_cb_match_drawings  %}checked="checked"{% endif %} id="switchgear_fuse_cb_match_drawings" name="switchgear_fuse_cb_match_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Fuse and circuit breaker sizes and types match drawings and coordination study. Also circuit breaker addresses for microprocessor-communication packages are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_ct_vt_ratios_match_drawings  %}checked="checked"{% endif %} id="switchgear_ct_vt_ratios_match_drawings" name="switchgear_ct_vt_ratios_match_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Current and voltage transformer ratios match drawings</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_wiring_tight_secure  %}checked="checked"{% endif %} id="switchgear_wiring_tight_secure" name="switchgear_wiring_tight_secure">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Wiring connections are tight and wiring is secure enough to prevent damage during routine operation of moving parts</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>    
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_op_sequence_correct  %}checked="checked"{% endif %} id="switchgear_op_sequence_correct" name="switchgear_op_sequence_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Operation and sequencing of electrical and mechanical interlock systems are correct. Locked-open devices and locked-open devices working correctly. Key exchange for interlock scheme is manually verified</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_moving_parts_lubricated  %}checked="checked"{% endif %} id="switchgear_moving_parts_lubricated" name="switchgear_moving_parts_lubricated">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Moving current-carrying parts and moving and sliding surfaces have appropriate lubrication</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_insulators_no_damage  %}checked="checked"{% endif %} id="switchgear_insulators_no_damage" name="switchgear_insulators_no_damage">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Insulators show no evidence of physical damage or contaminated surfaces</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_barrier_installation_correct  %}checked="checked"{% endif %} id="switchgear_barrier_installation_correct" name="switchgear_barrier_installation_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Barrier and shutter installation and operation is correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_active_components_exercised  %}checked="checked"{% endif %} id="switchgear_active_components_exercised" name="switchgear_active_components_exercised">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Active components have been exercised.</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_indicating_devices  %}checked="checked"{% endif %} id="switchgear_indicating_devices" name="switchgear_indicating_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Mechanical indicating devices operating correctly</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_filters_vents_clear  %}checked="checked"{% endif %} id="switchgear_filters_vents_clear" name="switchgear_filters_vents_clear">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Filters are in place and vents are clear </td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_instrument_transformers_inspected  %}checked="checked"{% endif %} id="switchgear_instrument_transformers_inspected" name="switchgear_instrument_transformers_inspected">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Instrument transformers visually and mechincallly inspected to NETA standard 7.10</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_surge_arresters_inspected  %}checked="checked"{% endif %} id="switchgear_surge_arresters_inspected" name="switchgear_surge_arresters_inspected">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Surge arresters visually and mechincallly inspected to NETA standard 7.19</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_cpts_undamaged  %}checked="checked"{% endif %} id="switchgear_cpts_undamaged" name="switchgear_cpts_undamaged">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Control power transformers have no physical damage, cracked insulation, broken leads, loose connections, defective wiring, and are in good overall general condition. Primary and secondary fuse or circuit breaker ratings match drawings. Drawout disconnecting contacts, grounding contacts, and interlocks functioning correctly. </td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_space_heaters  %}checked="checked"{% endif %} id="switchgear_space_heaters" name="switchgear_space_heaters">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">All space heaters and their controllers are operating correctly</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_phasing_verified  %}checked="checked"{% endif %} id="switchgear_phasing_verified" name="switchgear_phasing_verified">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Phasing has been verified on all sources and outputs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.cpt_secondary_wiring_drawings  %}checked="checked"{% endif %} id="cpt_secondary_wiring_drawings" name="cpt_secondary_wiring_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Secondary wiring in accordance with design drawings and specifications.</td>
+</tr>
+{% endif %}
+{% if test_results.is_cpt %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_secondary_wiring_drawings  %}checked="checked"{% endif %} id="v_i_t_secondary_wiring_drawings" name="v_i_t_secondary_wiring_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Secondary wiring in accordance with design drawings and specifications</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_secondary_voltage_design  %}checked="checked"{% endif %} id="v_i_t_secondary_voltage_design" name="v_i_t_secondary_voltage_design">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Secondary voltage in accordance with design specifications</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_inspect_cords_connectors  %}checked="checked"{% endif %} id="v_i_t_inspect_cords_connectors" name="v_i_t_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Field name</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_nameplate_drawings  %}checked="checked"{% endif %} id="v_i_t_nameplate_drawings" name="v_i_t_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_physical_mechanical_condition  %}checked="checked"{% endif %} id="v_i_t_physical_mechanical_condition" name="v_i_t_physical_mechanical_condition">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechanical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_correct_connection  %}checked="checked"{% endif %} id="v_i_t_correct_connection" name="v_i_t_correct_connection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct connection of transformers with system requirements</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_clearances_primary_secondary  %}checked="checked"{% endif %} id="v_i_t_clearances_primary_secondary" name="v_i_t_clearances_primary_secondary">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that adequate clearances exist between primary and secondary circuit wiring</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_clean  %}checked="checked"{% endif %} id="v_i_t_clean" name="v_i_t_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify the unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_connection_inspection  %}checked="checked"{% endif %} id="v_i_t_connection_inspection" name="v_i_t_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>    
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_grounding_contact  %}checked="checked"{% endif %} id="v_i_t_grounding_contact" name="v_i_t_grounding_contact">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that all required grounding and connections provide contact.</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_fuze_sizes  %}checked="checked"{% endif %} id="v_i_t_fuze_sizes" name="v_i_t_fuze_sizes">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct primary and secondary fuse sizes for voltage transformers</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_lubrication  %}checked="checked"{% endif %} id="v_i_t_lubrication" name="v_i_t_lubrication">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.v_i_t_as_left  %}checked="checked"{% endif %} id="v_i_t_as_left" name="v_i_t_as_left">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Perform as-left tests</td>
+</tr>
+{% endif %}
+{% if equipment.equipment_type.is_cable %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.is_cable_data_specs_match %}checked="checked"{% endif %} id="is_cable_data_specs_match" name="is_cable_data_specs_match">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Cable data matches drawings and specifications </td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_no_physical_damage" name="is_no_physical_damage" {% if test_results.is_no_physical_damage %}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">No physical damage to exposed sections</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_connection_verification" name="is_connection_verification" {% if test_results.is_connection_verification%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections have been verified by a ductor torque wrench, or thermographic survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_compression_match" name="is_compression_match" {% if test_results.is_compression_match%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Compression-applied connectors match cables and have proper indentation</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_shield_supports_terminations" name="is_shield_supports_terminations" {% if test_results.is_shield_supports_terminations%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Shield grounding, cable supports, and terminations inspected</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_bend_radius" name="is_bend_radius" {% if test_results.is_bend_radius%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">All cable's sharpest bend radius meets or exceeds ICEA and manufacturer's minimum</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_fireproofing" name="is_fireproofing" {% if test_results.is_fireproofing%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Fireproofing is acceptable in common cable areas</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_window_ct_correct" name="is_window_ct_correct" {% if test_results.is_window_ct_correct%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">If terminated through window-type current transformers, neutral and ground conductors are correctly placed and shileds terminated correctly for operation of protective devices</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_id_arrangments_correct" name="is_id_arrangments_correct" {% if test_results.is_id_arrangments_correct%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Identification and arrangments of cables are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" id="is_cable_jacket_insulation_ok" name="is_cable_jacket_insulation_ok" {% if test_results.is_cable_jacket_insulation_ok%}checked="checked"{% endif %}>
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Cable jacket and insulation are in acceptable condition</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Low Voltage Switch' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, grounding, and required clearances</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switch_alignment_travel_stops_arc_interrupter  %}checked="checked"{% endif %} id="switch_alignment_travel_stops_arc_interrupter" name="switch_alignment_travel_stops_arc_interrupter">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify correct blade alignment, blade penetration, travel stops, and mechanical operation.</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.fuse_sizes_types_drawings_ect  %}checked="checked"{% endif %} id="fuse_sizes_types_drawings_ect" name="fuse_sizes_types_drawings_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Fuse sizes and types are in accordance with drawings, short-circuit studies, and coordination study</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switch_verify_mechanical_support  %}checked="checked"{% endif %} id="switch_verify_mechanical_support" name="switch_verify_mechanical_support">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that each fuse has adequate mechanical support and contact integrity.</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_op_sequence_correct  %}checked="checked"{% endif %} id="switchgear_op_sequence_correct" name="switchgear_op_sequence_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Operation and sequencing of interlock systems are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_barrier_installation_correct  %}checked="checked"{% endif %} id="switchgear_barrier_installation_correct" name="switchgear_barrier_installation_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Phase barrier installation is correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_indicating_devices  %}checked="checked"{% endif %} id="switchgear_indicating_devices" name="switchgear_indicating_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct operation of indicating and control devices</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Enclosed Medium Voltage Air Switch' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, grounding, and required clearances</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switch_alignment_travel_stops_arc_interrupter  %}checked="checked"{% endif %} id="switch_alignment_travel_stops_arc_interrupter" name="switch_alignment_travel_stops_arc_interrupter">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify correct blade alignment, blade penetration, travel stops, acr interrupter operation, and mechanical operation</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.fuse_sizes_types_drawings_ect  %}checked="checked"{% endif %} id="fuse_sizes_types_drawings_ect" name="fuse_sizes_types_drawings_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Fuse sizes and types are in accordance with drawings, short-circuit studies, and coordination study</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switch_verify_expulsion_limiting_devices  %}checked="checked"{% endif %} id="switch_verify_expulsion_limiting_devices" name="switch_verify_expulsion_limiting_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that expulsion-limiting devices are in place on all fuses having expulsion-type elements.</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switch_verify_mechanical_support  %}checked="checked"{% endif %} id="switch_verify_mechanical_support" name="switch_verify_mechanical_support">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that each fuse has adequate mechanical support and contact integrity</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_op_sequence_correct  %}checked="checked"{% endif %} id="switchgear_op_sequence_correct" name="switchgear_op_sequence_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Operation and sequencing of interlock systems are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_barrier_installation_correct  %}checked="checked"{% endif %} id="switchgear_barrier_installation_correct" name="switchgear_barrier_installation_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Phase barrier installation is correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_indicating_devices  %}checked="checked"{% endif %} id="switchgear_indicating_devices" name="switchgear_indicating_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct operation of indicating and control devices</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+
+{%endif%}
+{% if equipment.equipment_type.name == 'Low Voltage Power Circuit Breaker' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage and alignment</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_smooth_op  %}checked="checked"{% endif %} id="insul_mol_lvcb_smooth_op" name="insul_mol_lvcb_smooth_op">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Circuit breaker operates smoothly</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_inspect_mech_chutes  %}checked="checked"{% endif %} id="insul_mol_lvcb_inspect_mech_chutes" name="insul_mol_lvcb_inspect_mech_chutes">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect operating mechanism, contacts, and arc chutes in unsealed units</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_adjustments_protective_settings  %}checked="checked"{% endif %} id="insul_mol_lvcb_adjustments_protective_settings" name="insul_mol_lvcb_adjustments_protective_settings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform adjustments for final protective device settings in accordance with the coordination study</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Low Voltage Molded Case Breaker' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage and alignment</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_smooth_op  %}checked="checked"{% endif %} id="insul_mol_lvcb_smooth_op" name="insul_mol_lvcb_smooth_op">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Operate the circuit breaker to insure smooth operation</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_inspect_mech_chutes  %}checked="checked"{% endif %} id="insul_mol_lvcb_inspect_mech_chutes" name="insul_mol_lvcb_inspect_mech_chutes">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect operating mechanism, contacts, and arc chutes in unsealed units</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_adjustments_protective_settings  %}checked="checked"{% endif %} id="insul_mol_lvcb_adjustments_protective_settings" name="insul_mol_lvcb_adjustments_protective_settings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform adjustments for final protective device settings in accordance with the coordination study</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Medium Voltage Motor Contactor' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_op_sequence_correct  %}checked="checked"{% endif %} id="switchgear_op_sequence_correct" name="switchgear_op_sequence_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Operation and sequencing of electrical and mechanical interlock systems are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_barrier_installation_correct  %}checked="checked"{% endif %} id="switchgear_barrier_installation_correct" name="switchgear_barrier_installation_correct">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Barrier and shutter installation and operation is correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_active_components_exercised  %}checked="checked"{% endif %} id="switchgear_active_components_exercised" name="switchgear_active_components_exercised">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Active components have been exercised and indicating devices operating correctly</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanical_operation_tests  %}checked="checked"{% endif %} id="mvvb_mechanical_operation_tests" name="mvvb_mechanical_operation_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Check contactors mechanical operation and contact gap, wipe, alignment, and pressure in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.insul_mol_lvcb_adjustments_protective_settings  %}checked="checked"{% endif %} id="insul_mol_lvcb_adjustments_protective_settings" name="insul_mol_lvcb_adjustments_protective_settings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Overload protection rating is correct for its application. Adjustable/programmable devices are set to coordination study</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Medium Voltage Vacuum Breaker' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_maintenance_tools_gauges  %}checked="checked"{% endif %} id="mvvb_maintenance_tools_gauges" name="mvvb_maintenance_tools_gauges">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that all maintenance devices such as special tools and gauges specified by the manufacturer are available for servicing and operating the breaker</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanical_operation_tests  %}checked="checked"{% endif %} id="mvvb_mechanical_operation_tests" name="mvvb_mechanical_operation_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_critical_distances  %}checked="checked"{% endif %} id="mvvb_critical_distances" name="mvvb_critical_distances">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Measure critical distances such as contact gap as recommended by manufacturer</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_fit_alignment  %}checked="checked"{% endif %} id="mvvb_fit_alignment" name="mvvb_fit_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify cell fit and element alignment</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_racking_mechanism  %}checked="checked"{% endif %} id="mvvb_racking_mechanism" name="mvvb_racking_mechanism">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify racking mechanism operation</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_contact_timing_test  %}checked="checked"{% endif %} id="mvvb_contact_timing_test" name="mvvb_contact_timing_test">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform contact-timing test</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_trip_close_coil_analysis  %}checked="checked"{% endif %} id="mvvb_trip_close_coil_analysis" name="mvvb_trip_close_coil_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform trip/close coil current signature analysis</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanism_motion_analysis  %}checked="checked"{% endif %} id="mvvb_mechanism_motion_analysis" name="mvvb_mechanism_motion_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform mechanism motion analysis</td>
+</tr>
+
+{%endif%}
+{% if equipment.equipment_type.name == 'Medium Voltage Air Breaker' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_maintenance_tools_gauges  %}checked="checked"{% endif %} id="mvvb_maintenance_tools_gauges" name="mvvb_maintenance_tools_gauges">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that all maintenance devices are available for servicing and operating the breaker</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvab_arc_chutes_intact  %}checked="checked"{% endif %} id="mvab_arc_chutes_intact" name="mvab_arc_chutes_intact">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify the arc chutes are intact</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.lvcb_contacts_condition_alignment  %}checked="checked"{% endif %} id="lvcb_contacts_condition_alignment" name="lvcb_contacts_condition_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect moving and stationary contacts for condition and alignment</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvab_check_binding_friction_ect  %}checked="checked"{% endif %} id="mvab_check_binding_friction_ect" name="mvab_check_binding_friction_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">If recommended by manufacturer, slow close/open breaker and check for binding, friction, contact alignment, and penetration Verify that contact sequence is in accordance with manufacturer's published data In the absence of manufacturer's data, use IEEE C37.04</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanical_operation_tests  %}checked="checked"{% endif %} id="mvvb_mechanical_operation_tests" name="mvvb_mechanical_operation_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_fit_alignment  %}checked="checked"{% endif %} id="mvvb_fit_alignment" name="mvvb_fit_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify cell fit and element alignment</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_racking_mechanism  %}checked="checked"{% endif %} id="mvvb_racking_mechanism" name="mvvb_racking_mechanism">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify racking mechanism operation</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvab_puffer_operation  %}checked="checked"{% endif %} id="mvab_puffer_operation" name="mvab_puffer_operation">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect puffer operation</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_contact_timing_test  %}checked="checked"{% endif %} id="mvvb_contact_timing_test" name="mvvb_contact_timing_test">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform contact-timing test</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanism_motion_analysis  %}checked="checked"{% endif %} id="mvvb_mechanism_motion_analysis" name="mvvb_mechanism_motion_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform mechanism motion analysis</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_trip_close_coil_analysis  %}checked="checked"{% endif %} id="mvvb_trip_close_coil_analysis" name="mvvb_trip_close_coil_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform trip/close coil current signature analysis</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_space_heaters  %}checked="checked"{% endif %} id="switchgear_space_heaters" name="switchgear_space_heaters">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">All space heaters operating correctly</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'SF6 Circuit Breaker' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_maintenance_tools_gauges  %}checked="checked"{% endif %} id="mvvb_maintenance_tools_gauges" name="mvvb_maintenance_tools_gauges">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that all maintenance devices such as special tools and gauges specified by the manufacturer are available for servicing and operating the breaker</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.sf6_gas_sample  %}checked="checked"{% endif %} id="sf6_gas_sample" name="sf6_gas_sample">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">When provisions are made for sampling, remove a sample of SF6 gas and test in accordance with Table 100.13. Do not break seal or distort “sealed-for-life” interrupters</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.ofcb_hydraulic_air_inspected  %}checked="checked"{% endif %} id="ofcb_hydraulic_air_inspected" name="ofcb_hydraulic_air_inspected">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect operating mechanism and/or hydraulic or pneumatic system and SF<sub>6</sub> &nbsp;gas insulated system in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.sf6_gas_leaks  %}checked="checked"{% endif %} id="sf6_gas_leaks" name="sf6_gas_leaks">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Test for SF6 gas leaks in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.ofcb_alarms_pressure_switches_operators  %}checked="checked"{% endif %} id="ofcb_alarms_pressure_switches_operators" name="ofcb_alarms_pressure_switches_operators">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify operation of alarms and pressure-limit switches for pneumatic, hydraulic, and SF6 gas pressure as recommended by the manufacturer</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvab_check_binding_friction_ect  %}checked="checked"{% endif %} id="mvab_check_binding_friction_ect" name="mvab_check_binding_friction_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">If recommended by manufacturer, slow close/open breaker and check for binding, friction, contact alignment, and penetration. Verify that contact sequence is in accordance with manufacturer's published data. In the absence of manufacturer's data, use IEEE C37.04</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanical_operation_tests  %}checked="checked"{% endif %} id="mvvb_mechanical_operation_tests" name="mvvb_mechanical_operation_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_contact_timing_test  %}checked="checked"{% endif %} id="mvvb_contact_timing_test" name="mvvb_contact_timing_test">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform contact-timing test</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_trip_close_coil_analysis  %}checked="checked"{% endif %} id="mvvb_trip_close_coil_analysis" name="mvvb_trip_close_coil_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform trip/close coil current signature analysis</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_mechanism_motion_analysis  %}checked="checked"{% endif %} id="mvvb_mechanism_motion_analysis" name="mvvb_mechanism_motion_analysis">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform mechanism motion analysis</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Oil-filled Transformer' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_impact_recorder  %}checked="checked"{% endif %} id="oil_xfmr_impact_recorder" name="oil_xfmr_impact_recorder">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Inspect impact recorder prior to unloading</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_dew_point  %}checked="checked"{% endif %} id="oil_xfmr_dew_point" name="oil_xfmr_dew_point">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Test dew point of tank gases</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_pcb_content_labeling  %}checked="checked"{% endif %} id="oil_xfmr_pcb_content_labeling" name="oil_xfmr_pcb_content_labeling">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify the presence of PCB content labeling</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_shipping_bracing  %}checked="checked"{% endif %} id="oil_xfmr_shipping_bracing" name="oil_xfmr_shipping_bracing">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify removal of any shipping bracing after placement</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_bushings_clean  %}checked="checked"{% endif %} id="oil_xfmr_bushings_clean" name="oil_xfmr_bushings_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify the bushings are clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_alarm_temperature  %}checked="checked"{% endif %} id="oil_xfmr_alarm_temperature" name="oil_xfmr_alarm_temperature">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that alarm, control, and trip settings on temperature and level indicators are as specified</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_alarm_control_trip_indicators_devices  %}checked="checked"{% endif %} id="oil_xfmr_alarm_control_trip_indicators_devices" name="oil_xfmr_alarm_control_trip_indicators_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify operation of alarm, control, and trip circuits from temperature and level indicators, pressure relief device, gas accumulator, and fault pressure relay</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_fans_oc_protection  %}checked="checked"{% endif %} id="xfmr_fans_oc_protection" name="xfmr_fans_oc_protection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that cooling fans operate and that fan motors have correct overcurrent protection</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_verify_liquid_level  %}checked="checked"{% endif %} id="oil_xfmr_verify_liquid_level" name="oil_xfmr_verify_liquid_level">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify correct liquid level in tanks and bushings</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_verify_valve_positions  %}checked="checked"{% endif %} id="oil_xfmr_verify_valve_positions" name="oil_xfmr_verify_valve_positions">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify valves are in the correct operating position</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_verify_positive_pressure  %}checked="checked"{% endif %} id="oil_xfmr_verify_positive_pressure" name="oil_xfmr_verify_positive_pressure">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that positive pressure is maintained on gas-blanketed transformers</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_manufacture_inspections_mechanical_tests  %}checked="checked"{% endif %} id="xfmr_manufacture_inspections_mechanical_tests" name="xfmr_manufacture_inspections_mechanical_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform inspections and mechanical tests as recommended by the manufacturer</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_surge_arrestors_present  %}checked="checked"{% endif %} id="xfmr_surge_arrestors_present" name="xfmr_surge_arrestors_present">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify the presence of surge arresters</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.oil_xfmr_denergized_as_left  %}checked="checked"{% endif %} id="oil_xfmr_denergized_as_left" name="oil_xfmr_denergized_as_left">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify de-energized tap-changer position is left as specified</td>
+</tr>
+
+{%endif%}
+{% if equipment.equipment_type.name == 'Dry Type Medium Voltage Transformer' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_anchorage_alignment %}checked="checked"{% endif %} id="switchgear_anchorage_alignment" name="switchgear_anchorage_alignment">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect anchorage, alignment, and grounding</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_resilient_mounts  %}checked="checked"{% endif %} id="xfmr_resilient_mounts" name="xfmr_resilient_mounts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that resilient mounts are free and that any shipping brackets have been removed</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_temp_indicators  %}checked="checked"{% endif %} id="xfmr_temp_indicators" name="xfmr_temp_indicators">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that control and alarm settings on temperature indicators are as specified</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_fans_oc_protection  %}checked="checked"{% endif %} id="xfmr_fans_oc_protection" name="xfmr_fans_oc_protection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that cooling fans operate and that fan motors have correct overcurrent protection</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_manufacture_inspections_mechanical_tests  %}checked="checked"{% endif %} id="xfmr_manufacture_inspections_mechanical_tests" name="xfmr_manufacture_inspections_mechanical_tests">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Perform inspections and mechanical tests as recommended by the manufacturer</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_as_left_verified  %}checked="checked"{% endif %} id="xfmr_as_left_verified" name="xfmr_as_left_verified">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify that as-left tap connections are as specified</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.xfmr_surge_arrestors_present  %}checked="checked"{% endif %} id="xfmr_surge_arrestors_present" name="xfmr_surge_arrestors_present">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify the presence of surge arresters</td>
+</tr>
+
+{%endif%}
+{% if equipment.equipment_type.name == 'Power Meter' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.relay_tightness_hardware  %}checked="checked"{% endif %} id="relay_tightness_hardware" name="relay_tightness_hardware">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify tightness of electrical connections</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_indicating_devices  %}checked="checked"{% endif %} id="switchgear_indicating_devices" name="switchgear_indicating_devices">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify operation of display and indicating devices</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.unit_grounded_manufacturer  %}checked="checked"{% endif %} id="unit_grounded_manufacturer" name="unit_grounded_manufacturer">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Unit is grounded in accordance with manufacturers instructions</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.unit_connected_manfacturer_drawings  %}checked="checked"{% endif %} id="unit_connected_manfacturer_drawings" name="unit_connected_manfacturer_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Verify unit is connected in accordance with manufacturer's instructions and project drawings</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.parameters_ratios_ect  %}checked="checked"{% endif %} id="parameters_ratios_ect" name="parameters_ratios_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Set all required parameters including instrument transformer ratios, system type, frequency, power demand methods/intervals, and communications requirements.</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.correct_aux_in_out  %}checked="checked"{% endif %} id="correct_aux_in_out" name="correct_aux_in_out">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">Confirm correct operation and setting of each auxiliary input/output feature in use, including mechanical relay, digital, and analog</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.measurements_indications_consistant_standards  %}checked="checked"{% endif %} id="measurements_indications_consistant_standards" name="measurements_indications_consistant_standards">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>
+  </td>
+  <td style="text-align: left;">After initial system energization, confirm measurements and indications are consistent with loads present in accordance with required standards</td>
+</tr>
+{%endif%}
+
+{% if equipment.equipment_type.name == 'Voltage Transformer (VT)' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.connections_with_system_requirements  %}checked="checked"{% endif %} id="connections_with_system_requirements" name="connections_with_system_requirements">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct connection of transformer with system requirements</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.clearances_primary_secondary_wiring  %}checked="checked"{% endif %} id="clearances_primary_secondary_wiring" name="clearances_primary_secondary_wiring">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that adequate clearances exist between primary and secondary circuit wiring</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>    
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.grounding_connections_contact  %}checked="checked"{% endif %} id="grounding_connections_contact" name="grounding_connections_contact">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that all required grounding and connections provide contact.</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.fuse_sizes_types_drawings_ect  %}checked="checked"{% endif %} id="fuse_sizes_types_drawings_ect" name="fuse_sizes_types_drawings_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Primary and secondary fuse sizes are correct</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+{%endif%}
+
+{% if equipment.equipment_type.name == 'Current Transformer (CT)' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_nameplate_drawings  %}checked="checked"{% endif %} id="switchgear_nameplate_drawings" name="switchgear_nameplate_drawings">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Nameplate data matches drawings/specs</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect physical and mechnical condition</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.connections_with_system_requirements  %}checked="checked"{% endif %} id="connections_with_system_requirements" name="connections_with_system_requirements">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify correct connection of transformer with system requirements</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.clearances_primary_secondary_wiring  %}checked="checked"{% endif %} id="clearances_primary_secondary_wiring" name="clearances_primary_secondary_wiring">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that adequate clearances exist between primary and secondary circuit wiring</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_clean  %}checked="checked"{% endif %} id="switchgear_clean" name="switchgear_clean">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Unit is clean</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_connection_inspection  %}checked="checked"{% endif %} id="switchgear_connection_inspection" name="switchgear_connection_inspection">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>    
+  <td style="text-align: left;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.grounding_connections_contact  %}checked="checked"{% endif %} id="grounding_connections_contact" name="grounding_connections_contact">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify that all required grounding and connections provide contact.</td>
+</tr>
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.mvvb_current_carrying_parts  %}checked="checked"{% endif %} id="mvvb_current_carrying_parts" name="mvvb_current_carrying_parts">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+</tr>
+{%endif%}
+{% if equipment.equipment_type.name == 'Control Power Transformer (CPT)' %}
+<tr style="border-bottom: None;">     
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_inspect_cords_connectors  %}checked="checked"{% endif %} id="switchgear_inspect_cords_connectors" name="switchgear_inspect_cords_connectors">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Inspect for physical damage, cracked insulation, broken leads, tightness of connections, defective wiring, and overall general condition</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.fuse_sizes_types_drawings_ect  %}checked="checked"{% endif %} id="fuse_sizes_types_drawings_ect" name="fuse_sizes_types_drawings_ect">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Primary and secondary fuses/circuit breaker ratings match drawings</td>
+</tr>
+<tr style="border-bottom: None;">
+  <td style="text-align: right;">
+    <div class="switch">
+      <label  style="white-space: nowrap;">
+        Fail
+        <input type="checkbox" class="quick-tog" {% if test_results.switchgear_cpts_undamaged  %}checked="checked"{% endif %} id="switchgear_cpts_undamaged" name="switchgear_cpts_undamaged">
+        <span class="lever"></span>
+        Pass
+      </label>
+    </div>   
+  </td>   
+  <td style="text-align: left;">Drawout disconnecting contacts, grounding contacts, and interlocks functioning correctly</td>
+</tr>
+{%endif%}

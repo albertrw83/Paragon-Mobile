@@ -1,0 +1,72 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  {{ properties }}
+{% endblock %}
+
+{% block body %}
+      <h1 style = "text-align: center; margin-top: 43px">{{ properties }} - User Profile</h1>
+      <div class="container">
+
+        <table class="center-align" class="centered" style="width: 500px">
+
+          {% if properties.nickname %}
+          <tr>
+            <td>Goes By:</td>
+            <td>
+                  {{ properties.nickname }}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td>Name:</td>
+            <td>{{ properties.user.first_name }} {{ properties.user.last_name}}</td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>{{ properties.user.email }}</td>
+          </tr>
+          <tr>
+            <td>Phone Number:</td>
+            <td>{{ properties.phone_number}}</td>
+          </tr>
+          <tr>
+            <td>User Type(s)</td>
+            <td>
+              {% for user_type in user_types %}
+
+                      {{ user_type }},
+              {% empty %}
+                  You have no User Type assigned.
+              {% endfor %}
+            </td>
+          </tr>
+          <tr>
+            <td>Burn Rate:</td>
+            <td>{{ properties.burn_rate}}</td>
+          </tr>
+          <tr>
+            <td>Home Base:</td>
+            <td>{{ properties.home_base}}</td>
+          </tr>
+          </table>
+
+        {% if properties.is_support %}
+        <br><br>
+          <div class="row">
+            <div class="col s12 m12 l6 xl4">
+            <ul class="collection with-header" >
+              
+              <li class="collection-header highlight"><h4>Equipment Supported</h4></li>
+                {% for equipment in equipment_supported %}
+                        <li class="collection-item"><a href="{% url 'equipment' equipment.id%">{{ equipment }}</a></li>
+                {% empty %}
+                    Doesn't Support Any Equipment.<br>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+{% endblock %}

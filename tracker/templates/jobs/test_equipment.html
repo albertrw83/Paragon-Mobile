@@ -1,0 +1,141 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Test Sets
+{% endblock %}
+
+{% block body %}
+<style>
+  @media only screen and (max-width: 1519px) {
+    th, td{
+      font-size: 16px;
+    }
+    td{
+      padding-inline-start: 0;
+    }
+  }
+</style>
+<div class="container"><a class="waves-effect waves-light btn-small phone-button lapping-btn" onclick="goBack()">Go Back</a>
+      <h4 style="text-align: center; margin-bottom: 50px;">Test Sets</h4>
+      
+      <div class="mobile-container" id = "test_equipments">
+        <a class="waves-effect waves-light btn phone-button" href="{% url 'create_test_eq_view' %}">Create Test Set</a>
+        <input class="search phone-font-lrg" placeholder="Filter" style="max-width: 300px;"/>
+        
+        <span class="phone-font-med" style="font-style: italic; white-space: nowrap;">Select headers to sort</span>
+        <table class="searchable sortable highlight" id="equipmenttable" style="margin-bottom: 100px; margin-top: 50px;">
+          <thead>
+            <th> <button class="sort" data-sort="name">Name</button></th>
+            <th> <button class="sort" data-sort="notes"> Notes:</button></th>
+          </thead>
+          <tbody class="list">
+            {% for te in test_equipment %}
+              <tr>
+                <td class="name" style="width: 30%">
+                    {{ te.name }}
+                    <textarea
+                      class="materialize-textarea editable-field te-edit-input-{{ te.id }}"
+                      name="name"
+                      form="edit_test_eq-{{ te.id }}"
+                      autocomplete="off"
+                      placeholder="Type Test Set Name"
+                      hidden
+                    >{{ te.name }}</textarea>
+                </td>
+                <td class="notes wrapwords">
+                    {{ te.notes }}
+                    <textarea
+                      class="materialize-textarea editable-field te-edit-input-{{ te.id }}"
+                      name="notes"
+                      form="edit_test_eq-{{ te.id }}"
+                      autocomplete="off"
+                      placeholder="Type Test Sets Notes"
+                      hidden
+                    >{{ te.notes }}</textarea>
+
+                      <button class="waves-effect waves-light btn-small right phone-button te-edit-input-{{ te.id }} col s4"
+                         id="submit-edit-te"
+                         style="display: none"
+                         type="submit" name="action"
+                         form="edit_test_eq-{{ te.id }}"
+                      >
+                          Submit
+                      </button>
+                      <form id="edit_test_eq-{{ te.id }}" action="{% url 'edit_test_eq' te.id %}" method="post">{% csrf_token %}</form>
+                     <button class="waves-effect waves-light btn-small right phone-button te-edit-input-{{ te.id }} col s4"
+                         id="cancel-edit-te-{{ te.id }}"
+                         style="display: none; margin-right: 6px"
+                      >
+                          Cancel
+                      </button>
+
+                </td>
+                <td class="row">
+                    <div class="col s1 te-btn-{{ te.id }}">
+
+                    <i class="tiny te_edit_icon material-icons tooltipped te-edit-{{ te.id }}"
+                       style="cursor: pointer;"
+                       data-position="right"
+                       data-tooltip="edit"
+                       id="te-edit-btn-{{ te.id }}"
+                    >
+                        edit
+                    </i>
+                    </div>
+                    <div class="col s1">
+                    <form id="delete_test_eq-{{ te.id }}" action="{% url 'delete_test_eq' te.id %}" method="post">{% csrf_token %}</form>
+                    <a style="display: none"
+                       onclick="deleteTestEquipment('delete_test_eq-{{ te.id }}', '{{ te.name }}')"
+                       href="#"
+                    >
+                        <i class="material-icons tooltipped te_delete_icon"
+                           style="font-size: 1.25rem;"
+                           data-position="top"
+                           data-tooltip="delete"
+                        >
+                            delete
+                        </i>
+                    </a>
+                    </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+</div>
+      <script>
+        function goBack() {
+          window.history.back();
+        }
+        var options = {
+          valueNames: [ 'name', 'notes']
+        };
+
+        var test_equipmentsList = new List('test_equipments', options);
+
+        function deleteTestEquipment(teId, teName) {
+            let deleteTE = confirm(`Are you sure you want to delete ${teName}`)
+            if (deleteTE) {
+                $(`#${teId}`).submit()
+            }
+        }
+
+        $("i[id^='te-edit-btn-']").click(function () {
+            let editID = this.id.split('-')
+            let teId = editID[editID.length - 1]
+            $(`.te-edit-input-${teId}`).show()
+            $('.te_delete_icon').hide()
+            $('.te_edit_icon').hide()
+        });
+
+        $("button[id^='cancel-edit-te']").click(function () {
+            let editID = this.id.split('-')
+            let teId = editID[editID.length - 1]
+            $('.te_delete_icon').show()
+            $('.te_edit_icon').show()
+            $(`.te-edit-input-${teId}`).hide()
+        });
+
+    </script>
+{% endblock %}

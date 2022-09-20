@@ -1,0 +1,47 @@
+<!-- #FOR DISPLAY IN EQUIPMENT.HTML
+if eq.eq_type.is_test_sheet:
+    if eq.is_testing:        
+        #show testing toggle and test results
+        if eq.eq_type.is_primary_injection:       
+            if eq.is_primary_injection:
+                # show primary injection and primary injection pi_toggle
+            else: 
+                #just show the toggle
+        #repeat above for each property
+    else:
+        #just show the toggle
+
+#FOR DISPLAY IN TYPE.HTML
+Set manually
+
+Change is_primary, is_secondary, ect. -->
+
+
+
+table template for 
+<table class="highlight" id="" style="">
+    <caption></caption>
+    <tr style="">
+        <th style=""><button class="sort" data-sort="xx" id="">  <i class="material-icons tiny phone-font-lrg">sort</i></button></th>
+    </tr>
+    <tbody class="list">
+    {% for each in xxxxxxx %}
+    <tr>
+        <td style="" class="xx"> </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+ 
+<span id="SAMPLE_ID" class="help-btn hover-item lapping-help"> About<i class="material-icons-outlined inline-icon">info</i></span> 
+
+
+<script>
+    
+    $("#SAMPLE_ID").click(function(){
+        helpFunction('SAMPLE_TITLE','SAMPLE_TEXT')
+    })  
+
+</script>

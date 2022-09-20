@@ -1,0 +1,106 @@
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Roboto&family=Rubik:wght@300&display=swap');
+        </style>
+</head>
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<style>
+    .center {
+    margin: auto;
+    }
+    .normal-header{
+        padding-top: 10px;
+        font-size: 28px;
+        font-weight: 400;
+        text-align: center;
+        text-transform: capitalize;
+    }
+    
+    .right-side{
+        float: right;
+    }
+    .table-all{
+border-collapse:collapse;
+}
+.c6 {
+  float: left;
+  width: 50%;
+}
+.c5{
+  float: left;
+  width: 41.667%;
+}
+.c4 {
+    float: left;
+    width: 33.333%;
+}
+.c3 {
+  float: left;
+  width: 25%;
+}
+.center-cells{
+    border:1px solid #d3d3d3;
+    text-align: center;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.cell-borders{
+border-top:1px solid #d3d3d3;
+padding: 9px;
+text-align: center;
+}
+tr{
+    /* border-bottom:1px solid #d3d3d3; */
+}
+td{
+    font-family: 'Lato', sans-serif; font-weight: 300
+}
+
+
+</style>
+<div style="font-family: 'Lato', sans-serif; font-weight: 300">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 30px">{{user_properties.company}}</span><br>
+            <i style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 14px;">Paragon Test Reports</i>
+            <br>
+        </div>
+        <div class="c6" style="text-align: right;">
+            <span style="font-family: 'Rubik', sans-serif; font-size: 16px; right: 30px;">Equipment Count <span style="opacity: .5;">| </span>
+                {{equipment.count}}<br></span> 
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
+        <h3 class="normal-header">Equipment in Scope</h3>
+        <div class="row">
+            
+            <table class="table-all center">
+                <tr style=" border-bottom:1px solid #d3d3d3;">
+                    <td style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; padding-top: 0;padding-bottom: 7px; width: 25%;">Site ID</td>
+                    <td style = "padding-left: 12px; padding-top: 0; padding-bottom: 7px; width: 75%;"> Description</td>
+                </tr>
+                {% for eq in equipment %}
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; padding-top: 16px;padding-bottom: 16px; width: 25%;">{{eq.site_id}} </td>
+                    <td style = "padding-left: 12px; padding-top: 16px; padding-bottom: 16px; width: 75%;">{{eq.equipment_type}},  {{eq.equipment_model.model_manufacturer}}  {{eq.equipment_model.name}} </td>
+                </tr>
+                {%endfor%}
+                </table>
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock %}

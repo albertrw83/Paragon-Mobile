@@ -1,0 +1,369 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Create Job (Quick)
+{% endblock %}
+
+{% block body %}
+<style>
+  label{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+
+  h6 {
+    font-size: 20px;
+    color: #023b59;
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #b8d8d8
+
+  }
+  @media only screen and (max-width: 1519px) {
+    .autocomplete-content, .dropdown-content span{
+      font-size: 50px !important;
+      padding-top: 30px !important;
+      padding-bottom: 30px !important;
+    }
+    .month-prev, .month-next{
+      visibility: hidden;
+    }
+    .dropdown-trigger{
+      width: 200px !important;
+    }
+    .container{
+      padding: 20px
+    }
+    h6{
+      font-size: 18px;
+    }
+    input{
+      font-size: 18px !important;
+    }
+    label{
+      font-size: 16px !important;
+    }
+
+    .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        [type="checkbox"] + span:not(.lever) {
+        font-size: 24px;
+        padding-left: 65px;
+        }
+        .check-parent{
+        height: 35px !important;
+        width: 35px !important;
+        }
+        input.check-input{
+        height: 35px !important;
+        width: 35px !important;
+
+        }
+        span.check-span {
+        height: 35px !important;
+        width: 35px !important;
+        margin-left: 75px !important;
+        }
+        [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):before {
+            top: 0;
+            width: 18px;
+            height: 30px;
+        }
+  }
+
+</style>
+<div class="container"><a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'jobs' %}">◀ All Jobs</a></div>
+
+  <h4 style = "text-align: center; padding-bottom: 3rem;">Create a New Job (Quick)</h4>
+    <div class="container">
+      <form style="margin-bottom: 50px" class="col s12" id="job_form" action="{% url 'create_job_quick' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12 m12 l12 xl6" id="site_selector">
+            <label for="job_site">Job Site <span style="color: red;">required</span><span id="site_checkmark" style="color: #00cc55;display: none;">✔</span></label>
+            <input type="text" onClick="this.select()" class="autocomplete" autocomplete="off" id="job_site" name="job_site" placeholder="Filter by site name or address" required>
+            <input type="hidden" id="site_pk" name="site_pk" value="">
+          </div>
+          <div class="input-field col s12 m12 l12 xl6" style="display: none;" id="new_site_div">
+            <label for="job_site">New Site Name <span style="color: red;">required</span><span id="already_exists" style="display: none; color: red;">(already exists)</span></label>
+            <input type="text" oninput="newSiteInput($(this))" autocomplete="off" id="new_site" name="new_site" placeholder="Name for new site">
+          </div>
+
+        <div  class="input-field col s12 m12 l6">
+          <a id="site_select" class="waves-effect waves-light btn-small z-index-3 phone-button pressed-down" style="border-bottom-right-radius: 0;border-top-right-radius: 0;" href="#" onclick="existingSite()">Select Existing Job Site</a><a id="create_new_site" style=" border-bottom-left-radius: 0;border-top-left-radius: 0;" class="waves-effect  waves-light btn-small phone-button" href="#" onclick="createNewSite()">Create New Job Site</a>
+        </div>
+      </div>
+        <div class="row">
+          <div class="input-field col s12 m12 l6 xl4">
+            <label for="job_number">Job ID (Must be Unique) <span style="color: red;">required</span> <span id="job_number_checkmark" style="color: #00cc55;display: none;">✔</span></label>
+            <input type="text" id="job_number" name="job_number" onfocusout="jobNumberCheck()" placeholder="e.g. 12345abc" autocomplete="off" required>
+          </div>
+          <div class="input-field col s12 m12 l6 xl4">
+            <label for="customer_name">Customer Name <span style="color: red;">required</span></label>
+            <input type="text" id="customer_name" name="customer_name" placeholder="e.g. Acme Industries" required>
+          </div>
+          <div class="input-field col s12 m12 l6 xl4">
+            <label for="job_name">Job Name <span style="color: red;">required</span></label>
+            <input type="text" id="job_name" name="job_name" placeholder="e.g. Acme Industries Breaker Testing" required>
+          </div>
+          <div class="col s12 m12 l6 xl4">     
+            <label for="start_date" >Start Date <span style="color: red;"></span></label>
+            <input style="width: 49%" class="editable-field" type="date" id="start_date" name="start_date" required>
+          </div>
+          <a class="waves-effect waves-light btn-small phone-button hover-item" id="unrequired_trigger" onclick="toggleUnrequired()">More fields</a>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m12 l6 xl4 hidden-stuff" >
+            <label for="site_contact">Site Contact</label>
+            <input type="text" id="site_contact" name="site_contact" placeholder="e.g. John Doe">
+          </div>
+          <div class="input-field col s12 m12 l6 xl4 hidden-stuff">
+                <textarea id="site_contact_info" name="site_contact_info"
+                  class="materialize-textarea" placeholder="e.g. Phone: 111-222-3333"></textarea>
+                <label class="active" for="site_contact_info">Site Contact Information </label>
+          </div>
+          <div class="input-field col s12 m12 l6 xl4 hidden-stuff">
+            <label for="project_manager">Project Manager</label>
+            <input type="text" id="project_manager" name="project_manager" placeholder="e.g. Eddy Yang">
+          </div>
+          <div class="col s12 m12 l6 xl4 hidden-stuff">
+            <label for="end_date" >Job End Date </label>
+            <input style="width: 49%" class="editable-field" type="date" id="end_date" name="end_date" required>
+          </div>
+
+        </div>
+        <div class="row">
+            <label>
+              <input id="is_safety_training_required" name="is_safety_training_required" type="checkbox" class="filled-in" checked>
+              <span >Site Specific Safety Training</span>
+            </label><br> <br class="phone-screen"><br class="phone-screen">
+              <div class="input-field col s12 m12 l6 xl4" id="training_time">
+                <label for="safety_training_time">Safety Training Time</label>
+                <input type="text" id="safety_training_time" name="safety_training_time" placeholder="i.e. 7 AM Monday" >
+              </div>
+        </div>
+        <button class="btn waves-effect waves-light phone-button" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+        <button class="btn-small waves-effect waves-light phone-button" type="reset" name="action" onclick="return confirm_reset();">
+          Reset Form
+        </button>
+
+      </form>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  function existingSite(){
+    $('#create_new_site').removeClass('pressed-down')
+    $('#site_select').addClass('pressed-down')
+    $('#job_site').prop('required', true)
+    $('#new_site').prop('required', false)
+    $('#site_selector').show()
+    $('#new_site_div').hide()
+  }
+  function createNewSite(){
+    $('#create_new_site').addClass('pressed-down')
+    $('#site_select').removeClass('pressed-down')
+    $('#job_site').prop('required', false)
+    $('#new_site').prop('required', true)
+    $('#site_selector').hide()
+    $('#new_site_div').show()
+    $('#site_pk').val('')
+    $('#job_site').val('')
+  }
+  
+  
+  jobNumbers={{ job_ids|safe }}
+  function jobNumberCheck(){
+    input = $('#job_number')
+    if(jobNumbers.includes(input.val())){
+      $('#job_number_checkmark').hide()
+      input.css('background-color', '#fffce4')
+      M.toast({ html: 'Job# Already Exists' })
+      return false;
+
+    }
+    else{
+      input.css('background-color', 'white')
+      $('#job_number_checkmark').show()
+      return true;
+    }
+  }
+$('#job_form').submit(function(event){
+  event.preventDefault();
+   if(jobNumberCheck()){
+     $(this).unbind('submit').submit();
+   }
+
+  return false
+})
+var sites = [{%for site in job_sites%}"{{site.name}}",{%endfor%}]
+$('#new_site').focusout(function(){  
+  setTimeout(() => {
+    if(sites.includes($(this).val())){
+      $(this).css("background-color", "#fffce4")
+      $(this).val('')
+      M.toast({ html: 'Error: Job Site Already Exists' })
+    }
+  }, 250);
+})
+function newSiteInput(new_site){
+  if(sites.includes(new_site.val())){      
+      new_site.css("background-color", "#fffce4")
+      $('#already_exists').show()
+    }else{
+      new_site.css("background-color", "white")
+      $('#already_exists').hide()
+    }
+}
+  function formCheck(form){
+    is_valid_number = jobNumberCheck()
+      form.preventDefault();
+  }
+
+  function toggleUnrequired(){
+    $(".hidden-stuff").fadeIn()
+    
+    $("#unrequired_trigger").hide()
+    
+  }
+  $('#job_site').focusout(function(){  
+  setTimeout(() => {
+    if(!sites.includes($(this).val())){
+      $(this).val('')
+      $(this).css("background-color", "#fffce4")
+      M.toast({ html: 'Must Select a Job Site' })
+      $('#site_checkmark').hide()
+    }else{
+      $(this).css("background-color", "white")
+      $('#site_checkmark').show()
+    }
+  }, 250);
+  
+})
+window.jobsites = [
+          {% for site in job_sites %}
+          {
+            name:'{{site.name}}',
+            owner: '{{site.owner}}',
+            site_contact: '{{site.site_contact}}',
+            site_contact_info: `{{site.site_contact_info}}`,
+            is_hardhat: '{{site.is_hardhat}}',
+            is_safety_glasses: '{{site.is_safety_glasses}}',
+            is_safety_shoes: '{{site.is_safety_shoes}}',
+            is_safety_vest: '{{site.is_safety_vest}}',
+            is_safety_gloves: '{{site.is_safety_gloves}}',
+            is_fr_clothes: '{{site.is_fr_clothes}}',
+            is_h2s_monitor: '{{site.is_h2s_monitor}}',
+            additional_ppe_requirements: '{{site.additional_ppe_requirements}}',
+            site_pk: '{{site.pk}}'
+          },
+          {% endfor %}
+          ]
+
+$('#is_safety_training_required').click(function () {
+    if (this.checked) {
+        $('#training_time').show();
+    } else {
+        $('#training_time').hide();
+    }
+});
+  $(document).ready(function() {
+      if ($('#is_safety_training_required').is(':checked')) {
+          $('#training_time').show();
+      } else {
+          $('#training_time').hide();
+      }
+      $('#job_site.autocomplete').autocomplete({
+      data: {
+        {% for site in job_sites %}
+              '{{site.name}}': null,
+        {% endfor %}
+      },
+      limit: Infinity,
+      minLength: 0,
+      onAutocomplete: function(value) {
+         var site_results = jQuery.grep(window.jobsites, function(t, i) {
+           return t.name === value;
+         });
+         console.log(site_results)
+         if (site_results.length>0) {
+           var site_name = site_results[0].name;
+           var site_owner = site_results[0].owner;
+           var site_site_contact = site_results[0].site_contact;
+           var site_site_contact_info = site_results[0].site_contact_info;
+           var is_hardhat = site_results[0].is_hardhat;
+           var is_safety_glasses = site_results[0].is_safety_glasses;
+           var is_safety_shoes = site_results[0].is_safety_shoes;
+           var is_safety_vest = site_results[0].is_safety_vest;
+           var is_safety_gloves = site_results[0].is_safety_gloves;
+           var is_fr_clothes = site_results[0].is_fr_clothes;
+           var is_h2s_monitor = site_results[0].is_h2s_monitor;
+           var additional_ppe_requirements = site_results[0].additional_ppe_requirements;
+           var site_pk = site_results[0].site_pk;
+           if (site_pk !== "" && site_pk !== "None"){
+            $('#site_pk').val(site_pk)
+            $('#customer_name').val(site_owner)
+            $('#site_contact').val(site_site_contact)
+
+
+            $('#site_contact_info').val(site_site_contact_info)
+            M.textareaAutoResize($('#site_contact_info'));
+            $('#other_ppe').val(additional_ppe_requirements)
+            M.textareaAutoResize($('#other_ppe'));
+            if(is_hardhat){
+              $('#is_hardhat').prop("checked", true);
+            }
+            if(is_h2s_monitor){
+              $('#is_h2s_monitor').prop("checked", true);
+            }
+            if(is_safety_glasses){
+              $('#is_safety_glasses').prop("checked", true);
+            }
+            if(is_safety_shoes){
+              $('#is_safety_shoes').prop("checked", true);
+            }
+            if(is_safety_vest){
+              $('#is_safety_vest').prop("checked", true);
+            }
+            if(is_safety_gloves){
+              $('#is_safety_gloves').prop("checked", true);
+            }
+            if(is_fr_clothes){
+              $('#is_fr_clothes').prop("checked", true);
+            }
+            if(is_fr_clothes){
+              $('#is_fr_clothes').prop("checked", true);
+            }
+            }
+         }
+
+      },
+    });
+  });
+  function confirm_reset() {
+    return confirm("Are you sure you want to reset the form?");
+}
+</script>
+{% endblock %}

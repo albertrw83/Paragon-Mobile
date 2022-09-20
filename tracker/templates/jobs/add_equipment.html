@@ -1,0 +1,771 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Add Equipment to Job{% if job_site %} Site{% endif %}
+{% endblock %}
+
+{% block body %}
+<style>
+  .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .chips.focus{
+      border-bottom: 1px solid #bf5700;
+      -webkit-box-shadow: 0 1px 0 0 #bf5700;
+      box-shadow: 0 1px 0 0 #bf5700;
+    }
+  @media only screen and (max-width: 1519px) {
+    label{
+      font-size: 16px !important;
+    }
+
+      /* input[type="number"]{
+        font-size: 36px !important;
+      } */
+      [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+        background-color: #BF5700;
+        border: 0px;
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+
+      ul.dropdown-content span {
+        font-size: 16px;
+        overflow-wrap: break-word;
+        line-height: normal;
+      }
+      .autocomplete-content{
+        width: 100% !important;
+      }
+      .chips input.input{
+        font-size: 22px;
+      }
+      .chip{
+       font-size: 18px;
+       /* padding-top: 0; */
+       /* overflow: visible; */
+      }
+      .chip i.close{
+        font-size: 45px;
+      }
+    .phone-squash-lrg{
+      line-height: 2.6;
+    }
+    .phone-squash{
+      line-height: 0;
+    }
+    div.chips input.input{
+      font-size: 22px;
+      width: 100% !important;
+    }
+  }
+</style>
+    {% if job %}
+        <div class="container">
+            <a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'job' job.id %}">
+              ◀ {{ job.job_name }}
+            </a>
+        </div>
+    {% elif  job_site %}
+        <div class="container">
+            <a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'job_site' job_site.id %}">
+              ◀ {{ job_site.name }}
+            </a>
+        </div>
+    {% endif %}
+<h4 style="text-align: center">
+    {% if job_site %}
+      <div class="phone-font-lrg comp-font-med" style="text-align: center; color: #888; font-weight: 500;">adding to job site</div>  
+        Add {% if parent_equipment %}Sub-Equipment to <span style="font-weight: bold;">&#x201C;{{parent_equipment.site_id}}&#x201D;</span> in the Job Site {%else%}Equipment to{%endif%} <em style="color: black;">{{job_site.name}}</em>
+    {% else %}
+        <div class="phone-font-lrg comp-font-med" style="text-align: center; color: #888; font-weight: 500;">adding to job</div>  
+        Add {% if parent_equipment %}Sub-Equipment to <span style="font-weight: bold;">&#x201C;{{parent_equipment.site_id}}&#x201D;</span> in the Job {%else%}Equipment to{%endif%} <em style="color: black;">{{job.job_name}}</em>
+
+    {% endif %}
+</h4>
+<div class="container">
+    {% if job %}
+        <form id="add_equipment_form" class="col s12" action="{% url 'add_equipment' job.id %}" method="post" enctype="multipart/form-data"onsubmit="return idCheck()">
+    {% elif job_site %}
+        <form id="add_equipment_form" class="col s12" action="{% url 'add_site_equipment' job_site.id %}" method="post" enctype="multipart/form-data" onsubmit="return idCheck()">
+    {% endif %}
+
+    {% csrf_token %}
+    <div class="col s12">
+      <div class="row">
+        <div hidden>
+          <input id="parent_equipment_id" name="parent_equipment_id" type="text" value="{{ parent_equipment.id }}">
+        </div>
+        <div class="input-field col s12 m12 l12 xl6">
+          <label class="active phone-squash" for="site_id">Unique Site Identification</label>
+          <input class="phone-font-med phone-squash-lrg" id="site_id" name="site_id" type="text" placeholder="e.g. Utility Main MB-1"
+            form="add_equipment_form" required>
+        </div>
+        <div class="input-field col s12 m12 l12 xl4">
+          <label class="active phone-squash" for="eq_type">Type</label>
+          <input id="eq_type" name="eq_type" type="text" class="autocomplete phone-font-med phone-squash-lrg" onchange=typeChange() autocomplete="off" onClick="this.select()"
+            placeholder="Select Type" required>
+        </div>      
+        <div class="input-field col s12 m12 l12 xl4">
+          <label class="active phone-squash" for="manufacturer">Manufacturer</label>
+          <input id="manufacturer" name="manufacturer" type="text" onchange="manChange()" class="autocomplete phone-font-med phone-squash-lrg" autocomplete="off"
+            onClick="this.select()" placeholder="e.g. ACME Corp" form="add_equipment_form" required>
+        </div>
+        <div class="input-field col s12 m12 l12 xl4">
+          <label class="active phone-squash" for="model_name">Model</label>
+          <input id="model_name" name="model_name" type="text" class="autocomplete phone-font-med phone-squash-lrg" autocomplete="off" onClick="this.select()"
+            placeholder="e.g. Trip Pro 30" form="add_equipment_form" required>
+            <input type="hidden" id="model" name="model" form="add_equipment_form" value="">
+        </div>
+      </div>
+      <div class="row">        
+        <div class="input-field col s6 m6 l2 xl1 {% if job_site %}{%else%}hidden-stuff{%endif%}" >
+          <label class="active phone-squash" for="quantity">Quantity</label>
+          <input value=1 id="quantity" min="1" max="200" name="quantity" type="number" placeholder="---" onfocusout="qtyCheck()" onClick="this.select()"
+            form="add_equipment_form" class="phone-font-med phone-squash-lrg">
+        </div>
+        <div class="input-field col s12 m12 l6 phone-squash-lrg">
+          <label class="active phone-squash" for="scope">Scope</label>
+          <textarea class="materialize-textarea phone-font-med " id="scope" name="scope" form="add_equipment_form" onClick="this.select()">Refer to Job Scope (Default)</textarea>
+        </div>
+      </div>
+      {% comment "With test sheets now integrated, we probably don't need this." %}
+      <div class="row">
+        <div class="input-field col s6 m6">
+          <div class="btn-small phone-button" id="type_test_sheet_btn">
+            <a id="type_test_sheet_link" href="" target="_blank" style="color: black">View Type Test Sheet</a>
+          </div>
+          <div class="btn-small phone-button" id="model_test_sheet_btn">
+            <a id="model_test_sheet_link" href="" target="_blank" style="color: black">View Model Test Sheet</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="file-field input-field col s12 m12 l12 xl6">
+          <div class="btn-small phone-button">
+            <span>Override Test Sheet</span>
+            <input class="phone-font-med phone-squash-lrg" id="test_sheet" name="test_sheet" type="file" multiple>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate phone-font-med phone-squash-lrg" type="text" placeholder="Select New Test Sheet">
+          </div>
+        </div>
+      </div>      
+      {% endcomment %}
+      <div class="row">
+        <div class="col s12 m12 l12 xl6">
+          <h6 style="color:#808080">Mandatory Test Sets</h6>
+          <div class="row">
+            <div class="input-field col s12 phone-font-med phone-squash-lrg">
+              <div id="m_test_equipment-chips" class="chips chips-autocomplete phone-font-med phone-squash-lrg">
+              </div>
+              <input id="mandatory_test_equipment" name="mandatory_test_equipment" style="visibility: hidden;" value="">
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m12 l12 xl6">
+          <h6 style="color:#808080">Conditionally Required Test Sets</h6>
+          <div class="row">
+            <div class="input-field col s12 phone-font-med phone-squash-lrg">
+              <div id="o_test_equipment-chips"  class="phone-font-med phone-squash chips chips-autocomplete">
+              </div>
+              <input id="optional_test_equipment" name="optional_test_equipment" style="visibility: hidden;" value="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <button class="btn waves-effect waves-light phone-button" type="submit" onclick="onSubmit();" name="action" id="submit-btn"> Add
+          <i class="material-icons right phone-squash-lrg">send</i>
+        </button>&nbsp &nbsp &nbsp
+        <button class="btn-small waves-effect waves-light phone-button phone-button-sml" type="reset"  name="action" onclick="return confirm_reset();">
+          Reset Form
+        </button>
+      </div>
+    </div>
+    <div hidden>
+      <input id="parent_equipment_id" name="parent_equipment_id" type="text" form="add_equipment_form" value="{{ parent_equipment.pk }}">
+    </div>
+  </form>
+</div>
+
+
+<div id="equipment_in_jobsite_modal" class="modal">
+  <div class="modal-content">
+    <h4>Already in Job Site {%if job%} <a class="waves-effect waves-light btn-small phone-font-med phone-button" id="link_add_from_site" href="{% url 'job_site' job.job_site.id %}" >Add Now in Job Site</a>{%endif%}</h4>
+    <p class="phone-font-med">
+      A piece of equipment is already defined with this site ID in {%if job%}the job site. You can add now by hitting the button above and adding from the job site{%else%}this job site. Choose a different site ID or change the existing one and then return and add this equipment.{%endif%}
+    </p>
+  </div>
+</div>
+<div id="equipment_in_job_modal" class="modal">
+  <div class="modal-content">
+    <h4>Already in Job</h4>
+    <p class="phone-font-med">
+      There is already a piece of equipment with the site ID, <span class="eq_in_job_already" style="font-weight: bold"></span>, in the job.
+       To avoid mixups, each site ID must be unique. Consider choosing a different Site ID or renaming the existing equipment and then adding this.
+    </p>
+  </div>
+</div>
+<div id="equipment_in_job_trash_modal" class="modal">
+  <div class="modal-content">
+    <h4>Equipment in Trash <a  class="waves-effect waves-light btn-small phone-font-med phone-button" id="link_add_from_site" href="#">Restore from Trash</a></h4>
+    <p class="phone-font-med">
+      There is already a piece of equipment with the site ID, <span class="eq_in_job_already" style="font-weight: bold"></span>, in the job trash. You may restore it from the Trash by hitting the button above
+      or change your entry. To avoid mixups, each site ID must be unique. 
+    </p>
+  </div>
+</div>
+<div id="equipment_in_jobsite_trash_modal" class="modal">
+  <div class="modal-content">
+    <h4>Equipment Trashed in Job Site <a  class="waves-effect waves-light btn-small phone-font-med phone-button" href="#">Restore from Job Site Trash</a></h4>
+    <p class="phone-font-med">
+      The site ID, <span class="eq_in_job_already" style="font-weight: bold"></span>, was previously added to the Job Site and then trashed. Below are 3 common solutions.  <br><br>
+      1. Restore from job site trash with the button above. {%if job%}This will add the equipment to your job and restore the equipment in the job site. Please consider why this equipment was previously trashed in the site.{%endif%} <br><br>
+      2. Change your entry to have a different Unique Site Identification.<br><br>
+      3. <a href="#">View the job site trash</a> to view details or restore one or more equipment to the job site. 
+    </p>
+  </div>
+  <form id="adding_eq_form" method="post" action="{% if job %} {% url 'add_jobsite_eq' job.id %}{%else%}#{%endif%}"> 
+    <input type="hidden" id="adding_name" name="adding_name" value="">
+    {% csrf_token %}
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+  mold_trashed = false
+  {% if x%}{%endif%}
+function addFromJobsite(){
+  let siteIdName=$('#site_id').val()
+  if(siteIdName){
+    $("#adding_name").val(siteIdName)
+    $("#adding_eq_form").submit()
+  }else{
+      M.toast({ html: 'No site ID has been entered. Contact admin if issue persists.' })
+  }
+}
+
+function typeChange(){
+  $('#model_name').val('')
+  $('#manufacturer').val('')
+}
+function manChange(){
+  $('#model_name').val('')
+}
+function confirm_reset() {
+    return confirm("Are you sure you want to reset the form?");
+} 
+window.types = [
+          {% for type in types %}
+          {
+            name:'{{type.name}}',
+            mandatory_type_test_equipment: [
+              {% for mtt in type.mandatory_type_test_equipment.all %}
+              '{{mtt.name}}',
+              {% endfor %}
+            ],
+            optional_type_test_equipment: [
+              {% for ott in type.optional_type_test_equipment.all %}
+              '{{ott.name}}',
+              {% endfor %}
+            ],
+            test_sheet:
+            {% if type.test_sheet %} 
+            '{{type.test_sheet.url }}'
+            {% else %}
+              ''
+            {% endif %}
+            ,
+            models: {
+              {% for model in type.model_type.all %}
+              '{{model.name}}': null,
+              {% endfor %}
+            },
+            makes: {
+              {% for model in type.model_type.all %}
+              '{{model.model_manufacturer}}': null,
+              {% endfor %}
+            }
+          },
+          {% endfor %}
+          ];
+window.models = [
+          {% for model in models %}
+          {
+            name:'{{model.name}}',
+            pk:'{{model.pk}}',
+            mandatory_model_test_equipment: [
+              {% for mmt in model.mandatory_model_test_equipment.all %}
+              '{{mmt.name}}',
+              {% endfor %}
+            ],
+            optional_model_test_equipment: [
+              {% for omt in model.optional_model_test_equipment.all %}
+              '{{omt.name}}',
+              {% endfor %}
+            ],
+            test_sheet: 
+            {% if model.model_test_sheet %} 
+            '{{model.model_test_sheet.url }}'
+            {% else %}
+              ''
+            {% endif %}
+            ,
+            manual: '{{model.model_manual}}',
+            type: '{{model.model_type}}',
+            type_test_sheet: 
+            {% if model.model_type.test_sheet %} 
+            '{{model.model_type.test_sheet.url }}'
+            {% else %}
+            ''
+            {% endif %}
+            ,
+            make: '{{model.model_manufacturer}}',
+          },
+          {% endfor %}
+          ];
+window.manufacturers = [
+          {% for manufacturer in manufacturers %}
+            {
+              name:'{{manufacturer.name}}',
+              models: {
+                {% for model in models %}
+                  {% if manufacturer.name == model.model_manufacturer.name %}
+                    '{{model.name}}': null,
+                  {% endif %}
+                {% endfor %}
+                },
+              types: {
+                {% for model in models %}
+                  {% if manufacturer.name == model.model_manufacturer.name %}
+                    '{{model.model_type.name}}': null,
+                  {% endif %}
+                {% endfor %}
+              },
+            },
+          {% endfor %}
+          ];
+var site_ids =  {{ site_ids|safe}}
+var stripped_trashed_ids =  {{ stripped_trashed_ids|safe}}
+var stripped_trashed_site_ids =  {{ stripped_trashed_site_ids|safe}}
+
+$(document).ready(function(){
+    $('.modal').modal();
+    // $('#type_test_sheet_btn').hide();
+    // $('#model_test_sheet_btn').hide();
+
+    function updateValuesforSettingType(value) {
+        var eq_results = jQuery.grep(window.types, function(t, i) {
+          return t.name.trim() === value.trim();
+        });
+
+
+        if (eq_results.length>0) {
+          var mandatory_types = eq_results[0].mandatory_type_test_equipment;
+          var optional_types = eq_results[0].optional_type_test_equipment;
+          // var test_sheet = eq_results[0].test_sheet;
+          // // var type_test_sheet_link = $('#type_test_sheet_link').val();
+          // // type_test_sheet_link.href=test_sheet;
+
+
+          // if (test_sheet && test_sheet != '') {
+
+
+          // $('#type_test_sheet_link').attr('href', test_sheet);
+          // $('#type_test_sheet_btn').show();
+          // } else {
+          //   $('#type_test_sheet_btn').hide();
+          // }
+          var models = eq_results[0].models; //all associated models for this type
+          var makes = eq_results[0].makes; //all associated makes for this type
+          var manufacturer_input = $('#manufacturer').val();
+          if (manufacturer_input !== null && manufacturer_input !== "" && manufacturer_input !=="None"){
+
+
+            var makes_results = jQuery.grep(window.manufacturers, function(t, i) {
+            return t.name === manufacturer_input;
+            });
+
+
+            var models_for_make = makes_results[0].models; //all associated models for selected make
+            models_keys = Object.keys(models).filter(element => element in models_for_make);
+            models = Object.assign({}, ...models_keys.map((x) => ({[x]: null})));
+
+          }
+
+          if (!jQuery.isEmptyObject(models)){
+            var models_instance = M.Autocomplete.getInstance($("#model_name"));
+            var makes_instance = M.Autocomplete.getInstance($("#manufacturer"));
+
+            models_instance.updateData(
+              models
+            );
+            makes_instance.updateData(
+              makes
+            );
+
+            // var instance = M.Chips.getInstance($("#m_test_equipment-chips"));
+
+            // for (var i = 0; instance.chipsData.length; i++) {
+            //   instance.deleteChip(0)
+            // }
+
+            // for (var i = 0; i < mandatory_types.length; i++) {
+            //   instance.addChip({
+            //     tag: mandatory_types[i],
+            //     image: '', // optional
+            //   });
+            // }
+
+            // var instance = M.Chips.getInstance($("#o_test_equipment-chips"));
+
+            // for (var i = 0; instance.chipsData.length; i++) {
+            //   instance.deleteChip(0)
+            // }
+
+            // for (var i = 0; i < optional_types.length; i++) {
+            //   instance.addChip({
+            //     tag: optional_types[i],
+            //     image: '', // optional
+            //   });
+            // }
+          }else{
+            alert('There are no models for this equipment type. Select another type or create a new model.');
+            $('#eq_type').val("");
+          }
+        }
+    }
+    let parent_type_id = Boolean({{ parent_equipment_type.id }})
+    if (parent_type_id) {
+        $('#eq_type').attr('readonly', true).val( function () {
+            let type_name = '{{ parent_equipment_type.name }}';
+            updateValuesforSettingType(type_name);
+            return type_name;
+        });
+    } else {
+        $('#eq_type').autocomplete({
+          data:  {
+              {% for type in types %}
+                '{{type.name}}': {% if type.is_private %}  {% else %} null  {% endif %},
+              {% endfor %}
+          },
+
+          limit: Infinity,
+          minLength: 0,
+          onAutocomplete: function(value) {
+              updateValuesforSettingType(value);
+          }
+        });
+    }
+  });    
+
+  function updateValuesforSettingModel(value) {
+      var checkone="onmodelresults";
+      var model_results = jQuery.grep(window.models, function(t, i) {
+
+      let tName = t.name.trim().replace("&amp;", "&");
+        return tName === value.trim();
+      });
+
+      if (model_results.length>0) {
+          var mandatory_model = model_results[0].mandatory_model_test_equipment;
+          var optional_model = model_results[0].optional_model_test_equipment;
+          // var test_sheet = model_results[0].test_sheet;
+          // var type_test_sheet= model_results[0].type_test_sheet;
+          // var model_test_sheet_link = $('#model_test_sheet_link').val();
+          // model_test_sheet_link.href=test_sheet;
+          // if (test_sheet && test_sheet != '') {
+          //     $('#model_test_sheet_link').attr('href', test_sheet);
+          //     $('#model_test_sheet_btn').show();
+          // } else {
+          //     $('#model_test_sheet_btn').hide();
+          // }
+          var manual = model_results[0].manual;
+          var eq_type = model_results[0].type;
+          var make = model_results[0].make;
+          var pk = model_results[0].pk;
+
+      //if type for this model exists, need to fill this in with model.type
+
+      if (eq_type !== "" && eq_type !== "None"){
+          $('#eq_type').val(eq_type)
+        //   if (type_test_sheet && type_test_sheet != '') {
+        //       $('#type_test_sheet_link').attr('href', type_test_sheet);
+        //       $('#type_test_sheet_btn').show();
+        // } else {
+        //       $('#type_test_sheet_btn').hide();
+        // }
+      }
+      if (pk !== "" && pk !== "None"){
+          $('#model').val(pk)
+      }
+      if (make !== "" && make !== "None"){
+          $('#manufacturer').val(make)
+      };
+      if (manual !== "" && model !== "None"){
+          $('#manual').val(manual)
+      }
+      var instance = M.Chips.getInstance($("#m_test_equipment-chips"));
+
+      for (var i = 0; instance.chipsData.length; i++) {
+          instance.deleteChip(0)
+      }
+
+      for (var i = 0; i < mandatory_model.length; i++) {
+          instance.addChip({
+              tag: mandatory_model[i],
+              image: '', // optional
+        });
+      };
+
+      var instance = M.Chips.getInstance($("#o_test_equipment-chips"));
+
+      for (var i = 0; instance.chipsData.length; i++) {
+          instance.deleteChip(0)
+      }
+
+      for (var i = 0; i < optional_model.length; i++) {
+          instance.addChip({
+              tag: optional_model[i],
+              image: '', // optional
+          });
+      }
+    }
+  }
+  $(document).ready(function(){
+    let parent_equipment_model_id = Boolean({{ parent_equipment_model.id }});
+    if (parent_equipment_model_id) {
+        $('#model_name').attr('readonly', true).val( function () {
+            let model_name = '{{ parent_equipment_model.name }}';
+            updateValuesforSettingModel(model_name);
+            return model_name;
+        });
+    } else {
+        $('#model_name').autocomplete({
+          data:  {
+              {% for model in models %}
+                  '{{model.name}}': {% if model.is_private %} {% else %} null  {% endif %},
+              {% endfor %}
+              },
+          limit: Infinity,
+          minLength: 0,
+          onAutocomplete: function(value) {
+              updateValuesforSettingModel(value);
+          }
+        });
+    }
+  });
+    let mandatoryInstance = null;
+    let optionalInstance = null;
+  $(document).ready(function(){
+    mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+    optionalInstance = M.Chips.getInstance($("#o_test_equipment-chips"));
+    $('#manufacturer').autocomplete({
+      data:  {
+          {% for manufacturer in manufacturers %}
+            '{{manufacturer.name}}': null,
+          {% endfor %}
+      },
+      limit: Infinity,
+      minLength: 0, 
+      onAutocomplete: function(value) {
+        var make_results = jQuery.grep(window.manufacturers, function(t, i) {
+          return t.name === value;
+        });
+        var models = make_results[0].models;
+        var types = make_results[0].types;
+        var type_input = $('#eq_type').val();
+        if (type_input !== null && type_input !== "" && type_input !=="None"){
+            
+            
+            var types_results = jQuery.grep(window.types, function(t, i) {
+            return t.name === type_input;
+            });
+            
+            
+            var models_for_type = types_results[0].models; //all associated models for selected make
+            models_keys = Object.keys(models).filter(element => element in models_for_type);
+            models = Object.assign({}, ...models_keys.map((x) => ({[x]: null})));
+            
+          }
+        var models_instance = M.Autocomplete.getInstance($("#model_name"));
+        var types_instance = M.Autocomplete.getInstance($("#eq_type"));
+
+        if (!jQuery.isEmptyObject(models)) {
+          
+          
+          if (models){
+            models_instance.updateData(
+              models
+            );
+            types_instance.updateData(
+              types
+            );
+          }else{
+            alert('There are no models for this manufacturer. Create appropriate model or another manufacturer.');
+            $('#manufacturer').val("");
+          }
+        }
+      }
+    });
+  });
+  
+  function qtyCheck(){
+    var qty = $("#quantity").val()
+    if (qty>20){
+      alert('You have entered over 20 for Quantity of equipment to add. Make sure you want to add that many equipment with identical properties.')
+    }
+  }
+  function idCheck() {
+    siteIdName=$('#site_id').val()
+    console.log(stripped_trashed_site_ids)
+      $('.eq_in_job_already').html('&#x201C;'+siteIdName+'&#x201D;')
+    
+    equipmentIds={{ json_equipment_ids|safe }}
+    if (equipmentIds.includes(siteIdName) && !stripped_trashed_site_ids.includes(siteIdName)){
+      var conflict_instance_job =M.Modal.getInstance($('#equipment_in_job_modal'))
+      conflict_instance_job.open()
+      return false;
+    }
+    if (stripped_trashed_ids.includes(siteIdName)){   
+      var conflict_instance_job_trash =M.Modal.getInstance($('#equipment_in_job_trash_modal'))
+      conflict_instance_job_trash.open()
+      return false;
+    }
+    if (site_ids.includes(siteIdName) && $("#quantity").val() < 2){
+      {%if job %}console.log('superduperduper');localStorage.selectedJob = {{job.id}}{%endif%} 
+      var conflict_instance_jobsite =M.Modal.getInstance($('#equipment_in_jobsite_modal'))
+      conflict_instance_jobsite.open()
+      return false;
+    }
+    if (stripped_trashed_site_ids.includes(siteIdName)){
+      var conflict_instance_jobsite_trash =M.Modal.getInstance($('#equipment_in_jobsite_trash_modal'))
+      conflict_instance_jobsite_trash.open()
+      return false;
+    }
+
+  }
+  function onSubmit() {
+    siteIdName=$('#site_id').val()
+    equipmentIds={{ json_equipment_ids|safe }}
+    if (equipmentIds.includes(siteIdName)){
+      return false;
+    }
+    if (site_ids.includes(siteIdName)){
+      return false;
+    }
+
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_test_equipment").val(mandatoryValue);
+    
+    var optionalValue = Array.from(optionalInstance.chipsData.map(x => x.tag)).join(",");
+    $("#optional_test_equipment").val(optionalValue);
+   
+  }
+ let allEquipments = {{ test_equipment_list|safe}}
+  $('#m_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+              },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+
+        let selectedItems = mandatoryInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            mandatoryInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test sets.');
+            }
+            return
+        } else {
+            let optionalItems = optionalInstance.options.autocompleteOptions.data
+            delete existingItems[tag]
+            delete optionalItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let optionalItems = optionalInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let optionalChipsData = optionalInstance.chipsData
+              for (let i=0; i<optionalChipsData.length; i++) {
+                  if (optionalChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted test sets to drop down list
+            optionalItems[deletedTestEquipment] = null
+          }
+      }
+    });
+
+  $('#o_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+        },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+        let selectedItems = optionalInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            optionalInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test sets.');
+            }
+            return
+        } else {
+            let optionalItems = mandatoryInstance.options.autocompleteOptions.data
+            delete optionalItems[tag]
+            delete existingItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let mandatoryInstanceItems = mandatoryInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let mandatoryChipsData = mandatoryInstance.chipsData
+              for (let i=0; i<mandatoryChipsData.length; i++) {
+                  if (mandatoryChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted test equipment to drop down list
+            mandatoryInstanceItems[deletedTestEquipment] = null
+          }
+      }
+  });
+
+</script>
+
+{% endblock %}

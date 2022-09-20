@@ -1,0 +1,74 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Equipment Types
+{% endblock %}
+
+{% block body %}
+<style>
+  @media only screen and (max-width: 1519px) {
+    th, td{
+      font-size: 16px;
+    }
+    .search{
+      height: 5rem !important;
+      margin-bottom: 30px !important;
+    }
+  }
+</style>
+<div class="container">
+  <a class="waves-effect waves-light btn-small hidden-stuff phone-button lapping-btn" onclick="goBack()">Go Back</a>
+      <h2>Equipment Types</h2>
+      <div id="types"> 
+      
+      <input class="search phone-font-lrg" placeholder="Filter" style="max-width: 500px;"/> <br>      
+      <a class="waves-effect waves-light btn-small phone-button" onclick="clearSearch()">Reset</a>
+      <a class="waves-effect waves-light btn-small phone-button hidden-stuff" onclick="privateOnly()">Filter to Private</a>
+      <a class="waves-effect waves-light btn-small phone-button" href="{% url 'create_type_view' %}">Create New Type</a>
+        <table class="searchable sortable highlight" id="typestable" style="margin-bottom: 100px; margin-top: 10px;">
+          <thead>
+            <th style="position: sticky; top: 0; box-shadow: 0px -1px inset "> <button class="sort" data-sort="name">Name   <i class="material-icons tiny phone-font-lrg">sort</i> </button></th>
+            <th style="position: sticky; top: 0; box-shadow: 0px -1px inset " class="computer-screen">Models</th>
+          </thead>
+          <tbody class="list">
+          {% for type in types %}
+          <tr>
+            <td class="name">
+              <a href="{% url 'eq_type' type.id %}">
+              {{ type.name }}  {% if type.is_private %} <span class="phone-font-ml" style="color: #dc143c; font-style: italic;">pvt.</span> {% endif %}              
+              </a>
+          </td>
+            <td class="computer-screen">
+              {% for model in type.model_type.all %}
+              <div style="padding: 6px 0"> <i style="color: #888;">{{model.model_manufacturer.name}}</i>  {{ model.name }} </div>
+              {%empty%}
+              <span style="color: #999;">&#8212;&#8212;&#8212;</span> 
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+      <script>
+        
+        var options = {
+          valueNames: [ 'name' ]
+        };
+
+        var typeList = new List('types', options);
+        
+        function privateOnly() {
+          $(".search").val("pvt")
+          typeList.search("pvt")
+        }
+        function clearSearch() {
+          $(".search").val("")
+          typeList.search("")
+        }
+        function goBack() {
+          window.history.back();
+        }
+    </script>
+{% endblock %}

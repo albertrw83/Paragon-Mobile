@@ -1,0 +1,105 @@
+
+<div style="margin-bottom: 0%; padding-bottom: 0%;">            
+    <table class="table-all lato-300" style="width: 100%;">
+        <caption class="normal-header">
+            
+            <div style="font-size: 14px;float:right">Tolerance:+{% if test_sheet.ttr_upper_tolerance %}{{test_sheet.ttr_upper_tolerance.normalize }}{% endif %}/{% if test_sheet.ttr_lower_tolerance %}{{test_sheet.ttr_lower_tolerance.normalize }}{% endif %}%</div>
+            <div style="margin: 0 auto;width: 60%;text-align: center;">Transformer Turns Ratio</div>
+        </caption>
+        <tr>
+            <td class="cell-borders">Tap</td>
+            <td class="cell-borders tap-one">1</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">2</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">3</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">4</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">5</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">6</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">7</td>{% endif%}
+        </tr>
+                      
+        <tr>
+            <td class="cell-borders" >Tap Voltage</td>
+            <td class="cell-borders tap-one">{{test_sheet.tap_one_volts | default_if_none:""}}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">{{test_sheet.tap_two_volts | default_if_none:""}}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">{{test_sheet.tap_three_volts | default_if_none:""}}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">{{test_sheet.tap_four_volts | default_if_none:""}}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">{{test_sheet.tap_five_volts | default_if_none:""}}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">{{test_sheet.tap_six_volts | default_if_none:""}}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">{{test_sheet.tap_seven_volts | default_if_none:""}}</td>{% endif%}
+
+        </tr>
+        <tr>
+            <td class="cell-borders">Expected</td>
+            <td class="cell-borders tap-one">{{test_sheet.tap_one_expected_ttr }}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">{{test_sheet.tap_two_expected_ttr }}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">{{test_sheet.tap_three_expected_ttr }}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">{{test_sheet.tap_four_expected_ttr }}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">{{test_sheet.tap_five_expected_ttr }}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">{{test_sheet.tap_six_expected_ttr }}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">{{test_sheet.tap_seven_expected_ttr }}</td>{% endif%}
+        </tr>
+        <tr>
+            <td class="cell-borders">H1-H2:X0-X2</td>
+            <td class="cell-borders tap-one">{% if test_sheet.tap_one_h12_x02_ttr %}{{test_sheet.tap_one_h12_x02_ttr.normalize }}{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">{% if test_sheet.tap_two_h12_x02_ttr %}{{test_sheet.tap_two_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">{% if test_sheet.tap_three_h12_x02_ttr %}{{test_sheet.tap_three_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">{% if test_sheet.tap_four_h12_x02_ttr %}{{test_sheet.tap_four_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">{% if test_sheet.tap_five_h12_x02_ttr %}{{test_sheet.tap_five_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">{% if test_sheet.tap_six_h12_x02_ttr %}{{test_sheet.tap_six_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">{% if test_sheet.tap_seven_h12_x02_ttr %}{{test_sheet.tap_seven_h12_x02_ttr.normalize }}{% endif %}</td>{% endif%}
+        </tr>
+        <tr>
+            <td class="cell-borders" style="border-top: none;">Error</td>
+            <td class="cell-borders tap-one" style="border-top: none;">{% if test_sheet.tap_one_h12_x02_ttr_error %}{{test_sheet.tap_one_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two" style="border-top: none;">{% if test_sheet.tap_two_h12_x02_ttr_error %}{{test_sheet.tap_two_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three" style="border-top: none;">{% if test_sheet.tap_three_h12_x02_ttr_error %}{{test_sheet.tap_three_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four" style="border-top: none;">{% if test_sheet.tap_four_h12_x02_ttr_error %}{{test_sheet.tap_four_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five" style="border-top: none;">{% if test_sheet.tap_five_h12_x02_ttr_error %}{{test_sheet.tap_five_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six" style="border-top: none;">{% if test_sheet.tap_six_h12_x02_ttr_error %}{{test_sheet.tap_six_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven" style="border-top: none;">{% if test_sheet.tap_seven_h12_x02_ttr_error %}{{test_sheet.tap_seven_h12_x02_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+        </tr>
+        <tr>
+            <td class="cell-borders">H2-H3:X0-X3</td>
+            <td class="cell-borders tap-one">{% if test_sheet.tap_one_h23_x03_ttr %}{{test_sheet.tap_one_h23_x03_ttr.normalize }}{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">{% if test_sheet.tap_two_h23_x03_ttr %}{{test_sheet.tap_two_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">{% if test_sheet.tap_three_h23_x03_ttr %}{{test_sheet.tap_three_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">{% if test_sheet.tap_four_h23_x03_ttr %}{{test_sheet.tap_four_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">{% if test_sheet.tap_five_h23_x03_ttr %}{{test_sheet.tap_five_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">{% if test_sheet.tap_six_h23_x03_ttr %}{{test_sheet.tap_six_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">{% if test_sheet.tap_seven_h23_x03_ttr %}{{test_sheet.tap_seven_h23_x03_ttr.normalize }}{% endif %}</td>{% endif%}
+        </tr>
+        <tr>
+            <td class="cell-borders" style="border-top: none;">Error</td>
+            <td class="cell-borders tap-one" style="border-top: none;">{% if test_sheet.tap_one_h23_x03_ttr_error %}{{test_sheet.tap_one_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two" style="border-top: none;">{% if test_sheet.tap_two_h23_x03_ttr_error %}{{test_sheet.tap_two_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three" style="border-top: none;">{% if test_sheet.tap_three_h23_x03_ttr_error %}{{test_sheet.tap_three_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four" style="border-top: none;">{% if test_sheet.tap_four_h23_x03_ttr_error %}{{test_sheet.tap_four_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five" style="border-top: none;">{% if test_sheet.tap_five_h23_x03_ttr_error %}{{test_sheet.tap_five_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six" style="border-top: none;">{% if test_sheet.tap_six_h23_x03_ttr_error %}{{test_sheet.tap_six_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven" style="border-top: none;">{% if test_sheet.tap_seven_h23_x03_ttr_error %}{{test_sheet.tap_seven_h23_x03_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+        </tr>
+        <tr>
+            <td class="cell-borders">H3-H1:X0-X1</td>
+            <td class="cell-borders tap-one">{% if test_sheet.tap_one_h31_x01_ttr %}{{test_sheet.tap_one_h31_x01_ttr.normalize }}{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two">{% if test_sheet.tap_two_h31_x01_ttr %}{{test_sheet.tap_two_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three">{% if test_sheet.tap_three_h31_x01_ttr %}{{test_sheet.tap_three_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four">{% if test_sheet.tap_four_h31_x01_ttr %}{{test_sheet.tap_four_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five">{% if test_sheet.tap_five_h31_x01_ttr %}{{test_sheet.tap_five_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six">{% if test_sheet.tap_six_h31_x01_ttr %}{{test_sheet.tap_six_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven">{% if test_sheet.tap_seven_h31_x01_ttr %}{{test_sheet.tap_seven_h31_x01_ttr.normalize }}{% endif %}</td>{% endif%}
+        </tr>
+        
+        <tr style="border-bottom:1px solid #d3d3d3">
+            <td class="cell-borders" style="border-top: none;">Error</td>
+            <td class="cell-borders tap-one" style="border-top: none;">{% if test_sheet.tap_one_h31_x01_ttr_error %}{{test_sheet.tap_one_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>
+            {% if test_sheet.tap_qty_data > 1 %}<td class="cell-borders tap-two" style="border-top: none;">{% if test_sheet.tap_two_h31_x01_ttr_error %}{{test_sheet.tap_two_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 2 %}<td class="cell-borders tap-three" style="border-top: none;">{% if test_sheet.tap_three_h31_x01_ttr_error %}{{test_sheet.tap_three_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 3 %}<td class="cell-borders tap-four" style="border-top: none;">{% if test_sheet.tap_four_h31_x01_ttr_error %}{{test_sheet.tap_four_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 4 %}<td class="cell-borders tap-five" style="border-top: none;">{% if test_sheet.tap_five_h31_x01_ttr_error %}{{test_sheet.tap_five_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 5 %}<td class="cell-borders tap-six" style="border-top: none;">{% if test_sheet.tap_six_h31_x01_ttr_error %}{{test_sheet.tap_six_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+            {% if test_sheet.tap_qty_data > 6 %}<td class="cell-borders tap-seven" style="border-top: none;">{% if test_sheet.tap_seven_h31_x01_ttr_error %}{{test_sheet.tap_seven_h31_x01_ttr_error|floatformat:4 }}%{% endif %}</td>{% endif%}
+        </tr>
+        
+                       
+    </table>    
+</div>

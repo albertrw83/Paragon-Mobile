@@ -1,0 +1,131 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Feedback and Issues
+{% endblock %}
+
+{% block body %}
+<style>
+    @media only screen and (min-width: 1520px) {
+        p {
+            font-size: 20px;
+
+        }
+        h5{
+            font-size: 22px;
+        }
+    }
+    @media only screen and (max-width: 1519px) {
+        p {
+            font-size: 16;
+        }
+        h4{
+            font-size: 55px;
+        }
+        h5{
+            text-align: center;
+            font-size: 40px;
+            margin-top: 100px;
+        }
+    }
+</style>
+<div class="container">
+  <h2>Feedback and Issues</h2>
+  <p>If you have an issue and need immediate assistance, call us at 210-303-0471. We're constantly working to remove issues or errors and are committed to resolving them without delay. Feedback is very much appreciated and we ask
+      that you don't refrain from pointing out things that are less than ideal or could be improved to make your job easier. You can type notes here and/or upload screenshots. 
+  </p>
+  <div class="row">
+    <div class="col s12 m12 l12 xl6">
+        <h5 style="color: #023b59;">Notes</h5>
+        <form  style="margin-right: 50px;" id="add_note_form" action="{% url 'add_feedback_note' %}" method="post">
+    
+        {% csrf_token %}
+        <textarea id="add_note" name="add_note" class="materialize-textarea quick-disable" onclick="this.select()" placeholder="Enter Feedback Note" form="add_note_form" required></textarea>
+        <button class="btn waves-effect waves-light right quick-disable phone-button" type="submit" name="action"
+        id="submit-btn-notes"> Add Note <i class="material-icons right">send</i></button></br></br></br>
+        </form>
+            
+        <ul class="collection " style="border: none;">
+        
+        {% for note in notes %}
+        <li class="collection-item note-lightgrey">
+            <span class="phone-font-ml">{{note.note}}</span>
+            <textarea id="edit_note_input{{note.id}}" name="edit_note_input{{note.id}}" type="text" form="note_edit_form{{note.id}}"
+            autocomplete="off" class="materialize-textarea" hidden >{{note.note}}</textarea>
+            <button id="note_edit_submit{{note.id}}" class="btn-small formbutton right phone-button" data-position="left" data-tooltip="Saves Changes" 
+            style="text-align: center; display: none; "type="submit" name="action" form="note_edit_form{{note.id}}" >Save Changes</button>
+            <form id="note_edit_form{{note.id}}" action="{% url 'edit_feedback_note' note.id %}" method="post">{% csrf_token %}</form>
+            <div style="color: #aaa;">
+            <a class="note_edit_link" href="#" id="edit_note_link{{note.id}}" onclick="return false;"><i class="tiny material-icons left edit_note_icon tooltipped phone-font-lrg"  data-position="left" data-tooltip="Edit" >edit</i></a>
+            <span class="phone-font-sml">
+            {% if note.updated_at != note.created_at %} 
+            Updated: {{note.updated_at}}
+            {% endif %}
+            Created: {{note.created_at}}</span>
+            </div>
+        </li>
+        {% empty %}
+        <li class="collection-item phone-font-ml">No feedback notes yet. Add some above!</li>
+        {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="col s12 m12 l12 xl6">
+        <div class="row">
+            <h5 style="color: #023b59;">Files</h5>
+            <form id="file_add_form" action="{% url 'add_feedback_file' %}" method="post"
+            enctype="multipart/form-data" style="margin-right: 50px;">
+            {% csrf_token %}
+            <div class="file-field input-field">
+                <div class="btn-small tooltipped phone-button"  data-tooltip="Select Files" id="file_add_button" >
+                    <span ><i class="material-icons phone-font-lrg">add</i></span>
+                    <input id="file_add" name="file_add" type="file" multiple>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate quick-disable phone-font-lrg" type="text" placeholder="Select File">
+                </div>
+                <button class="btn waves-effect waves-light right quick-disable phone-button" type="submit" name="action" id="submit-btn"> Upload File
+                <i class="material-icons right">send</i>
+                </button>
+            </div>
+            </form>
+        </div>
+        <div class="row">
+            <ul class="collection phone-font-ml" style="margin-right: 20px; border: none;">
+                {% csrf_token %}
+                {% if feedback_files %}
+                    {% for file in feedback_files %}
+                    <li class="collection-item" style="border: none;">
+                        <a href="{{file.feedback_file.url}}" target="_blank" class="btn-flat file-links"><i class="material-icons left">insert_drive_file</i>
+                    {{file.filename}}
+                    </a>
+                        </br>
+                        <a style="color: #aaa; display: inline-block; font-size: 14px;">Added: {{file.created_at}}</a></li>
+                    {% endfor %}
+                {% else %}
+                    No Files
+                {% endif %}
+            </ul>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+     $("[id^=edit_note_link]").on('click', event => {
+    var clickedElementNote = $(event.target);
+    var noteInput=$(clickedElementNote).parent().parent().siblings("textarea");
+    var noteSubmit = $(noteInput).siblings("button");
+    $(noteInput).siblings("span").hide()
+    $(".note_edit_link").hide();
+    $('.quick-disable').prop('disabled', true)
+    $('#file_add_button').hide()
+    $(noteInput).show()
+    M.textareaAutoResize(noteInput);
+    $(noteSubmit).show()
+    });
+</script>
+{% endblock %}

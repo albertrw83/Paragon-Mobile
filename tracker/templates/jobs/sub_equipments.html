@@ -1,0 +1,4 @@
+{% include "jobs/equipment_data.html" with equipment=sub_equipment is_hidden='true' %}
+{% if sub_equipment.sub_equipments.count %}
+    {% include "jobs/parent_equipment.html" with equipments=sub_equipment.sub_equipments.all is_hidden='true' is_sub_equipment='true' %}
+{% endif %}

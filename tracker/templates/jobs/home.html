@@ -1,0 +1,117 @@
+
+
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+<style>
+  .spacer-2{
+    margin-left: 12px;
+  }
+  .btn-large{
+    border: none;
+  }
+  #nav-div{
+    padding-top: 20px;
+  }
+  @media only screen and (min-width: 1520px) {
+    .comp-margin1{margin-right: 50px ;margin-left: 10px;}
+  }
+</style>
+
+
+<div class="container noselect">
+  <h2>Home</h2>
+  <div class="row">
+    <div class="col s12 m12 l12 xl6 push-xl6  mobile-container" >
+      
+      <span class="spacer-2" style="font-size: 0; white-space: nowrap;">
+        <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-right-radius: 0; border-top-right-radius: 0 ;" href="{% url 'jobs' %}">All Jobs</a>
+        <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-left: 1px solid #ccc; border-radius: 0;" href="{% url 'new_job' 'full' %}"><span class="computer-font-lrg" >+</span> Full</a>
+        <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-left-radius: 0;  border-left: 1px solid #ccc; border-top-left-radius: 0;" href="{% url 'new_job' 'quick' %}"><span class="computer-font-lrg" >+</span> Quick</a>
+      </span>
+      <span class="spacer-2" style="font-size: 0; white-space: nowrap;">
+        <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-right-radius: 0; border-top-right-radius: 0 ;" href="{% url 'job_sites' %}">All Job Sites</a>
+        <a class="waves-effect waves-light btn-large lapping-btn computer-font-lrg phone-button" style="border-bottom-left-radius: 0; border-left: 1px solid #ccc; border-top-left-radius: 0;" href="{% url 'create_job_site_view' %}">+</a>
+      </span>
+      <table class="highlight" style="width: 100%;">
+        <caption class="noselect" style="font-size: 25px;">Active Jobs <span id="my_job_help" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span></caption>
+        <tr>
+          <th style="width: 50%;">Name</th>
+          <th>Job Number</th>
+          <th>Start Date</th>
+        </tr>
+        {%for job in jobs%}
+        <tr>
+          <td class="phone-font-med" ><a href="{% url 'job' job.id %}">{{job.job_name}}</a></td>
+          <td>{{job.job_number}}</td>
+          <td>{{job.start_date}}</td>
+          </tr>
+        {%endfor%}
+      </table>
+      <table class="highlight" style="width: 100%;">
+        <caption class="noselect" style="font-size: 25px;">Other Jobs <span id="other_job_help" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span></caption>
+        <tr>
+          <th style="width: 50%;">Name</th>
+          <th>Job Number</th>
+          <th>Start Date</th>
+        </tr>
+        {%for job in other_jobs%}
+        <tr>
+          <td class="phone-font-med" ><a href="{% url 'job' job.id %}">{{job.job_name}}</a></td>
+          <td>{{job.job_number}}</td>
+          <td>{{job.start_date}}</td>
+          </tr>
+        {%endfor%}
+      </table>
+      
+    
+    </div>
+    <div class="col s12 m12 l12 xl6 pull-xl6 mobile-container home-pad-top" >
+      <div class="card white comp-margin1" >
+        <div class="card-content"  >
+          <span class="card-title phone-font-lrg" style="font-weight: normal; color: black">{{ user.first_name }} {{user.last_name}}</span>
+          <p class="phone-font-sml" style="color: black">            
+            {{ properties.home_base |default_if_none:"Home Base Undefined"}}</br>
+            {{ properties.phone_number |default_if_none:"Phone Number Undefined"}}</br>
+            {{ user.email }}
+          </p>
+        </div>
+        <div class="card-action" style="height: auto; white-space: nowrap;" >
+          <a class="phone-font-med" style="color: #039be5;" href="{% url 'profile' %}">View Profile</a>
+          <a class="phone-font-med" style="color: #80a8bb;" href="{% url 'logout' %}">Log Out</a>
+        </div>
+      </div>
+      <div class="" id="nav-div">
+        <h5 style="text-align: center; color: #023b59;">Resource Database</h5>        
+        <span class="spacer-2" style="font-size: 0;">
+          <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-right-radius: 0; border-top-right-radius: 0 ;" href="{% url 'types' %}">Equipment Types</a>
+          <a class="waves-effect waves-light btn-large lapping-btn computer-font-lrg phone-button" style="border-bottom-left-radius: 0; border-left: 1px solid #ccc; border-top-left-radius: 0;" href="{% url 'create_type_view' %}">+</a>
+        </span>
+        <span class="spacer-2" style="font-size: 0; white-space: nowrap;">
+          <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-right-radius: 0; border-top-right-radius: 0 ;" href="{% url 'models' %}">Equipment Models</a>
+          <a class="waves-effect waves-light btn-large lapping-btn computer-font-lrg phone-button" style="border-bottom-left-radius: 0; border-left: 1px solid #ccc; border-top-left-radius: 0;" href="{% url 'create_model_view' %}">+</a>
+        </span>
+        <span class="spacer-2" style="font-size: 0; white-space: nowrap;">
+          <a class="waves-effect waves-light btn-large lapping-btn phone-button" style="border-bottom-right-radius: 0; border-top-right-radius: 0 ;" href="{% url 'manufacturers' %}">Equipment Manufacturers</a>
+          <a class="waves-effect waves-light btn-large lapping-btn computer-font-lrg phone-button" style="border-bottom-left-radius: 0; border-left: 1px solid #ccc; border-top-left-radius: 0;" href="{% url 'create_manufacturer_view' %}">+</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+  $("#my_job_help").click(function(){
+    helpFunction('Active Jobs','You have been added to the crew on these jobs. Everyone that will be on the job can be added in the job Dashboard, along with managers and coordinators for the job.')
+  })  
+  $("#other_job_help").click(function(){
+    helpFunction('Other Jobs','These are jobs on which you have not been added to the crew. Everyone that will be on the job can be added in the job Dashboard, along with managers and coordinators for the job. You can also add yourself, if necessary.')
+  })  
+</script>
+
+{% endblock %}

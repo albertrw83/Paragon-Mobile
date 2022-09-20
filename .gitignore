@@ -1,0 +1,11 @@
+.idea
+.coverage
+.cache
+.pytest_cache
+
+__pycache__
+*.pyc
+*.pyi
+
+/venv
+.vs

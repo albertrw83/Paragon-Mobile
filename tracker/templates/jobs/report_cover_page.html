@@ -1,0 +1,111 @@
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<style>
+    .center {
+    margin: auto;
+    }
+    .normal-header{
+        padding-top: 10px;
+        font-size: 21px;
+        font-weight: 500;
+        text-align: center;
+        text-transform: capitalize;
+    }
+    .title-weight{
+        font-weight: 400;
+    }
+    td{
+        padding: 30px;
+    }
+    .right-side{
+        float: right;
+    }
+    .table-all{
+border-collapse:collapse;
+}
+.c6 {
+  float: left;
+  width: 50%;
+}
+.c5{
+  float: left;
+  width: 41.667%;
+}
+.c4 {
+    float: left;
+    width: 33.333%;
+}
+.c3 {
+  float: left;
+  width: 25%;
+}
+.center-cells{
+    border:1px solid #d3d3d3;
+    text-align: center;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.cell-borders{
+border-top:1px solid #d3d3d3;
+padding: 9px;
+text-align: center;
+}
+
+</style>
+<div style="font-family: 'Lato', sans-serif; font-weight: 300">
+    <div class="row">
+        
+        <div class="" style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 30px; text-align: center; padding-bottom: 160px; padding-top: 50px;">
+            {{job.job_name}} Job Report
+        </div>
+        <div>
+            <table class="table-all center">
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; padding-top: 0; width: 50%;">Purchase Order ID</td>
+                    <td style = "padding-left: 12px; padding-top: 0; width: 50%;">911804DR61</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right;">Customer</td>
+                    <td style = "padding-left: 12px;">{{job.customer_name}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; ">Address</td>
+                    <td style = "padding-left: 12px;">{{job.job_site.address}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right;">Work Dates</td>
+                    <td style = "padding-left: 12px;">{{job.start_date | default_if_none:"Unspecified"}} - {{job.end_date | default_if_none:"Unspecified"}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right;">Project Lead</td>
+                    <td style = "padding-left: 12px;">{{job.project_manager}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right;">Scope Summary</td>
+                    <td style = "padding-left: 12px;">{{job.job_scope_details}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; ">Primary Site Contact</td>
+                    <td style = "padding-left: 12px;">{{job.site_contact}}</td>
+                </tr>
+                <tr>
+                    <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 12px; text-align: right; padding-bottom: 0;">Date of Report</td>
+                    <td style = "padding-left: 12px; padding-bottom: 0;">{{now_date}}</td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+
+
+  
+
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Feedback and Issues
+{% endblock %}
+
+{% block body %}
+<style>
+    
+    @media only screen and (min-width: 1520px) {
+        p {
+            font-size: 20px;
+
+        }
+        h5{
+            font-size: 22px;
+        }
+    }
+    @media only screen and (max-width: 1519px) {
+        .materialize-textarea {
+            font-size: 16px !important;
+        }
+        p {
+            font-size: 30px;
+        }
+        h4{
+            font-size: 55px;
+        }
+        h5{
+            text-align: center;
+            font-size: 40px;
+            margin-top: 100px;
+        }
+    }
+</style>
+<div class="container">
+  <h4>Working Notes</h4>
+  <p> This is a page for administrators. You may have arrived here by accident. 
+  </p>
+  <div class="row">
+    <div class="col s12 m12 l12 xl6">
+        <h5 style="color: #023b59;">Note</h5>
+        <form  style="margin-right: 50px;" id="note_form" action="{% url 'working_update' %}" method="post">
+    
+        {% csrf_token %}
+        <textarea id="note" name="note" class="materialize-textarea" form="note_form" required>{{note}}</textarea>
+        <button class="btn waves-effect waves-light right quick-disable phone-button" type="submit" name="action"
+        id="submit-btn-notes"> Update <i class="material-icons right">send</i></button></br></br></br>
+        </form>
+            
+        
+    </div>
+    
+    </div>
+  
+  </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    //  $("[id^=edit_note_link]").on('click', event => {
+    // var clickedElementNote = $(event.target);
+    // var noteInput=$(clickedElementNote).parent().parent().siblings("textarea");
+    // var noteSubmit = $(noteInput).siblings("button");
+    // $(noteInput).siblings("span").hide()
+    // $(".note_edit_link").hide();
+    // $('.quick-disable').prop('disabled', true)
+    // $('#file_add_button').hide()
+    // $(noteInput).show()
+    // M.textareaAutoResize(noteInput);
+    // $(noteSubmit).show()
+    // });
+</script>
+{% endblock %}

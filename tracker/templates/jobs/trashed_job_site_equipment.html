@@ -1,0 +1,285 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Eq Trash-Jobsite | {{ job_site.name }}
+{% endblock %}
+
+{% block body %}
+<div class="container"><a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'job_site' job_site.id %}">◀
+    {{ job_site.name }}</a></div>
+<div class="container">
+  <div id="equipment" class=" col s12 hidencontent">
+    <div class="phone-font-lrg comp-font-med" style="text-align: center; color: #888; font-weight: 500;">equipment trash for job site</div>  
+
+    <h4>
+        Trashed Equipment <span style="color: #888;">|</span> {{job_site.name}}
+    </h4>
+    <div class="row" id="eq_child_div-container" style=" position: -webkit-sticky; position: sticky;">
+      <div class=" search-div" style="float: right;">
+        <input id="search_eq_child_div" class=" search-input" type="text" placeholder="Search..." onkeyup="searchElement()" />
+        <div class="row">
+          <div id="eq_child_div-move-text" class="noselect phone-font-med" style="display: none; color: #888">
+            <span id="eq_child_div-matched-text"></span>
+            <div>
+              <span class="phone-font-xl hover-item search-arrows comp-font-ml " onclick="previousSearchNote('eq_child_div') " id="eq_child_div-previous-text" >▲
+              </span>
+              <span class=" phone-font-xl hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('eq_child_div')" id="eq_child_div-next-text">▼
+              </span>
+            </div>  
+          </div>
+          <button id="search_eq_child_div_button" onclick="searchNote('eq_child_div', 'eq_child_toggle', 'eq-site-id')" hidden>Search</button>
+        </div>
+      </div>
+      <a id='batch_move' onclick="restore() ;initiateWait()" class="btn-small phone-button disabled right batch-act noselect" style="z-index: 101; margin: 10px;">
+      Restore
+    </a>
+    </div>
+   
+  <div style="margin-top: 50px">
+
+      {% for equipment in equipments %}
+        {% include "jobs/equipment_data.html" with equipment=equipment %}
+
+        {%empty%}
+        <h4>No equipment have been trashed.</h4> 
+        {% endfor %}
+
+  </div>
+{#    <table class="z-depth-5">#}
+{#      <caption id="equipment_in_scope" style="font-size: 25px; position: sticky; top: 0; z-index: 98" class="z-depth-2">#}
+{#        Trashed Equipment - {{job.job_name}}</caption>#}
+{##}
+{##}
+{#      <div>#}
+{#        <tr class="z-depth-2">#}
+{#          <th style="position: sticky; top: 35px;">Site ID</th>#}
+{#          <th style="position: sticky; top: 35px;">Equipment Type</th>#}
+{#          <th style="position: sticky; top: 35px;">Manufacturer</th>#}
+{#          <th style="position: sticky; top: 35px;">Model</th>#}
+{#          <th style="position: sticky; top: 35px;">Test Results</th>#}
+{#          <th style="position: sticky; top: 35px;">Restore</th>#}
+{#        </tr>#}
+{#      </div>#}
+{#      {% for equipment in equipments %}#}
+{##}
+{#      <tr>#}
+{#        {% csrf_token %}#}
+{#        <td><a href="{% url 'equipment' equipment.id %}">{{equipment.site_id}}</a></td>#}
+{#        <td>{{equipment.equipment_type.name}}</td>#}
+{#        <td>{{equipment.equipment_model.model_manufacturer}}</td>#}
+{#        <td>{{equipment.equipment_model}}</td>#}
+{#        <td>#}
+{#          {% if equipment.test_sheet %}#}
+{#          <a href="{{ equipment.test_sheet.url }}" target="_blank">View Test Results</a> <a#}
+{#            href="{{ equipment.test_sheet.url }}" download="{{ equipment.site_id }} Test Results"> <i#}
+{#              class="small material-icons">cloud_download</i></a>#}
+{#          {% else %}#}
+{#          None Available#}
+{#          {% endif %}#}
+{#        </td>#}
+{#        <td><a href="{% url 'untrash_equipment' equipment.id %}"><i#}
+{#              class="small material-icons">restore_from_trash</i></a></td>#}
+{#      </tr>#}
+{##}
+{#      {% empty %}#}
+{#      <tr>#}
+{#        <td>No Equipment</td>#}
+{#      </tr>#}
+{#      {% endfor %}#}
+{#    </table>#}
+  </div>
+</div>
+
+<script>
+let job_id = {{ job_site.id }};
+let csrfToken = '{{ csrf_token }}';
+function onEq_Actions_Trigger(){
+
+    let bm = $("#batch_move")
+    if(bm.is(':hidden')){
+      bm.slideDown('fast')
+      $('#equip_actions_trigger').html("&#9654 edit")
+    }else{
+      bm.hide()
+      $('#equip_actions_trigger').html("&#9664 edit")
+    }
+  }
+
+  $('.check-parent').click(function(){
+    console.log("clickedifjadlkj")
+    $("#batch_move").removeClass("disabled")
+  var check_id = "checkbox_"+$(this).attr('id')
+  var checked = true
+  checkbox_parent=$('#'+check_id)
+  let ba = $(".batch-act")
+  ba.css({"position":"sticky","top":"0"})
+  ba.slideDown()
+  ba.addClass("em-border")
+  $('#equip_actions_trigger').html("&#9654 edit")
+  if(checkbox_parent.is(':checked')){
+    checkbox_parent.prop('checked', false)
+    checked=false
+  }
+  else{
+    checkbox_parent.prop('checked', true)
+  }
+  checkChild(check_id, checked)
+});
+
+function checkChild(check_id, checked){
+  //get child
+  var children = $('.childof-'+check_id)
+
+  //get child id
+  if(checked){
+    children.prop('checked', true)
+  }else{
+    children.prop('checked', false)
+  }
+  //check if children exist
+  if(children.length){
+    //loop through each child
+    children.each(function(){
+      //propogate the function with recursion
+      let child_id = $( this ).attr('id')
+      checkChild(child_id, checked)
+    })
+
+  }
+}
+
+
+    $('.equipment-item').change(function(){
+    let eq_id=$(this).val()
+    let ba = $(".batch-act")
+    ba.css({"position":"sticky","top":"0"})
+    ba.slideDown()
+    ba.addClass("em-border")
+    $('#equip_actions_trigger').html("&#9654 edit")
+    {#console.log(mover_clicked)#}
+
+    {#if(mover_clicked){#}
+    {#  if($(this).is(':checked')){#}
+    {#    $("#eq_child_div"+eq_id+" *").prop('disabled',true);#}
+    {#    $("#eq_child_div"+eq_id+" .quick-link").hide()#}
+    {#    $("#eq_child_div"+eq_id+" .move-btn").hide()#}
+    {#    $("#eq_child_div"+eq_id+" .parent-checkbox").hide()#}
+    {#    $(".site_id_edit_link").hide()#}
+    {#    $('#moveto_'+eq_id).hide()#}
+    {#    console.log("++++++++++++++++")#}
+    {#  }#}
+    //{#}#}
+
+  });
+
+let trashed_hidden_equipment_ids = []
+
+$('.eq-child-toggle').click(function(){
+  let eq_id = $(this).attr('id').match(/\d+/);
+  let eq_child_div = $('#eq_child_div' + eq_id)
+  if(eq_child_div.is(":visible")){
+    trashed_hidden_equipment_ids.push(eq_id)
+    localStorage.setItem('trashed_hidden_equipment_list', JSON.stringify(trashed_hidden_equipment_ids))
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-0")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-1")
+    eq_child_div.slideUp(function() {
+      $('#eq_toggle_sign'+eq_id).html("&#9660");
+      $('#eq_child_toggle'+eq_id).css("color","#282828");
+});
+
+  }
+  else{
+
+    const index = trashed_hidden_equipment_ids.indexOf(eq_id)
+    console.log(index)
+    trashed_hidden_equipment_ids.splice(index, 1);
+    localStorage.setItem('trashed_hidden_equipment_list', JSON.stringify(trashed_hidden_equipment_ids))
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-1")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-0")
+    eq_child_div.slideDown( function(){
+      $('#eq_toggle_sign'+eq_id).html("&#9650");
+      $('#eq_child_toggle'+eq_id).css("color","#505050");
+    });
+
+  }
+})
+
+  $(document).ready(function(){
+    if (localStorage.getItem('trashed_hidden_equipment_list') != null ){
+            trashed_hidden_equipment_ids = JSON.parse([localStorage.getItem('trashed_hidden_equipment_list')])
+      Array.from(trashed_hidden_equipment_ids).forEach((element) => {
+        console.log(element)
+        let eq_child_div = $('#eq_child_div' + element)
+        eq_child_div.hide()
+        if(eq_child_div.is(":hidden")){
+          $('#eq_toggle_sign'+element).html("&#9660");
+          $('#eq_child_toggle'+element).css("color","#282828");
+          $('#eq_child_toggle'+element).removeClass("z-depth-0")
+      $('#eq_child_toggle'+element).addClass("z-depth-1")
+        }
+      } )
+
+    }
+    {#bindExternalTab()#}
+    // $('.dropdown-trigger').dropdown({
+
+    //   hover: false,
+    //   closeOnClick: false,
+    //   autoTrigger: true,
+    //   coverTrigger: true,
+    // });
+    {#$('.tooltipped').tooltip();#}
+    {#const myTabs = document.querySelector('.tabs');#}
+    {# var tabInstance = M.Tabs.init(myTabs, {#}
+    {#   onShow: function(selectedTab) {#}
+    {#     var selectedTabId = selectedTab.getAttribute('id')#}
+    {#     window.localStorage.setItem('job-details-selected-tab-id', selectedTabId)#}
+    {#   }#}
+    {##}
+    {# })#}
+    {#var previousTabId = window.localStorage.getItem('job-details-selected-tab-id')#}
+    {#if (previousTabId) {#}
+    {#  tabInstance.select(previousTabId)#}
+    //}
+  });
+
+  function initiateWait(){
+    $('#hol-up').show()
+  }
+
+function restore() {
+    M.Toast.dismissAll();
+    let checked_elements = document.getElementsByClassName('check-input');
+    let checked_equipment_ids = [];
+    for (let i=0; i<checked_elements.length; i++) {
+        if (checked_elements[i].checked) {
+            checked_equipment_ids.push(checked_elements[i].value);
+        }
+    }
+    if (!checked_equipment_ids.length) {
+        M.toast({html: 'Please select an equipment to restore.', displayLength: 2000});
+        return;
+    }
+    let request = $.ajax({
+        url: `${job_id}/restore`,
+        method: 'POST',
+        headers: {
+            'X-CSRFTOKEN': csrfToken
+        },
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+            equipment_ids: checked_equipment_ids,
+        }),
+        success: function(response) {
+            M.toast({html: response.message, displayLength: 2000});
+            location.reload();
+        },
+        error: function(response) {
+            alert(response.responseJSON.message);
+        }
+    });
+}
+
+</script>
+{% endblock %}

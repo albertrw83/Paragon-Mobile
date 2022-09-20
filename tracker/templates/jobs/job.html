@@ -1,0 +1,3291 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Job | {{ job.job_name }}
+{% endblock %}
+
+{% block body %}
+
+<style>
+.collection .collection-item:last-child {
+  border-bottom: none !important;
+}
+.dynamic-td{
+ width: 20px;
+ line-height: 20px;
+}
+.dynamic-td a, .dynamic-td span{
+  line-height: 1;
+}
+.eq-note-td{
+  padding-inline-start: 0;
+  padding: 10px 3px;
+
+}
+.dropdown-auto{
+  width: auto !important;
+}
+.chips input.input{
+  width: 100% !important;
+}
+.chip{  
+  height: fit-content;
+}
+.chips.focus{
+  border-bottom: 1px solid #bf5700;
+  -webkit-box-shadow: 0 1px 0 0 #bf5700;
+  box-shadow: 0 1px 0 0 #bf5700;
+}
+.last-child-border .collection-item:last-child{
+  border-bottom: none !important;
+}
+.last-child-border tr:last-child{
+  border-bottom: none !important;
+}
+  [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+    background-color: #bf5700;
+    border-color: #bf5700;
+  }
+@media only screen and (max-width: 1519px) {
+
+
+  
+
+  [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+    background-color: #bf5700;
+    border: 0px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;    
+  }
+
+  ul.dropdown-content span {
+    font-size: 16px;
+    overflow-wrap: break-word;
+    line-height: normal;
+  }
+  .autocomplete-content{
+    width: 100% !important;
+  }
+  .chips input.input{
+  font-size: 22px;
+}
+  /* .autocomplete-content::placeholder{
+    font;
+  } */
+  .chip{
+      font-size: 18px;
+      /* padding-top: 0; */
+      /* overflow: visible; */
+    }
+  .chip i.close{
+    font-size: 45px;
+    color: #670A0A;
+  }
+  [type="radio"]:not(:checked) + span:before, [type="radio"].with-gap:not(:checked) + span:before {
+      border: 2px solid #5a5a5a;
+      width: 20px;
+      height: 20px;
+      margin: 10px;
+  }
+  [type="radio"]~span{
+    font-size: 30px !important;
+  }
+    td div, ul, li, input[type=text]:not(.browser-default) {
+    font-size: 16px;
+    }
+    i.tiny{
+      font-size: 36px;
+    }
+   
+    
+}
+@media only screen and (max-width: 1519px) {
+  .container-notes-1{
+    width: 98% !important;
+    margin: 0 auto;
+  }
+  .sort.desc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #000000;
+  }
+  .sort.asc:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000000;
+  }
+  .helper-text {
+  font-size: 18px;
+  }
+  .dropdown-trigger i{
+    font-size: 40px;
+  }
+
+ul.dropdown-content {
+  line-height: 175px;
+  min-width: 155px;
+}
+.dropdown-li{
+  line-height: 75px !important;
+  height: 75px !important;
+  width: auto !important;
+}
+.dropdown-a{
+  height: 75px;
+  width: 125px;
+  display: block;
+  padding: 0 20px !important;
+}
+.dropdown-i{
+  line-height: 75px !important;
+  height: 750px !important;
+  padding: 0px 30px ;
+}
+.equip-action-dropdown{
+  line-height: 75px !important;
+  height: 75px !important; 
+  padding-top: 0 !important;
+}
+}
+.equip-action-dropdown{
+  color: #039be5 !important;
+}
+
+@media only screen and (min-width: 1520px) {  
+  .dropdown-a{
+    height: 50px;
+    display: block;
+  }
+}
+.external-tab-button{
+  width:32%;
+  height: 60px;
+  padding: 0px;
+  line-height: 60px;
+  font-size: 19.5px;
+  /* color: #01579b; */
+  color: #666;
+  overflow: hidden;
+  background-color: #eee;
+}
+.external-tab-button:hover{
+  color: #01579b;
+}
+.external-tab-button:focus{
+  color: #01579b;
+}
+.s1-5 {
+  width: 12.5%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
+}
+.job_edit_link{
+    display: none
+}
+
+</style>
+<div class="container" id="job_preloader">
+  <div class="progress" style="padding-top: 20px;">
+    <div class="indeterminate"></div>
+  </div>
+</div>
+<div class="preloader-wrapper big active" id="hol-up" style="display: none; z-index: 201; position: fixed;">
+  <div class="spinner-layer spinner-blue-only">
+    <div class="circle-clipper left"><div class="circle"></div></div>
+    <div class="gap-patch"><div class="circle"></div></div>
+    <div class="circle-clipper right"><div class="circle"></div></div>
+  </div>
+</div>
+
+<div class="container noselect"><a class="waves-effect waves-light btn-small phone-font-med phone-button lapping-btn" href="{% url 'jobs' %}">◀ All Jobs</a>
+  <a id="enter_edit_button" style="color: #666;" class="waves-effect waves-light btn-small phone-font-med phone-button lapping-btn" onclick="onEditMode()">Job Edit Mode</a>  
+  <span id="job_edit_mode_help" class="help-btn hover-item lapping-help"> About<i class="material-icons-outlined inline-icon">info</i></span> 
+</div>
+<div class="phone-font-lrg comp-font-med noselect" style="text-align: center; margin-top: 22px; color: #888; font-weight: 500;">job</div>
+<h3 style="text-align: center; margin-top: 7px;" class="phone-font-xl">{{ job.job_name }}</h3>
+
+
+</h3>
+</br>
+
+<div class="fixed-action-btn" id="edit_submit_div" hidden>
+       <button id="edit_submit" class="btn-large tooltipped pulse phone-button" data-position="left" data-tooltip="Must Save Changes to Take Effect" 
+       style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "type="submit" name="action" form="job_edit">Save Changes</button>
+</div>
+  </h3>
+<div class="container">
+  <div class="row">
+    <form id="job_edit" action="{% url 'edit_job' job.id %}" method="post">{% csrf_token %}</form>
+    <form id="job_edit_test_equipment" action="{% url 'edit_job_test_equipment' job.id %}" method="post">{% csrf_token %}</form>
+    <form id="site_id_edit" action="{% url 'edit_site_id' job.id %}" method="post">
+      {% csrf_token %}
+      <input form="site_id_edit" type="hidden" id="batchSiteIdData" name="batchSiteIdData" value=""> </form>
+    <div class="phone-screen" style="margin-bottom: 10px;">      
+      <a class="btn-small external-tab-button" id="equipment_tab" href="#equipment">Equipment</a>
+      <a class="btn-small external-tab-button" id="overview_tab" href="#overview">Overview</a>
+      <a class="btn-small external-tab-button" id="site_tab" href="#site">Site</a>
+    </div>
+    <div class="phone-screen" style="margin-bottom: 10px;">
+      <a class="btn-small external-tab-button" id="preparation_tab" href="#preparation">Preparation</a>
+      <a class="btn-small external-tab-button" id="job_scope_tab" href="#job_scope">Scope</a>
+      <a class="btn-small external-tab-button" id="safety_tab" href="#safety">Safety</a>
+    </div>
+    <div class="phone-screen" >
+      <a class="btn-small external-tab-button" id="internal_tab" href="#internal">Internal</a>
+      <a class="btn-small external-tab-button" id="job_notes_tab" href="#job_notes">Notes</a>
+      <a class="btn-small external-tab-button" id="job_files_tab" href="#job_files">Files</a>
+    </div>
+    <div class="col s12 computer-screen">
+      <ul class="tabs tabs-fixed-width z-depth-1 noselect" id="tabs1" style="color: #01579b; overflow: hidden;" >
+        <li class="tab col s1-5 hoverable"><a class="dynamic-tabs"  href="#equipment">Equipment</a></li>
+        <li class="tab col s1-5 hoverable" style="text-orientation: sideways;"><a class="active dynamic-tabs" href="#overview" style="color: #01579b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-orientation: sideways;">Overview</a></li>
+        
+        <li class="tab col s1 hoverable"><a class="dynamic-tabs"  href="#site">Site</a></li>
+        <li class="tab col s1-5 hoverable"><a class="dynamic-tabs"  href="#preparation">Preparation</a></li>
+        <li class="tab col s1-5 hoverable"><a class="dynamic-tabs"  href="#job_scope">Scope</a></li>
+        <li class="tab col s1-5 hoverable"><a class="dynamic-tabs"  href="#safety">Safety</a></li>
+        <li class="tab col s1-5 hoverable"><a class="dynamic-tabs"  href="#internal">Internal</a></li>
+        <li class="tab col s1 hoverable"><a class="dynamic-tabs"  href="#job_notes">Notes</a></li>
+        <li class="tab col s1 hoverable"><a class="dynamic-tabs"  href="#job_files">Files</a></li>
+      </ul>
+    </div>
+    <style>
+      a.dynamic-tabs {
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+      }
+    </style>
+
+
+<div id="overview" class="mobile-container col s12 hidencontent">
+  <div class="row">
+    <h4 class="phone-font-xl phone-screen">Overview</h4>
+    <table class="highlight col s12 m12 l8" style="margin-top: 23px;">
+      <tr>
+        <td class="phone-font-med" style="width: 184px; font-weight: 500;">Job Name</td>
+        <td>
+          <div class="col s12">{{job.job_name}}</div><a href="#" class="col s1" id="text_edit_jobname" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped"  data-position="right" data-tooltip="edit">edit</i></a>
+          <input
+                  id="text_input_jobname"
+                  class="phone-font-sml editable-field"
+                  name="text_input_jobname"
+                  type="text"
+                  form="job_edit"
+                  autocomplete="off"
+                  placeholder="Update Job Name"
+                  value="{{ job.job_name }}"
+                  hidden
+          >
+        </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="width: 184px; font-weight: 500;">Customer</td>
+        <td>
+          <div class="col s12 ">{{job.customer_name}}</div><a href="#" class="col s1" id="text_edit_customer" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped"  data-position="right" data-tooltip="edit">edit</i></a>
+          <input class="editable-field"
+                 id="customer_name"
+                 name="customer_name"
+                 type="text" form="job_edit"
+                 autocomplete="off"
+                 placeholder="Update Customer Name"
+                 value="{{ job.customer_name }}"
+                 hidden
+          >
+        </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="width: 184px; font-weight: 500;">Job Site</td>
+        <td>
+          <div class="col s12">{{job.job_site}}</div><a href="#" class="col s1" id="text_edit_jobsite" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped"  data-position="right" data-tooltip="edit">edit</i></a>
+          <input class="editable-field"
+                 id="text_input_jobsite"
+                 name="text_input_jobsite"
+                 type="text"
+                 form="job_edit"
+                 autocomplete="off"
+                 placeholder="Update Job Site"
+                 value="{{ job.job_site }}"
+                 hidden
+          >
+        </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Work Date(s)</td>
+        <td>
+            <div class="col s12">{{job.start_date}} - {{job.end_date}}</div>
+            
+            <label hidden class="editable-field" for="start_date">Start Date</label>
+            <input style="width: 49%" hidden class="editable-field" form="job_edit" type="date" id="start_date" name="start_date" {% if job.start_date %} value="{{ job.start_date_formatted }}"{% endif %}>            
+            <label hidden class="editable-field" for="end_date">End Date</label>
+            <input style="width: 49%" hidden class="editable-field" form="job_edit" type="date" id="end_date" name="end_date" {% if job.end_date %} value="{{ job.end_date_formatted }}"{% endif %}>
+
+        </td> 
+      </tr>
+
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Work Schedule</td>
+        <td>
+          <div class="col s12">{{job.work_schedule}}</div> 
+{#              <a href="#" id="text_edit_workschedule" class="col s1" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>#}
+          <textarea
+                  class="materialize-textarea editable-field job_edit"
+                  id="work_schedule_i"
+                  name="work_schedule_i"
+                  form="job_edit"
+                  autocomplete="off"
+                  placeholder="Enter Work Schedule"
+                  hidden
+          >{{ job.work_schedule }}</textarea>
+
+      </tr>
+
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Site Address</td>
+        <td> 
+          <div class="col s12">
+            <span style="white-space: pre-line;">{{job.job_site.address}} </span>
+            <div class="row">
+              <div class="col s12">
+                <a class="right hidden-stuff site_link" href="{% url 'job_site' job.job_site.id %}" target="_blank">Edit Site Details</a>
+              </div>
+            </div>
+            <a href="{{job.job_site.nav_link}}" target="_blank" class="waves-effect waves-light btn-small computer-screen" style="float: right;" {% if not job.job_site.nav_link %} disabled {% endif %} >Open Navigation</a>
+            <a href="{{job.job_site.nav_link}}" target="_blank" class="waves-effect waves-light btn-small phone-button phone-screen" style="float: right;" {% if not job.job_site.nav_link %} disabled {% endif %} >Navigate</a>
+            </div>
+          <a href="#" class="col s1" id="text_edit_address" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+{#              <textarea       #}
+{#                      class="materialize-textarea editable-field job_edit"#}
+{#                      id="address"#}
+{#                      name="address"#}
+{#                      form="job_edit"#}
+{#                      autocomplete="off"#}
+{#                      placeholder="Enter Site Address"#}
+{#                      hidden#}
+{#              >{{ job.job_site.address }}</textarea>#}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Site Contact</td>
+        <td>
+          <div class="col s12">{{job.site_contact}}<br><span style="white-space:pre-line;">{{job.site_contact_info}}</span></div>
+            <div class="row">
+              <div class="col s12">
+                <a class="right hidden-stuff site_link" href="{% url 'job_site' job.job_site.id %}" target="_blank">Edit Site Details</a>
+              </div>
+            </div>
+{#              <textarea#}
+{#                      class="materialize-textarea editable-field job_edit"#}
+{#                      id="site_contact"#}
+{#                      name="site_contact"#}
+{#                      form="job_edit"#}
+{#                      autocomplete="off"#}
+{#                      placeholder="Enter Site Contact"#}
+{#                      hidden#}
+{#              >{{ job.site_contact }}</textarea>#}
+{#              <textarea#}
+{#                      class="materialize-textarea editable-field job_edit"#}
+{#                      id="site_contact_info"#}
+{#                      name="site_contact_info"#}
+{#                      form="job_edit"#}
+{#                      autocomplete="off"#}
+{#                      placeholder="Enter Site Contact Info"#}
+{#                      hidden#}
+{#              >{{ job.site_contact_info }}</textarea>#}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Project Manager</td>
+        <td> <div class="col s12">
+          {% if job.project_manager %}
+          {{ job.project_manager }}
+          {% else %}
+          Not Specified 
+          {% endif %}</div>
+          <a href="#" id="text_edit_projectmanager" class="col s1" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+          <input
+                  class="editable-field"
+                  id="text_input_projectmanager"
+                  name="text_input_projectmanager"
+                  type="text" form="job_edit"
+                  autocomplete="off"
+                  placeholder="Enter Project Manager Name"
+                  value="{{ job.project_manager }}"
+                  hidden
+                  onchange="$('#project_manager').val($(this).val())"
+          >
+        </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Job Status</td>
+        <td class="phone-font-med">
+          <b style="display: block; max-width: 170px; padding: 1rem" >{{ job.job_complete }}</b></br>
+          {% if job.completion %}
+          <a href="{% url 'uncomplete_job' job.id %}" style="padding: 1rem">{{ complete_button }}</a>
+          {% else %}
+          <a href="{% url 'complete_job' job.id %}" style="padding: 1rem">{{ complete_button }}</a>
+          {% endif %}
+          <br class="phone-screen">
+          {% if job.archived %}
+          <a href="{% url 'unarchive_job' job.id %}" style="padding: 1rem">{{ archive_button }}</a>
+          {% else %}
+          <a href="{% url 'archive_job' job.id %}" style="padding: 1rem">{{ archive_button }}</a>
+          {% endif %}
+          <br class="phone-screen">
+          {% if job.trashed %}
+          <a href="{% url 'untrash_job' job.id %}" style="padding: 1rem">{{ trash_button }}</a>
+          {% else %}
+          <a href="{% url 'trash_job' job.id %}" style="padding: 1rem">{{ trash_button }}</a>
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Equipment Status</td>
+        <td class="phone-font-med">Finished: {{finished_count}} </br>Unfinished: {{unfinished_count}}</td>
+      </tr>
+      <tr style="display: none;">
+        <td class="phone-font-med" style="font-weight: 500;">Equipment Type Counts</td>
+        <td class="phone-font-med">Finished: {{finished_count}} </br>Unfinished: {{unfinished_count}}</td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">FSR's Count</td>
+        <td class="phone-font-med"> {{job.fsr_count}} </td>
+      </tr>
+      <tr>
+        <td class="phone-font-med" style="font-weight: 500;">Created by</td>
+        <td class="phone-font-med"> {{job.created_by.user}} </td>
+      </tr>
+    </table>
+        <div class="col s12 m12 l4"
+        style="padding: 0">
+          <h4 class="comp-spacer" style="border-bottom: 1px solid #aaa; background-color: white; text-align: center; position: sticky; top: 0; z-index: 98;">Crew</h4>
+          {% if non_fsrs %}
+      
+          <form style="padding-top: 10px; padding-right: 10px;
+          padding-bottom: 10px; padding-left: 10px;" action="{% url 'add_fsr' job.id %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="comp-spacer">
+              <select class="phone-font-ml" style="height: auto;" searchable="true" id="fsr" name="fsr">
+                {% for fsr in non_fsrs %}
+                <option class="phone-font-ml" value="{{ fsr.id }}">{{ fsr }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn right phone-button" style="margin-top: 10px;" type="submit">Add Now <i class="material-icons right">send</i></button>
+            </div>
+            </div>
+          </form>
+          {% else %}
+          <h6 style="text-align: center; color: #aaa;">No FSRs Left to Add.</h6>
+          {% endif %}
+          {% for fsr in fsrs %}
+            <div class="card white hoverable comp-spacer" style="">
+              <div class="card-content"  >
+                <span class="card-title phone-font-lrg" style="font-weight: normal; color: black">{{ fsr }}</span>
+                <p class="phone-font-sml" style="color: black">
+                  {% csrf_token %}                  
+                  {{fsr.home_base}}</br>
+                  {{ fsr.phone_number }}</br>
+                  {{ fsr.user.email }}
+                </p>
+              </div>
+              <div class="card-action" style="height: auto; white-space: nowrap;" >
+                <a class="phone-font-med" style="color: #039be5;" href="{% url 'fsr_info' fsr.id %}">View Profile</a>
+                <a class="phone-font-med" style="color: #039be5;" href="{% url 'remove_fsr' job.id fsr.id %}">remove</a>
+                <span>
+                  <a class="phone-font-med" style="color: #039be5;" href="tel:{{ fsr.phone_number }}"><i class="material-icons tooltipped phone-font-lrg " data-position="bottom" data-tooltip="Call">call</i></a>
+                  <a class="phone-font-med" style="color: #039be5;" href="tel:{{ fsr.user.email }}"><i class="material-icons tooltipped phone-font-lrg" data-position="bottom" data-tooltip="Email">email</i></a>
+                </span>
+              </div>
+            </div>
+          {% empty %}
+          <h4 style="color: #aaa;" class="phone-font-med"><i>No Crew Yet</i></h4>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+    <div id="equipment" name="equipment" class="mobile-container col s12 hidencontent">
+      
+        <div class="row"><h4 class="phone-font-xl phone-screen">Equipment</h4></div>
+        
+        <div class="row bottom-pad noselect">
+          <a class="phone-font-lrg left-pad right left-spacing hover-item right-pad" onclick="$('#eq_child_div-container').slideToggle('fast'); $('#search_eq_child_div').focus()" >            
+            <span class="computer-screen">Search</span> &#x1F50E 
+      </a> 
+     
+        </div>
+        
+        <!-- <div class="row" id="eq_child_div-container" style="display: none;">
+          <div class=" search-div" style="float: right;">
+            <input id="search_eq_child_div" type="text" placeholder="Search..." onkeyup="searchElement()" />
+            <div class="row">
+              <div id="eq_child_div-move-text" class="noselect phone-font-med" style="display: none; color: #888">
+                <span id="eq_child_div-matched-text"></span>
+                <div style="float: right">
+                  <span class="phone-font-xl hover-item search-arrows comp-font-ml " onclick="previousSearchNote('eq_child_div') " id="eq_child_div-previous-text" >▲
+                  </span>
+                  <span class=" phone-font-xl hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('eq_child_div')" id="eq_child_div-next-text">▼
+                  </span>
+                </div>  
+              </div>
+              <button id="search_eq_child_div_button" onclick="searchNote('eq_child_div', 'eq_child_toggle', 'eq-site-id')" hidden>Search</button>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row" id="eq_child_div-container" style="display: none; border-top-left-radius: 0; border-top-right-radius: 0; position: -webkit-sticky; position: sticky;">
+          <div class=" search-div" style="float: right;">
+            <input id="search_eq_child_div" class="search-input" type="text" placeholder="Search..." onkeyup="searchElement()" />
+            <div class="row">
+              <div id="eq_child_div-move-text" class="noselect phone-font-med" style="display: none; color: #888">
+                <span id="eq_child_div-matched-text"></span>
+                <div style="float: right">
+                  <span class="phone-font-xl hover-item search-arrows comp-font-ml " onclick="previousSearchNote('eq_child_div') " id="eq_child_div-previous-text" >▲
+                  </span>
+                  <span class=" phone-font-xl hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('eq_child_div')" id="eq_child_div-next-text">▼
+                  </span>
+                </div>  
+              </div>
+              <button id="search_eq_child_div_button" onclick="searchNote('eq_child_div', 'eq_child_toggle', 'eq-site-id')" hidden>Search</button>
+            </div>
+          </div>
+        </div>
+      
+        
+
+        
+        <ul id='equip_actions' class='dropdown-content' style="z-index: 102;">
+          <li><a class="phone-font-ml equip-action-dropdown" href="{% url 'compile_test_report' job.id %}" target="_blank">Compile Test Report</a></li>
+          <li><a class="phone-font-ml equip-action-dropdown"  href="{% url 'report_cover_page' job.id %}" target="_blank">View Report Cover Page</a></li>
+          <li><a class="phone-font-ml equip-action-dropdown"  href="{% url 'equipment_in_scope' job.id %}" target="_blank">View Equipment Contents Page</a></li>
+          <li><a class="phone-font-ml equip-action-dropdown" href="{% url 'trashed_equipment' job.id %}" onclick=" initiateWait()">View Equipment Trash</a></li>
+          <li><a class="phone-font-ml equip-action-dropdown hover-item" onclick="editSiteIds()">Edit Site ID's</a></li>
+          <li> <a id='batch_trash' onclick="onBatchAction('trash');initiateWait()" class="phone-font-ml equip-action-dropdown">Trash Selected
+        </a></li>
+        </ul>
+
+       
+       
+
+        <a class='dropdown-trigger dropdown-auto btn-small phone-font-lrg phone-button phone-btn-spacer secondary-act z-depth-0' href='#' data-target='equip_actions'> Options <i class="material-icons right">menu</i> </a>
+        <a class="dropdown-trigger dropdown-auto waves-effect waves-light btn-small phone-button phone-btn-spacer" style="display: none;" href="#" data-target="add_eq_dropdown">Equipment Assembly</a>
+        <a class="phone-button btn-small phone-btn-spacer" href="{% url 'job_site' job.job_site.id %}" >Open Job Site</a>
+        <a class="phone-button btn-small phone-btn-spacer" href="{% url 'add_equipment_page' job.id %}" id="add_eq_button" >Quick Add</a>
+
+        <span id="eq_assembly_help" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span>
+        <ul id="add_eq_dropdown" class="dropdown-content">
+        </ul>
+        
+          <div style="margin-top: 10px; text-align: right;">
+            <a class="waves-effect waves-light btn-small phone-button" id='select_all_eq' onclick="selectAllEq()"><i class="material-icons-outlined left phone-font-lrg ">library_add_check</i>Select All</a>
+            <a class="waves-effect waves-light btn-small phone-button" id='deselect_all_eq' style="display: none;" onclick="deSelectAllEq()"><i class="material-icons-outlined left phone-font-lrg ">library_add_check</i>Deselect All</a>     
+            <div class="fixed-action-btn" id="edit_id_div" hidden>
+              <button id="edit_site_id_submit" class="btn tooltipped pulse phone-button" data-position="left" data-tooltip="Save changes to site ID" style="text-align: center; background-color: #bf5700; color: white;" type="submit" name="site_id_action" onclick="onEditSiteId()">Commit New IDs</button>
+            </div>
+            <table style="width: 100%; display: none;">
+              <tr style="border: none !important;">
+                <td style="padding: 0; padding-inline-start: 0;">             
+                </td>
+                <td style="padding: 0; padding-inline-start: 0; text-align: right;">
+                  
+                <span id="eq_edit_help" class="  help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span>
+                  <a id='equip_actions_trigger' onclick="onEq_Actions_Trigger()" class='btn-small phone-button batch-act noselect' data-target='menuBatchActions' style="white-space: nowrap; z-index: 101;">
+                    &#9660 edit   
+                </a>
+                  <a id='batch_complete' onclick="onBatchAction('complete');initiateWait()" class="btn-small phone-button  batch-act noselect" style="z-index: 101; display: none;">
+                    Mark
+                    <span style=" color:#00CC55" >
+                      &#x2714
+                    </span>
+                </a>
+                <a id='batch_incomplete' onclick="onBatchAction('uncomplete');initiateWait()" class="btn-small phone-button  batch-act noselect" style="z-index: 101; display: none;">
+                  Mark
+                  <span style=" color:#cd5c5c; font-weight: 900;"  >
+                    &#8212
+                  </span>
+                </a>
+                <a id='batch_trash' onclick="onBatchAction('trash');initiateWait()" class="btn-small phone-button  batch-act noselect" style="z-index: 101; display: none;">
+                    Trash
+                </a>
+                </td>
+              </tr>
+            </table>
+        
+</div>
+        <form id="batch_actions_form" action="{% url 'equipment_batch_actions' job.id %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" id="batchActionsData" name="batchActionsData" value="">
+        </form>
+        <div class="equipment-wrapper">
+          {% for equipment in equipments %}
+          {% include "jobs/equipment_data.html" with equipment=equipment %}          
+          {%empty%}
+          <h4>No equipment has been added yet. </h4> 
+          {% endfor %}
+        </div>
+        
+        
+    </div>
+
+
+    <div id="site" style="padding: 0;" class="col s12 hidencontent">
+      <div class="row"><h4 class="phone-font-xl phone-screen ">Site</h4></div>
+      <div class="">
+      <a class=" btn-small phone-button" href="{% url 'job_site' job.job_site.id %}" target="_blank">Open Job Site</a>
+      <span id="job_site_link_help" class=" help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span>
+    </div>
+      <div class="row">
+        <div class="col s12 m12 l12 xl5 mobile-container">
+          <table class="highlight">
+            <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >General</caption>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Site Name</td>
+              <td class="phone-font-med">
+              {{job.job_site.name}}
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Site Contact</td>
+              <td class="phone-font-med" style="white-space:pre-line;">{{job.job_site.site_contact}}<br>{{job.job_site.site_contact_info}}</td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Owner</td>
+              <td class="phone-font-med">
+                {{job.job_site.owner}} 
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Facility Manager</td>
+              <td class="phone-font-med">
+                {{job.job_site.facility_manager}} 
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Other Contacts</td>
+              <td class="phone-font-med" style="white-space:pre-line;">{{job.job_site.other_contacts}}</td>
+            </tr>
+          </table>
+          <table class="highlight">
+            <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 5rem;">Site Safety</caption>
+            {% if job.job_site.is_safety_training %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Safety Training</td>
+              <td class="phone-font-med">
+              <b>Required</b>
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.safety_training_item_requirements %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Items Required for Safety Training</td>
+              <td class="phone-font-med">
+                {{job.job_site.safety_training_item_requirements}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.safety_training_location %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Safety Training Location</td>
+              <td class="phone-font-med">
+                {{job.job_site.safety_training_location}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.safety_training_time %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Safety Training Time</td>
+              <td class="phone-font-med">
+                {{job.job_site.safety_training_time}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.safety_training_procedure %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Safety Training Procedure</td>
+              <td class="phone-font-med">
+                {{job.job_site.safety_training_procedure}}
+              </td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Required Site PPE</td>
+              <td class="phone-font-med">
+                <div class="col s12" style="white-space: pre-wrap;text-transform: capitalize;">{{job.safety_equipment_string}}</div>
+              </td>
+            </tr>
+            {% if job.job_site.additional_ppe_requirements  %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Additional PPE Requirements</td>
+              <td class="phone-font-med">
+                {{job.job_site.additional_ppe_requirements }}
+              </td>
+            </tr>
+            {% endif %}
+          </table>
+          <div class = "row">
+            <h4 class="phone-font-lrg" style="color: #023b59;">Site Notes</h4>
+            <ul class="collection " style="border: none;">
+              {% for note in jobsite_notes %}
+              <li class="collection-item" style="border: none; padding: 16px 0;">
+                <div class="note-lightgrey">
+                  <span class="phone-font-sml search-text" style="font-weight: 600;">
+                    {{ note.author.first_name | default_if_none:"Admin" }} {{ note.author.last_name | default_if_none:"" }}
+                  </span><br>
+                  <span class="note-content phone-font-med search-text">
+                    {{note.note}}                 
+                  </span>
+                </div>
+                <span class="phone-font-xs search-text" style="color: #aaa; float: right;">{{note.created_at}}</span>
+       
+              </li>
+              {% empty %}
+              <li class="collection-item">No notes for this Job Site. <a href="#">Open the site</a>  to add or edit notes. </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col s12 m12 l12 xl6 push-xl1 mobile-container">
+          <table class="highlight ">
+            <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >Location</caption>
+            <tr>
+              <td class="phone-font-med" >Address</td>
+              <td class="phone-font-med" >
+              {{job.job_site.address}}
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med">Navigation Link</td>
+              <td class="phone-font-med wrapwords">
+                <a href="{{job.job_site.nav_link}}" target="_blank" class="waves-effect waves-light btn-small computer-screen" style="margin-bottom: 10px" {% if not job.job_site.nav_link %} disabled {% endif %}>Open Navigation</a>
+                  <a href="{{job.job_site.nav_link}}" target="_blank" class="waves-effect waves-light btn-large phone-screen white-button phone-font phone-button" style="margin-bottom: 10px" {% if not job.job_site.nav_link %} disabled {% endif %}>Navigate</a> <br>
+                 {{job.job_site.nav_link}}
+              </td>
+            </tr>
+            {% if job.job_site.site_navigation %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Layout/Logistics</td>
+              <td class="phone-font-med">
+              {{job.job_site.site_navigation}}
+            </tr>
+            {% endif %}
+          </table>
+          <table class="highlight ">
+            <caption class="phone-font-lrg computer-font-lrg" id="site_caption" style="padding-top: 5rem;">Site Access</caption>
+            {% if job.job_site.background_checks %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Background Check</td>
+              <td class="phone-font-med">
+                <b>Required. </b><br>
+              {{job.job_site.background_check_procedure}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.documents_required_for_access %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Items Required for Access</td>
+              <td class="phone-font-med">
+              {{job.job_site.documents_required_for_access}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.entry_procedure %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Entry Procedure</td>
+              <td class="phone-font-med">
+              {{job.job_site.entry_procedure}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.driving_vehicles %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Driving</td>
+              <td class="phone-font-med">
+              {{job.job_site.driving_vehicles}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.parking_considerations %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Parking</td>
+              <td class="phone-font-med">
+              {{job.job_site.parking_considerations}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.restricted_items %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Restricted Items</td>
+              <td class="phone-font-med">
+              {{job.job_site.restricted_items}}
+              </td>
+            </tr>
+            {% endif %}
+            {% if job.job_site.access_requirements %}
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Additional Access Requirements</td>
+              <td class="phone-font-med">
+              {{job.job_site.access_requirements}}
+              </td>
+            </tr>
+            {% endif %}
+          </table>
+          <div class="row">
+            <h4 class="phone-font-lrg" style="color: #023b59;">Site Files</h4>
+            <ul class="collection" style="margin-right: 20px; border: none;">
+              {% csrf_token %}
+                {% for file in jobsite_files %}
+                <li class="collection-item" style="border-bottom: 1px solid #00000012; background: transparent;">
+                  <a href="{{file.jobsite_file.url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;"><i class="material-icons left phone-font-med">insert_drive_file</i>
+                    {% if file.file_name %}
+                    {{file.file_name}}
+                    {% else %}
+                    {{file.filename}}
+                    {% endif %}
+                  </a></br><a style="color: #aaa" class="phone-font-sml">Added: {{file.created_at}}</a>
+  
+                {% empty %}
+                <li class="collection-item" >No site files. <a href="#">Open the job site</a> to add files. </li>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="preparation" style="padding: 0;" class="col s12 hidencontent">
+      <div class="row"></div>
+      
+      <div class="row">
+        <div class="col s12 m8 l9 mobile-container ">
+          <table class="highlight">
+            <caption id="preparation_caption" class="phone-font-lrg computer-font-lrg"
+            >Tools, Equipment, and Material</caption>
+            <tr
+			    {% if not job.specialty_test_equipment is None %}
+				class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Specialty Test Sets</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.specialty_test_equipment}}</div><a class="col s1" href="#" id="text_edit_special_te" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <textarea id="edit_special_te" name="edit_special_te" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.specialty_test_equipment}}</textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Standard Handtools</td>
+              <td class="phone-font-med">
+                <div class="col s12">{% if job.is_standard_handtools %}
+                <b>Yes,</b> standard handtools are required.
+                {% else %}
+                <b>No,</b> standard handtools are not required.
+                {% endif %}</div>
+                <a class="col s1" href="#" id="text_edit_handtools" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <div id="is_standard_handtools" hidden class="job_edit editable-field">
+                  <label>
+                      <input name="is_standard_handtools" id="is_standard_handtools_false"
+                                type="radio" form="job_edit" value='False'
+                             {% if not job.is_standard_handtools %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>&nbsp No &nbsp</span>
+                  </label>
+                  <label>
+                      <input name="is_standard_handtools" id="is_standard_handtools_true"
+                             type="radio" form="job_edit" value='True'
+                             {% if job.is_standard_handtools %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr
+                {% if not job.generators %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Generators</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.generators}}</div><a class="col s1" href="#" id="text_edit_generators" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <textarea id="generators" name="generators" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.generators}}</textarea>
+              </td>
+            </tr>
+            <tr
+                {% if not job.fuels %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Fuels</td>
+              <td class="phone-font-med">
+                  <div class="col s12">{{ job.fuels }}</div>
+                  <div class="job_edit editable-field" hidden>
+                      Gasoline: <input form="job_edit" type="number" id="gasoline" name="gasoline" value="{{ job.gasoline }}" style="width: 75px" /> gallon/s
+                      <br>
+                      Diesel: <input form="job_edit" type="number" id="diesel" name="diesel" value="{{ job.diesel }}" style="width: 75px"  />  gallon/s
+                  </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Extension Cords</td>
+              <td class="phone-font-med"><div class="col s12">{{job.extension_cords}}</div><a class="col s1" href="#" id="text_edit_extension_cords" onclick="return false;"></a>
+                <textarea id="extension_cords" name="extension_cords" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.extension_cords}}</textarea>
+                </td>
+              </td>
+            </tr>
+            <tr
+                {% if not job.ladders %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Ladders</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.ladders}}</div>
+                <textarea id="edit_ladders" name="edit_ladders" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.ladders}}</textarea>
+                </td>
+            </tr>
+            <tr
+                {% if not job.tables and not job.chairs %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Tables and Chairs</td>
+              <td class="phone-font-med">
+                  <div class="col s12">{{job.tables}} Tables and {{job.chairs}} Chairs</div>
+                  <div class="job_edit editable-field" hidden>
+                      <input form="job_edit" type="number" id="tables" name="tables" value="{{ job.tables }}" style="width: 75px" /> Tables and
+                      <input form="job_edit" type="number" id="chairs" name="chairs" value="{{ job.chairs }}" style="width: 75px"  />  Chairs
+                  </div>
+              </td>
+            </tr>
+            <tr
+            {% if not job.is_grounding_cluster %}
+                class="hidden-stuff"
+            {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Grounding Clusters</td>
+              <td class="phone-font-med">
+                <div class="col s12">
+                  {% if job.is_grounding_cluster %}
+                    <b>Required. </b>
+                    We must apply {{job.grounding_cluster_quantity|default_if_none:'undefined quantity of'}} grounding clusters with a wire size of {{job.grounding_wire_size|default_if_none:'undefined' }} SWG.
+                    <span style="font-weight: 900;">Clamp end style:</span> {{job.grounding_clamp_style|default_if_none:'unkown'}}.
+                  {% else %}
+                  No grounding requirements specified
+                  {% endif %}
+                  <div class="job_edit editable-field" hidden >
+                    Grounding Required?
+                    <label>
+                        <input name="is_grounding_cluster1" id="is_grounding_cluster_false1" onchange="if($(this).is(':checked')){$('#is_grounding_cluster_false').prop('checked', true)}" type="radio" form="job_edit" value='False'
+                            {% if not job.is_grounding_cluster %}
+                                checked
+                            {% endif %}
+                        />
+                        <span>No</span>
+                    </label>
+                    <label>
+                        <input name="is_grounding_cluster1" id="is_grounding_cluster_true1" onchange="if($(this).is(':checked')){$('#is_grounding_cluster_true').prop('checked', true)}" type="radio" form="job_edit" value='True'
+                            {% if job.is_grounding_cluster %}
+                                checked
+                            {% endif %}
+                        />
+                        <span>Yes</span>
+                    </label>
+
+                    <div class="job_edit grounding_cluster"
+                          {% if not job.is_grounding_cluster %}
+                          hidden
+                          {% endif %}
+                    >
+                      <b>Required. </b>We must apply
+                      <input form="job_edit" type="number" onfocusout="$('#grounding_cluster_quantity').val($(this).val())" id="grounding_cluster_quantity1" name="grounding_cluster_quantity1" value="{{ job.grounding_cluster_quantity }}" style="width: 75px; text-align: center;" />  grounding clusters with a wire size of
+                      <input form="job_edit" type="number" onfocusout="$('#grounding_wire_size').val($(this).val())" id="grounding_wire_size1" name="grounding_wire_size1" value="{{ job.grounding_wire_size }}" style="width: 75px; text-align: center;"  />SWG. 
+                      <br> Clamp End Style:
+                      <input form="job_edit" type="text" onfocusout="$('#grounding_clamp_style').val($(this).val())" id="grounding_clamp_style1" name="grounding_clamp_style1" value="{{ job.grounding_clamp_style }}" style="width: 75px; text-align: center;"  />
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr
+                {% if not job.harness_lanyard %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Harness & Lanyards</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.harness_lanyard}}</div>
+                <textarea id="harness_lanyard1" name="harness_lanyard1" class="materialize-textarea editable-field job_edit" onfocusout="$('#harness_lanyard').val($(this).val())" form="job_edit" hidden>{{job.harness_lanyard|default_if_none:''}}</textarea>
+              </td>
+
+            </tr>
+            <tr
+                {% if not job.torque_wrenches %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Torque Wrenches</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.torque_wrenches}}</div><a class="col s1" href="#" id="text_edit_torque_wrenches" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <textarea id="torque_wrenches" name="torque_wrenches" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.torque_wrenches}}</textarea>
+              </td>
+            </tr>
+            <tr
+			    {% if not job.lifts %}
+				    class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Man Lifts</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.lifts}}</div><a class="col s1" href="#" id="text_edit_lifts" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <textarea id="lifts" name="lifts" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.lifts}}</textarea>
+              </td>
+            </tr>
+            <tr
+			    {% if not job.is_bus_bender %}
+				    class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Bus Bender</td>
+              <td class="phone-font-med">
+                <div class="col s12">
+                    {% if job.is_bus_bender %}
+                        Bus bender required.
+                    {% else %}
+                        Bus bender is not required.
+                    {% endif %}
+                </div>
+                <div id="edit_handtools" class="job_edit editable-field" hidden>
+                  <label>
+                      <input name="bus_bender" id="bus_bender"
+                                type="radio" form="job_edit" value='False'
+                             {% if not job.is_bus_bender %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="bus_bender" id="bus_bender"
+                             type="radio" form="job_edit" value='True'
+                             {% if job.is_bus_bender %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span></label>
+                </div>
+              </td>
+            </tr>
+            <tr
+                {% if not job.is_fork_lift %}
+                    class="hidden-stuff"
+                {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Fork Lift</td>
+              <td class="phone-font-med">
+                <div class="col s12">
+                    {% if job.is_fork_lift %}
+                        Fork lift required.
+                    {% else %}
+                        Fork lift is not required.
+                    {% endif %}
+                </div>
+                <div id="is_fork_lift" class="job_edit editable-field" hidden>
+                  <label>
+                      <input name="is_fork_lift" id="is_fork_lift_false"
+                                type="radio" form="job_edit" value='False'
+                             {% if not job.is_fork_lift %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_fork_lift" id="is_fork_lift_true"
+                             type="radio" form="job_edit" value='True'
+                             {% if job.is_fork_lift %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr
+			    {% if not job.is_trailer %}
+				class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Trailer</td>
+              <td class="phone-font-med">
+                <div class="col s12">
+                    {% if job.is_trailer %}
+                        Trailer required.
+                    {% else %}
+                        Trailer is not required.
+                    {% endif %}
+                </div>
+                <div id="is_trailer" class="job_edit editable-field" hidden>
+                  <label>
+                      <input name="is_trailer" id="is_trailer_false"
+                                type="radio" form="job_edit" value='False'
+                             {% if not job.is_trailer %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_trailer" id="is_trailer_true"
+                             type="radio" form="job_edit" value='True'
+                             {% if job.is_trailer %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr
+			    {% if not job.additional_tools %}
+				class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Additional Tools</td>
+              <td class="phone-font-med">
+                <div class="col s12">{{job.additional_tools}}</div><a class="col s1" href="#" id="text_edit_additional_tools" onclick="return false;" ><i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">edit</i></a>
+                <textarea id="additional_tools" name="additional_tools" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.additional_tools}}</textarea>
+              </td>
+            </tr>
+            <tr
+			    {% if not job.material %}
+				    class="hidden-stuff"
+			    {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Material</td>
+              <td class="phone-font-med">
+                <div class="col s12" style="white-space: pre-wrap;">{% if job.material %}{{job.material}}{% else %}No material is required for this job.{% endif %}
+                </div>
+                  <a class="col s1" href="#" id="text_edit_additional_tools" onclick="return false;" >
+                      <i class="tiny job_edit_link material-icons tooltipped" data-position="right" data-tooltip="edit">
+                          edit
+                      </i>
+                  </a>
+                <textarea id="material" name="material" class="materialize-textarea editable-field job_edit" form="job_edit" hidden>{{job.material}}</textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500; ">PPE Requirements</td>
+              <td class="phone-font-med">
+                  <div class="col s12" style="text-transform: capitalize;">
+
+                  {#                  Always Visible                   #}
+                  <span
+                    {% if not job.is_hardhat %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Hardhat
+                  </span><br>
+
+                  <span
+                    {% if not job.is_safety_glasses %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety Glasses</span><br>
+
+                  <span
+                    {% if not job.is_safety_shoes %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety Shoes</span><br>
+                  <span
+                    {% if not job.is_safety_vest %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Hi-visibility vest</span><br>
+
+                  <span
+                    {% if not job.is_safety_gloves %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety gloves</span><br>
+
+                  <span
+                    {% if not job.is_fr_clothes %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Standard flame retardant clothes</span><br>
+
+
+                  {#                  -- only visible on edit mode --                   #}
+                  {% if job.is_8cal_protection %}
+                  <span>10 cal protection gear</span><br>
+                  {% endif %}
+
+                  {% if job.is_40cal_protection %}
+                  <span>40 cal protection gear</span><br>
+                  {% endif %}
+
+                  {% if job.is_harness %}
+                  <span>harness & lanyard</span><br>
+                  {% endif %}
+
+                  {% if job.is_mv_voltage_detector %}
+                  <span>medium voltage proximity detector</span><br>
+                  {% endif %}
+
+                  {% if job.is_insulated_gloves %}
+                  <span>insulated gloves</span><br>
+                  {% endif %}
+
+                  {% if job.is_h2s_monitor %}
+                  <span>H2S monitor</span><br>
+                  {% endif %}
+
+                  <a class="right editable-field" onclick="switchTab('safety', 'safety-ppe')" href="#" hidden>edit</a>
+              </div>
+              </td>
+            </tr>
+            <tr id="other-ppe" 
+            {% if not job.other_ppe_requirements %}
+                class="hidden-stuff"
+            {% endif %}
+            >
+              <td class="phone-font-med" style="font-weight: 500;">Other PPE Requirements</td>
+              <td class="phone-font-med">
+                <div class="col s12">
+                  <span>{{ job.other_ppe_requirements }}</span><br>
+                  <div class="editable-field" hidden>
+                    <input type="text"
+                          name="other_ppe_requirements1"
+                          id="other_ppe_requirements1"
+                          form="job_edit"
+                          placeholder="Enter Other PPE Requirements"
+                          value="{{ job.other_ppe_requirements | default_if_none:''}}"
+                          onfocusout="$('#other_ppe_requirements').val($(this).val())"
+                    />
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="phone-font-med" style="font-weight: 500;">Weather Considerations</td>
+              <td class="phone-font-med">
+                  <div class="col s12">
+                    {% if job.weather_considerations %}
+                    {{ job.weather_considerations }}
+                    {% else %}
+                    Not Specified
+                    {% endif %}
+                  </div>
+                  <textarea
+                          id="weather_considerations"
+                          name="weather_considerations"
+                          class="materialize-textarea editable-field job_edit"
+                          form="job_edit" hidden
+                  >{{job.weather_considerations}}</textarea>
+              </td>
+            </tr>
+            
+          </table>
+        </div>
+        <div class="col s12 m4 l3 mobile-container ">
+          <h4 style="padding-top:0%; color: #023b59;">Required Test Sets </h4>
+          <span id="job_test_eq_help" class="help-btn right hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span>
+            <div id="update-test-equipment" hidden>
+              <div class="row">
+                <div class="input-field col s12 phone-font-lrg">
+                  <div id="m_test_equipment-chips" class="chips chips-autocomplete phone-font-lrg">
+                  </div>
+                  <input id="mandatory_test_equipment"
+                         form="job_edit_test_equipment"
+                         name="mandatory_test_equipment"
+                         style="display: none;"
+                         value=""
+                  >
+                </div>
+              </div>
+            </div>
+          <div class="row" style="text-align: center;">
+              <button class="waves-effect waves-light btn-small  phone-button"  id="update-test-equipment-button">
+                  Edit
+              </button>
+              <button class="waves-effect waves-light btn-small right phone-button"
+                 id="submit-test-equipment-button"
+                 style="display: none"
+                 type="submit" name="action" form="job_edit_test_equipment" onclick="onSubmit();"
+              >Submit</button>
+             <button class="waves-effect waves-light btn-small right phone-button"
+                 id="cancel-update-test-equipment-button"
+                 style="display: none; margin-right: 6px"
+              >
+                  Cancel
+              </button>
+          </div>
+          <ul class="collection ">
+            <li class="collection-item" style="font-weight: 900;"> <i style="color: #aaa;"> # of Uses </i> Name </li>
+            {% for test_equipment in job.test_equipments %}
+            <li class="collection-item">
+              {% csrf_token %}
+              <span style="display: table-cell;">
+              <i style="color: #aaa;">{{ test_equipment.1 }}</i></span> <span style="display: table-cell; padding-left: 10px;">{{ test_equipment.0 }} </span>
+            </li>
+            {% empty %}
+            <li class="collection-item">No Test Sets</li>
+            {% endfor %}
+          </ul>
+          <div class="card white" style="display: none;">
+            <div class="card-content">
+              <span class="card-title phone-font-lrg">ACMERental</span>
+              <p class="phone-font-sml">
+                Website: <a href="www.ACMERental.com">ACMERental.com</a><br>
+                Phone: 156-789-1659<br>
+                Billing Code: 97651318
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+        
+       
+
+
+
+
+    </div>
+
+    <div id="job_scope" class="mobile-container col s12 hidencontent">
+      <div class="row"><h4 class="phone-font-xl phone-screen">Job Scope</h4></div>
+      
+      <table class="highlight">     
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Job Scope Document</td>
+          <td class="phone-font-med"><div class="col s12" style="color: #aaa;">
+            
+            <a class="waves-effect waves-light btn-small phone-font-med phone-button" href="https://images.template.net/wp-content/uploads/2015/02/Project-Scope-Document-Template.jpg" target="_blank" >Open File</a>            
+            (example file) This is a customizable field. If you like, We can work with you to import from you existing quoting/job defining software.
+                     
+          </td>
+
+        </tr>   
+        <tr
+			    {% if not job.is_startup and not job.is_preventative_maintenance and not job.is_troubleshooting and not job.is_warranty and not job.is_standard_testing and not job.is_neta_testing  %}
+				class="hidden-stuff"
+			    {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Work Type</td>
+
+          <td class="phone-font-med">
+              <div class="col s12">
+                {% if job.is_startup %}
+                This job includes startup testing for new equipment installation.<br>
+                {% endif %}
+                {% if job.is_preventative_maintenance %}
+                This job includes preventative maintenance on existing equipment.<br>
+                {% endif %}
+                {% if job.is_troubleshooting %}
+                This job includes troubleshooting.<br>
+                {% endif %}
+                {% if job.is_warranty %}
+                This job is a warranty.<br>
+                {% endif %}
+                {% if job.is_standard_testing %}
+                Some or all of equipment shall be tested at standard testing standards.<br>
+                {% endif %}
+                {% if job.is_neta_testing %}
+                Some or all of equipment shall be tested at NETA testing standards.<br>
+                {% endif %}
+                <div class="editable-field" hidden>
+                    <p>
+                        <input type="hidden"
+                               name="is_startup"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_startup"
+                               name="is_startup"
+                               form="job_edit"
+                                {% if job.is_startup %}
+                                    checked="checked"
+                                {% endif %}
+                               value="True"
+                        />
+                        <span>This job includes startup testing for new equipment installation.</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_preventative_maintenance"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label class="check-label">
+                        <input type="checkbox"
+                               class="filled-in is_preventative_maintenance"
+                               name="is_preventative_maintenance"
+                               form="job_edit"
+                                {% if job.is_preventative_maintenance %}
+                                    checked="checked"
+                                    value="True"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>This job includes preventative maintenance on existing equipment.</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_troubleshooting"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label class="check-label">
+                        <input type="checkbox"
+                               class="filled-in is_troubleshooting"
+                               name="is_troubleshooting"
+                               form="job_edit"
+                                {% if job.is_troubleshooting %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>This job includes troubleshooting.</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_warranty"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label class="check-label">
+                        <input type="checkbox"
+                               class="filled-in is_warranty"
+                               name="is_warranty"
+                               form="job_edit"
+                               {% if job.is_warranty %}
+                                    checked="checked"
+                               {% endif %}
+                               value="True"
+                        />
+                        <span>This job is a warranty.</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_standard_testing"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label class="check-label">
+                        <input type="checkbox"
+                               class="filled-in is_standard_testing"
+                               name="is_standard_testing"
+                               form="job_edit"
+                                {% if job.is_standard_testing %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+
+                        />
+                        <span>The testing of equipment shall be up to standard testing standards.</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_neta_testing"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label class="check-label">
+                        <input type="checkbox"
+                               class="filled-in is_neta_testing"
+                               name="is_neta_testing"
+                               form="job_edit"
+                               {% if job.is_neta_testing %}
+                                    checked="checked"
+                               {% endif %}
+                               value="True"
+                        />
+                        <span>The testing of equipment shall be up to NETA testing standards.</span>
+                      </label>
+                    </p>
+                </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Job Scope Summary</td>
+          <td class="phone-font-med"><div class="col s12">
+            {% if job.job_scope_details %}
+            {{ job.job_scope_details }}
+            {% else %}
+            No additional details on job scope.
+            {% endif %}</div>
+            <textarea id="job_scope_details"
+                      name="job_scope_details"
+                      class="materialize-textarea editable-field job_edit"
+                      form="job_edit"
+                      hidden>{{job.job_scope_details}}</textarea>
+            
+          </td>
+
+        </tr>
+      <tr
+          style="display: none;"
+          {% if not job.escort_considerations %}
+                class="hidden-stuff" 
+          {% endif %}
+      >
+          <td class="phone-font-med" style="font-weight: 500;">Site Chaperones</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                {% if job.escort_considerations %}
+                {{ job.escort_considerations }}
+                {% else %}
+                Not Specified
+                {% endif %}
+              </div>
+              <textarea
+                      id="escort_considerations"
+                      name="escort_considerations"
+                      class="materialize-textarea editable-field job_edit"
+                      form="job_edit" hidden
+              >{{job.escort_considerations}}</textarea>
+          </td>
+      </tr>
+      </table>
+      
+    </div>
+
+
+    <div id="safety" class="mobile-container col s12 hidencontent">
+      
+      <table class="highlight">
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Safety Training</td>
+          <td class="phone-font-med"><div class="col s12">
+            {% if job.is_safety_training_required %}
+                Site specific safety training is <b>required</b> for this job. <br>
+                {{ job.safety_training_time | default_if_none:''}}<br>
+                {{job.safety_training_location | default_if_none:''}}<br>
+            {% else %}<br>
+                Site specific safety training is <b>not</b> required for this job.
+            {% endif %}
+
+            <div class="editable-field" hidden>
+                <p>
+                    <input type="hidden"
+                           name="is_safety_training_required"
+                           form="job_edit"
+                           value="False"
+                    />
+                  <label style="color:black">
+                    <input type="checkbox"
+                           class="filled-in is_safety_training_required"
+                           id="is_safety_training_required"
+                           name="is_safety_training_required"
+                           form="job_edit"
+                            {% if job.is_safety_training_required %}
+                                checked="checked"
+                            {% endif %}
+                            value="True"
+                    />
+                    <span>Is site specific safety training required for this job?</span>
+                  </label>
+                </p>
+                <div class="input-field col s12">
+                <textarea id="safety_training_time"
+                          name="safety_training_time"
+                          class="materialize-textarea job_edit"
+                          form="job_edit"
+                          placeholder="Enter training time"
+                          {% if not job.is_safety_training_required %}
+                              hidden
+                          {% endif %}
+                          >{{job.safety_training_time | default_if_none:''}}</textarea>
+                          <label for="safety_training_time">Time</label>
+                </div>
+
+                <div class="input-field col s12">
+                <textarea id="safety_training_location"
+                          name="safety_training_location"
+                          class="materialize-textarea job_edit"
+                          form="job_edit"
+                          placeholder="Enter training location"
+                          {% if not job.is_safety_training_required %}
+                              hidden
+                          {% endif %}
+                          >{{job.safety_training_location | default_if_none:''}}</textarea>
+                          <label for="safety_training_location">Location</label>
+                </div>
+            </div>
+
+          </td>
+        </tr>
+
+        <tr id="safety-ppe">
+          <td class="phone-font-med" style="font-weight: 500;">General PPE </td>
+          <td class="phone-font-med">
+              <div class="col s12" style="text-transform: capitalize;">
+
+                  {#                  Always Visible                   #}
+                  <span
+                    {% if not job.is_hardhat %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Hardhat
+                  </span><br>
+
+                  <span
+                    {% if not job.is_safety_glasses %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety Glasses</span><br>
+
+                  <span
+                    {% if not job.is_safety_shoes %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety Shoes</span><br>
+                  <span
+                    {% if not job.is_safety_vest %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Hi-visibility vest</span><br>
+
+                  <span
+                    {% if not job.is_safety_gloves %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Safety gloves</span><br>
+
+                  <span
+                    {% if not job.is_fr_clothes %}
+                        style="text-decoration: line-through"
+                    {% endif %}
+                  >Standard flame retardant clothes</span><br>
+
+
+                  {#                  -- only visible on edit mode --                   #}
+                  {% if job.is_8cal_protection %}
+                  <span>10 cal protection gear</span><br>
+                  {% endif %}
+
+                  {% if job.is_40cal_protection %}
+                  <span>40 cal protection gear</span><br>
+                  {% endif %}
+
+                  {% if job.is_harness %}
+                  <span>harness & lanyard</span><br>
+                  {% endif %}
+
+                  {% if job.is_mv_voltage_detector %}
+                  <span>medium voltage proximity detector</span><br>
+                  {% endif %}
+
+                  {% if job.is_insulated_gloves %}
+                  <span>insulated gloves</span><br>
+                  {% endif %}
+
+                  {% if job.is_h2s_monitor %}
+                  <span>H2S monitor</span><br>
+                  {% endif %}
+
+                  <div class="editable-field" hidden>
+                    <p>
+                        <input type="hidden"
+                               name="is_hardhat"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_hardhat"
+                               name="is_hardhat"
+                               form="job_edit"
+                                {% if job.is_hardhat %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Hardhat</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_safety_glasses"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_safety_glasses"
+                               name="is_safety_glasses"
+                               form="job_edit"
+                                {% if job.is_safety_glasses %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Safety Glasses</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_safety_shoes"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_safety_shoes"
+                               name="is_safety_shoes"
+                               form="job_edit"
+                                {% if job.is_safety_shoes %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Safety Shoes</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_safety_vest"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_safety_vest"
+                               name="is_safety_vest"
+                               form="job_edit"
+                                {% if job.is_safety_vest %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Hi-visibility Vest</span>
+                      </label>
+                    </p>
+
+
+                    <p>
+                        <input type="hidden"
+                               name="is_safety_gloves"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_safety_gloves"
+                               name="is_safety_gloves"
+                               form="job_edit"
+                                {% if job.is_safety_gloves %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Safety Gloves</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_fr_clothes"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_fr_clothes"
+                               name="is_fr_clothes"
+                               form="job_edit"
+                                {% if job.is_fr_clothes %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Standard Flame Retardant Clothes</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_8cal_protection"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_8cal_protection"
+                               name="is_8cal_protection"
+                               form="job_edit"
+                                {% if job.is_8cal_protection %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>10 Cal Protection Gear</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_40cal_protection"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_40cal_protection"
+                               name="is_40cal_protection"
+                               form="job_edit"
+                                {% if job.is_40cal_protection %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>40 Cal Protection Gear</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_harness"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_harness"
+                               name="is_harness"
+                               form="job_edit"
+                                {% if job.is_harness %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Harness & Lanyard</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_mv_voltage_detector"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_mv_voltage_detector"
+                               name="is_mv_voltage_detector"
+                               form="job_edit"
+                                {% if job.is_mv_voltage_detector %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Medium Voltage Proximity Detector</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_insulated_gloves"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_insulated_gloves"
+                               name="is_insulated_gloves"
+                               form="job_edit"
+                                {% if job.is_insulated_gloves %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>Insulated Gloves</span>
+                      </label>
+                    </p>
+
+                    <p>
+                        <input type="hidden"
+                               name="is_h2s_monitor"
+                               form="job_edit"
+                               value="False"
+                        />
+                      <label style="color:black">
+                        <input type="checkbox"
+                               class="filled-in is_h2s_monitor"
+                               name="is_h2s_monitor"
+                               form="job_edit"
+                                {% if job.is_h2s_monitor %}
+                                    checked="checked"
+                                {% endif %}
+                                value="True"
+                        />
+                        <span>H2S Monitor</span>
+                      </label>
+                    </p>
+
+              </div>
+              </div>
+          </td>
+        </tr>
+        <tr id="other-ppe" 
+        {% if not job.other_ppe_requirements %}
+            class="hidden-stuff"
+        {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Other PPE Requirements</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+              <span>{{ job.other_ppe_requirements }}</span><br>
+              <div class="editable-field" hidden>
+                <input type="text"
+                      name="other_ppe_requirements"
+                      id="other_ppe_requirements"
+                      form="job_edit"
+                      placeholder="Enter Other PPE Requirements"
+                      value="{{ job.other_ppe_requirements | default_if_none:''}}"
+                      onfocusout="$('#other_ppe_requirements1').val($(this).val())"
+                />
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Elevated Work</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                {% if job.is_6ft_work %}
+                  <b>Yes. </b>There will be work requirements above 6 feet.
+                {% else %}
+                    No
+                {% endif %}
+                <div class="job_edit editable-field" hidden>
+                    Will there be work above 6 feet? <br>
+                    <label>
+                        <input name="is_6ft_work" id="is_6ft_work_false"
+                                  type="radio" form="job_edit" value='False'
+                               {% if not job.is_6ft_work %}
+                                   checked
+                               {% endif %}
+                        />
+                        <span>No</span>
+                    </label>
+                    <label>
+                        <input name="is_6ft_work" id="is_6ft_work_true"
+                               type="radio" form="job_edit" value='True'
+                               {% if job.is_6ft_work %}
+                                   checked
+                               {% endif %}
+                        />
+                        <span>Yes</span>
+                    </label>
+                </div>
+            </div>
+            
+          </td>
+        </tr>
+
+        <tr
+            {% if not job.is_switching_required %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Switching</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                {% if job.is_switching_required %}
+                  {{ job.switching_specifications }}
+                {% else %}
+                    None
+                {% endif %}
+              <div class="job_edit editable-field" hidden>
+                  Is switching required?
+                  <label>
+                      <input name="is_switching_required" id="is_switching_required_false"
+                                type="radio" form="job_edit" value='False'
+                             {% if not job.is_switching_required %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_switching_required" id="is_switching_required_true"
+                             type="radio" form="job_edit" value='True'
+                             {% if job.is_switching_required %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                  <br> <br>
+                  <label for="switching_specifications" style="font-size: 14px;">Provide details on safety considerations like switch voltage and arcflash rating</label>
+                  <textarea id="switching_specifications"
+                            name="switching_specifications"
+                            class="materialize-textarea editable-field job_edit"
+                            form="job_edit"
+                            {% if not job.is_switching_required %}
+                                hidden
+                            {% endif %}
+                  >{{job.switching_specifications}}</textarea>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr
+            {% if not job.is_live_work_required %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Live Work</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {% if job.is_live_work_required %}
+                    <b>Required. </b>Live work at {{job.live_work_voltage}}V
+                  {% else %}
+                       <b>No,</b> Live work is not required.
+                  {% endif %}
+              </div>
+              <div class="editable-field" hidden>
+                  Will there be live work?
+                  <label>
+                      <input name="is_live_work_required" id="is_live_work_required_false" type="radio" form="job_edit" value='False'
+                          {% if not job.is_live_work_required %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_live_work_required" id="is_live_work_required_true" type="radio" form="job_edit" value='True'
+                          {% if job.is_live_work_required %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>Yes, live work is required.</span>
+                  </label>
+
+                  <div class="job_edit" id="live_work_voltage"
+                       {% if not job.is_live_work_required %}
+                        hidden
+                       {% endif %}
+                  >
+                      <br><b>Required. </b>Live work is in the scope with a maximum of
+                      <input form="job_edit" class="editable-field" type="text" name="live_work_voltage" value="{{ job.live_work_voltage }}" style="width: 75px" />Volts
+                  </div>
+              </div>
+
+          </td>
+        </tr>
+        <tr
+            {% if not job.is_ungaurded_holes %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Open Holes</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {% if job.is_ungaurded_holes %}
+                    <b>Yes. </b> There will be exposure to holes without guardrailes with a depth of 4ft or greater.
+                  {% else %}
+                      No
+                  {% endif %}
+              </div>
+
+              <div class="editable-field" hidden>
+                  Has open holes?
+                  <label>
+                      <input name="is_ungaurded_holes" id="is_ungaurded_holes_false" type="radio" form="job_edit" value='False'
+                          {% if not job.is_ungaurded_holes %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_ungaurded_holes" id="is_ungaurded_holes_true" type="radio" form="job_edit" value="True"
+                          {% if job.is_ungaurded_holes %}
+                              checked
+                          {% endif %}
+                      />
+                      <span><b>Yes. </b> There will be exposure to holes without guardrailes with a depth of 4ft or greater.</span>
+                  </label>
+              </div>
+          </td>
+        </tr>
+        <tr
+            {% if not job.is_confined_space %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Confined Space</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {% if job.is_confined_space %}
+                      <b>Yes. </b>Some work will be done in confined spaces.
+                  {% else %}
+                      No
+                  {% endif %}
+              </div>
+
+              <div class="editable-field" hidden>
+                  Has confined spaces?
+                  <label>
+                      <input name="is_confined_space" id="is_confined_space_false" type="radio" form="job_edit" value='False'
+                          {% if not job.is_confined_space %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_confined_space" id="is_confined_space_true" type="radio" form="job_edit" value="True"
+                          {% if job.is_confined_space %}
+                              checked
+                          {% endif %}
+                      />
+                      <span><b>Yes. </b>Some work will be done in confines spaces.</span>
+                  </label>
+              </div>
+          </td>
+        </tr>
+        <tr
+            {% if not job.chemical_hazards %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Chemicals</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {{job.chemical_hazards}}
+                  <textarea id="chemical_hazards"
+                            name="chemical_hazards"
+                            class="materialize-textarea editable-field job_edit"
+                            form="job_edit" hidden
+                  >{{job.chemical_hazards}}</textarea>
+              </div>
+          </td>
+        </tr>
+        <tr
+            {% if not job.harness_lanyard %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Harness & Lanyard Details</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {{job.harness_lanyard}}
+                  <textarea id="harness_lanyard"
+                            name="harness_lanyard"
+                            onfocusout="$('#harness_lanyard1').val($(this).val())"
+                            class="materialize-textarea editable-field job_edit"
+                            form="job_edit" hidden
+                  >{{job.harness_lanyard}}</textarea>
+              </div>
+          </td>
+        </tr>
+        <tr
+            {% if not job.permit_requirements %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Permits</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+              {{job.permit_requirements|default_if_none:'None'}}
+              <textarea id="permit_requirements"
+                        name="permit_requirements"
+                        class="materialize-textarea editable-field job_edit"
+                        form="job_edit" hidden
+              >{{job.permit_requirements}}</textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Grounding</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                  {% if job.is_grounding_cluster %}
+                      <b>Required. </b>
+                      We must apply {{job.grounding_cluster_quantity|default_if_none:'undefined quantity of'}} grounding clusters with a wire size of {{job.grounding_wire_size|default_if_none:'undefined' }} SWG.
+                      <span style="font-weight: 900;">Clamp end style:</span> {{job.grounding_clamp_style|default_if_none:'unkown'}}.
+                  {% else %}
+                      No grounding requirements specified
+                  {% endif %}
+              <br> <br>
+
+              <div class="editable-field" hidden>
+                  Grounding Required?
+                  <label>
+                      <input name="is_grounding_cluster" id="is_grounding_cluster_false" onchange="if($(this).is(':checked')){$('#is_grounding_cluster_false1').prop('checked', true)}" type="radio" form="job_edit" value='False'
+                          {% if not job.is_grounding_cluster %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_grounding_cluster" id="is_grounding_cluster_true" onchange="if($(this).is(':checked')){$('#is_grounding_cluster_true1').prop('checked', true)}" type="radio" form="job_edit" value='True'
+                          {% if job.is_grounding_cluster %}
+                              checked
+                          {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+
+                  <div class="job_edit grounding_cluster"
+                       {% if not job.is_grounding_cluster %}
+                        hidden
+                       {% endif %}
+                  >
+                    <b>Required. </b>We must apply
+                    <input form="job_edit" type="number" id="grounding_cluster_quantity" onfocusout="$('#grounding_cluster_quantity1').val($(this).val())" name="grounding_cluster_quantity" value="{{ job.grounding_cluster_quantity }}" style="width: 75px; text-align: center;" /> grounding clusters with a wire size of
+                    <input form="job_edit" type="number" id="grounding_wire_size" onfocusout="$('#grounding_wire_size1').val($(this).val())" name="grounding_wire_size" value="{{ job.grounding_wire_size }}" style="width: 75px; text-align: center"  /> SWG. 
+                    <br> Clamp End Style:
+                    <input form="job_edit" type="text" id="grounding_clamp_style" onfocusout="$('#grounding_clamp_style1').val($(this).val())" name="grounding_clamp_style" value="{{ job.grounding_clamp_style }}" style="width: 125px; text-align: center"  />
+                  </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="internal" class="mobile-container col s12 hidencontent">
+      <div class="row"><h4 class="phone-font-xl phone-screen">Internal</h4></div>
+      <p style="color: #aaa;">This Internal tab is just some examples of how the software can be customized for your companies internal needs.
+If you have existing quoting software, we can look at integrating so the equipment will populate here automatically. If you 
+have a custom Job Safety Analysis, we can add that file here so your field people always have it. Or we can allow people to confirm reading it on here. Just let us know!</p>
+      
+      <table class="highlight">
+        
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Job Number</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                {{ job.job_number }}
+            </div>
+            <textarea id="job_number"
+                      name="job_number"
+                      class="materialize-textarea editable-field job_edit"
+                      form="job_edit" hidden
+            >{{job.job_number}}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Project Manager</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                {% if job.project_manager %}
+                {{ job.project_manager }}
+                {% else %}
+                Not Specified
+                {% endif %}
+              </div>
+              <input
+                      id="project_manager"
+                      name="project_manager"
+                      type="text"
+                      class="editable-field job_edit"
+                      onchange="$('#text_input_projectmanager').val($(this).val())"
+                      form="job_edit" placeholder="Enter Project Manager Name" value="{{ job.project_manager }}" hidden
+              >
+          </td>
+        </tr>
+        <tr class="hidden-stuff">
+          <td class="phone-font-med" style="font-weight: 500;">Food Accomodations</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                {% if job.food_accomodations %}
+                {{ job.food_accomodations }}
+                {% else %}
+                Not Specified
+                {% endif %}
+              </div>
+              <textarea
+                      id="food_accomodations"
+                      name="food_accomodations"
+                      class="materialize-textarea editable-field job_edit"
+                      form="job_edit" hidden
+              >{{job.food_accomodations}}</textarea>
+          </td>
+        </tr>
+        <tr class="hidden-stuff">
+          <td class="phone-font-med" style="font-weight: 500;">Lodging Recommendations</td>
+          <td class="phone-font-med">
+              <div class="col s12">
+                {% if job.lodging_recommendations %}
+                {{ job.lodging_recommendations }}
+                {% else %}
+                Not Specified
+                {% endif %}
+              </div>
+              <textarea
+                      id="lodging_recommendations"
+                      name="lodging_recommendations"
+                      class="materialize-textarea editable-field job_edit"
+                      form="job_edit" hidden
+              >{{job.lodging_recommendations}}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Pricing Style</td>
+          <td>
+            <div class="col s12">
+              {% if job.is_time_and_materials %}
+                Job is time and materials.
+              {% else %}
+                Job is quoted. <u>Before</u> commencing, new tasks outside of scope will need to be quoted seperately.
+              {% endif %}
+            </div>
+          <br>
+            <div id="edit_handtools" hidden class="editable-field job_edit">
+                Is time and materials?
+                <label>
+                    <input name="is_time_and_materials"
+                           id="is_time_and_materials"
+                           type="radio"
+                           form="job_edit"
+                           {% if job.is_time_and_materials %}
+                               checked
+                           {% endif %}
+                           value='True'/>
+                    <span>Yes</span>
+                </label>
+                <label>
+                    <input name="is_time_and_materials"
+                           id="is_time_and_materials"
+                           type="radio"
+                           form="job_edit"
+                           {% if not job.is_time_and_materials %}
+                               checked
+                           {% endif %}
+                           value='False' />
+                    <span>No</span>
+                </label>
+            </div>
+          </td>
+            
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Suggested Quote Hours</td>
+          <td class="phone-font-med"><div class="col s12">{{quoted_hours}}</div></td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Suggested Quote</td>
+          <td class="phone-font-med"><div class="col s12">${{default_quote}}</div></td>
+        </tr>
+        <tr
+            {% if not job.quoted_price %}
+                class="hidden-stuff"
+            {% endif %}
+        >
+          <td class="phone-font-med" style="font-weight: 500;">Quoted Amount</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                ${{ job.quoted_price }}
+            </div>
+            <input class="editable-field job_edit" form="job_edit" type="number" id="quoted_price" name="quoted_price" value="{{ job.quoted_price }}" hidden />
+  
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Quote Document</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                  <a class="waves-effect waves-light btn-small phone-font-med phone-button" href="https://images.template.net/wp-content/uploads/2015/02/Project-Scope-Document-Template.jpg" target="_blank" >View</a>    
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Job Safety Analysis</td>
+          <td class="phone-font-med">
+            <div class="col s12">
+                {% if job.company.job_safety_analysis %}
+                    <a href="{{job.company.job_safety_analysis.url }}"  target="_blank">View</a>
+                {% else %}
+                    
+                  <a class="waves-effect waves-light btn-small phone-font-med phone-button" href="https://images.template.net/wp-content/uploads/2015/02/Project-Scope-Document-Template.jpg" target="_blank" >View</a>    
+                {% endif %}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="phone-font-med" style="font-weight: 500;">Blank Time Sheet</td>
+          <td class="phone-font-med">
+            <div class="col s12">{% if job.company.time_sheet %} <a href="{{job.company.time_sheet.url }}" target="_blank">Open Blank Time Sheet</a>{% else %} 
+              <a class="waves-effect waves-light btn-small phone-font-med phone-button" href="https://images.template.net/wp-content/uploads/2015/02/Project-Scope-Document-Template.jpg" target="_blank" >Open</a>     {% endif %}</div>
+          </td>
+        </tr>
+      </table>
+      <h4 style="color: #023b59; display: none;">Create a copy of this job</h4>      
+      <form id="copy_job" style="display: none;" action="{% url 'copy_job' job.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" id="new_job_number" name="new_job_number" placeholder='Job number for new job' required>
+        <button class="btn-small phone-button" id="new_job_button" form="copy_job" type="submit">Create Copy</button>
+      </form>
+    </div>
+    <div id="job_notes" style="padding: 0;" class="col s12 hidencontent">      
+      <div class="row" style="padding: 0;">        
+        <div class="container-notes-1" style="padding: 0;">
+          <div class="col s12 m12 l12 xl5" style="padding: 0" >
+            <div class="row mobile-container " >
+                <h4 style="color: #023b59;">Job Notes</h4>
+                <div class="row" style="padding: 0">
+                    <div class="search-div" id="job_note-container" style="margin-left: 15px; float: right; position: -webkit-sticky; position: sticky;">
+                      <input class="orange-underline search-input" id="search_job_note" type="text" placeholder="Search..."/>
+                        <div id="job_note-move-text" style="display: none" class="phone-font-med">
+                            <span id="job_note-matched-text" style=" color: #888"></span>
+                            <div style="float: right">
+                              <span class="phone-font-lrg hover-item search-arrows comp-font-ml " onclick="previousSearchNote('job_note')" id="job_note-previous-text" >▲
+                              </span>
+                              <span class=" phone-font-lrg hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('job_note') " id="job_note-next-text">▼
+                              </span>
+                            </div>  
+                          </div>
+                        <button id="search_job_note_button" onclick="searchNote('job_note', 'job_note_child_toggle', 'job_note-content')" hidden>Search</button>
+                    </div>
+                    <form
+                            style="margin-right: 50px; margin-left: 15px;"
+                            id="add_note_form"
+                            action="{% url 'add_job_note' job.id %}"
+                            method="post"
+                    >
+                        {% csrf_token %}
+                        <textarea
+                                id="add_note"
+                                name="add_note"
+                                class="materialize-textarea quick-disable"
+                                placeholder="Type Note Here"
+                                form="add_note_form" oninput="$('#submit-btn-notes').prop('disabled', false)" required
+                        ></textarea>      
+                        <div class="row">
+                          <button
+                                  class="btn waves-effect waves-light phone-button right quick-disable"
+                                  type="submit" 
+                                  name="action"
+                                  id="submit-btn-notes"
+                                  disabled
+                          >Add Note<i class="material-icons right ">send</i></button>
+                        </div>
+        
+                    </form>
+                    {% for note in notes %}
+                        {% include "jobs/job_note_data_new.html" with note=note note_type='job_note' %}
+                    {% empty %}
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span class="phone-font-med">No job notes have been added.</span> 
+                    {% endfor %}
+
+                </div>
+            </div>
+          </div>
+          <div class="col s12 m12 l12 xl6 offset-xl1 mobile-container  ">
+            <div class="row" style="padding: 0">
+              <h4 style="color: #023b59;">Equipment Notes</h4>
+            <table>
+              <div class="search-div " id="equipment_note-container" style="margin-left: 52px; float: right; position: -webkit-sticky; position: sticky;">
+                <input class="orange-underline search-input" id="search_equipment_note" type="text" placeholder="Search..."/>
+                  <div class="noselect phone-font-med" id="equipment_note-move-text" style="display: none; color: #888">
+                    <span id="equipment_note-matched-text"></span>
+                    <div style="float: right">
+                      <span class="phone-font-lrg hover-item search-arrows comp-font-ml " onclick="previousSearchNote('equipment_note'); " id="equipment_note-previous-text" >▲
+                      </span>
+                      <span class=" phone-font-lrg hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('equipment_note'); " id="equipment_note-next-text">▼
+                      </span>
+                    </div>  
+                  </div>
+                  <button id="search_equipment_note_button" onclick="searchNote('equipment_note', 'equipment_note_child_toggle', 'equipment_note-content')" hidden>Search</button>
+              </div>
+              
+              {% for equipment in eq_with_notes %}
+                <tr >
+                  <td style="font-weight: 500; padding-inline-start: 0px; vertical-align: middle; text-align: center; border-right: 1px solid #e8e4e4;" class="phone-font-med dynamic-td"> <span class="quickly-rotate"><a href="{% url 'equipment' equipment.id %}">{{equipment}}</a></span></td>
+                  <td class="eq-note-td">                 
+
+                    {% for eq_note in eq_notes_list %}
+                      {% if eq_note.equipment == equipment %}
+                          {% include "jobs/job_note_data_new.html" with note=eq_note note_type='equipment_note' %}
+                      {% endif %}
+                    {% empty %}
+                    {% endfor %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td class="phone-font-sml"><span style="font-weight:500;" >No Equipment Notes.</span> To add notes, select "Equipment" tab, open the equipment, and enter the note.</td></tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div id="job_files" class="mobile-container col s12 hidencontent no-padd">
+      <div class="row"><h4 class="phone-font-xl phone-screen">Files</h4></div>
+      
+      <div class="row">
+        <div class="col s12 m12 l5 no-padd">
+          <h4 style="color: #023b59;">Job Files</h4>
+          <div class="row">
+            <form id="file_add_form" action="{% url 'add_job_files' job.id %}" method="post" 
+            enctype="multipart/form-data" style="margin-right: 50px;">
+            {% csrf_token %}
+              <div class="file-field input-field">
+                <div class="btn-small tooltipped"  data-tooltip="Add Files" id="file_add_button" >
+                    <span ><i class="material-icons phone-font-lrg phone-bold">add</i></span>
+                    <input id="file_add" name="file_add" type="file" multiple>
+                </div>
+               
+                <div class="file-path-wrapper">
+                    <input class="file-path validate quick-disable phone-font-lrg" type="text" placeholder="Select File to Add">
+                </div>
+                <button class="btn waves-effect waves-light right quick-disable phone-button" type="submit" name="action" id="submit-btn"> Upload File
+                  <i class="material-icons right">send</i>
+                </button>
+                
+              </div>
+            </form>
+          </div>
+          <div class="row">            
+            <ul class="collection last-child-border" style="border: none;">
+                {% csrf_token %}
+                {% if job_files %}
+                    {% for file in job_files %}
+                    <li class="collection-item" style="padding: 3px 3px 3px 3px; border-bottom: 1px solid #eee;">
+                      <a href="{{file.job_file.url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;"> <i class="material-icons left phone-font-med">insert_drive_file</i>
+                      {% if file.file_name %}
+                      {{file.file_name}}
+                      {% else %}
+                      {{file.filename}}
+                      {% endif %}
+                    </a>
+                    <a href="{% url 'remove_job_files' file.id %}" class="remove-files noselect"><span class="right phone-font-med" onclick="return confirm('Remove File Permanently?')" style="color: #a27474;">Delete</span></a></br>
+                    <a style="color: #aaa; display: inline-block;" class="phone-font-sml">Added: {{file.created_at}}</a></li>
+                    {% endfor %}
+                {% else %}
+                &nbsp;&nbsp; No Files
+                {% endif %}
+            </ul>
+          </div>
+        </div>        
+        <div class="col s12 m12 l6 offset-l1 no-padd">
+          <h4 style="color: #023b59;">Equipment Files <span id="job_eq_add_file_help" style="line-height: 1.5;" class="help-btn hover-item"> About<i class="material-icons-outlined inline-icon">info</i></span> </h4>
+          <table class="highlight last-child-border">
+            
+            {% for equipment in eq_with_files %}
+              <tr style="border-bottom: 1px solid #00000059;">
+                <td style="font-weight: 500;; padding-inline-start: 0px; vertical-align: middle; text-align: center" class="dynamic-td phone-font-med">
+                  <a class="quickly-rotate" style="" href="{% url 'equipment' equipment.id %}">{{equipment}} </a>
+                </td>
+                <td class="no-padd" style="border-left: 1px solid #00000059">
+                  <ul class="collection last-child-border" style="border: none;">
+                    {% for eq_file in eq_files_list %}
+                      {% if eq_file.equipment == equipment %}                       
+                      <li class="collection-item" style="border-bottom: 1px solid #00000012; background: transparent;">
+                        <a href="{{eq_file.equipment_file.url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;"><i class="material-icons left phone-font-med">insert_drive_file</i>
+                          {% if eq_file.file_name %}
+                          {{eq_file.file_name}}
+                          {% else %}
+                          {{eq_file.filename}}
+                          {% endif %}
+                        </a></br><a style="color: #aaa" class="phone-font-sml">Added: {{eq_file.created_at}}</a>
+                      </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </td>
+              </tr>
+            {% empty %} 
+            &nbsp;&nbsp; <span class="phone-font-med">No equipment files. Files can be added in equipment.</span> 
+            {% endfor %} 
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="notes_modal" class="modal">
+    <div class="modal-content">
+      <h4 id="modal_title">Add note to <span id="eq_name_add_note" style="text-decoration: underline; ">[blank]</span></h4>
+      <form id="add_new_note_form" class="container" action="{% url 'add_new_equipment_note' %}" method="post">
+        {% csrf_token %}
+        <input type="number" id="add_note_pk" name="add_note_pk" hidden>
+        <textarea id="add_new_note" name="add_new_note" class="materialize-textarea phone-font-sml" placeholder="type new equipment note" form="add_new_note_form" required></textarea>
+        <button class="btn waves-effect waves-light phone-button" type="submit" name="submit-btn-new-notes"
+          id="submit-btn-new-notes"> Add Note <i class="material-icons right">send</i></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+
+  function addNoteModal(pk, name){
+    $('#eq_name_add_note').html(name)
+    $('#add_note_pk').val(pk)
+
+  }
+    // var notes_modal =  M.Modal.getInstance($('#notes_modal'));
+    // modal_inst.open();
+
+  $("#job_site_link_help").click(function(){
+    helpFunction('Editing Job Site Properties','These properties are applicable to the job site as a whole and are displayed in each job belonging to that job site. You have to open the job site to edit these. Note that any changes will propogate to all jobs with this Job Site.')
+  })
+  $("#job_edit_mode_help").click(function(){
+    helpFunction('Editing Jobs','This will display all hidden properties and allow you to make changes. Once finished, just save your changes to apply. ')
+  })  
+  $("#job_eq_add_file_help").click(function(){
+    helpFunction('Adding Equipment Files','To add files to equipment, open that equipment (Equipment Tab) and select <i>Working Notes and Files</i>.')
+  })  
+  $("#job_test_eq_help").click(function(){
+    helpFunction('Test Sets','When you add equipment, the associated test set(s) for that type or model are added here. You can modify final test set requiremnts here by clicking the update button. The number on the left is how many pieces of equipment will require that test set.')
+  })
+  $("#eq_assembly_help").click(function(){
+    helpFunction('Equipment Assembly','All equipment on a job references back to a &ldquo;mold&rdquo; equipment on that job&lsquo;s job site. <u>Quick Add</u> is for quickly adding new equipment to a job, and it automatically creates the &ldquo;mold&rdquo; on the job site. More flexibility is available by selecting <u>Open Job Site</u> where you can add multiple equipment at once, create copies of equipment, and move equipment and sub-equipment. ')
+  })
+  $("#eq_edit_help").click(function(){
+    helpFunction('Editing Equipment','The symbols &ldquo;<span style="color: #00cc55">✔</span>&rdquo; and &ldquo;<span style="color: #ff6347">—</span>&rdquo; can be used to quickly mark an item as complete. Trash equipment to remove it from the job. You can restore the equipment, with all data, from the <u>Equipment Trash</u>')
+  })
+$('#job_edit').submit(function(event){
+  event.preventDefault();
+  stopLeave = false
+  $(this).unbind('submit').submit();
+  return false
+})
+
+var storedNamesA = []
+var mover_clicked = false
+$('.dropdown-trigger').dropdown();
+
+function editSiteIds(){
+  $('.site_id_edit_input').show()
+  $(edit_id_div).show();
+}
+
+function checkChild(check_id, checked){
+  //get child
+  var children = $('.childof-'+check_id)
+    console.log(check_id)
+
+  //get child id
+  if(checked){
+    children.prop('checked', true)
+    console.log(children)
+  }else{
+    children.prop('checked', false)
+  }
+  //check if children exist
+  if(children.length){
+    //loop through each child
+    children.each(function(){
+      //propogate the function with recursion
+      let child_id = $( this ).attr('id')
+      checkChild(child_id, checked)
+    })
+    
+  }
+}
+$("input[type='checkbox']").change( function () {
+    // this updates all checkbox with same class name
+    $(`input[class*='${this.name}']`).prop('checked', this.checked)
+});
+$('#is_safety_training_required').click(function () {
+    if (this.checked) {
+        $('#safety_training_time').show();
+        $('#safety_training_location').show();
+    } else {
+        $('#safety_training_time').hide();
+        $('#safety_training_location').hide();
+    }
+});
+function addEqFromSite(){  
+  localStorage.selectedJob = {{job.id}}
+  window.location.href = "{% url 'job_site' job.job_site.id %}"
+}
+$('#is_live_work_required_true').change(function () {
+    $('#live_work_voltage').show()
+});
+$('#is_live_work_required_false').change(function () {
+    $('#live_work_voltage').hide()
+});
+$('#is_grounding_cluster_true').change(function () {
+    $('.grounding_cluster').show()
+});
+
+$('#is_grounding_cluster_false').change(function () {
+    $('.grounding_cluster').hide()
+});
+$('#is_grounding_cluster_true1').change(function () {
+    $('.grounding_cluster').show()
+});
+
+$('#is_grounding_cluster_false1').change(function () {
+    $('.grounding_cluster').hide()
+});
+
+$('#is_switching_required_true').change(function () {
+    $('#switching_specifications').show()
+});
+
+$('#is_switching_required_false').change(function () {
+    $('#switching_specifications').hide()
+});
+
+$('#update-test-equipment-button').click(function () {
+    $('#update-test-equipment').show()
+    $('#submit-test-equipment-button').show()
+    $('#cancel-update-test-equipment-button').show()
+    $(this).hide()
+})
+$('#cancel-update-test-equipment-button').click(function() {
+    $(this).hide()
+    $('#submit-test-equipment-button').hide()
+    $('#update-test-equipment-button').show()
+    $('#update-test-equipment').hide()
+
+})
+let jobTestEquipments = {{ job.test_equipments_name|safe }}
+let allEquipments = {{ test_equipments|safe}}
+$('#m_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+            {% for test_equipment in available_test_equipments %}
+                '{{test_equipment}}': null,
+            {% endfor %}
+          },
+  limit: Infinity,
+    minLength: 0,
+      },
+  onChipAdd: (elem) => {
+    let instance = M.Chips.getInstance($(elem));
+
+    let selectedItems = instance.chipsData;
+    let newItemIndex = selectedItems.length - 1
+    let newItem = selectedItems[newItemIndex]
+    let existingItems = instance.options.autocompleteOptions.data
+    let tag = newItem.tag;
+    if (!allEquipments.includes(tag)) {
+        instance.deleteChip(newItemIndex);
+        alert(tag + ' is not a valid selection. Must select from existing test sets.');
+        return
+    } else {
+        delete existingItems[tag]
+    }
+  },
+
+  onChipDelete: (elem, data) => {
+    let instance = M.Chips.getInstance($(elem));
+    let deletedTestEquipment = data.firstChild.textContent
+      if (jobTestEquipments.includes(deletedTestEquipment)) {
+          let answer = confirm('Are you sure you want to delete this test set?')
+          if (!answer) {
+              instance.addChip({tag: deletedTestEquipment})
+              return
+          }
+      }
+    let existingItems = instance.options.autocompleteOptions.data
+    if (allEquipments.includes(deletedTestEquipment)) {
+      existingItems[deletedTestEquipment] = null // this adds deleted test set to drop down list
+    }
+  }
+});
+
+  function onSubmit() {
+    var mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_test_equipment").val(mandatoryValue);
+  }
+
+$('.parent-checkbox').click(function(){
+  var check_id = "checkbox_"+$(this).attr('id')
+  var checked = true
+  checkbox_parent=$('#'+check_id)
+  let ba = $(".batch-act")
+  ba.css({"position":"sticky","top":"0"})
+  ba.slideDown()
+  $('#equip_actions_trigger').html("&#9650 edit")
+  if(checkbox_parent.is(':checked')){
+    checkbox_parent.prop('checked', false)
+    checked=false
+  }
+  else{            
+    checkbox_parent.prop('checked', true)
+  }
+  checkChild(check_id, checked)   
+});
+
+let csrfToken = '{{ csrf_token }}';
+
+function jobEqToggle(eq_id){
+  let eq_child_div = $('#eq_child_div' + eq_id)
+  if(eq_child_div.is(":visible")){
+    // console.log("That was collapse")
+    hidden_equipment_ids.push(eq_id)
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-0")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-1")
+    eq_child_div.slideUp(function() {
+      // console.log(eq_id)
+      $('#eq_toggle_sign'+eq_id).html("&#9660");
+      $('#eq_child_toggle'+eq_id).css("color","#ff4500");
+      $('#eq_toggle_sign'+eq_id).parent().css("color", "#ff4500")
+      localStorage.setItem('hidden_equipment_list', JSON.stringify(hidden_equipment_ids))
+    });    
+  }
+  else{
+    // console.log("That was expand")
+    const index = hidden_equipment_ids.indexOf(eq_id)
+    hidden_equipment_ids.splice(index, 1);
+    localStorage.setItem('hidden_equipment_list', JSON.stringify(hidden_equipment_ids))
+    $('#eq_child_toggle'+eq_id).removeClass("z-depth-1")
+    $('#eq_child_toggle'+eq_id).addClass("z-depth-0")
+    eq_child_div.slideDown( function(){
+      // console.log(eq_id)
+      $('#eq_toggle_sign'+eq_id).html("&#9650");
+      $('#eq_child_toggle'+eq_id).css("color","#505050");
+      $('#eq_toggle_sign'+eq_id).parent().css("color", "#aaa")
+    });
+    
+  }
+  
+}
+
+// $('.eq-child-toggle').click(function(){
+  
+  
+// })
+//  function loadLocal(array, local){
+//   if (localStorage.getItem(local) != null ){
+//       array = JSON.parse([localStorage.getItem(local)])
+//       Array.from(array).forEach((element) => {
+//         let eq_child_div = $('#eq_child_div' + element)
+//         eq_child_div.hide()
+//         if(eq_child_div.is(":hidden")){
+//           $('#eq_toggle_sign'+element).html("&#9660");
+//           $('#eq_child_toggle'+element).css("color","#282828");
+//           $('#eq_child_toggle'+element).removeClass("z-depth-0")
+//       $('#eq_child_toggle'+element).addClass("z-depth-1")
+//         }
+//       } )
+
+//     }
+//  }
+
+  function bindExternalTab() {
+    $(document).on('click', '.external-tab-button', function (event) {
+      event.preventDefault();
+      var tab = $(this).attr('href');
+      goToTab(tab);
+      $(".external-tab-button").css({"color":"#777","background-color":"#eee", "border":"none"})
+      $(this).css({"color":"#023b59","background-color":"white", "border":"2px solid #023b59"})
+    })
+  }
+
+  function goToTab(tab) {
+    var $tab = $('.tab a[href="'+tab+'"]')[0];
+
+    if ($tab) {
+      $tab.click();
+    }
+  }
+  function searchElement() {
+      let ba = document.getElementsByClassName('batch-act')
+      if (ba[0].style.position === 'sticky') {
+        makeOptionsSticky()
+      }
+  }
+  async function switchTab(id, scrollToId) {
+      tabInstance.select(id)
+      await new Promise(resolve => setTimeout(resolve, 100));
+      if (scrollToId) {
+          document.getElementById(scrollToId).scrollIntoView({behavior: "smooth"});
+      }
+  }
+
+  let tabInstance = null;
+  let testEquipmentChipsInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+  $(document).ready(function(){
+    if($(window).width() < 1519){
+      $('.hoverable').removeClass('hoverable')
+    }
+      $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoClose: true
+    });
+        // loadLocal(hidden_equipment_ids, 'hidden_equipment_list')
+
+        if (localStorage.getItem('hidden_equipment_list') != null ){
+          hidden_equipment_ids = JSON.parse([localStorage.getItem('hidden_equipment_list')] || '[]')
+          Array.from(hidden_equipment_ids).forEach((element) => {            
+          let eq_child_div = $('#eq_child_div' + element)
+          eq_child_div.hide()
+          if(eq_child_div.is(":hidden")){
+            $('#eq_toggle_sign'+element).html("&#9660");
+            $('#eq_toggle_sign'+element).parent().css("color", "#ff4500")          
+            $('#eq_child_toggle'+element).css("color","#282828");
+            $('#eq_child_toggle'+element).removeClass("z-depth-0")
+            $('#eq_child_toggle'+element).addClass("z-depth-1")
+          }
+      } )
+    }
+
+    hidden_job_note_ids=Array.from(JSON.parse(localStorage.hidden_job_note_ids || '[]'))
+    hidden_job_note_ids.forEach((item_id) => {
+      let type = 'job_note'
+      let child_div = $('#'+type+item_id)
+      let child_toggle = $('#'+type+'_toggle'+item_id)
+      child_div.hide(function(){
+        child_toggle.html("&#9660"); 
+        child_toggle.parent().css("color", "#FF4500")    
+      })
+    })
+    
+
+    hidden_equipment_note_ids=Array.from(JSON.parse(localStorage.hidden_equipment_note_ids || '[]'))
+    hidden_equipment_note_ids.forEach((item_id) => {
+      let type = 'equipment_note'
+      let child_div = $('#'+type+item_id)
+      let child_toggle = $('#'+type+'_toggle'+item_id)
+      child_div.hide('fast',function(){
+      child_toggle.html("&#9660");   
+      child_toggle.parent().css("color", "#FF4500")
+      })
+    })
+    
+    
+    // if (localStorage.getItem('hidden_job_note_ids') != null ){
+    //   hidden_job_note_ids = JSON.parse([localStorage.getItem('hidden_job_note_ids')])
+    //   Array.from(hidden_job_note_ids).forEach((element) => {
+    //     toggleChild('job_note', element)
+        
+    //   } )
+
+    // }
+    bindExternalTab()
+    $('.tooltipped').tooltip();
+    const myTabs = document.querySelector('.tabs');
+     tabInstance = M.Tabs.init(myTabs, {
+       onShow: function(selectedTab) {
+         var selectedTabId = selectedTab.getAttribute('id')
+         window.localStorage.setItem('job-details-selected-tab-id', selectedTabId)
+       }
+      
+     })
+      testEquipmentChipsInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+      {% for test_equipment in job.test_equipments %}
+            testEquipmentChipsInstance.addChip({tag: '{{ test_equipment.0 }}'})
+      {% endfor %}
+    var previousTabId = window.localStorage.getItem('job-details-selected-tab-id')
+    if (previousTabId) {
+      tabInstance.select(previousTabId)
+      $("#"+previousTabId+"_tab").css({"background-color": "white", "color": " #023b59", "border": "2px solid #023b59"});
+      $('#job_preloader').hide()
+    }else{
+      $('#job_preloader').hide()
+    }
+  });
+  var myTabs1 = document.querySelector('.tabs');
+  
+  function initiateWait(){
+    // $('#hol-up').show()
+  }
+
+  function getSelectedEquipments() {
+    var elements = document.querySelectorAll('input.equipment-item:checked');
+    var result = [];
+    for (var i = 0; i < elements.length; i++) {
+      result.push(elements[i].value);
+    }
+    
+    return result;
+  }
+  $('select').siblings('input').attr("data-constrainwidth", false);
+
+  function makeOptionsSticky() {
+      let searchContainer = document.getElementById('eq_child_div-container')
+      let ba = $(".batch-act")
+      if (searchContainer.style.position === 'sticky') {
+          ba.css({"position":"-webkit-sticky","top":"110px"})
+      } else {
+          ba.css({"position":"-webkit-sticky","top":"0"})
+      }
+      ba.slideDown()
+  }
+
+  function selectAllEq(){
+    $('.equipment-item').prop('checked', true)
+    $('#select_all_eq').hide()
+    $('#deselect_all_eq').show() 
+    let ba = $(".batch-act")
+    ba.css({"position":"sticky","top":"0"})
+    ba.slideDown()
+    $('#equip_actions_trigger').html("&#9650 edit")   
+  }
+  function deSelectAllEq(){
+    $('.equipment-item').prop('checked', false)
+    $('#select_all_eq').show()
+    $('#deselect_all_eq').hide()  
+    let ba = $(".batch-act")
+    ba.css({"position":"sticky","top":"0"})
+    ba.slideDown()
+    $('#equip_actions_trigger').html("&#9650 edit")  
+  }
+  function onBatchAction(act) {
+    var selectedEquipments = getSelectedEquipments();
+    if (selectedEquipments.length > 0) {
+      var batchActionsDataElement = document.querySelector('#batchActionsData');
+      batchActionsDataElement.value = act+',' + selectedEquipments.join(',');
+      if(act == 'move'){
+        $('.move-btn').show()        
+        mover_clicked=true
+        $('.equipment-item').each(function(){
+          if($(this).is(':checked')){
+            $(this).change()
+            $(this).prop('checked', true)
+          }
+        })
+      }else{
+        $("#hol-up").show()
+        document.getElementById("batch_actions_form").submit();
+      }
+      
+    }
+    else {
+      M.toast({ html: 'No Equipment Selected' })
+    }
+
+  }
+
+  function BatchMove(parent){
+    var selectedEquipments = getSelectedEquipments();
+    if (selectedEquipments.length > 0) {
+      var batchActionsDataElement = document.querySelector('#batchActionsData');
+      batchActionsDataElement.value = parent+',' + selectedEquipments.join(',');
+      document.getElementById("batch_actions_form").submit();            
+    }
+    else {
+      M.toast({ html: 'No Equipment Selected' })
+    }
+  }
+
+  function getEditedEquipments() {    
+    var id_elements = $(".site_id_edit_input").filter(function(){
+      return this.value;
+    });
+    var id_result = [];
+
+    for (var i = 0; i < id_elements.length; i++) {
+      id_result.push($(id_elements[i]).siblings(".site_id_edit_pk").val())
+      id_result.push(id_elements[i].value);
+    }
+    
+    return id_result;
+  }
+  function onEditSiteId() {
+  stopLeave = false
+    var selectedSiteIds = getEditedEquipments();
+    if (selectedSiteIds.length > 0) {
+      $('#batchSiteIdData').val(selectedSiteIds.join(','));
+      document.getElementById("site_id_edit").submit();
+    }
+    else {
+      M.toast({ html: 'No Equipment Names' })
+    }
+  }
+
+  $('.equipment-item').change(function(){
+    let eq_id=$(this).val()
+    let ba = $(".batch-act")
+    ba.css({"position":"sticky","top":"0"})
+    ba.slideDown()
+    $('#equip_actions_trigger').html("&#9650 edit")
+    parent_id = $(this).parent().id
+    if(mover_clicked){
+      if($(this).is(':checked')){
+        $("#eq_child_div"+eq_id+" *").prop('disabled',true);
+        $("#eq_child_div"+eq_id+" .quick-link").hide()
+        $("#eq_child_div"+eq_id+" .move-btn").hide()
+        $("#eq_child_div"+eq_id+" .parent-checkbox").hide()
+        $(".site_id_edit_link").hide()
+        $('#moveto_'+eq_id).hide()
+      } 
+    }
+    
+  })
+  
+  var is_edit_mode = false
+  function onEditMode() {
+    if(is_edit_mode){
+      is_edit_mode = false
+      $(".hidden-stuff").hide()
+      $(".editmode").hide();
+      $(".editable-field").hide()
+      $("#enter_edit_button").html('Job Edit Mode')
+      $('#edit_submit_div').hide()
+      $('#cancel-div').hide()
+      $("#site_link").show()
+      stopLeave=false
+    }else{
+      is_edit_mode = true
+      $(".editmode").show();
+      $(".editable-field").show()      
+      $(".hidden-stuff").show().css('display', 'table-row')
+      $("#enter_edit_button").html('Exit Edit Mode')
+      $('#edit_submit_div').show()
+      $('#cancel-div').show()
+      $("#site_link").hide()
+      stopLeave = true  
+    }
+  }
+  
+  function onEq_Actions_Trigger(){
+    
+    let bc = $("#batch_complete")
+    let bi = $("#batch_incomplete")
+    let bt = $("#batch_trash")
+    let bm = $("#batch_move")
+    if(bc.is(':hidden')){
+      bc.slideDown('fast')
+      bi.slideDown('fast')
+      bt.slideDown('fast')
+      bm.slideDown('fast')
+      $('#equip_actions_trigger').html("&#9650 edit")
+    }else{
+      bc.hide()
+      bi.hide()
+      bt.hide()
+      bm.hide()
+      $('#equip_actions_trigger').html("&#9660 edit")
+    }
+  }
+  $(document).ready(function(){
+    $("#exit_edit_button").hide()
+    $(".editmode").hide()
+    $(".formbutton").hide()
+    $("[id^=text_edit]").on('click', event => {
+    var clickedElement = $(event.target);
+    var edit_input=$(clickedElement).parent().next();
+    var help_text = $(edit_input).next();
+    $(clickedElement).hide()
+    $(edit_input).show()
+    $(help_text).show()
+    $(".eq_note_edit_link").hide()
+    $('.quick-disable').prop('disabled', true)
+    $('#file_add_button').hide()
+    $('#edit_submit_div').show()
+    M.textareaAutoResize(edit_input);
+    });
+    $("[id^=edit_job_note_link]").on('click', event => {
+    var clickedElementNote = $(event.target);
+    var noteInput=$(clickedElementNote).parent().parent().siblings("textarea");
+    var noteSubmit = $(noteInput).siblings("button");
+    $(noteInput).siblings("span").hide()
+    $(".eq_note_edit_link").hide()
+    $('.quick-disable').prop('disabled', true)
+    $('#file_add_button').hide()
+    $(noteInput).show()
+    M.textareaAutoResize(noteInput);
+    $(noteSubmit).show()
+    });
+    $("[id^=edit_eq_note_link]").on('click', event => {
+    var clickedElementNote = $(event.target);
+    var noteInput=$(clickedElementNote).parent().parent().siblings("textarea");
+    var noteSubmit = $(noteInput).siblings("button");
+    $(noteInput).siblings("span").hide()
+    $('.quick-disable').prop('disabled', true)
+    $('#file_add_button').hide()
+    $(".eq_note_edit_link").hide();
+    $(noteInput).show()
+    M.textareaAutoResize(noteInput);
+    $(noteSubmit).show()
+    });
+    $(".site_id_edit_link").click(function() {
+	  stopLeave = true
+    var clickedElementId = $(this);
+    var idInput=$(clickedElementId).siblings("textarea");
+    // var noteSubmit = $(noteInput).siblings("button");
+    $('.quick-disable').prop('disabled', true);
+    $(idInput).show()
+    $(clickedElementId).hide();
+    $(edit_id_div).show();    
+    M.textareaAutoResize(idInput)
+    });
+  })
+
+
+  function hideAllEditNote() {
+      let edit_elements = document.getElementsByClassName('edit-job-note');
+          for (let i=0; i<edit_elements.length; i++) {
+          edit_elements[i].setAttribute('hidden', true);
+      }
+  }
+
+  function hideAllReplyNote() {
+    let reply_elements = document.getElementsByClassName('reply-div');
+      for (let i=0; i<reply_elements.length; i++) {
+          reply_elements[i].setAttribute('hidden', true);
+    }
+  }
+
+  var options_eq ={
+    valueNames: ['eq_site_id', 'eq_class']
+  };
+  var eqList = new List('equipment', options_eq);
+
+  function sendReply(job_id, note_id, note_type='job_note') {
+    let reply_note = $('#reply_job_note_input_'+note_id);
+    let url = `/${note_type}/${job_id}/note/${note_id}`;
+    let request = $.ajax({
+        url: url,
+        method: 'POST',
+        headers: {
+            'X-CSRFTOKEN': csrfToken
+        },
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+            note: reply_note.value,
+        }),
+        success: function(response) {
+            location.reload();
+            {#create_new_note_element(response.data);#}
+            {#let reply_element = document.getElementById(`reply_note_${note_id}`);#}
+            {#reply_element.setAttribute('hidden', true);#}
+        },
+        error: function(response) {
+            alert('Something went wrong. Please send your reply again')
+        }
+    });
+}
+</script>
+
+
+{% endblock %}

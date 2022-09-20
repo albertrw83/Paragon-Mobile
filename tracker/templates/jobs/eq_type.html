@@ -1,0 +1,1350 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Type | {{ type.name }}
+{% endblock %}
+
+{% block body %}
+<style>
+  h6{
+    text-align: center;
+    
+  }
+  .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .chips.focus{
+      border-bottom: 1px solid #bf5700;
+      -webkit-box-shadow: 0 1px 0 0 #bf5700;
+      box-shadow: 0 1px 0 0 #bf5700;
+    }
+  @media only screen and (min-width: 1520px) {
+    .indent-comp{
+      margin-left: 50px;
+    }
+  }
+  @media only screen and (max-width: 1519px) {
+     /* input[type="number"]{
+        font-size: 36px !important;
+      } */
+      [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+        background-color: #bf5700;
+        border: 0px;
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+
+      ul.dropdown-content span {
+        font-size: 16px;
+        overflow-wrap: break-word;
+        line-height: normal;
+      }
+      .autocomplete-content{
+        width: 100% !important;
+      }
+      .chips input.input{
+        font-size: 22px;
+      }
+      .chip{
+       font-size: 18px;
+       /* padding-top: 0; */
+       /* overflow: visible; */
+      }
+      .chip i.close{
+        font-size: 45px;
+        color: #670A0A;
+      }
+    th, td{
+      font-size: 16px;
+    }
+    h6{
+      font-size: 40px;
+    }
+    input{
+      font-size: 18px !important;
+      min-height: 5rem !important;
+    }
+    label{
+      font-size: 28px !important;
+    }
+    .exp-list-item {
+  padding-top: 1rem; overflow: hidden;
+  }
+  .exp-list-item:hover {
+    overflow: visible;
+  }
+  .exp-list-item:hover a{
+    background-color: white;
+  }
+  }
+  .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+      <div class="container">
+        <a href="{% url 'types' %}" class="waves-effect waves-light btn-small lapping-btn phone-button">View All Types</a>
+          <a id="enter_edit_button" class="waves-effect waves-light btn-small lapping-btn phone-font-med phone-button" onclick="onEditMode()">Edit Mode</a>
+      </div>
+      <div class="phone-font-lrg comp-font-med" style="text-align: center; color: #888; font-weight: 500;">Equipment Type {% if type.is_private %} <span style="color: #dc143c; font-style: italic;"> - Private </span>{% endif %} </div>
+      <h3 style="text-align: center">{{ type.name }}</h3>
+      <form id="type_edit" action="{% url 'edit_type' type.id %}" method="post">{% csrf_token %}</form>
+      <div class="fixed-action-btn" id="edit_submit_div" hidden>
+        <button id="edit_submit"
+                class="btn-large tooltipped pulse phone-font-lrg"
+                data-position="left"
+                data-tooltip="Must Commit Changes to Take Effect"
+                style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "
+                type="submit"
+                name="action"
+                form="type_edit"
+                onclick="onSubmit()"
+        >
+            Commit Changes
+        </button>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m12 l12 xl6 double-col-style" >
+            <table class="highlight" id="type_table">            
+              <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >General</caption>
+              {% csrf_token %}
+              <tr>
+                <td>Name:</td>
+                <td>
+                    {{ type.name }}
+                    <textarea
+                        class="materialize-textarea editable-field type_edit"
+                        id="name"
+                        name="name"
+                        form="type_edit"
+                        autocomplete="off"
+                        placeholder="Type Name"
+                        hidden
+                    >{{ type.name }}</textarea>
+                </td>
+              </tr>            
+              <tr>
+                <td>Testing Standards:</td>
+                <td>
+                  {% if type.ansi_standards %}
+                  <a class="btn-small phone-button" href="{{ type.ansi_standards.url }}" 
+                  target="_blank">ANSI</a> &nbsp &nbsp &nbsp
+                  {% else %}
+                  No ANSI testing standards have been added.</br>
+                  {% endif %} 
+                  {% if type.neta_standards %}
+                  <a class="btn-small phone-button" href="{{ type.neta_standards.url }}" target="_blank">NETA</a>
+                  {% else %}
+                  No NETA testing standards have been added. 
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>Mandatory Test Sets:</td>
+                <td>
+                  <ul>
+                    {% for mte in type.mandatory_type_test_equipment.all %}
+                    <li>
+                      {{ mte }}
+                    </li>
+                    {% empty %}
+                    <li>No Equipment</li>
+                    {% endfor %}
+                      <div class="editable-field" hidden>
+                        <h6 style="color:#808080">Test Sets</h6>
+                        <div class="row">
+                          <div class="input-field col s12 phone-font-lrg">
+                            <div id="m_test_equipment-chips" class="chips chips-autocomplete phone-font-lrg">
+                            </div>
+                            <input id="mandatory_type_test_equipment"
+                                  form="type_edit"
+                                  name="mandatory_type_test_equipment"
+                                  style="visibility: hidden;"
+                                  value=""
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td>Conditional Test Sets:</td>
+                <td>
+                  <ul>
+                    {% for ote in type.optional_type_test_equipment.all %}
+                    <li>
+                      {{ ote }}
+                    </li>
+                    {% empty %}
+                    <li>No Equipment</li>
+                    {% endfor %}
+
+                      <div class="editable-field" hidden>
+                        <h6 style="color:#808080">Test Sets</h6>
+                        <div class="row">
+                          <div class="input-field col s12 phone-font-lrg">
+                            <div id="o_test_equipment-chips" class="chips chips-autocomplete phone-font-lrg">
+                            </div>
+                            <input id="optional_type_test_equipment"
+                                  form="type_edit"
+                                  name="optional_type_test_equipment"
+                                  style="visibility: hidden;"
+                                  value=""
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                  </ul>
+                </td>
+              </tr>
+            </table>
+            <table class="highlight" id="type_testing_table">            
+              <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >Testing Fields for Type</caption>
+              {% csrf_token %}
+          
+              <tr>
+                <td>Insulation Resistance:</td>
+                <td>
+                    {% if type.is_insulation_resistance %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_insulation_resistance" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_insulation_resistance" id="is_insulation_resistance_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_insulation_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_insulation_resistance" id="is_insulation_resistance_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_insulation_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Contact Resistance:</td>
+                <td>
+                    {% if type.is_contact_resistance %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_contact_resistance" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_contact_resistance" id="is_contact_resistance_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_contact_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_contact_resistance" id="is_contact_resistance_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_contact_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Trip Unit:</td>
+                <td>
+                    {% if type.is_trip_unit %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_trip_unit" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_trip_unit" id="is_trip_unit_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_trip_unit %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_trip_unit" id="is_trip_unit_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_trip_unit %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Primary Injection:</td>
+                <td>
+                    {% if type.is_primary_injection %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_primary_injection" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_primary_injection" id="is_primary_injection_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_primary_injection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_primary_injection" id="is_primary_injection_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_primary_injection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Secondary Injection:</td>
+                <td>
+                    {% if type.is_secondary_injection %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_secondary_injection" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_secondary_injection" id="is_secondary_injection_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_secondary_injection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_secondary_injection" id="is_secondary_injection_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_secondary_injection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Power Fused:</td>
+                <td>
+                    {% if type.is_power_fused %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_power_fused" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_power_fused" id="is_power_fused_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_power_fused %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_power_fused" id="is_power_fused_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_power_fused %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr style="display: none;">
+                <td>Is Breaker:</td>
+                <td>
+                    {% if type.is_breaker %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_breaker" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_breaker" id="is_breaker_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_breaker %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_breaker" id="is_breaker_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_breaker %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Hipot:</td>
+                <td>
+                    {% if type.is_hipot %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_hipot" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_hipot" id="is_hipot_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_hipot %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_hipot" id="is_hipot_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_hipot %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Inspection:</td>
+                <td>
+                    {% if type.is_inspection %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_inspection" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_inspection" id="is_inspection_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_inspection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_inspection" id="is_inspection_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_inspection %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr style="display: none;">
+                <td>Is Transformer:</td>
+                <td>
+                    {% if type.is_transformer %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_transformer" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_transformer" id="is_transformer_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_transformer %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_transformer" id="is_transformer_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_transformer %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Winding Resistance:</td>
+                <td>
+                    {% if type.is_winding_resistance %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_winding_resistance" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_winding_resistance" id="is_winding_resistance_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_winding_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_winding_resistance" id="is_winding_resistance_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_winding_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {% if type.is_transformer %}
+              <tr>
+                <td>Liquid Type:</td>
+                <td>
+                    {% if type.is_liquid_type %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_liquid_type" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_liquid_type" id="is_liquid_type_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_liquid_type %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_liquid_type" id="is_liquid_type_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_liquid_type %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {%endif%}
+              <tr style="display: none;">
+                <td>Cable:</td>
+                <td>
+                    {% if type.is_cable %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_cable" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_cable" id="is_cable_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_cable %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_cable" id="is_cable_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_cable %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {% if type.is_cable %}
+              <tr>
+                <td>Cable VLF Withstand Test:</td>
+                <td>
+                    {% if type.is_cable_vlf_withstand_test %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_cable_vlf_withstand_test" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_cable_vlf_withstand_test" id="is_cable_vlf_withstand_test_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_cable_vlf_withstand_test %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_cable_vlf_withstand_test" id="is_cable_vlf_withstand_test_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_cable_vlf_withstand_test %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {%endif%}
+              {% if type.is_transformer %}
+              <tr>
+                <td>TTR:</td>
+                <td>
+                    {% if type.is_ttr %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_ttr" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_ttr" id="is_ttr_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_ttr %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_ttr" id="is_ttr_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_ttr %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {%endif%}
+              {% if type.is_transformer %}
+              <tr>
+                <td>XFMR Insulation Resistance:</td>
+                <td>
+                    {% if type.is_xfmr_insulation_resistance %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+                      <div id="is_xfmr_insulation_resistance" class="type_edit editable-field" hidden>
+                        <label>
+                            <input name="is_xfmr_insulation_resistance" id="is_xfmr_insulation_resistance_false"
+                                      type="radio" form="type_edit" value='False'
+                                  {% if not type.is_xfmr_insulation_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>No</span>
+                        </label>
+                        <label>
+                            <input name="is_xfmr_insulation_resistance" id="is_xfmr_insulation_resistance_true"
+                                  type="radio" form="type_edit" value='True'
+                                  {% if type.is_xfmr_insulation_resistance %}
+                                      checked
+                                  {% endif %}
+                            />
+                            <span>Yes</span>
+                        </label>
+                      </div>
+                </td>
+              </tr>
+              {%endif%}
+              <tr>
+                <td>Alternative Empty Test Sheet</td>
+                <td>
+                  {% if type.test_sheet %}
+                  <a class="btn-small phone-button" href="{{ type.test_sheet.url }}" target="_blank">Open Test Sheet</a>
+                  {% else %}
+                  None Available
+                  {% endif %}
+                </td>
+              </tr>
+            </table>
+            <div class="row" id="type_copy_div">
+                <form id="create_copy_form" class="col s12" action="{% url 'copy_private_type' type.id %}" onsubmit="confirmCopy()" method="post" hidden> {% csrf_token %}</form>
+            </div>
+            <div class="row double-col-style" id="type_models_div">
+              <h4 style="padding: 2rem; text-align: center; color: #023b59">Existing Models of This Type </h4>
+              <div style="width: auto;" class="noselect">
+                <a class="waves-effect waves-light btn-small phone-button right"  href="{% url 'create_model_view' %}">Create New Model</a>
+                <a class="waves-effect waves-light btn-small phone-button right {% if type_models.count == 0 %}disabled{%endif%} hover-item"{% if type_models.count > 0 %} onclick="existingModelsToggle()"{% endif %} >{% if type_models.count > 0 %} <span id="existing_models_toggle">&#9660</span>{%endif%} {{type_models.count}} Models</a>
+              </div>
+              <br><br>
+                <ul class="collection hidden-stuff " id="existing_models"
+                style="width: 100%;">
+                  {% for model in type_models %}
+                  <li class="collection-item phone-font-lrg " style="line-height: 50px"><a href="{% url 'eq_model' model.id %}">{{ model }}</a></li>
+                  {% empty %}
+                  <p class="phone-font-lrg">No models have been created for this manufacturer.  <a class="waves-effect waves-light btn phone-button" href="{% url 'create_model_view' %}">Create Model</a> </p>
+                  {% endfor %}
+                </ul>  
+              
+            </div>
+
+          </div>
+          <div class="col s12 m12 l12 xl6"> 
+            <div class="row quick-div" id="type_notes_div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59">Notes</h4>
+              <div class="search-div" id="type_note-container" style="margin-left: 15px; float: right; position: -webkit-sticky; position: sticky;">
+                <input class="orange-underline search-input" id="search_type_note" type="text" placeholder="Search..." />
+                  <div id="type_note-move-text" style="display: none">
+                      <span id="type_note-matched-text"></span>
+                      <div style="float: right">
+                        <span class="phone-font-xl hover-item search-arrows comp-font-ml" onclick="previousSearchNote('type_note')" id="type_note-previous-text">▲</span>
+                        <span class="phone-font-xl hover-item search-arrows comp-font-ml" onclick="nextSearchNote('type_note')" id="type_note-next-text">▼</span>
+                      </div>
+                  </div>
+                  <button id="search_type_note_button" onclick="searchNote('type_note', 'type_note_child_toggle', 'type_note-content')" hidden>Search</button>
+              </div>
+              <form
+                      style="margin-right: 50px; margin-left: 15px;"
+                      id="add_note_form"
+                      action="{% url 'add_note' 'type_note' %}"
+                      method="post"
+              >
+                  {% csrf_token %}
+                  <textarea
+                          id="add_note"
+                          name="add_note"
+                          class="materialize-textarea quick-disable"
+                          placeholder="New Note..."
+                          form="add_note_form" required
+                  ></textarea>
+                  <input type="text" name="type_id" value="{{ type.id }}" hidden>
+                  <div style="padding-bottom: 10px;">
+                    <p class=" left hidden-stuff" id="private">
+                      <label style="color:black">
+                        <input type="checkbox"
+                              class="filled-in"
+                              name="is_private"
+                              id="is_private" />
+                        <span>private</span>
+                      </label>
+                    </p>
+                    <button
+                            class="btn-small phone-button waves-effect waves-light quick-disable hidden-stuff"
+                            type="submit"
+                            name="action"
+                            style="margin-right: 0px; margin-left: auto;"
+                            id="submit-btn-notes"
+                    >Add Note<i class="material-icons right ">send</i></button>
+                  </div>
+              </form>
+              {% for note in type_notes %}
+                  {% include "jobs/job_note_data_new.html" with note=note note_type='type_note' %}
+              {% empty %}
+              <h6 class="phone-font-ml" style="text-align: center;">No type notes have been added.</h6>
+              {% endfor %}
+
+            </div>
+            <div class="row quick-div" id="type_files_div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59">Type Files and Links</h4>
+                    
+              {% csrf_token %}
+              {% if type_files %}
+                <ul class="collection last-child-border" style="border: none;">
+                    {% for file in type_files %}
+                    <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;" >
+                      {% if file.type_file %}
+                      <a href="{{file.type_file.url}}" target="_blank" class="phone-font-sml" style="word-wrap: break-word; padding: 0;" >
+                        <i class="material-icons left phone-font-med">insert_drive_file</i>
+                      {% if file.file_name %}
+                        {{file.file_name}}
+                        {% else %}
+                        {{file.filename}}
+                      {% endif %}
+                      </a>
+                      {% endif %}
+                      {% if file.file_url %}
+                      <a href="{{file.file_url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;">
+                        <i class="material-icons left phone-font-med">link</i>
+                        {% if file.file_name %}                            
+                        {{file.file_name}}
+                        {% else %}
+                        {{file.hostname}}
+                        {% endif %}
+                        </a>
+                      {% endif %}
+                      {%  if request.user.is_superuser %}
+                        <a href="{% url 'remove_type_files' file.id %}" onclick="return confirm('Permanantly Remove?') " ><i style="color: #D0C0C0;border: 1px solid #ddd;" class="material-icons right phone-font-lrg">delete</i></a>
+                        {% endif %}
+                        <a class="phone-font-med" style="color: #aaa; display: table-cell">Added: {{file.created_at}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+              {% else %}
+                <h6 class="phone-font-ml" style="margin-bottom: 30px">No Files or Links</h6> 
+              {% endif %}
+              <div id="file_submit_progress" class="progress" style="display: none;">
+                <div class="indeterminate"></div>
+              </div>
+              <div class="phone-pad-bottom" style="text-align: right; padding-right: 10px;">
+                <a class="waves-effect waves-light btn-small phone-button"  onclick="toggleAdder('#add_file_div');"> <i class="material-icons phone-font-lrg left">add</i> Add New</a>
+              </div>
+              <div id="add_file_div" style="display: none;">
+                      <form id="file_add_form" class="col s12 form-back" action="{% url 'add_type_files' type.id %}" method="post"
+                    enctype="multipart/form-data"onsubmit="onFileAdd()">
+                        {% csrf_token %}
+
+                        <div class="col s12 " >
+                            <div class="file-field input-field col s12 " id="file_add_div">
+                                <div class="btn-small phone-button">
+                                    <span><i class="material-icons phone-font-lrg">add</i></span>
+                                    <input id="file_add" name="file_add" type="file" multiple>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Select File to Add">
+                                </div>
+                            </div>
+                            <div class="input-field col s12 " style="margin-top: 50px;" id="file_url_div" hidden>
+                              <input placeholder="paste entire URL" id="file_url" name="file_url" type="url">
+                              <label for="file_url">URL for File</label>
+                            </div>
+                            <a class="btn-small phone-button" id="url_display_btn" onclick="urlDisplay()" style="margin-top: 30px; margin-bottom: 30px;">Enter link URL instead</a>
+                            <a class="btn-small phone-button" id="file_display_btn" onclick="fileDisplay()" hidden>Upload a file instead</a>
+                            <div class="input-field col s12 ">
+                              <input placeholder="optionally name the file or link" style="margin-top: 1rem;" id="file_name" name="file_name" type="text" >
+                              <label for="file_name" style="padding-top: 1rem;">File/Link Name (optional)</label>
+                            </div>                      
+                        </div>
+                        <div class="col s12 ">
+                          <button class="btn waves-effect waves-light right phone-button" type="submit" name="action" id="submit-btn" > Upload File/Link
+                            <i class="material-icons right">send</i>
+                          </button>
+                        </div>
+                      </form>
+              </div>
+            </div>
+            <div class="row quick-div" id="type_ts_div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59;">Type Test Standards</h4>
+              <ul class="collection"
+              style="width: 100%;; border: none;">
+              {% for test_standard in test_standards %}
+                <li class="collection-item phone-font-lrg phone-expansion" >
+                  <div class="clearfix" style="padding: 10px 2px 10px 0;">
+                    {% if test_standard.ts_file %}
+                    <a href="{{test_standard.ts_file.url}}" style="word-wrap: break-word; padding: 0;" target="_blank" class=" phone-font-med"  >
+                      <i class="material-icons left phone-font-med">insert_drive_file</i>
+                      {{test_standard.ts_name|default_if_none:"No name error" }}                      
+                    </a>
+                    {% endif %}
+                    {% if test_standard.ts_url %}
+                    <a href="{{test_standard.ts_url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;">
+                      <i class="material-icons left phone-font-lrg">link</i>
+                      {{test_standard.ts_name|default_if_none:"No name error" }}
+                      </a>
+                    {% endif %}
+                      <button id="ts_toggle{test_standard.pk}}" 
+                      class="waves-effect waves-light btn-small phone-button right " 
+                      onclick="toggleTS('{{test_standard.pk}}')" 
+                      style="border: 1px solid #eee" >
+                        <span class="phone-font-ml comp-font-small" style="color: #888; ">
+                          <span id="ts_toggle{{test_standard.pk}}">
+                              &#9660
+                          </span><span class="computer-screen">Details</span> 
+                        </span>
+                      </button>
+                  <div id="ts_table_{{test_standard.pk}}" class="indent-comp" style="display: none; margin-bottom: 25px;">
+                    <table class="highlight " style=" table-layout: fixed; width: 100%; background-color: #fafafa; ">
+                      <tr>
+                        <td style="width: 40%;">TS Name:</td>
+                        <td style="word-wrap: break-word; padding: 0 4px 0 0;">
+                            {{ test_standard.ts_name }}
+                            <textarea
+                                class="materialize-textarea editable-field type_edit type_ts"
+                                id="ts_name-{{ test_standard.id }}"
+                                name="ts_name-{{ test_standard.id }}"
+                                form="type_edit"
+                                autocomplete="off"
+                                placeholder="Type TS Name"
+                                hidden
+                            >{{ test_standard.ts_name }}</textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: 40%;">TS Standard:</td>
+                        <td style="word-wrap: break-word; padding: 0 4px 0 0;">
+                            {{ test_standard.ts_standard }}
+                            <textarea
+                                class="materialize-textarea editable-field type_edit type_ts"
+                                id="ts_standard-{{ test_standard.id }}"
+                                name="ts_standard-{{ test_standard.id }}"
+                                form="type_edit"
+                                autocomplete="off"
+                                placeholder="Type TS Standard"
+                                hidden
+                            >{{ test_standard.ts_standard }}</textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: 40%;">Description:</td>
+                        <td style="word-wrap: break-word; padding: 0 4px 0 0;">
+                            {{ test_standard.ts_description }}
+                            <textarea
+                                class="materialize-textarea editable-field type_edit type_ts"
+                                id="ts_description-{{ test_standard.id }}"
+                                name="ts_description-{{ test_standard.id }}"
+                                form="type_edit"
+                                autocomplete="off"
+                                placeholder="Type TS Description"
+                                hidden
+                            >{{ test_standard.ts_description }}</textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: %;">Date Created:</td>
+                        <td style="word-wrap: break-word; padding: 0 4px 0 0;">
+                            {{ test_standard.created_at }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width: 40%;">Added By:</td>
+                        <td style="word-wrap: break-word; padding: 0 4px 0 0;">
+                            {{ test_standard.created_by }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                    
+                </div>
+                </li>
+                
+                {% empty %}
+                <h6 class="phone-font-ml" style="text-align: center;">No test standards have been added</h6>
+                {% endfor %}
+              </ul>  
+              <div id="ts_submit_progress" class="progress" style="display: none;">
+                <div class="indeterminate"></div>
+              </div>
+              <div class="phone-pad-bottom" style="text-align: right; padding-right: 10px;">
+                <a class="waves-effect waves-light btn-small phone-button" onclick="toggleAdder('#add_ts_div')"> <i class="material-icons phone-font-lrg left">add</i> Add New</a>
+              </div>
+              <div id="add_ts_div" style="display: none; ">
+                      <form id="ts_add_form" class="col s12 form-back" action="{% url 'add_test_standard' type.id %}" method="post"
+                    enctype="multipart/form-data"  onsubmit="onTsAdd()" >
+                        {% csrf_token %}
+                        <div class="col s12 " >
+                            <div class="file-field input-field col s12 " id="ts_add_div">
+                                <div class="btn-small phone-button">
+                                    <span><i class="material-icons phone-font-lrg">add</i></span>
+                                    <input id="ts_add" name="ts_add" type="file" >
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Select File for Standard">
+                                </div>
+                            </div>
+                            <div class="input-field col s12 " style="margin-top: 50px;" id="ts_url_div" hidden>
+                              <input placeholder="paste entire URL" id="ts_url" name="ts_url" type="url" onkeydown="console.log()" >
+                              <label for="ts_url">URL for Test Standard</label>
+                            </div>
+                            <a class="btn-small phone-button" id="ts_url_display_btn" onclick="urlTsDisplay()" style="margin-top: 30px; margin-bottom: 30px;">Enter link URL instead</a>
+                            <a class="btn-small phone-button" id="ts_file_display_btn" onclick="fileTsDisplay()" style="display: none;">Upload a file instead</a>          
+                            <div class="input-field col s12 ">
+                              <input placeholder="i.e. ANSI " style="margin-top: 1rem;" id="ts_standard" name="ts_standard" type="text" required >
+                              <label for="ts_standard" style="padding-top: 1rem;">Testing Standard (required)</label>
+                            </div>   
+                            <div class="input-field col s12 ">
+                              <input placeholder="i.e. MV Transformer Power Factor" style="margin-top: 1rem;" id="ts_name" name="ts_name" type="text" required >
+                              <label for="ts_name" style="padding-top: 1rem;">Name (required)</label>
+                            </div>       
+                            <div class="input-field col s12 ">
+                              <textarea class="materialize-textarea" placeholder="i.e. Specs for power factor testing on a... " style="margin-top: 1rem;" id="ts_description" name="ts_description" required ></textarea>
+                              <label for="ts_description" style="padding-top: 1rem;">Description (required)</label>
+                            </div>           
+                        </div>
+                        <div class="col s12 ">
+                          <button class="btn waves-effect waves-light phone-button right" type="submit" name="action" onclick="onTsAdd()" id="submit-btn-ts"> Add Test Standard
+                            <i class="material-icons right">send</i>
+                          </button>
+                        </div>
+                      </form>
+              </div>
+            </div>
+  
+
+            <div class="row quick-div" id="type_videos_div">
+              
+  
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59;">Type Videos</h4>
+              {% if video_guides %}
+              <ul  class="collapsible">
+                {% for guide in video_guides %}
+                <li>
+                  <div class="collapsible-header video-header phone-font-ml" style="overflow: auto;" onclick="videoToggle('{{guide.pk}}')"> <span class="video-toggle" id="video_toggle_{{guide.pk}}">&#9660</span>&nbsp;&nbsp;{{guide.title}}</div>
+                  <div class="collapsible-body" id ="video_body_{{guide.pk}}"> 
+                        <video controls="controls" controlsList=”nodownload” width="98%" height="auto">
+                        <source src="{{guide.type_test_guide.url}}" type="video/mp4"></video>
+                  </div>
+                </li>      
+                {% endfor %}            
+              {% else %}
+              <h6 class="phone-font-ml">No video guides</h6>
+
+              <br><br>
+              {% endif %}             
+              </ul>
+              <div id="video_submit_progress" class="progress" style="display: none;">
+                <div class="indeterminate"></div>
+              </div>
+              <div class="phone-pad-bottom" style="text-align: right; padding-right: 10px;">
+                <a class="waves-effect waves-light btn-small phone-button" onclick="toggleAdder('#add_video_div')"> <i class="material-icons phone-font-lrg left">add</i> Add New</a>
+              </div>
+              <div id="add_video_div" style="display: none;">
+                <form id="video_add_form" class="col s12 form-back" onsubmit="onVideoAdd()" action="{% url 'add_type_video' type.id %}" method="post"
+                  enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col s12 ">
+                        <div class="file-field input-field col s12 " id="video_add_div">
+                            <div class="btn-small phone-button">
+                                <span><i class="material-icons phone-font-lrg">add</i></span>
+                                <input id="video_add" name="video_add" type="file" accept="video/*">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate phone-font-lrg" type="text" placeholder="Select Video to Upload">
+                            </div>
+                        </div>
+                        <div class="input-field col s12 ">
+                          <input placeholder="Name the video" style="margin-top: 1rem;" id="video_name" name="video_name" type="text" required>
+                          <label class="phone-font-ml" for="video_name" style="padding-top: 1rem;">Video Title (required)</span></label>
+                        </div>
+                        
+                    </div>
+                    <div class="col s12 ">
+                      <button class="btn waves-effect right waves-light phone-button" type="submit" name="action" id="submit-btn-video" > Add Video to Type
+                        <i class="material-icons right">send</i>
+                      </button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+  function confirmCopy(){
+    var x=confirm('Please confirm choice to create a private copy.')
+    if(!x){
+      event.preventDefault();
+    }
+  }
+  function existingModelsToggle(){
+    if($('#existing_models').is(':visible')){
+      $('#existing_models').slideUp('fast')      
+      $('#existing_models_toggle').html('&#9660')
+    }else{
+      $('#existing_models').slideDown('fast')
+      $('#existing_models_toggle').html('&#9650')
+    }
+  }
+  $('#add_note').keyup(function(){
+    if($(this).val()){$('#submit-btn-notes').show();$('#private').show()}else{$('#submit-btn-notes').hide();$('#private').hide()}
+  })
+function urlDisplay(){
+  $('#file_url_div').show()
+  $('#file_add_div').hide()
+  $('#file_display_btn').show()
+  $('#url_display_btn').hide()
+}
+function fileDisplay(){
+  $('#file_add_div').show()
+  $('#file_url_div').hide()
+  $('#url_display_btn').show()
+  $('#file_display_btn').hide()
+}
+function urlTsDisplay(){
+  $('#ts_url_div').show()
+  $('#ts_add_div').hide()
+  $('#ts_file_display_btn').show()
+  $('#ts_url_display_btn').hide()
+}
+function fileTsDisplay(){
+  $('#ts_add_div').show()
+  $('#ts_url_div').hide()
+  $('#ts_url_display_btn').show()
+  $('#ts_file_display_btn').hide()
+}
+function onFileAdd() {
+  $('#file_submit_progress').show()
+}
+function onTsAdd() {  
+
+  if($('#ts_add').get(0).files.length == 0 && $('#ts_url').val()==""){
+    M.toast({ html: 'Must add file or URL' })
+    event.preventDefault()
+    return false; 
+  }else if($('#ts_add').get(0).files.length > 0 && $('#ts_url').val()){
+    M.toast({ html: '<u>Cannot</u> &nbsp have &nbsp <u>both</u>&nbsp file and URL.' })
+    event.preventDefault()
+    return false; 
+  }else{
+  $('#ts_submit_progress').show()
+  }
+}
+function onVideoAdd() {          
+  if($('#video_name').val()){
+    $('#video_submit_progress').show()
+  }          
+}
+
+let is_edit_mode = false
+function onEditMode() {
+  if(is_edit_mode){
+    is_edit_mode = false;
+    $(".editmode").hide();
+    $(".editable-field").hide()
+    $("#enter_edit_button").html('Edit Mode')
+    $('#edit_submit_div').hide()
+    stopLeave=false
+  }else{
+    is_edit_mode = true;
+    $(".editmode").show();
+    $(".editable-field").show()
+    $(".hidden-stuff").not("#existing_models").show().css('display', 'table-row')
+    $("#enter_edit_button").html('Exit Edit Mode')
+    $('#edit_submit_div').show()
+    stopLeave = true
+  }
+}
+function videoToggle(video){
+  if($('#video_body_'+video).is(':visible')){
+    $('#video_toggle_'+video).html("&#9660")
+  }else{
+    $('#video_toggle_'+video).html("&#9650")
+  }  
+  $('.video-toggle').not($('#video_toggle_'+video)).html("&#9660")
+}
+function toggleTS(ts_id){
+  if($('#ts_table_'+ts_id).is(':visible')){
+    $('#ts_table_'+ts_id).slideUp('fast')
+    $('#ts_toggle'+ts_id).html('&#9660 ')
+  }else{
+    $('#ts_table_'+ts_id).slideDown('fast')
+    $('#ts_toggle'+ts_id).html('&#9650 ')
+
+  }
+}
+function toggleAdder(adder){
+  let adder_div = $(adder)
+  if(adder_div.is(':visible')){
+    adder_div.fadeOut('fast')
+  }
+  else{
+    adder_div.fadeIn('fast')
+    scrollToSpot(adder_div)
+  }
+}
+function scrollToSpot(spot){
+  let pull_back = 0
+  if($(window).width()>1519){
+    pull_back = 100
+  }else if($(window).width()<1520){
+    pull_back = 500
+  }
+  console.log($(window).width())
+  console.log(pull_back)
+  if($(spot).is(':visible')){
+  $('html, body').animate({
+    scrollTop: $(spot).offset().top - pull_back
+  }, 300);
+
+  }
+}
+$("textarea[id^='ts_']").keyup( function (e) {
+      let ts_id = e.target.id.split('-')
+      ts_id = ts_id[ts_id.length - 1]
+      let currentVal = $(`#ts_ids`).val()
+      if (currentVal) {
+          currentVal = currentVal.split('-')
+      } else {
+          currentVal = []
+      }
+
+      if (!currentVal.includes(ts_id)) {
+          currentVal.push(ts_id);
+          let updatedVal = currentVal.join('-');
+          $(`#ts_ids`).val(`${updatedVal}`)
+      }
+  });
+        function goBack() {
+          window.history.back();
+        }
+        $(document).ready(function(){
+          $(`#ts_ids`).val("")
+          mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+          optionalInstance = M.Chips.getInstance($("#o_test_equipment-chips"));
+
+          {% for test_equipment in type.mandatory_type_test_equipment.all %}
+             mandatoryInstance.addChip({tag: '{{ test_equipment.name }}'})
+          {% endfor %}
+          {% for test_equipment in type.optional_type_test_equipment.all %}
+             optionalInstance.addChip({tag: '{{ test_equipment.name }}'})
+          {% endfor %}
+          
+          $('#file_display_btn').hide()
+          $('.collapsible').collapsible();
+        })
+        
+
+  let allEquipments = {{ test_equipment_list|safe}}
+  $('#m_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+              },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+
+        let selectedItems = mandatoryInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            mandatoryInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test sets.');
+            }
+            return
+        } else {
+            let optionalItems = optionalInstance.options.autocompleteOptions.data
+            delete existingItems[tag]
+            delete optionalItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let optionalItems = optionalInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let optionalChipsData = optionalInstance.chipsData
+              for (let i=0; i<optionalChipsData.length; i++) {
+                  if (optionalChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted test sets to drop down list
+            optionalItems[deletedTestEquipment] = null
+          }
+      }
+    });
+
+  let mandatoryInstance = null;
+  let optionalInstance = null;
+
+  $('#o_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+        },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+
+        let selectedItems = optionalInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            optionalInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test sets.');
+            }
+            return
+        } else {
+            let optionalItems = mandatoryInstance.options.autocompleteOptions.data
+            delete optionalItems[tag]
+            delete existingItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let mandatoryInstanceItems = mandatoryInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let mandatoryChipsData = mandatoryInstance.chipsData
+              for (let i=0; i<mandatoryChipsData.length; i++) {
+                  if (mandatoryChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted Test Set to drop down list
+            mandatoryInstanceItems[deletedTestEquipment] = null
+          }
+      }
+  });
+
+  function onSubmit() {
+    stopLeave = false
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_type_test_equipment").val(mandatoryValue);
+
+
+    var optionalValue = Array.from(optionalInstance.chipsData.map(x => x.tag)).join(",");
+    $("#optional_type_test_equipment").val(optionalValue);
+
+  }
+</script>
+
+{% endblock %}

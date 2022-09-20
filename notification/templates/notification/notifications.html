@@ -1,0 +1,38 @@
+<p>read notification: {{ user.user.read_notification.count }}</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Verb</th>
+        <th>timestamp</th>
+        <th>read</th>
+        <th>note</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for notification in object_list %}
+        <tr>
+            <td>
+                <a href="{{ notification.get_absolute_url }}">
+                    {% if notification.read %}
+                        {{ notification.verb }}
+                    {% else %}
+                        <b>{{ notification.verb }}</b>
+                    {% endif %}
+                </a>
+            </td>
+            <td>{{ notification.timestamp }}</td>
+            <td>{{ notification.read }}</td>
+            <td>{{ notification.note }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<div id="note-log"></div>
+
+<script>
+
+</script>

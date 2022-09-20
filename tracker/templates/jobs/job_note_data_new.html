@@ -1,0 +1,135 @@
+<div class=" card-style 
+     {% if note.parent_note %}
+         nested-el
+    {% endif %}"
+    id="{{ note_type }}-{{ note.pk }}container"
+>
+{% csrf_token %}
+<div class="">
+    <div class="note-container">
+        <div class="note-lightgrey {{ note_type }}-content" id="note-{{note_type}}{{ note.pk }}">
+            <span class="phone-font-sml search-text" style="font-weight: 600;">
+                {{ note.author_name }}
+            </span><br>
+            <span class="note-content phone-font-med search-text" style="white-space: pre-wrap;">{{note.note}}</span>            
+            <div>
+            <div id="edit_div{{note_type}}{{note.id}}" style="display: none;   padding-left: 6px;">
+            <textarea
+            style="background-color: #f8f8f8;border: 1px solid #dadada;"
+            id="edit_{{note_type}}_input_{{note.id}}"
+            name="edit_{{note_type}}_input_{{note.id}}"
+            type="text"
+            class="materialize-textarea edit-job-note"
+            form="{{note_type}}_edit_form{{note.id}}"
+            required
+            >{{ note.note }}</textarea>
+            <button
+                class="btn waves-effect waves-light phone-button m1"
+                type="submit"
+                
+                style="margin-left: 6px; text-align: right;"
+                id="{{note_type}}_edit_submit{{note.id}}"
+                form = "{{note_type}}_edit_form{{note.id}}" 
+                >
+                Update <i class="material-icons right phone-font-lrg">send</i>
+            </button>
+            <form id="{{note_type}}_edit_form{{note.id}}"
+            name="{{note_type}}_edit_form{{note.id}}"
+                  
+                  action="{% url 'edit_note' note_type note.id %}"
+                  method="post">{%csrf_token %}</form>
+                </div>
+        </div>
+        <span class="phone-font-xs search-text" style="color: #aaa; margin-top: 6px;float: right;">{{note.created_at}}</span>
+        </div>
+        <div class="note-action phone-font-ml noselect {% if note.sub_notes.exists %}nest-parent{% endif %}" style="white-space: nowrap; overflow: visible;" >
+            
+        <div id='notes_more_{{note_type}}{{note.id}}' class='notes-more noselect' style="display: none;" >
+            {% if note.author == request.user or user.is_superuser %}
+            <a class="waves-effect waves-light btn-small phone-button tr-margin-btn" href="#!" data-tooltip="edit ID"
+            onclick="editNote('{{note_type}}',{{ note.id }}); $(this).hide()">Edit</a>
+            {%endif%}
+            <a class="waves-effect waves-light btn-small phone-button tr-margin-btn" href="#!" onclick="copyNote('{{note_type}}', {{note.pk}})">Copy</a>
+            {% if request.user == note.author or user.is_superuser %}
+            <a class="waves-effect waves-light btn-small phone-button tr-margin-btn" onclick="return confirm('Permanantly remove this note?')" href="{% url 'delete_note' note_type note.pk %}">Delete</a>
+            {% endif %}
+
+            
+          </div>
+          {% if note.sub_notes.count %}
+            <a id="{{ note_type }}_child_toggle{{note.pk}}" 
+            class="waves-effect waves-light btn-small phone-button z-depth-0" 
+            onclick="toggleChild('{{note_type}}', {{note.pk}})" 
+            style="text-decoration: none; margin-left: 3px; margin-top: 3px; margin-bottom: 3px; border: 1px solid #eee" >
+                <span>
+                    <span class="phone-font-ml comp-font-small" style="color: #888; ">
+                        <span id="{{note_type}}_toggle{{note.pk}}">
+                            &#9650
+                        </span>
+                        {{note.sub_notes.count}}
+                    </span>
+                </span>
+            </a>
+        {% endif %}
+        
+      <a class="{{note_type}}_reply_link left-spacer reply-button noselect" id="reply_{{note_type}}_link{{note.id}}" onclick="onReply('{{note_type}}', {{ note.pk }});$(this).parent().css('border-left', '4px solid #ebebeb')">
+            <span class="hover-item">
+                Reply
+            </span>
+        </a>
+        <a class="hover-item drop-link left-spacer noselect" onclick="dropMore('{{note_type}}',{{note.id}}); $(this).hide()">&#8226&#8226&#8226</a>
+        
+
+        
+        </div>
+    </div>
+    <div class="reply-div" id="{{note_type}}_reply_note_{{ note.id }}" hidden >
+        <form id="reply_{{note_type}}_form_{{note.id}}"
+            name="reply_{{note_type}}_form_{{note.id}}"
+            action="{% url 'reply_note' note_type note.id %}"
+            method="post">{%csrf_token %}</form>
+            <div style="display: block;">
+        <textarea
+            id="reply_{{note_type}}_input_{{note.id}}"
+            name="reply_{{note_type}}_input_{{note.id}}"
+            type="text"
+            class="materialize-textarea reply-textarea"
+            placeholder="Write a reply..."
+            form="reply_{{note_type}}_form_{{note.id}}"
+            required
+            ></textarea>
+        </div>
+        <div style="display: block; padding-bottom: 10px;">
+            <button
+                class="btn waves-effect waves-light right reply-submit-btn phone-button m1"
+                type="submit"
+                name="action"
+                id="{{note_type}}_reply_btn_{{note.pk}}"
+                style="margin-left: 6px"
+                form="reply_{{note_type}}_form_{{note.id}}"
+                onclick="stopLeave=false"
+                >
+                Submit <i class="material-icons right phone-font-lrg">send</i>
+            </button>
+
+            <button
+                class="btn waves-effect waves-light phone-button"
+                style="border: none; color: #888; margin-left: 10px;"
+                onclick="cancelReply()"
+                >
+                Cancel
+            </button>
+        </div>
+    </div>
+
+</div>
+
+  <div id="{{note_type}}{{note.pk}}">
+
+    {% for note in note.sub_notes.all %}
+        {% include "jobs/job_note_data_new.html" with job=job note=note %}
+    {%empty%}
+    {% endfor %}
+</div>    
+
+</div>

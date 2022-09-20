@@ -1,0 +1,14 @@
+{% for i in equipments %}
+    {% if not i.parent_equipment %}
+        {% include "jobs/equipment_data.html" with equipment=i is_hidden=is_hidden %}
+        {% for sub_equipment in i.sub_equipments.all %}
+            {% include "jobs/sub_equipments.html" with sub_equipment=sub_equipment %}
+        {% endfor %}
+    {% endif %}
+
+{% empty %}
+    <tr>
+        <td class="phone-font-med">No Equipment</td>
+    </tr>
+ 
+{% endfor %}

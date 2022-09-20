@@ -1,0 +1,18 @@
+
+<div class="row">
+    <table class="table-all lato-300" style="width: 100%;">
+        <caption class="normal-header">Insulation Resistance 
+            
+        </caption>
+        <tr>
+            {% if not is_ct%}
+            <td class="cell-borders" >Primary to Secondary <br>{% if test_sheet.insulation_resistance_hi_lo %}{{test_sheet.insulation_resistance_hi_lo.normalize}}{%else%}________{%endif%} G<span>&#8486</span> at {{test_sheet.insulation_resistance_hi_lo_test_voltage|default_if_none:"______"}}V</td>
+            {%endif%}
+            <td class="cell-borders" >Primary to Ground <br>   {% if test_sheet.insulation_resistance_hi_g %}{{test_sheet.insulation_resistance_hi_g.normalize}}{%else%}________{%endif%} G<span>&#8486</span> at {{test_sheet.insulation_resistance_hi_g_test_voltage|default_if_none:"______"}}V </td>
+            <td class="cell-borders" >Secondary to Ground <br> {% if test_sheet.insulation_resistance_lo_g %}{{test_sheet.insulation_resistance_lo_g.normalize}}{%else%}________{%endif%} G<span>&#8486</span> at {{test_sheet.insulation_resistance_lo_g_test_voltage|default_if_none:"______"}}V</td>
+        </tr>
+        
+    </table>
+
+        
+</div>

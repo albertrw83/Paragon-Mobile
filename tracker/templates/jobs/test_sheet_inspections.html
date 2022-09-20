@@ -1,0 +1,751 @@
+
+<table class="table-all center inspections-table lato-300" style="width: 100%;">
+    <caption class="normal-header">Visual and Mechanical Inspections</caption>
+    
+    {% if equipment.equipment_type.name == 'Dry Type Medium Voltage Transformer' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_resilient_mounts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that resilient mounts are free and that any shipping brackets have been removed</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_temp_indicators %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that control and alarm settings on temperature indicators are as specified</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_fans_oc_protection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that cooling fans and fan motors have correct overcurrent protection</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_manufacture_inspections_mechanical_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform inspections and mechanical tests as recommended by the manufacturer</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_as_left_verified %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify as-left tap connections are as specified</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_surge_arrestors_present %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify the presence of surge arresters</td>
+    </tr>
+
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Oil-filled Transformer' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_impact_recorder %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect impact recorder prior to unloading</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_dew_point %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Test dew point of tank gases</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_pcb_content_labeling %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify the presence of PCB content labeling</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_shipping_bracing %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify removal of any shipping bracing after placement</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_bushings_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify the bushings are clean</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_alarm_temperature %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that alarm, control, and trip settings on temperature and level indicators are as specified</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_alarm_control_trip_indicators_devices %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify operation of alarm, control, and trip circuits from temperature and level indicators, pressure relief device, gas accumulator, and fault pressure relay</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_fans_oc_protection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that cooling fans and pumps operate and have correct overcurrent protection</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench (on accessible connections), or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_verify_liquid_level %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct liquid level in tanks and bushings</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_verify_valve_positions %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Valves are in correct operating position</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_verify_positive_pressure %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that positive pressure is maintained on gas-blanketed transformers</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_manufacture_inspections_mechanical_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform inspections and mechanical tests as recommended by the manufacturer</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.xfmr_surge_arrestors_present %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify the presence of surge arresters</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.oil_xfmr_denergized_as_left %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify de-energized tap-changer position is left as specified</td>
+    </tr>
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Enclosed Medium Voltage Air Switch' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, grounding, and required clearances</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switch_alignment_travel_stops_arc_interrupter %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct blade alignment, blade penetration, travel stops, arc interrupter operation, and mechanical operation.</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.fuse_sizes_types_drawings_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Fuse sizes and types are in accordance with drawings, short-circuit studies, and coordination study</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switch_verify_expulsion_limiting_devices %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that expulsion-limiting devices are in place on all fuses having expulsion-type elements.</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switch_verify_mechanical_support %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that each fuseholder has adequate mechanical support and contact integrity.</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_op_sequence_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Operation and sequencing of interlock systems are correct</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_barrier_installation_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Phase barrier installation is correct</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_indicating_devices %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct operation of indicating and control devices</td>
+    </tr>      
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_space_heaters %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">All space heaters are operating correctly</td>
+    </tr>   
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Low Voltage Switch' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, grounding, and required clearances</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switch_alignment_travel_stops_arc_interrupter %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct blade alignment, blade penetration, travel stops, and mechanical operation.</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.fuse_sizes_types_drawings_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Fuse sizes and types are in accordance with drawings, short-circuit studies, and coordination study</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switch_verify_mechanical_support %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that each fuse has adequate mechanical support and contact integrity.</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_op_sequence_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Operation and sequencing of interlock systems are correct</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_barrier_installation_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Phase barrier installation is correct</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_indicating_devices %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct operation of indicating and control devices</td>
+    </tr>      
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    {% endif %}
+    {% if equipment.equipment_type.name == 'SF6 Circuit Breaker' %}    
+    <tr>
+        <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="font-size: 14px;padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_maintenance_tools_gauges %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Verify that all maintenance devices such as special tools and guages specified by manufacturer are available for servicing and operating breaker</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.sf6_gas_sample %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">When provisions are made for sampling, remove a sample of SF<sub>6</sub> &nbsp;gas and test in accordance with current standards. Do not break, seal, or distort "sealed-for-life" interrupters.
+      </td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.ofcb_hydraulic_air_inspected %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Inspect operating mechanism and/or hydraulic or pneumatic system and SF<sub>6</sub> &nbsp;gas insulated system in accordance with manufacturer's published data </td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.sf6_gas_leaks %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Test for SF<sub>6</sub> &nbsp;gas leaks in accordance with manufacturer's published data</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.ofcb_alarms_pressure_switches_operators %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Verify operation of alarms and pressure-limit switches for pneumatic, hydraulic, and SF<sub>6</sub> &nbsp;gas pressure as recommended by the manufacturer</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvab_check_binding_friction_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">If recommended by manufacturer, slow close/open breaker and check for binding, friction, contact alignment, and penetration. Verify that contact sequence is in accordance with manufacturer's published data. In the absence of manufacturer's data, use IEEE C37.04</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanical_operation_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>   
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_contact_timing_test %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Perform contact-timing test</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_trip_close_coil_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Perform trip/close coil current signature analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanism_motion_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">Perform mechanism motion analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="font-size: 14px;border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_space_heaters %}Pass{%else%}Fail{%endif%}</td>
+      <td style="font-size: 14px;padding-left: 7px;">All space heaters are operating correctly</td>
+    </tr>   
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Control Power Transformer (CPT)' %}
+    <tr>
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect for physical damage, cracked insulation, broken leads, tightness of connections, defective wiring, and overall general condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.fuse_sizes_types_drawings_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Primary and secondary fuses/circuit breaker ratings match drawings</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_cpts_undamaged %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Drawout disconnecting contacts, grounding contacts, and interlocks functioning correctly. </td>
+    </tr>     
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Voltage Transformer (VT)' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.connections_with_system_requirements %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct connection of transformer with system requirements</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.clearances_primary_secondary_wiring %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify adequate clearances exist between primary and secondary circuit wiring</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.grounding_connections_contact %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that all required grounding and connections provide contact</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.fuse_sizes_types_drawings_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Primary and secondary fuse sizes are correct</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Current Transformer (CT)' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.connections_with_system_requirements %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify correct connection of transformer with system requirements</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.clearances_primary_secondary_wiring %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify adequate clearances exist between primary and secondary circuit wiring</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>    
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.grounding_connections_contact %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that all required grounding and shorting connections provide contact</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Medium Voltage Motor Contactor' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_op_sequence_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Operation and sequencing of electrical and mechanical interlock systems are correct</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_barrier_installation_correct %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Barrier and shutter installation and operation is correct</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_active_components_exercised %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Active components have been exercised and indicating devices operating correctly</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanical_operation_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Check contactors mechanical operation and contact gap, wipe, alignment, and pressure in accordance with manufacturer's published data</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.insul_mol_lvcb_adjustments_protective_settings %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Overload protection rating is correct for its application. Adjustable/programmable devices are set to coordination study</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    {% endif %}
+    {% if equipment.equipment_type.name == 'Medium Voltage Air Breaker' %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_maintenance_tools_gauges %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that all maintenance devices are available for servicing and operating the breaker</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvab_arc_chutes_intact %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify the arc chutes are intact</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.lvcb_contacts_condition_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect moving and stationary contacts for condition and alignment</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvab_check_binding_friction_ect %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">If recommended by manufacturer, slow close/open breaker and check for binding, friction, contact alignment, and penetration Verify that contact sequence is in accordance with manufacturer's published data. In the absence of manufacturer's data, use IEEE C37.04</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanical_operation_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_fit_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify cell fit and element alignment</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_racking_mechanism %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify racking mechanism operation</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvab_puffer_operation %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect puffer operation</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_contact_timing_test %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform contact-timing test</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanism_motion_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform mechanism motion analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_trip_close_coil_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform trip/close coil current signature analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_space_heaters %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">All space heaters are operating correctly</td>
+    </tr>   
+    {% endif %}
+    {% if equipment.equipment_type.is_mv_or_hv_breaker %}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage, alignment, and grounding</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_maintenance_tools_gauges %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify that all maintenance devices such as special tools and gauges specified by the manufacturer are available for servicing and operating the breaker</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanical_operation_tests %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform all mechanical operation tests on the operating mechanism in accordance with manufacturer's published data</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_critical_distances %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Measure critical distances such as contact gap as recommended by manufacturer</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_fit_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify cell fit and element alignment</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_racking_mechanism %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify racking mechanism operation</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_current_carrying_parts %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Verify appropriate lubrication on moving current-carrying parts and on moving and sliding surfaces</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_contact_timing_test %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform contact-timing test</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_trip_close_coil_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform trip/close coil current signature analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.mvvb_mechanism_motion_analysis %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform mechanism motion analysis</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_space_heaters %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">All space heaters are operating correctly</td>
+    </tr>   
+    {%endif%}
+    {%if equipment.equipment_type.is_lv_ic_or_mc_breaker%}
+    <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect anchorage and alignment</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Unit is clean</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.insul_mol_lvcb_smooth_op %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Circuit breaker operates smoothly</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.insul_mol_lvcb_inspect_mech_chutes %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Inspect operating mechanism, contacts, and arc chutes in unsealed units</td>
+    </tr>
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.insul_mol_lvcb_adjustments_protective_settings %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Perform adjustments for final protective device settings in accordance with the coordination study</td>
+    </tr>
+    {%endif%}
+    {% if equipment.equipment_type.is_switchgear %}
+      <tr>
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+      </tr>      
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Inspect physical, electrical, and mechnical condition of cords and connectors</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_anchorage_alignment %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Inspect anchorage, alignment, grounding, and required area clearances</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Unit is clean and all shipping bracing, loose parts, and documentation have been removed from inside cubicles</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_fuse_cb_match_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Fuse and circuit breaker sizes and types match drawings and coordination study. Also circuit breaker addresses for microprocessor-communication packages are correct</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_ct_vt_ratios_match_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Current and voltage transformer ratios match drawings</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_wiring_tight_secure %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Wiring connections are tight and wiring is secure enough to prevent damage during routine operation of moving parts</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_connection_inspection %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Electrical connections inspected for high resistance by Ohmmeter, Torque Wrench, or Thermographic Survey</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_op_sequence_correct %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Operation and sequencing of electrical and mechanical interlock systems are correct. Locked-open devices and locked-open devices working correctly. Key exchange for interlock scheme is manually verified</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_moving_parts_lubricated %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Moving current-carrying parts and moving and sliding surfaces have appropriate lubrication</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_insulators_no_damage %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Insulators show no evidence of physical damage or contaminated surfaces</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_barrier_installation_correct %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Barrier and shutter installation and operation is correct</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_active_components_exercised %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Active components have been exercised.</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_indicating_devices %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Mechanical indicating devices operating correctly</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_filters_vents_clear %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Filters are in place and vents are clear</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_instrument_transformers_inspected %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Instrument transformers visually and mechincallly inspected to NETA standard 7.10</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_surge_arresters_inspected %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Surge arresters visually and mechincallly inspected to NETA standard 7.19</td>
+      </tr>     
+      {%endif%}
+      {% if equipment.equipment_type.name == 'Electromechanical/Solid-State Power Meter' %}
+      <tr>
+          <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+          <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.relay_tightness_hardware %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Verify tightness of electrical connections</td>
+      </tr>
+      {%endif%}
+      {% if equipment.equipment_type.name == 'Power Meter' %}
+      <tr>
+          <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_nameplate_drawings %}Pass{%else%}Fail{%endif%}</td>
+          <td style="padding-left: 7px;">Nameplate data matches drawings/specs</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_inspect_cords_connectors %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Inspect physical and mechnical condition</td>
+      </tr>  
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_clean %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Unit is clean</td>
+      </tr>        
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.relay_tightness_hardware %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Verify tightness of electrical connections</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_indicating_devices %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Verify operation of display and indicating devices</td>
+      </tr>     
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.unit_grounded_manufacturer %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Unit is grounded in accordance with manufacturer's instructions</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.unit_connected_manfacturer_drawings %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Verify unit is connected in accordance with manufacturer's instructions and project drawings</td>
+      </tr>
+      <tr style=" border-top: 1px solid #ededed;">
+        <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.parameters_ratios_ect %}Pass{%else%}Fail{%endif%}</td>
+        <td style="padding-left: 7px;">Set all required parameters including instrument transformer ratios, system type, frequency, power demand methods/intervals, and communications requirements.</td>
+      </tr>
+
+      {%endif%}
+</table>
+{% if electrical_inspections %}
+<table class="table-all center lato-300" style="width: 100%;">
+    <caption class="normal-header">Electrical Pass/Fail Inspections</caption>
+    {% if equipment.equipment_type.name == 'Power Meter' %}
+    <tr>
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.correct_aux_in_out %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Confirm correct operation and setting of each auxiliary input/output feature in use, including mechanical relay, digital, and analog.</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.measurements_indications_consistant_standards %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">After initial system energization, confirm measurements and indications are consistent with loads present in accordance with required standards</td>
+  </tr>       
+    {%endif%}
+    {% if equipment.equipment_type.is_switchgear %}
+    <tr>
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center; width: 45px;">{% if test_sheet.switchgear_space_heaters %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">All space heaters and their controllers are operating correctly</td>
+    </tr>     
+    <tr style=" border-top: 1px solid #ededed;">
+      <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: center;">{% if test_sheet.switchgear_phasing_verified %}Pass{%else%}Fail{%endif%}</td>
+      <td style="padding-left: 7px;">Phasing has been verified on all sources and outputs</td>
+  </tr>       
+  {%endif%}
+</table>       
+{%endif%}

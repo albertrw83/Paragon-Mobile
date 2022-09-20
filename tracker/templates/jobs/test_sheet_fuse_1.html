@@ -1,0 +1,26 @@
+<div class="row">
+    <table class="table-all lato-300" style="width: 100%;padding-top: 0;">
+        <caption class="normal-header">Fuse Resistance
+        </caption>
+        <tr>
+            <td class="cell-borders" style="border-top: none;"></td>
+            <td class="cell-borders" style="border-top: none;">Phase A</td>
+            <td class="cell-borders" style="border-top: none;">Phase B </td>
+            <td class="cell-borders" style="border-top: none;">Phase C </td>
+        </tr>
+        <tr>
+            <td class="cell-borders" style="border-right: 1px solid #d3d3d3;">{% if secondary %}Primary Fuse{% else %}Power Fuse{% endif %}</td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_a %}  {{test_sheet.fuse_resistance_a.normalize }} {% else %} ______ &nbsp; {% endif %} {% if test_sheet.fuse_resistance_a_units == 'milliOhms' %}milli{% else %}{% endif %}<span>&#8486</span> </td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_b %}  {{test_sheet.fuse_resistance_b.normalize }} {% else %} ______ &nbsp; {% endif %} {% if test_sheet.fuse_resistance_b_units == 'milliOhms' %}milli{% else %}{% endif %}<span>&#8486</span> </td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_c %}  {{test_sheet.fuse_resistance_c.normalize }} {% else %} ______ &nbsp; {% endif %} {% if test_sheet.fuse_resistance_c_units == 'milliOhms' %}milli{% else %}{% endif %}<span>&#8486</span> </td>
+        </tr>
+        {% if secondary %}
+        <tr>
+            <td class="cell-borders"  style="border-right: 1px solid #d3d3d3;">Secondary Fuse</td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_secondary_a %}  {{test_sheet.fuse_resistance_secondary_a.normalize }} {% else %} ______ &nbsp; {% endif %} {{test_sheet.fuse_resistance_secondary_a_units | default_if_none:"______" }} <span>&#8486</span> </td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_secondary_b %}  {{test_sheet.fuse_resistance_secondary_b.normalize }} {% else %} ______ &nbsp; {% endif %} {{test_sheet.fuse_resistance_secondary_b_units | default_if_none:"______" }} <span>&#8486</span> </td>
+            <td class="cell-borders" >{% if test_sheet.fuse_resistance_secondary_c %}  {{test_sheet.fuse_resistance_secondary_c.normalize }} {% else %} ______ &nbsp; {% endif %} {{test_sheet.fuse_resistance_secondary_c_units | default_if_none:"______" }} <span>&#8486</span> </td>
+        </tr>
+        {% endif %}
+    </table>
+</div>

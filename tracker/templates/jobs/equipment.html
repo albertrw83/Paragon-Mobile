@@ -1,0 +1,3061 @@
+<head><style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300&display=swap');  
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&family=Rubik:wght@300&display=swap');
+  </style>
+  
+
+</head>
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Equip | {{equipment.site_id}}
+{% endblock %}
+
+{% block body %}
+<style>
+  h5, caption{    
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #ffb266;
+}.switch label input[type=checkbox]:checked + .lever {
+    background-color: #ffdfbf;
+}
+
+.stickyborderbottom{
+  -webkit-box-shadow:inset 0px -1px #999;
+    -moz-box-shadow:inset 0px -1px #999;
+    box-shadow:inset 0px -1px #999;
+}
+  
+.dropdown-content-div {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 330px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+  height: 50vh;
+  max-width: 100%;
+}
+
+.dropdown-content-div a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.quick-drop a:hover {background-color: #ddd;}
+.quick-drop {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+
+
+  .td-free td{
+    border-right: none !important;
+  }
+  .expected-ttr{
+    color: #888
+  }
+  .tap-label{
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px solid #bbb;
+    padding-top: 25px;
+    padding-bottom: 10px;
+  }
+  .tap-prop{
+    border-right: 1px solid #f6f6f6
+  }
+  /* .is-today{
+    color: lawngreen
+  } */
+  .expected-ttr{
+    text-align: center;
+    font-style: italic;
+  }
+  .error-cell{
+    text-align: center;
+    border-top: none;
+    font-style: italic;
+  }
+  .error-row{
+    height: 2.5rem;
+  }
+.tap-7{
+    {% if test_results.tap_qty < 7 %}display: none;{%endif%}
+}
+
+.tap-6{
+    {% if test_results.tap_qty < 6 %}display: none;{%endif%}
+}
+
+.tap-5{
+  {% if test_results.tap_qty < 5 %}display: none;{%endif%}
+}
+
+.tap-4{
+    {% if test_results.tap_qty < 4 %}display: none;{%endif%}
+}
+
+.tap-3{
+    {% if test_results.tap_qty < 3 %}display: none;{%endif%}
+}
+
+.tap-2{
+    {% if test_results.tap_qty < 2 %}display: none;{%endif%}
+}
+
+.tap-1{
+    {% if test_results.tap_qty < 1 %}display: none;{%endif%}
+}
+.collapsible li.disabled-tab .collapsible-body {
+    display: none !important; /*or using id of the app to avoid the use of !important*/
+}
+
+.collapsible li.disabled-tab .collapsible-header {
+    background: rgb(221,221,221);
+    color: #aaa
+
+}
+
+  select{
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .datepicker-table td.is-today {
+    color: #01579b;
+}
+.orig-select-month{
+  display: none;
+}
+.orig-select-year{
+  display: none;
+}
+.split-3-6{
+  width: 16.666666%;
+  float: left;
+}
+[type="checkbox"] + span:not(.lever) {
+        margin-top: 15px;
+        margin-left: 10px;
+        }
+[type="checkbox"].filled-in + span:not(.lever):after {
+    border-radius: 3px;
+}
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input{
+  text-align: center;
+}
+
+.input-field.col label {
+  width: 100%;
+  text-align: center;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+  .main-container{
+    width: 70%;
+    margin: auto
+  }
+  .input-lineup{
+    white-space: nowrap;
+  }
+  .input-lineup *{
+    width: unset;
+  } 
+  #fixed-action-submit{
+    height: 64px;
+  }
+  label{
+    overflow: hidden;
+  }
+  .blue-heading {
+    color: #01579b;
+    text-align: center;
+    
+  }
+  .border-table  tr  td{
+    /* border-right: #f1f1f1; */
+    border-right: 1px solid #f1f1f1;
+    padding: 1px 1px;
+  }
+  .border-table-bottom  tr  td{
+    /* border-right: #f1f1f1; */
+    border-right: 1px solid #f1f1f1;
+    padding: 1px 1px;
+  }
+  .border-table  tr  td input{
+    /* border-right: #f1f1f1; */
+    /* border-bottom: none !important; */
+  }
+  .no-hover{
+    cursor: not-allowed ;
+  }
+  .form-heading  {
+    color: #023b59;
+    text-align: center;
+    font-weight: 300;
+    font-size: 20px;
+    text-transform: capitalize;
+  }
+  .exp-list-item {
+  padding-top: 1rem; overflow: hidden;
+  }
+  .exp-list-item:hover {
+    overflow: visible;
+  }
+  .exp-list-item:hover a{
+    background-color: white;
+  }
+  .subtle-u {
+    border-bottom: 1px solid #aaa;
+  }
+  .table-of-contents a.active {
+    border-left: 2px solid #01579b;
+  }
+  .table-of-contents a:hover {
+    border-left: 1px solid #01579b;
+  }
+  .collapsible-header{
+    font-size: 24px;
+  }
+  .auto-width{
+    width: auto
+  }
+  .disabled-button{
+    background-color: repeating-linear-gradient(
+  45deg,
+  #606dbc,
+  #606dbc 10px,
+  #465298 10px,
+  #465298 20px
+);
+  }
+  .h5-style{
+    font-size: 1.64rem;
+  }
+    .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .split-2-4{
+  float: left;
+  width: 25%;
+}
+    .chips.focus{
+      border-bottom: 1px solid #bf5700;
+      -webkit-box-shadow: 0 1px 0 0 #bf5700;
+      box-shadow: 0 1px 0 0 #bf5700;
+    }
+  @media only screen and (max-width: 1519px) {
+    table.pi-table-style {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: inline-block;
+    position: relative;
+    /* sort out borders */
+  }
+  table.pi-table-style td:empty:before {
+    content: '\00a0';
+  }
+  table.pi-table-style th,
+  table.pi-table-style td {
+    margin: 0;
+    vertical-align: middle;
+  }
+  table.pi-table-style th {
+    text-align: center;
+    max-width: 75px;
+  }
+  table.pi-table-style thead {
+    /* display: block; */
+    /* float: left; */
+  }
+  table.pi-table-style thead tr {
+    /* display: block; */
+    padding: 0 10px 0 0;
+  }
+  table.pi-table-style thead tr th::before {
+    content: "\00a0";
+  }
+  table.pi-table-style tbody {
+    display: block;
+    width: auto;
+    position: relative;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+  table.pi-table-style tbody tr {
+    /* display: inline-block; */
+    vertical-align: top;
+  }
+  table.pi-table-style th {
+    /* display: block; */
+    text-align: right;
+  }
+  table.pi-table-style td {
+    /* display: block; */
+    min-height: 1.25em;
+    text-align: left;
+  }
+  table.pi-table-style tr {
+    border-bottom: none;
+    padding: 0 10px;
+  }
+  table.pi-table-style thead {
+    border: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+
+
+    /* .pi-table-style td{
+      border-right: none !important;
+    }
+    .pi-table-style{
+      position: relative;
+      overflow-x: auto;
+      white-space: nowrap;
+    } */
+    /* table.responsive-table th {
+      display: block;
+      text-align: center;
+    }
+    table.responsive-table td {
+      display: block;
+      text-align: center;
+    } */
+    .pi-table-style th, td{
+      /* border-bottom: 1px solid green !important; */
+    }
+    .col .s12{
+      padding: 0;
+    }
+    select{
+      padding: 0;
+    }
+    td{
+      padding-inline-start: .25rem;
+    }
+    .card .card-content{
+      padding: 6px;
+    }
+    .card-content.card-padder{
+      padding: 12px;
+    }
+    .card .card-action{
+      padding: 10px 5px 16px 10px;
+    }
+    .card-action > a{
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+    .collapsible-body{
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  /* input[type="number"]{
+    font-size: 36px !important;
+  } */
+  input[type="number"].test-input{
+    font-size: 16px !important;
+  }
+  [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+    background-color: #bf5700;
+    border: 0px;
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+  }
+
+  ul.dropdown-content span {
+    font-size: 16px;
+    overflow-wrap: break-word;
+    line-height: normal;
+  }
+  .autocomplete-content{
+    width: 100% !important;
+  }
+  .chips input.input{
+    font-size: 22px;
+  }
+  .chip{
+   font-size: 18px;
+   /* padding-top: 0; */
+   /* overflow: visible; */
+  }
+  .chip i.close{
+    font-size: 45px;
+    color: #670A0A;
+  }
+    .exp-list-item {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  }
+    .split-3-6{
+      float: left;
+  width: 33.333333%;
+}
+.split-2-4{
+  float: left;
+  width: 50%;
+}
+    
+    [type="checkbox"].filled-in + span:not(.lever):after {
+    border-radius: 6px;
+    } 
+    .rotate-mobile{
+      writing-mode: vertical-rl;
+       text-orientation: mixed;
+    }
+    .border-div{
+      background-color: white;
+    }
+    .form-heading  {
+      font-size: 25px;
+    }
+    .main-container{
+    width: 100%;
+  }
+    .padding-spacer{
+      padding-top: 10px;
+    }
+    .icon-thin{
+      font-weight: 100;
+    }
+  td div, ul, li, input[type=text]:not(.browser-default) {
+  font-size: 16px;
+  }
+  input[type=file]{
+    font-size: 50px;
+  }
+  .text-input{
+    font-size: 18px;
+    height: 70px;
+    margin-top: 2rem !important;
+  }
+  i.tiny{
+    font-size: 36px;
+  }
+  /* .notes{
+    padding-left: 1px !important;
+    margin-top: 50px;
+  } */
+  .collection-item{
+    line-height: normal !important;
+  }
+  
+    label{
+      font-size: 16px !important;
+      /* font-weight: 300; */
+      overflow: hidden !important;
+    }
+    
+    .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        [type="checkbox"] + span:not(.lever) {
+        font-size: 15px;
+        margin-top: 30px;
+        margin-right: 5px;
+        padding-left: 42px;
+        }
+        .check-parent{
+        height: 35px !important;
+        width: 35px !important;
+        }
+        input.check-input{
+        height: 35px !important;
+        width: 35px !important;
+        
+        }
+        span.check-span {
+        height: 35px !important;
+        width: 35px !important;
+        margin-left: 75px !important;
+        }
+        [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+            height: 32px;
+            width: 32px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):after {
+            height: 32px;
+            width: 32px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):before {
+            top: 0;
+            width: 12px;
+            height: 22px;
+        }
+        /* .mobile-input-text{
+          font-size: 22px !important;
+          
+        } */
+        .test-input{
+          font-size: 16px !important;
+          /* height: 4rem !important; */
+        }
+        .rotated-table{
+          transform: rotate(90deg);
+          width: 1000px;
+          display: block !important;
+          
+        }
+        
+       
+}
+.pi-as-left{
+  display: none;
+}
+        {% if not equipment.equipment_type.is_test_sheet %}
+        .test-sheet-toggle{
+          display: none;
+        }
+        {% endif %}        
+        
+        {% if not equipment.equipment_type.is_insulation_resistance %}
+        #insulation_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_xfmr_insulation_resistance %}
+        #xfmr_insulation_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_contact_resistance %}
+        #contact_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_trip_unit %}
+        #trip_unit_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_cable_vlf_withstand_test %}
+        #cable_hipot_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_primary_injection %}
+        #pi_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_secondary_injection %}
+        #si_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_hipot %}
+        #hipot_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_ttr %}
+        #ttr_toggle_box{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_winding_resistance %}
+        #wr_toggle_box{
+          display: none;
+        }
+        {% endif %}
+
+        {% if not equipment.is_insulation_resistance and not equipment.is_contact_resistance %}
+        .is-insulation-or-contact{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_insulation_resistance or not equipment.is_contact_resistance %}
+        .is-insulation-and-contact{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_insulation_resistance %}
+        .is-insulation-resistance{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_power_fused %}
+        .is_power_fused{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_xfmr_insulation_resistance %}
+        .is-xfmr-insulation-resistance{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_contact_resistance %}
+        .is-contact-resistance{
+          display: none;
+        }
+
+        {% endif %}
+        {% if not equipment.is_trip_unit_data %}
+        .is-trip-unit{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_primary_injection %}
+        .is-primary-injection{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_secondary_injection or equipment.equipment_type.is_sceondary_injection %}
+        .is-secondary-injection{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.equipment_type.is_breaker %}
+        .is-breaker{
+          display: none;
+        }
+        .is-trip-unit{display: none;}
+        {% endif %}
+        {% if not equipment.equipment_type.is_transformer %}
+        .is-transformer{
+          display: none;
+        }
+        {% endif %}
+        .force-display{
+          display: block !important;
+        }
+        {% if not equipment.is_hipot %}
+        .is-hipot{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_ttr %}
+        .is-ttr{
+          display: none;
+        }
+        {% endif %}
+        {% if not equipment.is_winding_resistance %}
+        .is-winding-resistance{
+          display: none;
+        }
+        {% endif %}
+
+.border-bottom{
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.tr-body-style input[type=text], input[type=number], select{
+  font-weight: 400;
+} 
+</style>
+
+
+<div>
+<div class="fixed-action-btn" id="test_results_submit" onclick="stopLeave = false" hidden>
+  <button id="fixed-action-submit" class="btn-large tooltipped phone-button" data-position="left" data-tooltip="Must Upload to Take Effect" 
+  style="background-color: #bf5700; color: white; "type="submit" name="action" form="test_results_form2">Upload <span class="computer-screen">Test Report </span>Changes</button>
+</div>
+<div class="fixed-action-btn" id="edit_submit_div" hidden>
+       <button id="edit_submit" class="btn-large tooltipped pulse phone-font-ml" data-position="left" data-tooltip="Must Commit Changes to Take Effect"
+       style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "type="submit" name="action" form="eq_edit" onclick="stopLeave=false ;onSubmit()">Commit Changes</button>
+</div>
+<form id="eq_edit" action="{% url 'edit_equipment' equipment.id %}" method="post">{% csrf_token %}</form>
+<div class="row">
+<div class="container disabled-button">
+</div>
+<div class="main-container" style="position: -webkit-sticky; position: sticky;  background-color: rgba(255,255,255, 0.94); z-index: 99 !important; border-bottom: 2px solid #ddd; top: 0;">
+    <h4 id='main_header' style="padding:0 5px 0 15px">      
+      {% if job %}
+          <a class="waves-effect waves-light left btn-small phone-button lapping-btn" href="{% url 'job' job.id %}#equipment">
+            ◀ <span class="computer-screen">{{ job.job_name }}</span> 
+          </a>
+      {% elif job_site %}
+          <a class="waves-effect waves-light left btn-small phone-button lapping-btn" href="{% url 'job_site' job_site.id %}#equipment">
+            ◀ {{ job_site.name }}
+          </a>
+      {% endif %}
+        <span
+                class="phone-font-ml"
+                style="text-align: center;color:#01579b; padding-top: 0; padding-bottom: 0;"
+        >
+            <span class="phone-font-med comp-font-med" style="color: #888; font-weight: 500;">
+                {% if job %}
+                    On Job: {{job.job_name}}
+                {% elif job_site %}
+                    On Job Site: {{ job_site.name }}
+                {% endif %}
+            </span>
+            <br>
+             {{equipment.site_id}} 
+          </span>
+    </h4>
+</div>
+
+
+<ul class=" collapsible expandable main-container" id="main_collapsible" style="padding-top: 0; border-top: none;" >
+  <li class="0-collapsible-element collapsible-li">
+    <div class="collapsible-header phone-font-lrg noselect" style="color: #023b59;" > <i class="material-icons phone-font-huge closed">dashboard</i><span style="padding-left: 21px; "> General </span></div>
+    <div class="collapsible-body"  id="overview">
+
+      <a
+              class="waves-effect waves-light btn-small phone-button"
+              style="margin: 6px"
+              {% if job %}
+                href="{% url 'add_sub_equipment_page' equipment.id job.id %}"
+              {% elif job_site %}
+                href="{% url 'add_sub_equipment_job_site_page' equipment.id job_site.id %}"
+              {% endif %}
+      >
+          <i class="material-icons left phone-font-lrg ">add</i>
+          Add Sub-Equipment
+      </a>
+      
+       <a id="enter_edit_button" class="waves-effect waves-light btn-small phone-font-med phone-button" onclick="onEditMode()">Edit Properties</a> <span id="edit_button_replacement" style="display: none; color: #aaa;">Submit test results or cancel before editing properties</span>
+       <table class="highlight " id="equipment_table" style="font-family: 'Lato', sans-serif; font-weight: 300;" >
+          <tr>
+            <td class="phone-font-med" style="font-weight: 500; width: 25%;">Site Identification</td>
+            <td  class="phone-font-med" >{{ equipment.site_id }}
+              <textarea class="editable-field materialize-textarea"
+              id="site_id"
+              name="site_id"
+              type="text"
+              form="eq_edit"
+              placeholder="New Site ID"
+              style="text-align: left;"
+              hidden>{{ equipment.site_id }}</textarea>
+              <br>              
+              
+              <input class="filled-in equipment-item check-input" type="checkbox" value="{{ equipment.pk }}" />
+            </td>
+          </tr>
+          <tr style="border-bottom: none ;">
+            <td  class="phone-font-med" style="font-weight: 500;">Classification</td>
+            <td  class="phone-font-med">
+              <a href="#model_head" style="color: #023b59;">{{equipment.equipment_model.model_manufacturer}}</a></br>
+              <a href="#model_head" style="color: #023b59;">{{equipment.equipment_model}}</a></br>
+              <a class="phone-font-med" style="color:#aaa;" href="#type_heading">{{equipment.equipment_type}}</a> <br>
+            </td>
+          </tr>
+          <tr style="height: 0; margin: 0; padding: 0; font-size: 0;">
+            <td colspan="2" style="width: 100%; height: 0; padding: 0; font-size: 0; text-align: center;">
+              <a onclick="modelSelect()" id="select_model_trigger" class="btn-large waves-effect waves-light phone-button batch-act noselect" style="padding: 10px !important; display: none; margin: 6px 0 6px 0; height: unset !important;border: none; line-height: unset !important;;">
+                  <span id="model_trigger_toggle">▼</span> <span id='model_trigger_text'>Change Classification</span> 
+                </a>  
+              <div class="quick-drop" style="text-align: center;">
+                              
+                <div id="modelDropdown" class="dropdown-content-div" style="z-index: 101;">
+                  <input type="text" placeholder="Filter.." id="search_model_input" style="background-color: white;" onkeyup="filterFunction()">
+                  {% for model in models %}
+                    <a class="drop-link phone-font-lrg comp-font-med" style="color: #023b59;" id="model_selector_{{model.pk}}" onclick="selectModel({{model.pk}})">{{model.model_manufacturer.name}} <br> {{model.name}} <br> <span style="color:#aaa">{{model.model_type.name}}</span> </a>
+                  {%endfor%}                
+                </div>             
+              </div>
+                
+              <input id="selected_model" name="selected_model" type="text" form="eq_edit" style="display: none;">
+            </tr>
+
+            </td>
+          <tr>
+            <td  class="phone-font-med" style="font-weight: 500;">Serial Number
+              <div id="like_button_container"></div>
+            </td>
+            <td  class="phone-font-med">
+                {{ equipment.serial_number_data | default_if_none:'' }}
+                <input name="serial_number" id="serial_number" hidden class="editable-field eq_edit" onchange="$('#serial_number2').val($(this).val())"
+                style="text-align: left;"
+                    type="text" form="eq_edit" value='{{ equipment.serial_number_data | default_if_none:"" }}'
+                  />
+            </td>
+          </tr>
+          {% if equipment.equipment_type.is_cable %}{%else%}
+          <tr>
+            <td  class="phone-font-med" style="font-weight: 500;">Equipment Location</td>
+            <td  class="phone-font-med">
+                {{ equipment.equipment_location_data | default_if_none:'None' }}
+                <textarea
+                  class="materialize-textarea editable-field eq_edit"
+                  id="equipment_location"
+                  name="equipment_location"
+                  form="eq_edit"
+                  autocomplete="off"
+                  placeholder="Type Equipment Location"
+                  onchange="$('#equipment_location2').val($(this).val())"
+                  hidden
+                >{{ equipment.equipment_location_data | default_if_none:'' }}</textarea>
+            </td>
+          </tr>
+          {%endif%}
+          <tr>
+            <td  class="phone-font-med" style="font-weight: 500;">Job Site</td>
+            <td  class="phone-font-med">
+              {%if job%}
+                {{ job.job_site | default_if_none:'None' }}
+                {% else %}
+                {{ job_site | default_if_none:'None' }}
+              {%endif%}
+              
+            </td>
+          </tr>
+          <tr>
+            <td class="phone-font-med" style="font-weight: 500;">Manufacturer Nameplate Photo</td>
+            <td class="phone-font-med">
+              
+              {% if equipment.nameplate %}
+                {% if equipment.nameplate.size < 3500000 %}
+                  <img src="{{equipment.nameplate.url}}" alt="Failed to Load" style="max-height: 1000px; max-width: 90%;">
+                {% else %} 
+                  <em>Image oversized for this page. Click below to view large image.</em>
+                {% endif %}
+                <a href="{{equipment.nameplate.url}}" target="_blank" class="waves-effect btn-small phone-button">View</a>
+                <a href="{% url 'remove_nameplate' equipment.id %}" ><i class="material-icons right tooltipped phone-font-lrg" data-position="top" data-tooltip="trash" onclick="return confirm('Move nameplate photo to recycle bin?')">delete</i></a>
+              {% else %}
+                <form id="nameplate_form" action="{% url 'add_nameplate' equipment.id %}" method="post"
+                  enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="file-field input-field">
+                    <div>
+                      <input id="add_nameplate" name="add_nameplate" required type="file">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" id="add_nameplate_text" type="text" placeholder="Upload File/Photo">
+                    </div>
+                  </div>
+                  <button class="btn waves-effect waves-light right phone-font-med phone-button" form="nameplate_form" type="submit" name="action" id="submit-btn-nameplate"> Upload
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% if job %}
+          <tr>
+            <td class="phone-font-med" style="font-weight: 500;">Scope Specifications</td>
+            <td class="phone-font-med" >
+                {{ equipment.scope }}
+                <textarea
+                  class="materialize-textarea editable-field eq_edit"
+                  id="scope"
+                  name="scope"
+                  form="eq_edit"
+                  autocomplete="off"
+                  placeholder="Type Scope"
+                  hidden
+                >{{ equipment.scope }}</textarea>
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td class="phone-font-med" style="width: 200px; font-weight: 500;">{% if job %}Required{% else %} Mandatory{% endif %} Test Set</td>
+            <td class="phone-font-med" >
+              <ul>
+                
+                {% for test_equipment in equipment.mandatory_test_equipment.all %}
+                  <li>
+
+                    {% csrf_token %}
+                    {{ test_equipment }}
+
+                  </li>
+                  {% empty %}
+                  <li>No Test Sets</li>
+                  {% endfor %}
+              </ul>
+
+              <div class="row editable-field" hidden>
+                <div class="input-field col s12 phone-font-lrg">
+                  <div id="m_test_equipment-chips" class="phone-font-med chips chips-autocomplete">
+                  </div>
+                  <input id="mandatory_test_equipment"
+                         form="eq_edit"
+                         name="mandatory_test_equipment"
+                         style="visibility: hidden;"
+                         value="">
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          
+            <tr {% if job %}style="display: none"{% else %}{% endif %}>
+              <td class="phone-font-med" style="width: 200px; font-weight: 500;">Conditional Test Set</td>
+              <td class="phone-font-med" >
+                <ul>
+                  {% for test_equipment in equipment.optional_test_equipment.all %}
+                  <li>
+      
+                    {% csrf_token %}
+                    {{ test_equipment }}
+      
+                  </li>
+                  {% empty %}
+                  <li>No Conditional Test Sets</li>
+                  {% endfor %}
+                </ul>
+                <div class="row editable-field" hidden>
+                <div class="input-field col s12 phone-font-lrg">
+                  <div id="o_test_equipment-chips"  class="phone-font-med chips chips-autocomplete">
+                  </div>
+                  <input id="optional_test_equipment"
+                          name="optional_test_equipment"
+                          style="visibility: hidden;"
+                          form="eq_edit"
+                          value="">
+                </div>
+              </div>
+              </td>
+            </tr>
+          
+          <tr style="display: none;">
+            <td class="phone-font-med" style="width: 200px; font-weight: 500;">Is Liquid Type:</td>
+            <td class="phone-font-med">
+                  {% if equipment.equipment_type.is_liquid_type %}
+                      Yes
+                  {% else %}
+                      False
+                  {% endif %}
+                <div id="is_liquid_type" hidden class="eq_edit editable-field">
+                  <label>
+                      <input name="is_liquid_type" id="is_liquid_type_false"
+                                type="radio" form="eq_edit" value='False'
+                              {% if not equipment.equipment_type.is_liquid_type %}
+                                  checked
+                              {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="is_liquid_type" id="is_liquid_type_true"
+                              type="radio" form="eq_edit" value='True'
+                              {% if equipment.equipment_type.is_liquid_type %}
+                                  checked
+                              {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                </div>
+              </td>
+          </tr>
+          
+          {% if job %}
+          <tr>
+            <td class="phone-font-med" style="width: 200px; font-weight: 500;">Status:</td>
+            <td class="phone-font-med">
+                 {% if equipment.completion %}
+                     Completed
+                 {% else %}
+                     Pending
+                 {% endif %}
+                <div id="is_liquid_type" hidden class="eq_edit editable-field">
+                  Is Completed?
+                  <label>
+                      <input name="completion" id="completion_false"
+                                type="radio" form="eq_edit" value='False'
+                             {% if not equipment.completion %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>No</span>
+                  </label>
+                  <label>
+                      <input name="completion" id="completion_true"
+                             type="radio" form="eq_edit" value='True'
+                             {% if equipment.completion %}
+                                 checked
+                             {% endif %}
+                      />
+                      <span>Yes</span>
+                  </label>
+                </div>
+             </td>
+          </tr>
+          <tr>
+            <td  class="phone-font-med" style="font-weight: 500;">Test Results</td>
+            <td class="phone-font-med" >
+            {% if equipment.equipment_type.is_test_sheet %}
+              <a class="btn-small phone-button change-disable" href="{% url 'equipment_test_sheet' equipment.id %}" target="_blank"> View Test Sheet </a>
+              <div style="display: none; ">
+                NOTE: this needs to be reworked
+              {% if equipment.test_results %}
+              <a href="{{equipment.test_results.url}}" target="_blank" class="waves-effect btn-small phone-button">View</a>
+              <a href="{% url 'remove_test_results' equipment.id %}" ><i class="material-icons right tooltipped phone-font-lrg" data-position="top" data-tooltip="move to recycle bin" onclick="return confirm('Move test results to recycle bin?')">delete</i></a>
+              {% else %}
+                <form id="test_results_form" action="{% url 'add_test_results' equipment.id %}" method="post"
+                  enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="file-field input-field">
+                    <div>
+                      <input id="add_test_results" name="add_test_results" type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate phone-font-ml" type="text" placeholder="Select Results File">
+                    </div>
+                  </div>
+                  <button class="btn waves-effect waves-light right phone-button" form="test_results_form" type="submit" name="action" id="submit-btn-results"> Upload Results
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+              {% endif %}
+              </div>
+            {%else%}
+            <span style="color: #aaa">No test form for type</span> 
+            {%endif%}
+            </td>
+          </tr>
+          {% endif %}
+        </table>
+    </div>
+  </li>
+  <li class="1-collapsible-element collapsible-li {%if not equipment.equipment_type.is_test_sheet %}disabled-tab{%endif%}">
+    <div class="collapsible-header phone-font-lrg noselect" {% if not equipment.equipment_type.is_test_sheet %} style="color: #aaa; cursor: default " {% else %} style="color: #023b59;" {% endif %}> <i class="material-icons phone-font-xl closed">summarize</i>{% if equipment.equipment_type.is_test_sheet %} <span style="padding-left: 21px;">Test Report</span>{%else%}<span class="phone-font-med phone-spacer-left comp-font-med" > (No test form for type) </span>{% endif %}</div>
+    
+    {% if equipment.equipment_type.is_test_sheet %}
+    
+    <div class="collapsible-body border-div test-sheet-toggle tr-body-style">      
+      <div class="row" style="padding-bottom: 30px;">
+        
+        {% if job %}
+        <div class="split-2-4">
+          <label id="insulation_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="insulation_toggle" name="insulation_toggle" type="checkbox" {% if equipment.is_insulation_resistance %}checked="checked"{% endif %} />
+            <span class="">Insulation Resistance</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="contact_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="contact_toggle" name="contact_toggle" type="checkbox" {% if equipment.is_contact_resistance %}checked="checked"{% endif %} />
+            <span class="">Contact Resistance</span>
+          </label>
+        </div>
+        {% endif %}
+        {% if equipment.equipment_type.is_power_fused %}
+        <div class="split-2-4">
+          <label id="fuse_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="fuse_toggle" name="fuse_toggle" type="checkbox" {% if equipment.is_power_fused %}checked="checked"{% endif %} />
+            <span class="">Is Fused</span>
+          </label>
+        </div>
+        {% endif %}
+        {% if equipment.equipment_type.is_trip_unit%}
+        <div class="split-2-4">
+          <label id="trip_unit_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="trip_unit_toggle" name="trip_unit_toggle" type="checkbox" {% if equipment.is_trip_unit_data %}checked="checked"{% endif %} />
+            <span>Trip Unit</span>
+          </label>
+        </div>
+        {% endif %}
+        {% if job %}
+        <div class="split-2-4" style="display: none;">
+          <label id="cable_hipot_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="cable_hipot_toggle" name="cable_hipot_toggle" type="checkbox" {% if equipment.is_cable %}checked="checked"{% endif %} />
+            <span>Cable Hipot</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="pi_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="pi_toggle" name="pi_toggle" type="checkbox" {% if equipment.is_primary_injection %}checked="checked"{% endif %} />
+            <span>Primary Injection</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="si_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="si_toggle" name="si_toggle" type="checkbox" {% if equipment.is_secondary_injection %}checked="checked"{% endif %} />
+            <span>Secondary Injection</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="hipot_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="hipot_toggle" name="hipot_toggle" type="checkbox" {% if equipment.is_hipot %}checked="checked"{% endif %} />
+            <span>Hipot</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="xfmr_insulation_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="xfmr_ir_toggle" name="xfmr_ir_toggle" type="checkbox" {% if equipment.is_xfmr_insulation_resistance %}checked="checked"{% endif %} />
+            <span>Insulation Resistance (xfmr)</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="ttr_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="ttr_toggle" name="ttr_toggle" type="checkbox" {% if equipment.is_ttr %}checked="checked"{% endif %} />
+            <span>Transformer Turns Ratio</span>
+          </label>
+        </div>
+        <div class="split-2-4">
+          <label id="wr_toggle_box">
+            <input form="test_results_form2" class="filled-in" id="wr_toggle" name="wr_toggle" type="checkbox" {% if equipment.is_winding_resistance %}checked="checked"{% endif %} />
+            <span>Winding Resistance</span>
+          </label>
+        </div>
+        {%endif%}
+      </div>
+      {%if equipment.equipment_type.is_test_sheet%}
+      <div class="row">
+        {% if job %}
+          <a class="btn-small phone-button phone-btn-spacer change-disable" href="{% url 'equipment_test_sheet' equipment.id %}" target="_blank"> View Test Sheet </a>
+        {%endif%}
+        {%if job%}
+        <a class="btn-small phone-button phone-btn-spacer is-breaker" href="{% url 'download_xlsx' equipment.id %}">Download Spreadsheet</a>
+        
+        <button class="btn-small phone-button phone-btn-spacer is-breaker" onclick="$('#xlsx_div').toggle()">Sync Spreadsheet</button>
+        {%endif%}
+        <div id="xlsx_div" name="xlsx_div" style="display: none;">
+          <form id="xlsx_form" action="{% url 'upload_sync_xlsx' equipment.id %}" method="post"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+            <div class="file-field input-field">
+              <div>
+                <input id="xlsx_file" required name="xlsx_file" type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" id="xlsx_file_text" type="text" placeholder="Upload Spreadsheet">
+              </div>
+            </div>
+            <button class="btn waves-effect waves-light phone-font-med phone-button" form="xlsx_form" type="submit" name="action" id="submit-btn-xlsx"> Upload
+              <i class="material-icons right">send</i>
+            </button>
+          </form>        
+        </div>
+      </div>
+      {%endif%}
+      <div class="row">
+        <form class="col s12" action="{% url 'edit_test_results' equipment.id %}" method="post" style="padding: 0;" id="test_results_form2" onkeydown="return event.key != 'Enter';">
+          {% csrf_token %}
+          {% if job %}
+          <div class="row">
+            <div class="input-field col s6 m6 l4 xl2">
+              <label for="serial_number2" style="white-space: nowrap; overflow: hidden;">Serial Number</label>
+                <input class="test-input" type="text" id="serial_number2" onchange="$('#serial_number').val($(this).val())" name="serial_number2" placeholder=" " value='{{ equipment.serial_number_data | default_if_none:"" }}'> 
+            </div>
+            <div class="input-field col s6 m6 l4 xl2">
+              <label for="equipment_location2" style="white-space: nowrap; overflow: hidden;">Equipment Location</label>
+                <textarea class="test-input materialize-textarea" type="text" id="equipment_location2" onchange="$('#equipment_location').val($(this).val())" name="equipment_location2" placeholder="e.g. Electrical Room 2" >{{ equipment.equipment_location_data | default_if_none:"" }}</textarea> 
+            </div>
+            <div class="input-field col s6 m6 l4 xl2">
+              <label for="testers" style="white-space: nowrap; overflow: hidden;">Tested By</label>
+                <input class="test-input" type="text" id="testers" name="testers" placeholder="e.g. John Smith" {% if test_results.testers %} value="{{ test_results.testers }}"{% endif %}> 
+            </div>
+            <div class="col s6 m6 l4 xl2">
+              <label for="date_tested">Date Tested</label>
+              <input class="test-input" type="date" id="date_tested" name="date_tested" {% if test_results.date_tested %} value="{{ test_results.date_tested_formatted }}"{% endif %}>
+            </div>
+            {% if not equipment.equipment_type.name == 'Power Meter' %}
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="ambient_temp" style="white-space: nowrap;">Ambient Temp</label>
+                  <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" id="ambient_temp" name="ambient_temp" step=".1" placeholder="e.g. 70" {% if test_results.ambient_temp %} value="{{ test_results.ambient_temp.normalize }}"{% endif %}> 
+                  <select class="test-input" style="display: table-cell; width: 42%; height: auto; font-size: 13px !important;"  name="ambient_temp_units" id="ambient_temp_units">
+                    <option value="F"{% if test_results.ambient_temp_units == "F" %} selected {%endif%}>&#176;F</option>
+                    <option value="C"{% if test_results.ambient_temp_units == "C" %} selected {%endif%}>&#176;C</option>
+                  </select>
+            </div>
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="humidity" style="white-space: nowrap;">Humidity</label>
+                  <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" max="100" min="0" id="humidity" name="humidity" step="1" placeholder="e.g. 23" {% if test_results.humidity %} value="{{ test_results.humidity }}"{% endif %}> %
+            </div>
+          </div>
+          {% endif %}
+          {% endif %}
+          <div class="row">
+            <h5 class="blue-heading">Equipment Information</h5>
+            
+            <div class=" col s6 m6 l4 xl2">
+              <label for="date_manufactured">Date Manufactured</label>
+              <input class ="test-input" type="date" id="date_manufactured" name="date_manufactured" {% if test_results.date_manufactured %} value="{{ test_results.date_manufactured_formatted }}"{% endif %}>
+            </div>
+            {% if equipment.equipment_type.is_cable %}
+              <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                  <label for="cable_starting_point" style="white-space: nowrap; background-color: white; ">Cable Starting Point</label>
+                    <input class="test-input" type="text" id="cable_starting_point" name="cable_starting_point" placeholder="e.g. Transformer 6" {% if test_results.cable_starting_point %} value="{{ test_results.cable_starting_point }}"{% endif %}> 
+              </div>
+              <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                  <label for="cable_ending_point" style="white-space: nowrap; background-color: white; ">Cable Ending Point</label>
+                    <input class="test-input" type="text" id="cable_ending_point" name="cable_ending_point" placeholder="e.g. Switchgear 1" {% if test_results.cable_ending_point %} value="{{ test_results.cable_ending_point }}"{% endif %}> 
+              </div>
+
+              <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                <label for="cable_starting_termination_type" style="white-space: nowrap; background-color: white; ">Starting Termination Type</label>
+                  <input class="test-input" type="text" id="cable_starting_termination_type" name="cable_starting_termination_type" placeholder="e.g. Load break elbow" {% if test_results.cable_starting_termination_type_data %} value="{{ test_results.cable_starting_termination_type_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                <label for="cable_ending_termination_type" style="white-space: nowrap; background-color: white; ">Ending Termination Type</label>
+                  <input class="test-input" type="text" id="cable_ending_termination_type" name="cable_ending_termination_type" placeholder="e.g. Heat shrink lug" {% if test_results.cable_ending_termination_type_data %} value="{{ test_results.cable_ending_termination_type_data }}"{% endif %}> 
+            </div>            
+            <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                <label for="cable_conductor_material" style="white-space: nowrap; background-color: white; ">Conductor Material</label>
+                  <input class="test-input" type="text" id="cable_conductor_material" name="cable_conductor_material" placeholder="e.g. Copper" {% if test_results.cable_conductor_material_data %} value="{{ test_results.cable_conductor_material_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="cable_size" style="white-space: nowrap;">Conductor Size</label>
+                  <input class="test-input" style= 'display: table-cell; width: 50%;' type="number" id="cable_size" name="cable_size" step=".1" placeholder="e.g. EPR" {% if test_results.cable_size_data %} value="{{ test_results.cable_size_data.normalize }}"{% endif %}> 
+                  <select class="test-input" style="display: table-cell; width: 50%; height: auto; font-size: 13px !important;"  name="cable_size_units" id="cable_size_units">
+                    <option value="MCM"{% if test_results.cable_size_units_data == "MCM" %} selected {%endif%}>MCM</option>
+                    <option value="/0 AWG"{% if test_results.cable_size_units_data == "/0 AWG" %} selected {%endif%}>/0 AWG</option>
+                  </select>
+            </div>     
+            <div class="input-field col s6 m6 l4 xl2" style=" background-color: white;">
+                <label for="cable_insulation_material" style="white-space: nowrap; background-color: white; ">Insulation Material</label>
+                  <input class="test-input" type="text" id="cable_insulation_material" name="cable_insulation_material" placeholder="e.g. EPR" {% if test_results.cable_insulation_material_data %} value="{{ test_results.cable_insulation_material_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="cable_insulation_thickness" style="white-space: nowrap;">Insulation Thickness</label>
+                  <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" id="cable_insulation_thickness" name="cable_insulation_thickness" step=".1" placeholder="e.g. EPR" {% if test_results.cable_insulation_thickness_data %} value="{{ test_results.cable_insulation_thickness_data.normalize }}"{% endif %}> 
+                  <select class="test-input" style="display: table-cell; width: 42%; height: auto; font-size: 15px !important;"  name="cable_insulation_thickness_units" id="cable_insulation_thickness_units">
+                    <option value="mils"{% if test_results.cable_insulation_thickness_units_data == "mils" %} selected {%endif%}>mils</option>
+                    <option value="mm"{% if test_results.cable_insulation_thickness_units_data == "mm" %} selected {%endif%}>mm</option>
+                  </select>
+            </div>     
+            <div class="input-field col s6 m3 l3 xl2 " style="white-space: nowrap;">
+                <label for="cable_length" style="white-space: nowrap; display: block; ">Cable Length</label>
+                 <input class="test-input" style= 'display: table-cell; width: 50%;' step="1" type="number" id="cable_length" name="cable_length" placeholder="e.g. 500" {% if test_results.cable_length_data %} value="{{ test_results.cable_length_data }}"{% endif %}>
+                 <select class="test-input" style="display: table-cell; width: 50%; height: auto; font-size: 14px !important;"  name="cable_length_units" id="cable_length_units">
+                   <option value="feet"{% if test_results.cable_length_units_data == 'feet' %} selected {%endif%}>feet</option>
+                   <option value="meters"{% if test_results.cable_length_units_data == 'meters' %} selected {%endif%}>meters</option>
+                 </select>
+            </div>       
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="operating_cable_voltage" style="white-space: nowrap;">Operating Voltage(kV)</label>
+                  <input class="test-input" type="number" id="operating_cable_voltage" name="operating_cable_voltage" step=".001" placeholder="e.g. 4.16kV" {% if test_results.operating_cable_voltage_data %} value="{{ test_results.operating_cable_voltage_data.normalize }}"{% endif %}>                  
+            </div>      
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;" >
+                <label for="cable_voltage_rating" style="white-space: nowrap;">Cable Volt Rating(kV)</label>
+                  <input class="test-input" type="number" id="cable_voltage_rating" name="cable_voltage_rating" step=".001" placeholder="e.g. 5kV" {% if test_results.cable_voltage_rating_data %} value="{{ test_results.cable_voltage_rating_data.normalize }}"{% endif %}>                  
+            </div>            
+            <div class="col s6 m3 l3 xl2"  style="text-align: center; margin-top: .25rem; margin-bottom: 1.75rem;">
+              <label for="cable_insulation_rating">Insulation Rating</label>
+              <select class="test-input" name="cable_insulation_rating" id="cable_insulation_rating">
+                  <option value="100"{% if test_results.cable_insulation_rating_data|stringformat:'i' == "100" %} selected {%endif%}>100%</option>
+                  <option value="133"{% if test_results.cable_insulation_rating_data|stringformat:'i' == "133" %} selected {%endif%}>133%</option>
+                  <option value="173"{% if test_results.cable_insulation_rating_data|stringformat:'i' == "173" %} selected {%endif%}>173%</option>
+                </select>
+            </div>    
+            {%endif%}
+            {% if not equipment.equipment_type.is_transformer or equipment.equipment_type.is_cable %}
+            {% if not equipment.equipment_type.name == 'Power Meter' %}
+              {% if not equipment.equipment_type.name == 'Medium Voltage Cable' %}
+                {% if not equipment.equipment_type.name == 'Current Transformer (CT)' %}
+                  <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap; {% if equipment.equipment_type.is_transformer%}display: none;{%endif%}" >
+                    <label for="equipment_voltage" style="white-space: nowrap;">Max Voltage</label>
+                      <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" id="equipment_voltage" name="equipment_voltage" step=".1" placeholder="e.g. 5000" {% if test_results.equipment_voltage_data %} value="{{ test_results.equipment_voltage_data.normalize }}"{% endif %}> 
+                      <select class="test-input" style="display: table-cell; width: 42%; height: auto; font-size: 15px !important;"  name="is_dc_equipment_voltage" id="is_dc_equipment_voltage">
+                        <option value="AC"{% if test_results.is_dc_equipment_voltage_data %}{%else%} selected {%endif%}>AC</option>
+                        <option value="DC"{% if test_results.is_dc_equipment_voltage_data %} selected {%endif%}>DC</option>
+                      </select>
+                  </div>
+                  <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap; {% if equipment.equipment_type.is_transformer%}display: none;{%endif%}" >
+                    <label for="system_voltage" style="white-space: nowrap;">System Voltage</label>
+                      <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" id="system_voltage" name="system_voltage" step=".1" placeholder="e.g. 4160" {% if test_results.system_voltage_data %} value="{{ test_results.system_voltage_data.normalize }}"{% endif %}> 
+                      <select class="test-input" style="display: table-cell; width: 42%; height: auto; font-size: 15px !important;"  name="is_dc_system_voltage" id="is_dc_system_voltage">
+                        <option value="AC"{% if test_results.is_dc_system_voltage_data %}{%else%} selected {%endif%}>AC</option>
+                        <option value="DC"{% if test_results.is_dc_system_voltage_data %} selected {%endif%}>DC</option>
+                      </select>
+                  </div>  
+                  {%endif%}
+                {%endif%}
+              {%endif%}
+              {% if equipment.equipment_type.is_breaker %}
+                {% if not equipment.equipment_type.is_mv_or_hv_breaker %}
+                  <div class="input-field col s12 m6 l4 xl3" style="white-space: nowrap; {% if equipment.equipment_type.is_transformer%}display: none;{%endif%}" >
+                    <label for="interrupting_capacity" style="white-space: nowrap; border-bottom: 1px solid #ccc;">Interrupting Capacity</label>
+                    <input class="test-input" style= 'display: table-cell; width: 34%;' type="number" id="interrupting_capacity" name="interrupting_capacity" step=".1" placeholder="e.g. 200" {% if test_results.interrupting_capacity_data %} value="{{ test_results.interrupting_capacity_data.normalize }}"{% endif %}>kA @
+                    <input class="test-input" style= 'display: table-cell; width: 34%;' type="number" id="interrupting_voltage" name="interrupting_voltage" step=".1" placeholder="e.g. 480" {% if test_results.interrupting_voltage_data %} value="{{ test_results.interrupting_voltage_data.normalize }}"{% endif %}> V              
+                  </div>  
+                {%endif%}
+              {%endif%}
+            {%endif%}
+
+            <div class="input-field col s6 m3 l3 xl2" style="text-align: center;">
+               <label for="frame_size" style="white-space: nowrap; display: block; ">{% if equipment.equipment_type.is_mv_or_hv_breaker %}Continuous Amp Rating{% elif equipment.equipment_type.is_breaker %}Frame Size{%else%}Amp Rating{%endif%}</label>
+                <input class="test-input" step="1" type="number" id="frame_size" name="frame_size" placeholder="e.g. 2000" {% if test_results.frame_size_data %} value="{{ test_results.frame_size_data }}"{% endif %}>
+            </div>
+            {% if not equipment.equipment_type.is_mv_or_hv_breaker %}
+            <div class="input-field col s6 m6 l4 xl2 is-breaker" style=" background-color: white;">
+              <label for="mount_style" style="white-space: nowrap; background-color: white; ">Mount Style</label>
+                <input class="test-input" type="text" id="mount_style" name="mount_style" placeholder="e.g. Bolted in" {% if test_results.mount_style_data %} value="{{ test_results.mount_style_data }}"{% endif %}> 
+            </div>
+            {%endif%}
+            <div class="input-field col s6 m3 l3 xl2" style="white-space: nowrap;{% if equipment.equipment_type.is_cable %}display:none{%endif%}">
+              <label for="control_voltage" style="white-space: nowrap;">Control Voltage</label>
+                <input class="test-input" style= 'display: table-cell; width: 58%;' type="number" id="control_voltage" name="control_voltage" step=".1" placeholder="e.g. 120" {% if test_results.control_voltage_data %} value="{{ test_results.control_voltage_data.normalize }}"{% endif %}> 
+                <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="is_dc_control_voltage" id="is_dc_control_voltage">
+                  <option value="AC"{% if test_results.is_dc_control_voltage_data %}{%else%} selected {%endif%}>AC</option>
+                  <option value="DC"{% if test_results.is_dc_control_voltage_data %} selected {%endif%}>DC</option>
+                </select>
+            </div>
+            <div class="input-field col s6 m3 l2 xl2 is-breaker" style="white-space: nowrap;">
+              <label for="trip_coil_voltage" style="white-space: nowrap;">Trip Coil Voltage</label>
+                <input class="test-input" type="number"  style= 'display: table-cell; width: 58%;' id="trip_coil_voltage" name="trip_coil_voltage" placeholder="e.g. 48" {% if test_results.trip_coil_voltage_data %} value="{{ test_results.trip_coil_voltage_data.normalize }}"{% endif %}> 
+                <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="is_dc_trip_voltage" id="is_dc_trip_voltage">
+                  <option value="AC"{% if test_results.is_dc_trip_voltage_data %}{%else%} selected {%endif%}>AC</option>
+                  <option value="DC"{% if test_results.is_dc_trip_voltage_data %} selected {%endif%}>DC</option>
+                </select>
+              </div>   
+              <div class="input-field col s6 m6 l4 xl2 is_power_fused">
+                <label for="fuse_manufacturer" style="white-space: nowrap; overflow: hidden;">Fuse Manufacturer</label>
+                  <input class="test-input" type="text" id="fuse_manufacturer" name="fuse_manufacturer" placeholder="e.g. Eaton" {% if test_results.fuse_manufacturer %} value="{{ test_results.fuse_manufacturer }}"{% endif %}> 
+              </div>
+              <div class="input-field col s6 m6 l4 xl2 is_power_fused">
+                <label for="fuse_type" style="white-space: nowrap; overflow: hidden;">Fuse Type</label>
+                  <input class="test-input" type="text" id="fuse_type" name="fuse_type" placeholder="e.g. Current Limiter" {% if test_results.fuse_type %} value="{{ test_results.fuse_type }}"{% endif %}> 
+              </div>
+              <div class="input-field col s6 m3 l3 xl2 is_power_fused">
+                 <label for="fuse_size" style="white-space: nowrap; display: block; ">Fuse Size (Amps)</label>
+                  <input class="test-input" step="1" type="number" id="fuse_size" name="fuse_size" placeholder="e.g. 200" {% if test_results.fuse_size %} value="{{ test_results.fuse_size }}"{% endif %}>
+              </div>
+            {% if op_counter %}        
+            <div class="input-field col s6 m3 l2 xl2" style="white-space: nowrap;">
+              <label for="operations_counter_af" style="white-space: nowrap;">Operations Counts As Found</label>
+                <input class="test-input" type="number"  id="operations_counter_af" name="operations_counter_af" placeholder="e.g. 505" {% if test_results.operations_counter_af %} value="{{ test_results.operations_counter_af }}"{% endif %}> 
+            </div> 
+            <div class="input-field col s6 m3 l2 xl2" style="white-space: nowrap;">
+              <label for="operations_counter_al" style="white-space: nowrap;">Operations Counts As Left</label>
+                <input class="test-input" type="number" id="operations_counter_al" name="operations_counter_al" placeholder="e.g. 505" {% if test_results.operations_counter_al %} value="{{ test_results.operations_counter_al }}"{% endif %}> 
+            </div>
+            {%endif%}
+            <div class="input-field col s6 m4 l4 xl2 is-trip-unit" style=" background-color: white;">
+              <label for="trip_unit_manufacturer" style="white-space: nowrap; background-color: white; ">Trip Unit Manufacturer</label>
+                <input class="test-input" type="text" id="trip_unit_manufacturer" name="trip_unit_manufacturer" placeholder="e.g. ABB" {% if test_results.trip_unit_manufacturer_data %} value="{{ test_results.trip_unit_manufacturer_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m4 l4 xl2 is-trip-unit" style=" background-color: white;">
+              <label for="trip_unit_model" style="white-space: nowrap; background-color: white; ">Trip Unit Model</label>
+                <input class="test-input" type="text" id="trip_unit_model" name="trip_unit_model" placeholder="e.g. EntelliGuard TU" {% if test_results.trip_unit_model_data %} value="{{ test_results.trip_unit_model_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m4 l3 xl2 is-trip-unit" style=" background-color: white;">
+              <label for="trip_unit_serial_number" style="white-space: nowrap; background-color: white; ">Trip Unit Serial Number</label>
+                <input class="test-input" type="text" id="trip_unit_serial_number" name="trip_unit_serial_number" placeholder="e.g. TU5612" {% if test_results.trip_unit_serial_number_data %} value="{{ test_results.trip_unit_serial_number_data }}"{% endif %}> 
+            </div>
+            {% if job %}
+            <div class="input-field col s6 m4 l2 xl2 is-trip-unit" style=" background-color: white;">
+              <label for="trip_unit_rating_plug" style="white-space: nowrap; background-color: white; ">Rating Plug (amps)</label>
+              <input class="test-input" type="number" id="trip_unit_rating_plug" name="trip_unit_rating_plug" placeholder="e.g. 1200" {% if test_results.trip_unit_rating_plug %} value="{{ test_results.trip_unit_rating_plug }}"{% endif %}> 
+            </div>
+            {% endif %}
+            <div class="input-field col s6 m4 l2 xl2 is-trip-unit" style=" background-color: white;">
+              <label for="trip_unit_curve" style="white-space: nowrap; background-color: white; ">Trip Unit Curve</label>
+                <input class="test-input" type="text" id="trip_unit_curve" name="trip_unit_curve" placeholder="e.g. TU5612" {% if test_results.trip_unit_curve_data %} value="{{ test_results.trip_unit_curve_data }}"{% endif %}> 
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-trip-unit" style=" background-color: white; white-space: nowrap;" >
+              <label for="trip_unit_phase_ct_high" style="white-space: nowrap; background-color: white; ">Phase CT Ratio (amps)</label>                
+                <input class="test-input" style="width: 45%;" type="number" id="trip_unit_phase_ct_high" name="trip_unit_phase_ct_high" placeholder="100" {% if test_results.trip_unit_phase_ct_high_data %} value="{{ test_results.trip_unit_phase_ct_high_data }}"{% endif %}>:
+              <input class="test-input" style="width: 45%;" type="number" id="trip_unit_phase_ct_low" name="trip_unit_phase_ct_low" placeholder="5" {% if test_results.trip_unit_phase_ct_low_data %} value="{{ test_results.trip_unit_phase_ct_low_data }}"{% endif %}>               
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="primary_voltage" style="white-space: nowrap; background-color: white; ">Primary Voltage</label>                
+                <input class="test-input"  type="number" id="primary_voltage" name="primary_voltage" placeholder="4160" {% if test_results.primary_voltage %} value="{{ test_results.primary_voltage_data }}"{% endif %}>            
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="secondary_voltage" style="white-space: nowrap; background-color: white; ">Secondary Voltage</label>                
+                <input class="test-input"  type="number" id="secondary_voltage" name="secondary_voltage" placeholder="480" {% if test_results.secondary_voltage %} value="{{ test_results.secondary_voltage_data }}"{% endif %} onkeyup="secondaryChange()">            
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="power_rating" style="white-space: nowrap; background-color: white; ">Power Rating</label>                
+                <input class="test-input"  type="number" id="power_rating" style= 'display: table-cell; width: 58%;' name="power_rating" placeholder="1000" {% if test_results.power_rating %} value="{{ test_results.power_rating_data }}"{% endif %}>        
+                <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="power_rating_units" id="power_rating_units">
+                  <option value="VA"{% if test_results.power_rating_units_data == "VA" %} selected {%endif%}>VA</option>
+                  <option value="KVA"{% if test_results.power_rating_units_data == "KVA" %} selected {%endif%}>KVA</option>
+                  <option value="MVA"{% if test_results.power_rating_units_data == "MVA" %} selected {%endif%}>MVA</option>
+                </select>        
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="primary_winding_config" style="white-space: nowrap; background-color: white; ">Primary Configuration</label>                
+                <input class="test-input"  type="text" id="primary_winding_config" name="primary_winding_config" placeholder="Delta" {% if test_results.primary_winding_config_data %} value="{{ test_results.primary_winding_config_data }}"{% endif %}>            
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="secondary_winding_config" style="white-space: nowrap; background-color: white; ">Secondary Configuration</label>                
+                <input class="test-input"  type="text" id="secondary_winding_config" name="secondary_winding_config" placeholder="Wye" {% if test_results.secondary_winding_config_data %} value="{{ test_results.secondary_winding_config_data }}"{% endif %}>            
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;">
+              <label for="weight" style="white-space: nowrap; background-color: white; ">Weight</label>                
+                <input class="test-input"  type="number" id="weight" name="weight" step=".001" min="0" style= 'display: table-cell; width: 58%;' placeholder="9815" {% if test_results.weight_data %} value="{{ test_results.weight_data.normalize }}"{% endif %}>     
+                <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="weight_units" id="weight_units">
+                  <option value="lbs"{% if test_results.weight_units == "lbs" %} selected {%endif%}>lbs</option>
+                  <option value="kg"{% if test_results.weight_units == "kg" %} selected {%endif%}>kg</option>
+                </select>       
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+              <label for="temp_rise" style="white-space: nowrap; background-color: white; ">Temperature Rise</label>                
+                <input class="test-input"  type="number" style= 'display: table-cell; width: 58%;' id="temp_rise" step=".0001" min="0" name="temp_rise" placeholder="4.3" {% if test_results.temp_rise_data %} value="{{ test_results.temp_rise_data.normalize }}"{% endif %}>               
+                <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="temp_rise_units" id="temp_rise_units">
+                  <option value="C"{% if test_results.temp_rise_units_data == "C" %} selected {%endif%}>&#176C</option>
+                  <option value="F"{% if test_results.temp_rise_units_data == "F" %} selected {%endif%}>&#176F</option>
+                </select>    
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+              <label for="impedance" style="white-space: nowrap; background-color: white; ">Impedance</label>                
+                <input class="test-input"  type="number" id="impedance" step=".0001" name="impedance" placeholder="5.2" {% if test_results.impedance_data %} value="{{ test_results.impedance_data.normalize }}"{% endif %}>%          
+            </div>
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+              <label for="xfmr_class" style="white-space: nowrap; background-color: white; ">Class</label>                
+                <input class="test-input"  type="text" id="xfmr_class" name="xfmr_class" placeholder="III" {% if test_results.xfmr_class_data %} value="{{ test_results.xfmr_class_data }}"{% endif %}>            
+            </div>          
+            {% if equipment.equipment_type.is_transformer or equipment.equipment_type.name == 'Current Transformer (CT)' %}
+            <div class="input-field col s6 m6 l4 xl2 " style=" background-color: white; white-space: nowrap;" >
+              <label for="tap_qty" style="white-space: nowrap; background-color: white; "># of Taps</label>                
+                <input class="test-input"  type="number" id="tap_qty" step="1" min="0" name="tap_qty" placeholder="7" {% if test_results.tap_qty_data %} value="{{ test_results.tap_qty_data }}"{% endif %}>            
+            </div>
+            {% endif %}
+            {% if job %}
+            <div class="input-field col s6 m6 l4 xl2 is-transformer {% if equipment.equipment_type.name == 'Current Transformer (CT)' %}force-display{% endif %}" style=" background-color: white; white-space: nowrap;" >
+              <label for="tap_position" style="white-space: nowrap; background-color: white; ">Tap Position</label>                
+                <input class="test-input"  type="number" id="tap_position" step="1" min="0" name="tap_position" placeholder="4" {% if test_results.tap_position %} value="{{ test_results.tap_position }}"{% endif %}>            
+            </div>
+            {% endif %}
+            {% for boolean in eq_type.booleans %}
+            <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+              <label for="fluid_type" style="white-space: nowrap; background-color: white; ">Fluid Type</label>                
+                <input class="test-input"  type="text" id="{{boolean.identifier}}" name="fluid_type" placeholder="Mineral Oil" {% if test_results.fluid_type_data %} value="{{ test_results.fluid_type_data }}"{% endif %}>            
+            </div>
+            {% endfor %}
+            {%if equipment.equipment_type.name == "Oil-filled Transformer" %}
+              <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+                <label for="fluid_type" style="white-space: nowrap; background-color: white; ">Fluid Type</label>                
+                  <input class="test-input"  type="text" id="fluid_type" name="fluid_type" placeholder="Mineral Oil" {% if test_results.fluid_type_data %} value="{{ test_results.fluid_type_data }}"{% endif %}>            
+              </div>
+              <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+                <label for="fluid_capacity" style="white-space: nowrap; background-color: white; ">Fluid Capacity</label>                
+                  <input class="test-input"  type="number" style= 'display: table-cell; width: 58%;' id="fluid_capacity" step=".001" min="0" name="fluid_capacity" placeholder="250" {% if test_results.fluid_capacity_data %} value="{{ test_results.fluid_capacity_data }}"{% endif %}>            
+                  <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="fluid_capacity_units" id="fluid_capacity_units">
+                      <option value="gal"{% if test_results.fluid_capacity_units_data == "gal" %} selected {%endif%}>gal</option>
+                      <option value="liter"{% if test_results.fluid_capacity_units_data == "liter" %} selected {%endif%}>liter</option>
+                  </select>  
+                  
+              </div>
+              {% if job %}
+                <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+                  <label for="liquid_level" style="white-space: nowrap; background-color: white; ">Fluid Level</label>                
+                    <input class="test-input"  type="text" id="liquid_level" name="liquid_level" placeholder="normal" {% if test_results.liquid_level %} value="{{ test_results.liquid_level }}"{% endif %}>            
+                </div>
+                <div class="input-field col s6 m6 l4 xl2 is-transformer" style=" background-color: white; white-space: nowrap;" >
+                  <label for="pressure" style="white-space: nowrap; background-color: white; ">Pressure</label>                
+                    <input class="test-input"  type="number" id="pressure" step=".001" name="pressure" style= 'display: table-cell; width: 58%;' placeholder="-2.5" {% if test_results.pressure %} value="{{ test_results.pressure.normalize }}"{% endif %}>            
+                    <select class="test-input" style="display: table-cell; width: 42%; height: auto;"  name="pressure_units" id="pressure_units">
+                      <option value="psig"{% if test_results.pressure_units == "psig" %} selected {%endif%}>psig</option>
+                      <option value="Mpa"{% if test_results.pressure_units == "Mpa" %} selected {%endif%}>Mpa</option>
+                      <option value="mmhg"{% if test_results.pressure_units == "mmhg" %} selected {%endif%}>mmHg</option>
+                      <option value="inhg"{% if test_results.pressure_units == "inhg" %} selected {%endif%}>in. Hg</option>
+                  </select>  
+                </div>
+              {%endif%}
+            {%endif%}
+            
+          </div>
+          
+          <div class="col s12">
+            <h5 class="blue-heading">Visual and Mechanical Inspections</h5>
+             <h6 style="text-align: center;">
+              <div class="" style="display: inline-block;">
+                <label  style="white-space: nowrap;">
+                  <input type="checkbox" class="filled-in" onchange="if(this.checked){$('#togall_btn').removeClass('disabled')}else{$('#togall_btn').addClass('disabled')}">
+                  <span>Enable &#10132;</span>
+                </label>
+              </div>   
+              <a class="btn-small phone-button disabled" id="togall_btn" style="margin-left: 5px;" onclick="var qtog=$('.quick-tog');qtog.prop('checked', !qtog.prop('checked'));
+              $('#test_results_submit').show();
+              $('#cancel-div').show();
+              stopLeave=true " >Toggle All</a>
+
+
+
+             </h6>
+            <table style="font-family: 'Lato', sans-serif; font-weight: 300;">
+              {% include "jobs/equipment_test_sheet_inspections.html" with test_results=test_results equipment=equipment %}
+            </table>
+          </div>
+          
+            {% if job %}
+            <div class="col s6 m6 l4 xl3 is-trip-unit">
+              <h5 class="blue-heading noselect">settings</h5>
+              <h6 class="noselect" style="text-align: center;display: none;">(auto-copy)</h6>
+              <table>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">ltpu</td> <td><input class="test-input" {% if not test_results.settings_al_ltpu %} oninput="$('#settings_al_ltpu').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_ltpu').val($(this).val())"{% endif %}  type="text" id="settings_af_ltpu" name="settings_af_ltpu" placeholder="e.g. 0.8"  style="width: 70px;"   {% if test_results.settings_af_ltpu %} value="{{ test_results.settings_af_ltpu.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">ltd</td> <td><input class="test-input"  {% if not test_results.settings_al_ltd %}  oninput="$('#settings_al_ltd').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_ltd').val($(this).val())" {% endif %}type="text" id="settings_af_ltd" name="settings_af_ltd" placeholder="e.g. 4" style="width: 70px;"  {% if test_results.settings_af_ltd %} value="{{ test_results.settings_af_ltd.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">stpu</td> <td><input class="test-input" {% if not test_results.settings_al_stpu %} oninput="$('#settings_al_stpu').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_stpu').val($(this).val())"{% endif %}  type="text" id="settings_af_stpu" name="settings_af_stpu" placeholder="e.g. 0.1" style="width: 70px;"  {% if test_results.settings_af_stpu %} value="{{ test_results.settings_af_stpu.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">std</td> <td><input class="test-input"  {% if not test_results.settings_al_std %}  oninput="$('#settings_al_std').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_std').val($(this).val())" {% endif %}type="text" id="settings_af_std" name="settings_af_std" placeholder="e.g. 2" style="width: 70px;"  {% if test_results.settings_af_std %} value="{{ test_results.settings_af_std.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">inst</td> <td><input class="test-input" {% if not test_results.settings_al_inst %} oninput="$('#settings_al_inst').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_inst').val($(this).val())"{% endif %}  type="text" id="settings_af_inst" name="settings_af_inst" placeholder="e.g. 0.8" style="width: 70px;"  {% if test_results.settings_af_inst %} value="{{ test_results.settings_af_inst.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">gfpu</td> <td><input class="test-input" {% if not test_results.settings_al_gfpu %} oninput="$('#settings_al_gfpu').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_gfpu').val($(this).val())"{% endif %}  type="text" id="settings_af_gfpu" name="settings_af_gfpu" placeholder="e.g. 0.25" style="width: 70px;"  {% if test_results.settings_af_gfpu %} value="{{ test_results.settings_af_gfpu.normalize }}"{% endif %} > </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">gfd</td> <td><input class="test-input"  {% if not test_results.settings_al_gfd %}  oninput="$('#settings_al_gfd').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(150);$('#settings_al_gfd').val($(this).val())" {% endif %}type="text" id="settings_af_gfd" name="settings_af_gfd" placeholder="e.g. 0.8" style="width: 70px;"  {% if test_results.settings_af_gfd %} value="{{ test_results.settings_af_gfd.normalize }}"{% endif %} > </td></tr>
+              </table>
+            </div>
+            <div class="col s6 m6 l4 xl3 is-trip-unit" style="visibility: hidden;">
+              <h5 class="blue-heading">as left settings</h5>
+              <h6 style="visibility: hidden;">(auto-copy)</h6>
+              <table style="margin: auto" >                
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">ltpu</td><td><input class="test-input" type="text" id="settings_al_ltpu" name="settings_al_ltpu" placeholder="e.g. 0.8" style="width: 70px;"{% if test_results.settings_al_ltpu %} value="{{ test_results.settings_al_ltpu.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">ltd</td> <td><input class="test-input" type="text" id="settings_al_ltd" name="settings_al_ltd" placeholder="e.g. 4" style="width: 70px;" {% if test_results.settings_al_ltd %} value="{{ test_results.settings_al_ltd.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">stpu</td><td><input class="test-input" type="text" id="settings_al_stpu" name="settings_al_stpu" placeholder="e.g. 0.1" style="width: 70px;"{% if test_results.settings_al_stpu %} value="{{ test_results.settings_al_stpu.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">std</td> <td><input class="test-input" type="text" id="settings_al_std" name="settings_al_std" placeholder="e.g. 2" style="width: 70px;" {% if test_results.settings_al_std %} value="{{ test_results.settings_al_std.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">inst</td><td><input class="test-input" type="text" id="settings_al_inst" name="settings_al_inst" placeholder="e.g. 0.8" style="width: 70px;"{% if test_results.settings_al_inst %} value="{{ test_results.settings_al_inst.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">gfpu</td><td><input class="test-input" type="text" id="settings_al_gfpu" name="settings_al_gfpu" placeholder="e.g. 0.25" style="width: 70px;"{% if test_results.settings_al_gfpu %} value="{{ test_results.settings_al_gfpu.normalize }}"{% endif %}> </td></tr>
+                <tr style="border-bottom: none;"> <td style="width: 50%; text-align: right;">gfd</td> <td><input class="test-input" type="text" id="settings_al_gfd" name="settings_al_gfd" placeholder="e.g. 0.8" style="width: 70px;" {% if test_results.settings_al_gfd %} value="{{ test_results.settings_al_gfd.normalize }}"{% endif %}> </td></tr>
+              </table>
+            </div>
+            <div class="col s12 m12 l12 xl6 pad-remove">
+              {% if equipment.equipment_type.is_power_fused %}
+              <div class="row xl6 is_power_fused">
+                <table class="border-table-bottom">
+                  <caption class="h5-style" style="border-bottom: none;padding-bottom: 0%;">Fuse Resistance</caption>
+                  <tr>
+                    <th></th>
+                    <th style="text-align: center; padding-top: 0;">A</th>
+                    <th style="text-align: center; padding-top: 0;">B</th>
+                    <th style="text-align: center; padding-top: 0;">C</th>
+                  </tr>
+                  <tr class="" style="border-bottom: none;">
+                    <td style="text-align: center;">Primary</td>
+                    <td style="text-align: center;"><input class="test-input" type="text" name="fuse_resistance_a" id="fuse_resistance_a" style="width: 70px;" {% if test_results.fuse_resistance_a %} value="{{ test_results.fuse_resistance_a.normalize }}"{% endif %} >
+                      <select class="test-input" name="fuse_resistance_a_units" id="fuse_resistance_a_units">
+                        <option value="milliOhms"{% if test_results.fuse_resistance_a_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test_results.fuse_resistance_a_units == "Ohms" %} selected {% elif test_results.fuse_resistance_a_units == None %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                    <td style="text-align: center;"><input class="test-input" type="text" name="fuse_resistance_b" id="fuse_resistance_b" style="width: 70px;" {% if test_results.fuse_resistance_b %} value="{{ test_results.fuse_resistance_b.normalize }}"{% endif %} >
+                    <select class="test-input" name="fuse_resistance_b_units" id="fuse_resistance_b_units">
+                      <option value="milliOhms"{% if test_results.fuse_resistance_b_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                      <option value="Ohms"{% if test_results.fuse_resistance_b_units == "Ohms" %} selected {% elif test_results.fuse_resistance_b_units == None %} selected {%endif%}>Ohms</option>
+                    </select>
+                    </td>
+                    <td style="text-align: center; border-right: none"><input class="test-input" type="text" name="fuse_resistance_c" id="fuse_resistance_c" style="width: 70px;" {% if test_results.fuse_resistance_c %} value="{{ test_results.fuse_resistance_c.normalize }}"{% endif %} >
+                      <select class="test-input" name="contact_resistance_c_units" id="contact_resistance_c_units">
+                        <option value="milliOhms"{% if test_results.fuse_resistance_c_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test_results.fuse_resistance_c_units == "Ohms" %} selected {% elif test_results.fuse_resistance_c_units == None %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                  </tr>
+                  {% if equipment.equipment_type.name == 'Voltage Transformer (VT)'%}
+                  <tr class="" style="border-bottom: none;">
+                    <td style="text-align: center;">Secondary</td>
+                    <td style="text-align: center;">
+                      <input class="test-input" type="text" name="fuse_resistance_secondary_a" id="fuse_resistance_secondary_a" style="width: 70px;" {% if test_results.fuse_resistance_secondary_a %} value="{{ test_results.fuse_resistance_secondary_a.normalize }}"{% endif %} >
+                      <select class="test-input" name="fuse_resistance_secondary_a_units" id="fuse_resistance_secondary_a_units">
+                        <option value="milliOhms"{% if test_results.fuse_resistance_secondary_a_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test_results.fuse_resistance_secondary_a_units == "Ohms" %} selected {% elif test_results.fuse_resistance_secondary_a_units == None %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                    <td style="text-align: center;">
+                      <input class="test-input" type="text" name="fuse_resistance_secondary_b" id="fuse_resistance_secondary_b" style="width: 70px;" {% if test_results.fuse_resistance_secondary_b %} value="{{ test_results.fuse_resistance_secondary_b.normalize }}"{% endif %} >
+                      <select class="test-input" name="fuse_resistance_secondary_b_units" id="fuse_resistance_secondary_b_units">
+                        <option value="milliOhms"{% if test_results.fuse_resistance_secondary_b_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test_results.fuse_resistance_secondary_b_units == "Ohms" %} selected {% elif test_results.fuse_resistance_secondary_b_units == None %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                    <td style="text-align: center;border-right: none">
+                      <input class="test-input" type="text" name="fuse_resistance_secondary_c" id="fuse_resistance_secondary_c" style="width: 70px;" {% if test_results.fuse_resistance_secondary_a %} value="{{ test_results.fuse_resistance_secondary_c.normalize }}"{% endif %} >
+                      <select class="test-input" name="fuse_resistance_secondary_c_units" id="fuse_resistance_secondary_a_units">
+                        <option value="milliOhms"{% if test_results.fuse_resistance_secondary_c_units == "milliOhms" %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test_results.fuse_resistance_secondary_c_units == "Ohms" %} selected {% elif test_results.fuse_resistance_secondary_c_units == None %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                  </tr>
+                  {% endif %}
+                </table>
+              </div>
+              {% endif %}
+              <div class="row is-insulation-resistance">
+                <table class="border-table-bottom td-free">
+                  <caption class="h5-style">Insulation Resistance</caption>
+                  <tr class="noselect" style="border-bottom: none;">                                      
+                    <td colspan="4" style="border-right: none; text-align: center; padding: 10px;">phase-to-phase</td>
+                  </tr>
+                  <tr class="noselect">
+                    <td style="text-align: center;">@<input class="test-input" type="number" name="insulation_resistance_ph_to_ph_test_voltage" id="insulation_resistance_ph_to_ph_test_voltage" style="width: 60px;" {% if test_results.insulation_resistance_ph_to_ph_test_voltage %} value="{{ test_results.insulation_resistance_ph_to_ph_test_voltage }}"{% endif %} >Volts</td>
+                    <td style="text-align: center;">
+                      A-B <br><input class="test-input" type="text" name="insulation_resistance_ph_to_ph_a_b" id="insulation_resistance_ph_to_ph_a_b" style="width: 70px;" {% if test_results.insulation_resistance_ph_to_ph_a_b %} value="{{ test_results.insulation_resistance_ph_to_ph_a_b.normalize }}"{% endif %}  >
+                      <select class="test-input" name="insulation_resistance_ph_to_ph_a_b_units" id="insulation_resistance_ph_to_ph_a_b_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_ph_a_b_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_ph_a_b_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_ph_a_b_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_ph_a_b_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_ph_a_b_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center;">B-C <br><input class="test-input" type="text" name="insulation_resistance_ph_to_ph_b_c" id="insulation_resistance_ph_to_ph_b_c" style="width: 70px;" {% if test_results.insulation_resistance_ph_to_ph_b_c %} value="{{ test_results.insulation_resistance_ph_to_ph_b_c.normalize }}"{% endif %}  > 
+                      <select class="test-input" name="insulation_resistance_ph_to_ph_b_c_units" id="insulation_resistance_ph_to_ph_b_c_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_ph_b_c_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_ph_b_c_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_ph_b_c_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_ph_b_c_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_ph_b_c_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    <td style="text-align: center; border-right: none;">C-A <br><input class="test-input" type="text" name="insulation_resistance_ph_to_ph_c_a" id="insulation_resistance_ph_to_ph_c_a" style="width: 70px;" {% if test_results.insulation_resistance_ph_to_ph_c_a %} value="{{ test_results.insulation_resistance_ph_to_ph_c_a.normalize }}"{% endif %}  > 
+                      <select class="test-input" name="insulation_resistance_ph_to_ph_c_a_units" id="insulation_resistance_ph_to_ph_c_a_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_ph_c_a_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_ph_c_a_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_ph_c_a_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_ph_c_a_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_ph_c_a_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms</td></td>
+                  </tr>
+                  <tr class="noselect" style="border-bottom: none;">                                      
+                    <td colspan="4" style="border-right: none;text-align: center; padding: 10px;">phase-to-ground</td>
+                  </tr>
+                  <tr class="noselect">
+                    <td style="text-align: center;">@<input class="test-input" type="number" name="insulation_resistance_ph_to_gr_test_voltage" id="insulation_resistance_ph_to_gr_test_voltage" style="width: 60px;"{% if test_results.insulation_resistance_ph_to_gr_test_voltage %} value="{{ test_results.insulation_resistance_ph_to_gr_test_voltage }}"{% endif %} >Volts</td>
+                    <td style="text-align: center;">A-G <br><input class="test-input" type="text" name="insulation_resistance_ph_to_gr_a_g" id="insulation_resistance_ph_to_gr_a_g" style="width: 70px;"{% if test_results.insulation_resistance_ph_to_gr_a_g %} value="{{ test_results.insulation_resistance_ph_to_gr_a_g.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ph_to_gr_a_g_units" id="insulation_resistance_ph_to_gr_a_g_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_gr_a_g_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_gr_a_g_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_gr_a_g_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_gr_a_g_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_gr_a_g_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center;">B-G <br><input class="test-input" type="text" name="insulation_resistance_ph_to_gr_b_g" id="insulation_resistance_ph_to_gr_b_g" style="width: 70px;"{% if test_results.insulation_resistance_ph_to_gr_b_g %} value="{{ test_results.insulation_resistance_ph_to_gr_b_g.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ph_to_gr_b_g_units" id="insulation_resistance_ph_to_gr_b_g_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_gr_b_g_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_gr_b_g_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_gr_b_g_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_gr_b_g_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_gr_b_g_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center; border-right: none">C-G <br><input class="test-input" type="text" name="insulation_resistance_ph_to_gr_c_g" id="insulation_resistance_ph_to_gr_c_g" style="width: 70px;"{% if test_results.insulation_resistance_ph_to_gr_c_g %} value="{{ test_results.insulation_resistance_ph_to_gr_c_g.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ph_to_gr_c_g_units" id="insulation_resistance_ph_to_gr_c_g_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ph_to_gr_c_g_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ph_to_gr_c_g_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ph_to_gr_c_g_units == "Giga" %} selected {% elif test_results.insulation_resistance_ph_to_gr_c_g_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ph_to_gr_c_g_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                  </tr>
+                  {%if not equipment.equipment_type.is_switchgear%}
+                  <tr style="border-bottom: none;">                                      
+                    <td colspan="4" style="border-right: none;text-align: center; padding: 10px;">line-to-load</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">@<input class="test-input" type="number" name="insulation_resistance_ln_to_ld_test_voltage" id="insulation_resistance_ln_to_ld_test_voltage" style="width: 60px;" {% if test_results.insulation_resistance_ln_to_ld_test_voltage %} value="{{ test_results.insulation_resistance_ln_to_ld_test_voltage }}"{% endif %} >Volts</td>
+                    <td style="text-align: center;">A-A' <br><input class="test-input" type="text" name="insulation_resistance_ln_to_ld_a" id="insulation_resistance_ln_to_ld_a" style="width: 70px;" {% if test_results.insulation_resistance_ln_to_ld_a %} value="{{ test_results.insulation_resistance_ln_to_ld_a.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ln_to_ld_a_units" id="insulation_resistance_ln_to_ld_a_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ln_to_ld_a_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ln_to_ld_a_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ln_to_ld_a_units == "Giga" %} selected {% elif test_results.insulation_resistance_ln_to_ld_a_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ln_to_ld_a_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center;">B-B' <br><input class="test-input" type="text" name="insulation_resistance_ln_to_ld_b" id="insulation_resistance_ln_to_ld_b" style="width: 70px;" {% if test_results.insulation_resistance_ln_to_ld_b %} value="{{ test_results.insulation_resistance_ln_to_ld_b.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ln_to_ld_b_units" id="insulation_resistance_ln_to_ld_b_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ln_to_ld_b_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ln_to_ld_b_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ln_to_ld_b_units == "Giga" %} selected {% elif test_results.insulation_resistance_ln_to_ld_b_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ln_to_ld_b_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center; border-right: none">C-C' <br><input class="test-input" type="text" name="insulation_resistance_ln_to_ld_c" id="insulation_resistance_ln_to_ld_c" style="width: 70px;" {% if test_results.insulation_resistance_ln_to_ld_c %} value="{{ test_results.insulation_resistance_ln_to_ld_c.normalize }}"{% endif %} > 
+                      <select class="test-input" name="insulation_resistance_ln_to_ld_c_units" id="insulation_resistance_ln_to_ld_c_units">
+                        <option value="Kilo"{% if test_results.insulation_resistance_ln_to_ld_c_units == "Kilo" %} selected {%endif%}>Kilo</option>
+                        <option value="Mega"{% if test_results.insulation_resistance_ln_to_ld_c_units == "Mega" %} selected {%endif%}>Mega</option>
+                        <option value="Giga"{% if test_results.insulation_resistance_ln_to_ld_c_units == "Giga" %} selected {% elif test_results.insulation_resistance_ln_to_ld_c_units == None %} selected {%endif%}>Giga</option>
+                        <option value="Tera"{% if test_results.insulation_resistance_ln_to_ld_c_units == "Tera" %} selected {%endif%}>Tera</option>
+                      </select>Ohms
+                    </td>
+                  </tr>
+                  {%endif%}
+                      
+                </table>
+              </div>
+              <div class="row xl6 is-contact-resistance">
+                <table class="border-table-bottom">
+                  <caption class="h5-style">Contact Resistance</caption>
+                  <tr class="noselect" style="border-bottom: none;">
+                    <td style="text-align: center;">@<input class="test-input" type="number" name="contact_resistance_current" id="contact_resistance_current" style="width: 60px;" {% if test_results.contact_resistance_current %} value="{{ test_results.contact_resistance_current }}"{% endif %} >Amps</td>
+                    <td style="text-align: center;">A <br><input class="test-input" type="text" name="contact_resistance_a" id="contact_resistance_a" style="width: 70px;" {% if test_results.contact_resistance_a %} value="{{ test_results.contact_resistance_a.normalize }}"{% endif %} >
+                      <select class="test-input" name="contact_resistance_a_units" id="contact_resistance_a_units">
+                        <option value="milli"{% if test_results.contact_resistance_a_units == "milli" %} selected {%endif%}>milli</option>
+                        <option value="micro"{% if test_results.contact_resistance_a_units == "micro" %} selected {% elif test_results.contact_resistance_a_units == None %} selected {%endif%}>micro</option>
+                      </select>Ohms
+                    </td>
+                    <td style="text-align: center;">B <br><input class="test-input" type="text" name="contact_resistance_b" id="contact_resistance_b" style="width: 70px;" {% if test_results.contact_resistance_b %} value="{{ test_results.contact_resistance_b.normalize }}"{% endif %} >
+                    <select class="test-input" name="contact_resistance_b_units" id="contact_resistance_b_units">
+                      <option value="milli"{% if test_results.contact_resistance_b_units == "milli" %} selected {%endif%}>milli</option>
+                      <option value="micro"{% if test_results.contact_resistance_b_units == "micro" %} selected {% elif test_results.contact_resistance_b_units == None %} selected {%endif%}>micro</option>
+                    </select>Ohms
+                    </td>
+                    <td style="text-align: center; border-right: none">C <br><input class="test-input" type="text" name="contact_resistance_c" id="contact_resistance_c" style="width: 70px;" {% if test_results.contact_resistance_c %} value="{{ test_results.contact_resistance_c.normalize }}"{% endif %} >
+                      <select class="test-input" name="contact_resistance_c_units" id="contact_resistance_c_units">
+                        <option value="milli"{% if test_results.contact_resistance_c_units == "milli" %} selected {%endif%}>milli</option>
+                        <option value="micro"{% if test_results.contact_resistance_c_units == "micro" %} selected {% elif test_results.contact_resistance_c_units == None %} selected {%endif%}>micro</option>
+                      </select>Ohms
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>            
+            {% if job and equipment.equipment_type.is_hipot %}
+              {% include "jobs/equipment_test_sheet_hipot.html" with test_results=test_results equipment=equipment %}
+            {% endif %}
+            {% if job and equipment.equipment_type.is_xfmr_insulation_resistance %}
+              {% include "jobs/equipment_test_sheet_xfmr_ir.html" with test_results=test_results equipment=equipment %}
+            {% endif %}
+            <div class="col s12 is-primary-injection">
+                    <table class="border-table pi-table-style is-primary-injection" style="border-right: 4px solid #ddd;">
+                      <h5 class="blue-heading is-primary-injection">Primary Injection</h5>
+                      <h6 class="phone-screen is-primary-injection" style="text-align: center; text-transform: capitalize;"> <EM>horizontal scrolling</EM> <span class="material-icons blink">swipe</span> </h6>
+                      <tr>
+                        <th style="text-transform: capitalize; "> <span class="computer-screen"> tested function</span> <span class="phone-screen">test</span></th>
+                        <th style="text-transform: capitalize; text-align: center; ">test <br class="phone-screen">settings</th>
+                        <th style="text-transform: capitalize; text-align: center; ">test <br class="phone-screen">amps</th>
+                        <th style="text-transform: capitalize; text-align: center;">x <br class="phone-screen">pickup</th>
+                        <th style="text-transform: capitalize; text-align: center;"> phase <br class="phone-screen">a</th>
+                        <th style="text-transform: capitalize; text-align: center;"> phase <br class="phone-screen">b</th>
+                        <th style="text-transform: capitalize; text-align: center;"> phase <br class="phone-screen">c</th>
+                        <th class="pi-as-left" style="text-transform: capitalize; text-align: center;">A-As Left</th>
+                        <th class="pi-as-left" style="text-transform: capitalize; text-align: center;">B-As-left</th>
+                        <th class="pi-as-left" style="text-transform: capitalize; text-align: center;">C-As-left</th>
+                        <th style="text-transform: capitalize; text-align: center;">min</th>
+                        <th style="text-transform: capitalize; text-align: center;">max</th>
+                      </tr>
+                      <tr>
+                        <td>ltpu</td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="pi_setting_ltpu" name="pi_setting_ltpu" step=".01"  {% if test_results.pi_setting_ltpu %} value="{{ test_results.pi_setting_ltpu.normalize }}"{% endif %} ></td> 
+                        <td> <input  class="test-input mobile-input-text disabled-input" type="number" id="unused_input_1" name="unused_input_1" step=".01" style="background-color: #f0f0f0; " placeholder="  N/A" disabled> </td>                      
+                        <td> <input  class="test-input mobile-input-text disabled-input" type="number" id="unused_input_4" name="unused_input_4" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="a_af_ltpu" name="a_af_ltpu" step=".01"  {% if test_results.a_af_ltpu %} value="{{ test_results.a_af_ltpu.normalize }}"{% endif %} ></td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="b_af_ltpu" name="b_af_ltpu" step=".01"  {% if test_results.b_af_ltpu %} value="{{ test_results.b_af_ltpu.normalize }}"{% endif %} ></td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="c_af_ltpu" name="c_af_ltpu" step=".01"  {% if test_results.c_af_ltpu %} value="{{ test_results.c_af_ltpu.normalize }}"{% endif %} ></td>
+                        <td class="pi-as-left"> <input  class="test-input mobile-input-text " type="number" id="a_al_ltpu" name="a_al_ltpu" step=".01"  {% if test_results.a_al_ltpu %} value="{{ test_results.a_al_ltpu.normalize }}"{% endif %} ></td>
+                        <td class="pi-as-left"> <input  class="test-input mobile-input-text " type="number" id="b_al_ltpu" name="b_al_ltpu" step=".01"  {% if test_results.b_al_ltpu %} value="{{ test_results.b_al_ltpu.normalize }}"{% endif %} ></td>
+                        <td class="pi-as-left"> <input  class="test-input mobile-input-text " type="number" id="c_al_ltpu" name="c_al_ltpu" step=".01"  {% if test_results.c_al_ltpu %} value="{{ test_results.c_al_ltpu.normalize }}"{% endif %} ></td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="min_af_ltpu" name="min_af_ltpu" step=".01"  {% if test_results.min_af_ltpu %} value="{{ test_results.min_af_ltpu.normalize }}"{% endif %}> </td>
+                        <td> <input  class="test-input mobile-input-text" type="number" id="max_al_ltpu" name="max_al_ltpu" step=".01"  {% if test_results.max_al_ltpu %} value="{{ test_results.max_al_ltpu.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>ltd</td>
+                        <td><input class="test-input" type="number" id="pi_setting_ltd" name="pi_setting_ltd" step=".01" {% if test_results.pi_setting_ltd %} value="{{ test_results.pi_setting_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="pi_testamps_ltd" name="pi_testamps_ltd" step=".01" {% if test_results.pi_testamps_ltd %} value="{{ test_results.pi_testamps_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="pi_xpu_ltd" name="pi_xpu_ltd" step=".01" {% if test_results.pi_xpu_ltd %} value="{{ test_results.pi_xpu_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="a_af_ltd" name="a_af_ltd" step=".0001" {% if test_results.a_af_ltd %} value="{{ test_results.a_af_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_ltd" name="b_af_ltd" step=".0001" {% if test_results.b_af_ltd %} value="{{ test_results.b_af_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input " type="number" id="c_af_ltd" name="c_af_ltd" step=".0001" {% if test_results.c_af_ltd %} value="{{ test_results.c_af_ltd.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="a_al_ltd" name="a_al_ltd" step=".0001" {% if test_results.a_al_ltd %} value="{{ test_results.a_al_ltd.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="b_al_ltd" name="b_al_ltd" step=".0001" {% if test_results.b_al_ltd %} value="{{ test_results.b_al_ltd.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="c_al_ltd" name="c_al_ltd" step=".0001" {% if test_results.c_al_ltd %} value="{{ test_results.c_al_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_ltd" name="min_af_ltd" step=".0001" {% if test_results.min_af_ltd %} value="{{ test_results.min_af_ltd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_ltd" name="max_al_ltd" step=".0001" {% if test_results.max_al_ltd %} value="{{ test_results.max_al_ltd.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>stpu</td>
+                        <td><input class="test-input" type="number" id="pi_setting_stpu" name="pi_setting_stpu" step=".01"  {% if test_results.pi_setting_stpu %} value="{{ test_results.pi_setting_stpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="unused_input_2" name="unused_input_2" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>                      
+                        <td><input class="disabled-input test-input " type="number" id="unused_input_4" name="unused_input_5" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>
+                        <td><input class="test-input" type="number" id="a_af_stpu" name="a_af_stpu" step=".01" {% if test_results.a_af_stpu %} value="{{ test_results.a_af_stpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_stpu" name="b_af_stpu" step=".01" {% if test_results.b_af_stpu %} value="{{ test_results.b_af_stpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="c_af_stpu" name="c_af_stpu" step=".01" {% if test_results.c_af_stpu %} value="{{ test_results.c_af_stpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="a_al_stpu" name="a_al_stpu" step=".01" {% if test_results.a_al_stpu %} value="{{ test_results.a_al_stpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="b_al_stpu" name="b_al_stpu" step=".01" {% if test_results.b_al_stpu %} value="{{ test_results.b_al_stpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="c_al_stpu" name="c_al_stpu" step=".01" {% if test_results.c_al_stpu %} value="{{ test_results.c_al_stpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_stpu" name="min_af_stpu" step=".01" {% if test_results.min_af_stpu %} value="{{ test_results.min_af_stpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_stpu" name="max_al_stpu" step=".01" {% if test_results.max_al_stpu %} value="{{ test_results.max_al_stpu.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>std</td>
+                        <td><input class="test-input" type="number" id="pi_setting_std" name="pi_setting_std" step=".01" {% if test_results.pi_setting_std %} value="{{ test_results.pi_setting_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="pi_testamps_std" name="pi_testamps_std" step=".01"  {% if test_results.pi_testamps_std %} value="{{ test_results.pi_testamps_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="pi_xpu_std" name="pi_xpu_std" step=".01" {% if test_results.pi_xpu_std %} value="{{ test_results.pi_xpu_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="a_af_std" name="a_af_std" step=".0001" {% if test_results.a_af_std %} value="{{ test_results.a_af_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_std" name="b_af_std" step=".0001" {% if test_results.b_af_std %} value="{{ test_results.b_af_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="c_af_std" name="c_af_std" step=".0001" {% if test_results.c_af_std %} value="{{ test_results.c_af_std.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="a_al_std" name="a_al_std" step=".0001" {% if test_results.a_al_std %} value="{{ test_results.a_al_std.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="b_al_std" name="b_al_std" step=".0001" {% if test_results.b_al_std %} value="{{ test_results.b_al_std.normalize }}"{% endif %}> </td>
+                        <td class=" pi-as-left"><input class="test-input" type="number" id="c_al_std" name="c_al_std" step=".0001" {% if test_results.c_al_std %} value="{{ test_results.c_al_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_std" name="min_af_std" step=".0001" {% if test_results.min_af_std %} value="{{ test_results.min_af_std.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_std" name="max_al_std" step=".0001" {% if test_results.max_al_std %} value="{{ test_results.max_al_std.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>inst</td>
+                        <td><input class="test-input" type="number" id="pi_setting_inst" name="pi_setting_inst" step=".01" {% if test_results.pi_setting_inst %} value="{{ test_results.pi_setting_inst.normalize }}"{% endif %}> </td>
+                        <td> <input class="test-input" type="number" id="pi_testamps_inst" name="pi_testamps_inst" step=".01" {% if test_results.pi_testamps_inst %} value="{{ test_results.pi_testamps_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="pi_xpu_inst" name="pi_xpu_inst" step=".01" {% if test_results.pi_xpu_inst %} value="{{ test_results.pi_xpu_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="a_af_inst" name="a_af_inst" step=".01" {% if test_results.a_af_inst %} value="{{ test_results.a_af_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_inst" name="b_af_inst" step=".01" {% if test_results.b_af_inst %} value="{{ test_results.b_af_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="c_af_inst" name="c_af_inst" step=".01" {% if test_results.c_af_inst %} value="{{ test_results.c_af_inst.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="a_al_inst" name="a_al_inst" step=".01" {% if test_results.a_al_inst %} value="{{ test_results.a_al_inst.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="b_al_inst" name="b_al_inst" step=".01" {% if test_results.b_al_inst %} value="{{ test_results.b_al_inst.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="c_al_inst" name="c_al_inst" step=".01" {% if test_results.c_al_inst %} value="{{ test_results.c_al_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_inst" name="min_af_inst" step=".01" {% if test_results.min_af_inst %} value="{{ test_results.min_af_inst.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_inst" name="max_al_inst" step=".01" {% if test_results.max_al_inst %} value="{{ test_results.max_al_inst.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>gfpu</td>
+                        <td><input class="test-input" type="number" id="pi_setting_gfpu" name="pi_setting_gfpu" step=".01" {% if test_results.pi_setting_gfpu %} value="{{ test_results.pi_setting_gfpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="unused_input_3" name="unused_input_3" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>                      
+                        <td><input class="disabled-input test-input" type="number" id="unused_input_4" name="unused_input_6" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>
+                        <td><input class="test-input" type="number" id="a_af_gfpu" name="a_af_gfpu" step=".01" {% if test_results.a_af_gfpu %} value="{{ test_results.a_af_gfpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_gfpu" name="b_af_gfpu" step=".01" {% if test_results.b_af_gfpu %} value="{{ test_results.b_af_gfpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="c_af_gfpu" name="c_af_gfpu" step=".01" {% if test_results.c_af_gfpu %} value="{{ test_results.c_af_gfpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="a_al_gfpu" name="a_al_gfpu" step=".01" {% if test_results.a_al_gfpu %} value="{{ test_results.a_al_gfpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="b_al_gfpu" name="b_al_gfpu" step=".01" {% if test_results.b_al_gfpu %} value="{{ test_results.b_al_gfpu.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="c_al_gfpu" name="c_al_gfpu" step=".01" {% if test_results.c_al_gfpu %} value="{{ test_results.c_al_gfpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_gfpu" name="min_af_gfpu" step=".01" {% if test_results.min_af_gfpu %} value="{{ test_results.min_af_gfpu.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_gfpu" name="max_al_gfpu" step=".01" {% if test_results.max_al_gfpu %} value="{{ test_results.max_al_gfpu.normalize }}"{% endif %}> </td>
+                      </tr>
+                      <tr>
+                        <td>gfd</td>
+                        <td><input class="test-input" type="number" id="pi_setting_gfd" name="pi_setting_gfd" step=".01" {% if test_results.pi_setting_gfd %} value="{{ test_results.pi_setting_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="unused_input_4" name="unused_input_4" step=".01" style="background-color: #f0f0f0;" placeholder="  N/A" disabled> </td>                      
+                        <td><input class="test-input" type="number" id="pi_xpu_gfd" name="pi_xpu_gfd" step=".01" {% if test_results.pi_xpu_gfd %} value="{{ test_results.pi_xpu_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="a_af_gfd" name="a_af_gfd" step=".0001" {% if test_results.a_af_gfd %} value="{{ test_results.a_af_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="b_af_gfd" name="b_af_gfd" step=".0001" {% if test_results.b_af_gfd %} value="{{ test_results.b_af_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="c_af_gfd" name="c_af_gfd" step=".0001" {% if test_results.c_af_gfd %} value="{{ test_results.c_af_gfd.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="a_al_gfd" name="a_al_gfd" step=".0001" {% if test_results.a_al_gfd %} value="{{ test_results.a_al_gfd.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="b_al_gfd" name="b_al_gfd" step=".0001" {% if test_results.b_al_gfd %} value="{{ test_results.b_al_gfd.normalize }}"{% endif %}> </td>
+                        <td class="pi-as-left"><input class="test-input " type="number" id="c_al_gfd" name="c_al_gfd" step=".0001" {% if test_results.c_al_gfd %} value="{{ test_results.c_al_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="min_af_gfd" name="min_af_gfd" step=".0001" {% if test_results.min_af_gfd %} value="{{ test_results.min_af_gfd.normalize }}"{% endif %}> </td>
+                        <td><input class="test-input" type="number" id="max_al_gfd" name="max_al_gfd" step=".0001" {% if test_results.max_al_gfd %} value="{{ test_results.max_al_gfd.normalize }}"{% endif %}> </td>
+                      </tr>
+                    </table>
+            </div>
+            {% endif %}
+            {% if equipment.equipment_type.is_cable %}
+            <div class="col s12" >
+              <h5 class="blue-heading">Cable High Potential <span style="font-size: 18px; color: black;">Number of recordings: <input class="test-input" type="number" name="cable_hipot_quantity" id="cable_hipot_quantity" min="0" step="1" style="width: 60px;" {% if test_results.cable_hipot_quantity %} value="{{ test_results.cable_hipot_quantity }}"{% endif %} ><br><span style="color: #aaa;">(submit quantity to generate results)</span> </span></h5>                           
+              <table>
+                <tr style="border-bottom: None; position: -webkit-sticky; position: sticky;">
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Time <br>(Minutes)</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Voltage <br>(KV)</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase A <br>(microAmps)</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase B <br>(microAmps)</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase C <br>(microAmps)</th>
+                </tr>
+                {% for test in test_results.cable_test_data.all|slice:cable_test_q%}
+                  <tr style="border-bottom: None; border-top: 1px solid #f1f1f1;">
+                    <td style="text-align: center;"><input class="test-input" type="number" name="cable_hipot_time_{{test.pk}}" id="cable_hipot_time_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.time %} value="{{ test.time.normalize }}"{% endif %} ></td>
+                    <td style="text-align: center;"><input class="test-input" type="number" name="cable_hipot_volts_{{test.pk}}" id="cable_hipot_volts_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.test_voltage %} value="{{ test.test_voltage.normalize }}"{% endif %} ></td>
+                    <td style="text-align: center;"><input class="test-input" type="number" name="cable_hipot_a_{{test.pk}}" id="cable_hipot_a_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_a %} value="{{ test.phase_a.normalize }}"{% endif %} ></td>
+                    <td style="text-align: center;"><input class="test-input" type="number" name="cable_hipot_b_{{test.pk}}" id="cable_hipot_b_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_b %} value="{{ test.phase_b.normalize }}"{% endif %} ></td>
+                    <td style="text-align: center;"><input class="test-input" type="number" name="cable_hipot_c_{{test.pk}}" id="cable_hipot_c_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_c %} value="{{ test.phase_c.normalize }}"{% endif %} ></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% endif %} 
+            {% if equipment.equipment_type.is_bus_resistance %}
+            <div class="col s12" >
+              <h5 class="blue-heading noselect">Bus Contact Resistance
+                <span style="font-size: 18px; color: black;">Quantity: <input class="test-input" type="number" name="bus_contact_resistance_quantity" id="bus_contact_resistance_quantity" min="0" step="1" style="width: 60px;" {% if test_results.bus_contact_resistance_quantity %} value="{{ test_results.bus_contact_resistance_quantity }}"
+                  {% endif %} ><br><span style="color: #aaa;">(submit quantity to alter table)</span> </span></h5>
+              <table>
+                <tr class="noselect" style="border-bottom: None; position: -webkit-sticky; position: sticky;">
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Starting Point</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Ending Point</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase A</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase B</th>
+                  <th class="stickyborderbottom" style="text-align: center;top: 58px; position: -webkit-sticky; position: sticky;">Phase C</th>
+                </tr>
+
+                {% for test in test_results.bus_test_data.all|slice:bus_test_q%}
+                  <tr class="noselect" style="border-bottom: None; border-top: 1px solid #f1f1f1;">
+                    <td style="text-align: center;">
+                      <textarea id="starting_section_{{test.pk}}" name="starting_section_{{test.pk}}" style="width: 90%"  class="materialize-textarea test-input active" placeholder="i.e. Cell A" >{{ test.starting_section | default_if_none:'' }}</textarea>
+                    </td>
+                    <td style="text-align: center;">
+                      <textarea id="ending_section_{{test.pk}}" name="ending_section_{{test.pk}}" style="width: 90%"  class="materialize-textarea test-input active" placeholder="i.e. Cell B">{{ test.ending_section | default_if_none:'' }}</textarea>
+                    </td>
+                    <td style="text-align: center;">
+                      <input class="test-input" type="number" name="phase_a_{{test.pk}}" id="phase_a_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_a %} value="{{ test.phase_a.normalize }}"{% endif %} >
+                      <select class="test-input" name="phase_a_units_{{test.pk}}" id="phase_a_units_{{test.pk}}">
+                        <option value="microOhms"{% if test.phase_a_units == "microOhms" %} selected{%endif%}>microOhms</option>
+                        <option value="milliOhms"{% if test.phase_a_units == "milliOhms" %} selected {% elif test.phase_a_units == None %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test.phase_a_units == "Ohms" %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                    <td style="text-align: center;">
+                      <input class="test-input" type="number" name="phase_b_{{test.pk}}" id="phase_b_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_b %} value="{{ test.phase_b.normalize }}"{% endif %} >
+                      <select class="test-input" name="phase_b_units_{{test.pk}}" id="phase_b_units_{{test.pk}}">
+                        <option value="microOhms"{% if test.phase_b_units == "microOhms" %} selected{%endif%}>microOhms</option>
+                        <option value="milliOhms"{% if test.phase_b_units == "milliOhms" %} selected {% elif test.phase_b_units == None %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test.phase_b_units == "Ohms" %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                    <td style="text-align: center;">
+                      <input class="test-input" type="number" name="phase_c_{{test.pk}}" id="phase_c_{{test.pk}}" min="0" step=".0001" style="width: 60px;" {% if test.phase_c %} value="{{ test.phase_c.normalize }}"{% endif %} >
+                      <select class="test-input" name="phase_c_units_{{test.pk}}" id="phase_c_units_{{test.pk}}">
+                        <option value="microOhms"{% if test.phase_c_units == "microOhms" %} selected{%endif%}>microOhms</option>
+                        <option value="milliOhms"{% if test.phase_c_units == "milliOhms" %} selected {% elif test.phase_c_units == None %} selected {%endif%}>milliOhms</option>
+                        <option value="Ohms"{% if test.phase_c_units == "Ohms" %} selected {%endif%}>Ohms</option>
+                      </select>
+                    </td>
+                  </tr>
+                {% endfor %} 
+                
+              </table>
+            </div>
+            {% endif %} 
+            {% if job and equipment.equipment_type.is_secondary_injection %}
+              <div class="row is-secondary-injection">
+                <table class="border-table-bottom">
+                  <caption class="blue-heading"> <h5>Secondary Injection</h5></caption>
+                  <tr>
+                    <th style="text-transform: capitalize; text-align: center;"> Test</th>
+                    <th style="text-transform: capitalize; text-align: center;"> A</th>
+                    <th style="text-transform: capitalize; text-align: center;"> B</th>
+                    <th style="text-transform: capitalize; text-align: center; border-right: none"> C</th>
+                    </tr>
+                    <tr>
+                      <td>Pick Up</td>
+                      <td> <div style="width: fit-content; padding-left: 4%;"><input  class="mobile-input-text test-input" type="number" id="si_pu_a" name="si_pu_a" step=".01" style="width: 70px;"  {% if test_results.si_pu_a %} value="{{ test_results.si_pu_a }}"{% endif %}> amps </div></td> 
+                      <td> <div style="width: fit-content; padding-left: 4%;"><input  class="mobile-input-text test-input" type="number" id="si_pu_b" name="si_pu_b" step=".01" style="width: 70px;"  {% if test_results.si_pu_b %} value="{{ test_results.si_pu_b }}"{% endif %}> amps </div></td> 
+                      <td style="border-right: none;"> <div style="width: fit-content; padding-left: 4%; border-right: none"><input  class="mobile-input-text test-input" type="number" id="si_pu_c" name="si_pu_c" step=".01" style="width: 70px;"  {% if test_results.si_pu_c %} value="{{ test_results.si_pu_c }}"{% endif %}> amps </div></td> 
+                    </tr>
+                    <tr>
+                      <td>Long Time</td>
+                      <td><div style="width: fit-content; padding-left: 4%;"> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_current_a" name="si_lt_current_a" step="1" style="width: 70px;" {% if test_results.si_lt_current_a %} value="{{ test_results.si_lt_current_a.normalize }}"{% endif %}> amps in</div> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_d_a" name="si_lt_d_a" step=".01" style="width: 70px;"  {% if test_results.si_lt_d_a %} value="{{ test_results.si_lt_d_a.normalize }}"{% endif %}> seconds </div></div> </td>
+                      <td><div style="width: fit-content; padding-left: 4%;"> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_current_b" name="si_lt_current_b" step="1" style="width: 70px;" {% if test_results.si_lt_current_b %} value="{{ test_results.si_lt_current_b.normalize }}"{% endif %}> amps in </div> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_d_b" name="si_lt_d_b" step=".01"style = "width: 70px" {% if test_results.si_lt_d_b %} value="{{ test_results.si_lt_d_b.normalize }}"{% endif %} > seconds </div></div></td>
+                      <td style="border-right: none;"><div style="width: fit-content; padding-left: 4%; border-right: none"> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_current_c" name="si_lt_current_c" step="1" style="width: 70px;" {% if test_results.si_lt_current_c %} value="{{ test_results.si_lt_current_c.normalize }}"{% endif %}> amps in </div> <div style="display: inline-block;"> <input  class="mobile-input-text test-input" type="number" id="si_lt_d_c" name="si_lt_d_c" step=".01"style = "width: 70px" {% if test_results.si_lt_d_c %} value="{{ test_results.si_lt_d_c.normalize }}"{% endif %} > seconds</div></div></td> 
+                    </tr>
+                    <tr>
+                      <td>Short Time</td>
+                      <td><div style="width: fit-content; padding-left: 4%;"><input  class="mobile-input-text test-input" type="number" id="si_st_current_a" name="si_st_current_a" step="1" style="width: 70px;"  {% if test_results.si_st_current_a %} value="{{ test_results.si_st_current_a.normalize }}"{% endif %}> amps in <input  class="mobile-input-text test-input" type="number" id="si_st_d_a" name="si_st_d_a" step=".01" style="width: 70px;"  {% if test_results.si_st_d_a %} value="{{ test_results.si_st_d_a.normalize }}"{% endif %}> seconds</div></td> 
+                      <td><div style="width: fit-content; padding-left: 4%;"><input  class="mobile-input-text test-input" type="number" id="si_st_current_b" name="si_st_current_b" step="1" style="width: 70px;"  {% if test_results.si_st_current_b %} value="{{ test_results.si_st_current_b.normalize }}"{% endif %}> amps in <input  class="mobile-input-text test-input" type="number" id="si_st_d_b" name="si_st_d_b" step=".01" style="width: 70px;"  {% if test_results.si_st_d_b %} value="{{ test_results.si_st_d_b.normalize }}"{% endif %}> seconds</div></td> 
+                      <td style="border-right: none;"><div style="width: fit-content; padding-left: 4%; border-right: none"><input  class="mobile-input-text test-input" type="number" id="si_st_current_c" name="si_st_current_c" step="1" style="width: 70px;"  {% if test_results.si_st_current_c %} value="{{ test_results.si_st_current_c.normalize }}"{% endif %}> amps in <input  class="mobile-input-text test-input" type="number" id="si_st_d_c" name="si_st_d_c" step=".01" style="width: 70px;" {% if test_results.si_st_d_c %} value="{{ test_results.si_st_d_c.normalize }}"{% endif %}> seconds</div></td> 
+                    </tr>
+                    <tr style="border-bottom: none;">
+                      <td style="border-bottom: none;">Instantaneous</td>
+                      <td style="border-bottom: none;"> <div style="padding-left: 4%;"> <input  class="mobile-input-text test-input" type="number" id="si_inst_current_a" name="si_inst_current_a" step="1" style="width: 70px;" {% if test_results.si_inst_current_a %} value="{{ test_results.si_inst_current_a.normalize }}"{% endif %}> amps  </div></td> 
+                      <td style="border-bottom: none;"> <div style="padding-left: 4%;"> <input  class="mobile-input-text test-input" type="number" id="si_inst_current_b" name="si_inst_current_b" step="1" style="width: 70px;" {% if test_results.si_inst_current_b %} value="{{ test_results.si_inst_current_b.normalize }}"{% endif %}> amps  </div></td> 
+                      <td style="border-right: none ; border-bottom: none;"> <div style="padding-left: 4%"> <input  class="mobile-input-text test-input" type="number" id="si_inst_current_c" name="si_inst_current_c" step="1" style="width: 70px;" {% if test_results.si_inst_current_c %} value="{{ test_results.si_inst_current_c.normalize }}"{% endif %}> amps </div> </td> 
+                    </tr>
+                </table>
+              </div>              
+            {% endif %}
+          
+            {% if job and equipment.equipment_type.is_winding_resistance %}
+              {% include "jobs/equipment_test_sheet_xfmr_wr.html" with test_results=test_results equipment=equipment %}
+            {% endif %}
+            {% if job and equipment.equipment_type.is_ttr %}
+              {% include "jobs/equipment_test_sheet_ttr.html" with test_results=test_results equipment=equipment %}
+            {% endif %}
+        </form>
+          
+      </div>
+      
+    </div>
+    {% endif %}
+   
+  </li>
+  
+  <li class="2-collapsible-element collapsible-li"> 
+    <div class="collapsible-header phone-font-lrg noselect" style="color: #023b59;" >
+      <i class="material-icons phone-font-xl closed">edit_note</i> 
+      <span style="padding-left: 21px;" id="wnf">{%if equipment.equipment_mold%}Working Notes and Files {%else%}Records{%endif%}</span>
+    </div>
+    <div class="collapsible-body">
+      {%if equipment.equipment_mold%}
+          <h5 class="blue-heading " style="padding-bottom: 1rem;" id="add_note_heading">Equipment Notes</h5>
+          <div class="container">
+            <div class="search-div" id="equipment_note-container" style="margin-left: 52px; float: right; position: -webkit-sticky; position: sticky;">
+              <input class="orange-underline search-input" id="search_equipment_note" type="text" placeholder="Search..."/>
+                <div class="noselect phone-font-med" id="equipment_note-move-text" style="display: none; color: #888">
+                  <span id="equipment_note-matched-text"></span>
+                  <div style="float: right">
+                    <span class="phone-font-lrg hover-item search-arrows comp-font-ml " onclick="previousSearchNote('equipment_note');" id="equipment_note-previous-text" >▲
+                    </span>
+                    <span class=" phone-font-lrg hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('equipment_note'); " id="equipment_note-next-text">▼
+                    </span>
+                  </div>  
+                </div>
+                <button id="search_equipment_note_button" onclick="searchNote('equipment_note', 'equipment_note_child_toggle', 'equipment_note-content'); headerLeft()" hidden>Search</button>
+            </div>
+            <div class="row">
+              <form id="add_note_form" class="container" action="{% url 'add_equipment_note' equipment.id %}" method="post">
+                {% csrf_token %}
+                <textarea id="add_note" name="add_note" class="materialize-textarea phone-font-sml" placeholder="type new equipment note" form="add_note_form" required></textarea>
+                <button class="btn right waves-effect waves-light phone-button" type="submit" name="action"
+                  id="submit-btn-notes"> Add Note <i class="material-icons right">send</i></button>
+              </form>
+            </div>
+            <ul class="collection ">
+              {% for note in notes %}
+              {% include "jobs/job_note_data_new.html" with note=note note_type='equipment_note' %}
+              {% empty %}
+              <h6 style="color: #888; text-align: center;">No Notes </h6>
+              {% endfor %}
+            </ul>
+          </div>
+          <h5 class="blue-heading " id="eq_files_row" style="padding: 2.5rem;">Equipment Files</h5>
+          <div class="container">
+            
+          {% if equipment_files %}
+            <ul class="collection last-child-border" style="border: none;">
+              {% for file in equipment_files %}
+              <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;">
+                <a href="{{file.equipment_file.url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;">
+                  <i class="material-icons left phone-font-med">insert_drive_file</i>
+                  {% if file.file_name %}
+                  {{file.file_name}}
+                  {% else %}
+                  {{file.filename}}
+                  {% endif %}
+                </a>                                        
+                {%  if request.user.is_superuser or request.user == file.author %}
+                <a onclick="return confirm('Permanently remove?')" href="{% url 'remove_equipment_files' file.id %}" ><i style="color: #D0C0C0;border: 1px solid #ddd;" class="material-icons right phone-font-lrg">delete</i></a>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+              <h6 style="color: #888; text-align: center;">No Files</h6>
+          {% endif %}
+      <form id="file_add_form" action="{% url 'add_equipment_files' equipment.id %}" method="post"
+        enctype="multipart/form-data" style="padding-left: 1rem; padding-right:1rem;">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col s12 m12 l6 xl4">
+            <div class="file-field input-field">
+              <div class="btn-small tooltipped phone-button" data-tooltip="Add Files" id="file_add_button">
+                <span><i class="material-icons phone-font-lrg">add</i></span>
+                <input id="file_add" name="file_add" type="file" multiple>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate phone-font-ml" type="text" placeholder="Select New File">
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m12 l6 xl4">
+            <div class="input-field">
+              <input placeholder="optionally name the file" style="max-width: 300px;" form="file_add_form" class="phone-font-ml text-input " id="eq_file_name" name="eq_file_name" type="text">
+            </div>
+          </div>
+          <div class="col s12 m12 l6 xl4">          
+            <button class="btn waves-effect waves-light right phone-button" style="margin-top: 5px;" type="submit" name="action"
+              form="file_add_form" id="submit-btn-file"> Upload File
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </form>
+          </div>
+          <h5 class="blue-heading " id="eq_files_row" style="padding: 2.5rem;">Equipment Links</h5>
+          <div class="container">
+            
+          {% if equipment_links %}
+            <ul class="collection last-child-border" style="border: none;">
+              {% for link in equipment_links %}
+              <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;">
+                <a href="{{link.link_url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;">
+                  <i class="material-icons left phone-font-med">link</i>
+                  {% if link.link_name %}
+                  {{link.link_name}}
+                  {% else %}
+                  {{link.link_url}}
+                  {% endif %}
+                </a>                                        
+                {%  if request.user.is_superuser or request.user == link.author %}
+                <a onclick="return confirm('Permanently remove?')" href="#"><i style="color: #D0C0C0;border: 1px solid #ddd;" class="material-icons right phone-font-lrg">delete</i></a>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+              <h6 style="color: #888; text-align: center;">No Links</h6>
+          {% endif %}
+      <form id="link_add_form" action="{% url 'add_equipment_links' equipment.id %}" method="post"
+        enctype="multipart/form-data" style="padding-left: 1rem; padding-right:1rem;">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col s12 m12 l6 xl4">
+            <div class="input-field col s12 " id="link_url_div">
+              <input placeholder="paste entire URL" id="link_url" name="link_url" type="url">
+              <label for="link_url">URL</label>
+            </div>
+          </div>
+          <div class="col s12 m12 l6 xl4">
+            <div class="input-field">
+              <input placeholder="optionally name the link" style="max-width: 300px;" form="link_add_form" class="phone-font-ml text-input " id="eq_link_name" name="eq_link_name" type="text">
+            </div>
+          </div>
+          <div class="col s12 m12 l6 xl4">          
+            <button class="btn waves-effect waves-light right phone-button" style="margin-top: 5px;" type="submit" name="action"
+              form="link_add_form" id="submit-btn-link"> Add Link
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </form>
+          </div>
+      {%else%}
+        <h5 class="blue-heading " style="padding-bottom: 1rem;" id="add_note_heading">Records</h5>
+
+      {%endif %}
+    </div> 
+  </li>
+  <li class="3-collapsible-element collapsible-li"> 
+    <div class="collapsible-header phone-font-lrg noselect" style="color: #023b59;" ><i class="material-icons phone-font-xl closed">batch_prediction</i> <span style="padding-left: 21px;">Model Resources</span></div>
+    <div class="collapsible-body">
+      {% if equipment.equipment_model %}
+      <div class="card white z-depth-0" >
+        <div class="card-content">
+       
+          <span class="card-title" style="font-weight: normal; color: black; margin-bottom: 8px;">
+            <a href="{% url 'eq_model' equipment.equipment_model.id %}"
+               class="tooltipped  phone-font-lrg"
+               data-position="top"
+               data-tooltip="open model">{{equipment.equipment_model}}</a>              
+          </span>
+          
+            <div style="color: black;" >
+              <span class="phone-font-sml">Manufactured by <a href="{% url 'eq_manufacturer' equipment.equipment_model.model_manufacturer.id %}" class="tooltipped phone-font-med " data-position="top" data-tooltip="open manufacturer">{{equipment.equipment_model.model_manufacturer}}</a>
+              </span>
+              {% csrf_token %}
+              <div style="margin-top: 20px;">
+          
+                {% if equipment.equipment_model.model_test_sheet %}
+                  <a class="btn-small phone-button phone-font-med phone-btn-spacer" style="margin-right: 2rem; display: none;" href="{{equipment.equipment_model.model_test_sheet.url}}" target="_blank">Blank Test Sheet</a>
+                
+                {% endif %}
+                {% if equipment.equipment_model.model_manual %}
+                <a class="btn-small waves-effect waves-light phone-button phone-btn-spacer" href="{{equipment.equipment_model.model_manual.url}}" target="_blank" >Open Manual</a>
+                {% else %}
+                  Manual unspecified 
+                {% endif %}
+              </div>
+              <div>
+              <ul class="collapsible " id="model_collapsible" style="margin-top: 1.5rem;">
+              
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onModelOpen(0)"><span class="phone-font-lrg model-toggle-sign" id='model_toggle_0'>▼</span>&nbsp&nbsp Model Files/Links</div>
+                  <div class="collapsible-body phone-font-med" id="model_0">
+                    {% csrf_token %}
+                    {% if model_files %}
+                    <ul class="collection last-child-border" style="border: none;">
+                      {% for file in model_files %}
+                      
+                      <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;">
+                        {% if file.model_file %}
+                        <a href="{{file.model_file.url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;"  >
+                          <i class="material-icons left phone-font-med">insert_drive_file</i>
+                          {% if file.file_name %}
+                            {{file.file_name}}
+                          {% else %}
+                            {{file.filename}}
+                          {% endif %}
+                          </a>
+                        {% endif %}
+                        {% if file.file_url %}
+                          <a href="{{file.file_url}}" target="_blank" class=" phone-font-med"  style="word-wrap: break-word; padding: 0;">
+                            <i class="material-icons left phone-font-med">link</i>
+                            {% if file.file_name %}
+                            {{file.file_name}}
+                            {% else %}
+                            {{file.hostname}}
+                            {% endif %}
+                          </a>
+                          {% endif %}
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                        <h6>No Files</h6>
+                    {% endif %}
+                  </div>
+                </li>
+                
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onModelOpen(1)"><span class="phone-font-lrg model-toggle-sign" id='model_toggle_1'>▼</span>&nbsp&nbsp Manufacturer Support</div>
+                  <div class="collapsible-body phone-font-med" id="model_1" style="word-wrap:break-word;">
+                    {% if equipment.equipment_model.model_manufacturer.customer_support %}
+                      <span class="subtle-u">{{equipment.equipment_model.model_manufacturer}} General Support</span><br>
+                      <span style=" white-space: pre-wrap;">{{equipment.equipment_model.model_manufacturer.customer_support}}</span><br><br>
+                    {% endif %}
+                    {% if equipment.equipment_model.model_customer_support %}
+                    <span class="subtle-u">{{equipment.equipment_model}} Support</span><br><span style=" white-space: pre-wrap;">{{equipment.equipment_model.model_customer_support}}</span>
+                    {% endif %}
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onModelOpen(2)"><span class="phone-font-lrg model-toggle-sign" id='model_toggle_2'>▼</span>&nbsp&nbsp Videos</div>
+                  <div class="collapsible-body" id="model_2" style="overflow: hidden;">
+                   
+
+                    {% if model_guides %}
+                      {% for guide in model_guides %}
+                        <h6 style="color: black;">{{guide.title}}</h6>
+                        <video controls="controls" controlsList=”nodownload” width="98%" height="auto" preload="metadata">
+                          <source src="{{guide.model_test_guide.url}}" type="video/mp4"></video>
+                      {% endfor %}
+                    {% else %} <span class="phone-font-med"> None <a href="{% url 'eq_model' equipment.equipment_model.id %}"><i>Add video to this model</i></a></span>
+                    {% endif %}
+
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onModelOpen(3)"><span class="phone-font-lrg model-toggle-sign" id='model_toggle_3'>▼</span>&nbsp&nbsp Model Notes</div>
+                  <div class="collapsible-body phone-font-sml" id="model_3" > 
+                    <div class="container">
+                      <div class="row">
+                        <div class="search-div" id="model_note-container" style="margin-left: 52px; float: right; position: -webkit-sticky; position: sticky;">
+                          <input class="orange-underline search-input" id="search_model_note" type="text" placeholder="Search..."/>
+                            <div class="noselect phone-font-med" id="model_note-move-text" style="display: none; color: #888">
+                              <span id="model_note-matched-text"></span>
+                              <div style="float: right">
+                                <span class="phone-font-xl hover-item search-arrows comp-font-ml " onclick="previousSearchNote('model_note'); " id="model_note-previous-text" >▲
+                                </span>
+                                <span class=" phone-font-xl hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('model_note') " id="model_note-next-text">▼
+                                </span>
+                              </div>  
+                            </div>
+                          </div>
+                          <button id="search_model_note_button" onclick="searchNote('model_note', 'model_note_child_toggle', 'model_note-content');$('#model_note-container').parent().addClass('sticky-top'); headerLeft()" hidden>Search</button>
+                        </div>
+                      {% for note in model_notes %}
+                        {% include "jobs/job_note_data_new.html" with note=note note_type='model_note' %}
+                      {% empty %}
+                      No model notes have been added.
+                      {% endfor %}
+                    </div>
+                  </div>
+                </li>
+              </ul>  
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      {% else %}
+      <h6>No model is associated with this piece of equipment.</h6>
+      {% endif %}
+   
+    </div>    
+  </li>
+  <li class="4-collapsible-element collapsible-li"> 
+    <div class="collapsible-header phone-font-lrg noselect" style="color: #023b59;" >
+        <i class="material-icons phone-font-xl closed">batch_prediction</i>
+        <span style="padding-left: 21px;">
+           Type Resources
+            </span>
+        </span>
+    </div>
+    <div class="collapsible-body">
+      {% if equipment.equipment_type %}
+      <div class="card white z-depth-0" style="margin-right: 0; margin-left: 0;">
+        <div class="card-content"  >
+          <span class="card-title phone-font-lrg"
+                style="font-weight: normal; color: black; margin-bottom: 8px;"
+          >
+              <a href="{% url 'eq_type' equipment.equipment_type.id %}"
+                 class="tooltipped "
+                 data-position="top"
+                 data-tooltip="open type"
+              >{{equipment.equipment_type}}</a>
+          </span>
+            <div style="color: black; margin-top: 25px;" >
+              {% csrf_token %}
+              <ul class="collapsible " id="type_collapsible" style="margin-top: 1.5rem;">              
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onTypeOpen(0)"><span class="phone-font-lrg type-toggle-sign" id='type_toggle_0'>▼</span>&nbsp&nbsp Test Standards</div>
+                  <div class="collapsible-body phone-font-med" style="overflow-x:auto;" id="type_0">
+
+
+
+
+                    {% if type_ts %}
+                    <table class="highlight">
+                      <tr>
+                        <th>Name</th>
+                        <th>Standard</th>
+                        <th class="computer-screen">Description</th>
+                      </tr>
+                    
+                    {% for ts in type_ts %}
+
+                      <tr>
+                        <td>
+                          {% if ts.ts_url %}<a href="{{ts.ts_url}}"  target="_blank" ><i class="material-icons phone-font-ml left">link</i>{{ts.ts_name|default_if_none:'unnamed'}}</a>{% endif %}
+                          {% if ts.ts_file %}<a href="{{ts.ts_file.url}}"  target="_blank" ><i class="material-icons phone-font-ml left">insert_drive_file</i>{{ts.ts_name|default_if_none:'unnamed'}}</a>{% endif %}                        
+                        </td>
+                        <td style="text-align: center;">{% if ts.ts_standard %}{{ts.ts_standard}}{% else %} <span style="color: #aaa;">Undefined</span>  {% endif %}</td>
+                        <td class="computer-screen">{{ts.ts_description}}</td>
+                      </tr>
+                        
+                        
+                    {% endfor %}
+                </table>
+                    {% else %}No testing standards have been added
+                    {% endif %}
+
+
+
+
+
+
+
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onTypeOpen(1)"><span class="phone-font-lrg c_open type-toggle-sign" id='type_toggle_1' >▼</span>&nbsp&nbsp Type Files/Links</div>
+                  <div class="collapsible-body phone-font-sml" id="type_1" style="overflow: hidden;">
+                    {% csrf_token %}
+                    {% if type_files %}
+                      <ul class="collection last-child-border">
+                        {% for file in type_files %}
+                        <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;">
+                          {% if file.type_file %}
+                          <a href="{{file.type_file.url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;">
+                             <i class="material-icons left phone-font-med">insert_drive_file</i>
+                            {% if file.file_name %}
+                            {{file.file_name}}
+                            {% else %}
+                            {{file.filename}}
+                            {% endif %}
+                          </a>
+                          {% endif %}
+                          {% if file.file_url %}
+                          <a href="{{file.file_url}}" target="_blank" class="phone-font-med" style="word-wrap: break-word; padding: 0;">
+                          <i class="material-icons left phone-font-med">link</i>
+                              {% if file.file_name %}
+                              {{file.file_name}}
+                              {% else %}
+                              {{file.hostname}}
+                              {% endif %}      
+                            </a>
+                          {% endif %}
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                        <h6>No Files</h6>
+                    {% endif %}
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect" onclick="onTypeOpen(2)"><span class="phone-font-lrg type-toggle-sign" id='type_toggle_2'>▼</span>&nbsp&nbsp Videos</div>
+                  <div class="collapsible-body" id="type_2" style="overflow: hidden;"> 
+
+
+
+
+
+
+
+                    {% if type_guides %}
+                      {% for guide in type_guides %}
+                        <h6 style="color: black;">{{guide.title}}</h6>
+                        <video controls="controls" controlsList=”nodownload” width="98%" height="auto" preload="metadata">
+                          <source src="{{guide.type_test_guide.url}}" type="video/mp4"></video>
+                      {% endfor %}
+                    {% else %} <span class="phone-font-med"> None. <a href="{% url 'eq_type' equipment.equipment_type.id %}"><i>Add video to this type</i></a></span>
+                    {% endif %}
+
+
+
+
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header phone-font-ml noselect"  onclick="onTypeOpen(3)"><span class="phone-font-lrg type-toggle-sign" id='type_toggle_3'>▼</span>&nbsp&nbsp Type Notes</div>
+                  <div class="collapsible-body phone-button-sml" id="type_3"> 
+                    <div class="container">
+                      <div class="row">
+                        <div class="search-div" id="type_note-container" style="margin-left: 52px; float: right; position: -webkit-sticky; position: sticky;">
+                          <input class="orange-underline search-input" id="search_type_note" type="text" placeholder="Search..."/>
+                            <div class="noselect phone-font-med" id="type_note-move-text" style="display: none; color: #888">
+                              <span id="type_note-matched-text"></span>
+                              <div style="float: right">
+                                <span class="phone-font-xl hover-item search-arrows comp-font-ml " onclick="previousSearchNote('type_note')" id="type_note-previous-text" >▲
+                                </span>
+                                <span class=" phone-font-xl hover-item search-arrows comp-font-ml  " onclick="nextSearchNote('type_note')" id="type_note-next-text">▼
+                                </span>
+                              </div>  
+                            </div>
+                          </div>
+                          <button id="search_type_note_button" onclick="searchNote('type_note', 'type_note_child_toggle', 'type_note-content');$('#type_note-container').parent().addClass('sticky-top'); headerLeft()" hidden>Search</button>
+                        </div>
+                        {% for note in type_notes %}
+                          {% include "jobs/job_note_data_new.html" with note=note note_type='type_note' %}
+                        {% empty %}
+                          No type notes have been added.
+                        {% endfor %}
+                    </div>
+                  </div>
+                </li>
+              </ul>  
+            
+          </div>
+        </div>
+        
+      </div>
+      {% else %}
+      <h6>No type is associated with this piece of equipment.</h6>
+      {% endif %}
+    </div>    
+  </li>
+  <li class="5-collapsible-element collapsible-li"> 
+    <div class="collapsible-header phone-font-lrg noselect" style="color: #023b59;" > <i class="material-icons phone-font-xl closed">support_agent</i> <span style="padding-left: 21px;">Specialist Support</span></div>
+    <div class="collapsible-body" id="internal_support">      
+        {% for support_user in support_users %}
+        <div>
+          <div class="card white">
+            <div class="card-content card-padder" >
+              <span class="card-title phone-font-ml" style="font-weight: normal; color: black">{{ support_user }}</span>
+              <p style="color: black" class="phone-font-sml">Skype Username: {{ support_user.help_username }}</p>
+            </div>
+            <div class="card-action">
+              <a class="phone-font-med" style="color: #039be5;" href="tel:{{ support_user.phone_number }}">{{ support_user.phone_number }}</a>
+                <a class="phone-font-med" style="color: #039be5;" href="mailto: {{ support_user.user.email }}">{{ support_user.user.email }}</a>
+              </div>
+          </div>
+        </div>
+        {% empty %}
+        <h5>There are no support specialists linked to this equipment type or model.</h5>
+        {% endfor %}
+    </div>    
+  </li>
+</ul>
+<div style="position: fixed; bottom: 0; left: 0; background-color: white; z-index: 10001;" id="checker5"></div>
+</div>
+<script>
+
+        
+$(".quick-tog").change(function() {
+    $('#test_results_submit').show();
+    $('#cancel-div').show()
+    stopLeave=true
+});
+
+scrollPosition = 0
+console.log('load started')
+
+function modelSelect() {
+  if($('#modelDropdown').is(':visible')){
+    $('#model_trigger_toggle').html('▼ ')
+  }else{ 
+    $('#model_trigger_toggle').html('▲ ')
+  }
+  $("#modelDropdown").toggle();  
+}
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("search_model_input");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("modelDropdown");
+  a = $('.drop-link');
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+function selectModel(element){
+    
+  $('#selected_model').val(element)
+
+  var selected_model_name=$('#model_selector_'+element).text()
+  $('#model_trigger_text').text(selected_model_name)
+  
+  $('#select_model_trigger').click()
+  
+}
+
+function openModelTab(){
+  var instance = M.Collapsible.getInstance($('#main_collapsible'));
+  instance.open(3)
+}
+function blink_text() {
+    $('.blink').fadeOut(500);
+    $('.blink').fadeIn(500);
+}
+setInterval(blink_text, 4000);
+
+var is_edit_mode = false
+  function onEditMode() {
+    if(is_edit_mode){
+      is_edit_mode = false
+      $('#add_nameplate_text').removeClass("quick-link-disable")
+      $('#add_nameplate_text').prop("disabled",false);
+      $('#add_nameplate').removeClass("quick-link-disable")
+      $('#add_nameplate').prop("disabled",false);
+      $('#submit-btn-nameplate').prop("disabled",false);
+      $(".hidden-stuff").hide()
+      $(".editmode").hide();
+      $(".editable-field").hide()
+      $("#enter_edit_button").html('Edit Mode')
+      $('#edit_submit_div').hide()
+      $('#cancel-div').hide()
+      $('#select_model_trigger').hide()
+      stopLeave=false
+    }else{
+      is_edit_mode = true
+      $('#add_nameplate_text').addClass("quick-link-disable")
+      $('#add_nameplate_text').prop("disabled",true);
+      $('#add_nameplate').addClass("quick-link-disable")
+      $('#add_nameplate').prop("disabled",true);
+      $('#submit-btn-nameplate').prop("disabled",true);
+      $(".editmode").show();
+      $(".editable-field").show()
+      $(".hidden-stuff").show().css('display', 'table-row')
+      $("#enter_edit_button").html('Exit Edit Mode')
+      $('#edit_submit_div').show()
+      $('#cancel-div').show()
+      $('#select_model_trigger').show()
+      stopLeave = true
+    }
+  }
+
+function headerLeft(){
+  $('#main_header').css("text-align","left")
+}
+
+
+//alberts test version
+$(document).on("click",".collapsible-li", function(){
+var collapsibleElem = document.querySelectorAll(".collapsible-li");
+var indexEl = "none"
+
+for (var i = 0; i < collapsibleElem.length; i++) {
+  if (collapsibleElem[i].className.includes("active")) {
+      indexEl = i;
+      
+      window.localStorage.setItem('openElem', i);
+  }
+}
+
+})
+
+
+//end alberts test version
+
+  let type_tab = false
+  let model_tab = false
+
+  $('#trip_unit_toggle').change(
+    function(){
+      stopLeave=true
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+$('.change-disable').addClass("disabled");
+        if (this.checked) {
+            $('.is-trip-unit').slideDown("fast");
+        } else {
+          $('.is-trip-unit').slideUp("fast");
+        }
+    });
+  $('#insulation_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-insulation-or-contact').slideDown("fast");
+          $('.is-insulation-resistance').slideDown("fast");
+      } else {
+        $('.is-insulation-resistance').slideUp("fast");
+        
+        }
+      if (this.checked || $('#contact_toggle').is(":checked")){
+        $('.is-insulation-or-contact').slideDown("fast")
+        $('.is-insulation-and-contact').slideUp("fast")
+        
+      } else{
+        $('.is-insulation-or-contact').slideUp("fast")
+      }
+      if (this.checked && $('#contact_toggle').is(":checked")){
+        $('.is-insulation-and-contact').slideDown("fast")
+      }
+
+  });
+
+
+
+  $('#fuse_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+      $('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is_power_fused').slideDown("fast");   
+      } else {
+        $('.is_power_fused').slideUp("fast");        
+      }
+  });
+
+
+
+  $('#contact_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-insulation-or-contact').slideDown("fast");
+          $('.is-contact-resistance').slideDown("fast");         
+      } else {
+        $('.is-contact-resistance').slideUp("fast");
+        
+      }
+      if (this.checked || $('#insulation_toggle').is(":checked")){
+        $('.is-insulation-or-contact').slideDown("fast")          
+        $('.is-insulation-and-contact').slideUp("fast")
+      } else{
+        $('.is-insulation-or-contact').slideUp("fast")
+      }
+      if (this.checked && $('#insulation_toggle').is(":checked")){
+        $('.is-insulation-and-contact').slideDown("fast")
+      }
+  });
+  $('#hipot_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-hipot').slideDown("fast");      
+      } else {
+        $('.is-hipot').slideUp("fast");
+        
+      }
+  });
+  $('#pi_toggle').change(
+  function(){    
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-primary-injection').slideDown("fast");
+      } else {
+        $('.is-primary-injection').slideUp("fast");
+      }
+  });
+  $('#si_toggle').change(
+  function(){
+      $('#cancel-div').show()
+      stopLeave=true
+      $('#test_results_submit').show();
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-secondary-injection').slideDown("fast");
+      } else {
+        $('.is-secondary-injection').slideUp("fast");
+      }
+  });
+  $('#ttr_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-ttr').slideDown("fast");
+      } else {
+        $('.is-ttr').slideUp("fast");
+      }
+  });
+  $('#wr_toggle').change(
+  function(){
+      $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+      if (this.checked) {
+          $('.is-winding-resistance').slideDown("fast");
+      } else {
+        $('.is-winding-resistance').slideUp("fast");
+      }
+  });
+  $('#xfmr_ir_toggle').change(
+    function(){
+        $('#test_results_submit').show();
+      $('#cancel-div').show()
+      stopLeave=true
+$('.change-disable').addClass("disabled");
+        if (this.checked) {
+            $('.is-xfmr-insulation-resistance').slideDown("fast");
+        } else {
+          $('.is-xfmr-insulation-resistance').slideUp("fast");
+        }
+    });
+
+  function expectedChange(tap){
+    let expected_cell = $('#'+"tap_"+tap+"_expected_ttr")   
+    let secondary = $('#secondary_voltage').val()
+    let primary = $('#'+"tap_"+tap+"_volts").val()
+    let expected=primary/secondary
+    expected_cell.text(expected.toFixed(4))
+  }
+  function errorChange(tap, winding){    
+    let actual = $('#'+"tap_"+tap+"_"+winding+"_ttr").val()
+    let secondary = $('#secondary_voltage').val()
+    let primary = $('#'+"tap_"+tap+"_volts").val()
+    let expected = primary/secondary;
+    let error = 100*(actual-expected)/expected
+    let error_cell = $('#'+"tap_"+tap+"_"+winding+"_ttr_error")    
+    let max_tolerance = $("#ttr_upper_tolerance").val()
+    let min_tolerance = $("#ttr_lower_tolerance").val()
+    if(isFinite(error.toFixed(4))){
+      error_cell.text(error.toFixed(4)+"%")
+    if((error <= 0 && error < min_tolerance) || (error > 0 && error > max_tolerance) || isNaN(error)){
+      error_cell.css({ "background-color":"#FF9494","border-radius" : "6px", "padding":"4px", "text-decoration":"underline"})
+      
+     
+    } else{
+      error_cell.css({"background-color":"#b5cbbb", "border-radius" : "6px", "padding":"4px", "text-decoration":"none"})
+      
+    }
+    }    
+    else{error_cell.text("---"); error_cell.css({"background-color":"white", "text-decoration":"none"})} 
+    $('#secondary_voltage').val()
+  }
+  function revealOverview() {
+    $("#overview").show()
+    $("#reveal_overview_btn").hide()
+  }
+ 
+  function hideOverview() {
+    $("#overview").hide()
+    $("#reveal_overview_btn").show()
+  }
+  function revealInternalSupport() {
+    $("#internal_support").show()
+    $("#internal_support_btn").hide()
+  }
+  function hideInternalSupport() {
+    $("#internal_support").hide()
+    $("#internal_support_btn").show()
+  }
+  function primaryChange(tap){
+    expectedChange(tap)
+    errorChange(tap, "h12_x02")
+    errorChange(tap, "h23_x03")
+    errorChange(tap, "h31_x01")
+  }
+  function secondaryChange(){
+    primaryChange("one")
+    primaryChange("two")
+    primaryChange("three")
+    primaryChange("four")
+    primaryChange("five")
+    primaryChange("six")
+    primaryChange("seven")
+    
+  }
+  function confirm_action() {
+    return confirm("Confirm permanent delete? You will not be able to recover this data.");
+} 
+  function onTypeOpen(tab){
+    let tog=$('#type_toggle_'+tab)
+    let type_div =$('#type_'+tab)
+    if(type_div.is(':visible')){
+      tog.html("▼")      
+      localStorage.type_tab=false
+    }
+    else{
+      $('.type-toggle-sign').html("▼")
+      tog.html("▲")
+      localStorage.type_tab=tab; 
+    }
+  }
+  function onModelOpen(tab){
+    let tog=$('#model_toggle_'+tab)
+    let model_div =$('#model_'+tab)
+    if(model_div.is(':visible')){
+      tog.html("▼")      
+      localStorage.model_tab=false
+    }
+    else{
+      $('.model-toggle-sign').html("▼")
+      tog.html("▲")
+      localStorage.model_tab=tab; 
+    }
+  }
+  
+  let mandatoryInstance = null;
+  let optionalInstance = null;
+  let isLoaded = false;
+  let fullyLoaded = false
+$(document).ready(function(){  
+  mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+  optionalInstance = M.Chips.getInstance($("#o_test_equipment-chips"));
+  {%if job%}
+    {% for test_equipment in test_equipments.all %}
+          mandatoryInstance.addChip({tag: '{{ test_equipment.name }}'})
+    {% endfor %}
+  {% else %}
+    {% for test_equipment in equipment.mandatory_test_equipment.all %}
+          mandatoryInstance.addChip({tag: '{{ test_equipment.name }}'})
+    {% endfor %}
+  {% endif %}
+
+  {% for test_equipment in equipment.optional_test_equipment.all %}
+        mandatoryInstance.addChip({tag: '{{ test_equipment.name }}'})
+  {% endfor %}  
+  //open last stored type tab
+  $('#type_collapsible').collapsible({
+    onOpenEnd: function(){
+      if(!isLoaded){
+        // window.scrollTo(0, localStorage.equipment_offset);
+        isLoaded = true;
+      }
+    }
+  })
+    var type_el=$('#type_collapsible')
+    var typeinst = M.Collapsible.getInstance(type_el)
+    typeinst.open(localStorage.type_tab)
+    onTypeOpen(localStorage.type_tab)
+    
+  //open last stored model tab
+    hidden_equipment_note_ids=Array.from(JSON.parse(localStorage.hidden_equipment_note_ids || '[]'))
+    hidden_equipment_note_ids.forEach((item_id) => {
+      let type = 'equipment_note'
+      let child_div = $('#'+type+item_id)
+      let child_toggle = $('#'+type+'_toggle'+item_id)
+      child_div.hide(function(){
+      child_toggle.html("&#9660");   
+      child_toggle.parent().css("color", "#FF4500")         
+      })
+    })
+    hidden_type_note_ids=Array.from(JSON.parse(localStorage.hidden_type_note_ids || '[]'))
+    hidden_type_note_ids.forEach((item_id) => {
+      let type = 'type_note'
+      let child_div = $('#'+type+item_id)
+      let child_toggle = $('#'+type+'_toggle'+item_id)
+      child_div.hide(function(){
+      child_toggle.html("&#9660");   
+      child_toggle.parent().css("color", "#FF4500")         
+      })
+    })
+    hidden_model_note_ids=Array.from(JSON.parse(localStorage.hidden_model_note_ids || '[]'))
+    hidden_model_note_ids.forEach((item_id) => {
+      let type = 'model_note'
+      let child_div = $('#'+type+item_id)
+      let child_toggle = $('#'+type+'_toggle'+item_id)
+      child_div.hide(function(){
+      child_toggle.html("&#9660");   
+      child_toggle.parent().css("color", "#FF4500")         
+      })
+    })
+  
+  $(".test-input").each(function(){
+    $( this ).keyup();
+  })
+ 
+  $('.fixed-action-btn').floatingActionButton();
+  $(".test-input").on("keydown change", event => {
+    $('#test_results_submit').show();
+      $('#cancel-div').show()
+      $('#edit_submit').hide()
+      $('#enter_edit_button').hide()
+      $('#edit_button_replacement').show()
+      
+      stopLeave=true
+
+$('.change-disable').addClass("disabled");
+
+  });
+
+    
+    var elem = $("#main_collapsible");
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoClose: true
+    });
+
+
+    $("#overview").hide()
+    $("#internal_support").hide()
+    
+    var instance = M.Collapsible.init(elem, {
+      accordion: true,
+      onOpenEnd: function(li) {
+        if(fullyLoaded){
+          const y_go = $(li).offset().top-91
+          $('html, body').animate({
+            scrollTop: y_go
+          }, 30);
+        }
+      },
+    });
+
+    $('#model_collapsible').collapsible({
+      onOpenEnd: function() {
+        // window.scrollTo(0, localStorage.equipment_offset);
+      }
+    })
+    var model_el=$('#model_collapsible')
+    var modelinst = M.Collapsible.getInstance(model_el)
+    modelinst.open(localStorage.model_tab)
+    onModelOpen(localStorage.model_tab)
+
+    $('.tooltipped').tooltip();
+    $(".formbutton").hide()
+    $("[id^=text_edit]").on('click', event => {
+    var clickedElement = $(event.target);
+    var edit_input=$(clickedElement).parent().next();
+    $(clickedElement).hide()
+    $(edit_input).show()
+    $('#edit_submit_div').show()    
+    var intow=$("#main_collapsible")
+    intow.open(1)
+    instance.open(1)
+    });
+    $('input[type=text], textarea').trigger( "focus" );
+  $("[id^=edit_eq_note_link]").on('click', event => {
+    M.toast({html: 'Must Save'})
+    var clickedElementNote = $(event.target);
+    var noteInput=$(clickedElementNote).parent().next();
+    var noteSubmit = $(noteInput).next();
+    $(".eq_note_edit_link").hide();
+    $(noteInput).show()
+    $(noteSubmit).show()
+    });
+
+    
+    var collapsibleInstance = M.Collapsible.getInstance(elem); //main collapsible
+
+
+
+//albert version
+
+    let oElem = window.localStorage.getItem("openElem");
+
+    if (! oElem) {
+      oElem = "";
+    };
+    
+    $(collapsibleInstance).children('.collapsible-body').show()
+    collapsibleInstance.open(oElem)
+    window.onscroll = function(){      
+      localStorage.equipment_offset = window.pageYOffset
+    }
+    setTimeout(() => {   
+      $('.materialize-textarea').not(".datepicker").each(function(i, obj) {
+        M.textareaAutoResize(obj);
+      });
+      $('html, body').animate({        
+            scrollTop: localStorage.equipment_offset            
+          }, 10); 
+          
+      setTimeout(() => { 
+        fullyLoaded = true;     
+        }, 550);
+      }, 290);
+    })
+
+let allEquipments = {{ test_equipment_list|safe}}
+$('#m_test_equipment-chips').chips({
+  placeholder: 'Type to Filter',
+  secondaryPlaceholder: '+Add More',
+  autocompleteOptions: {
+    data: {
+        {% for test_equipment in available_test_equipments %}
+'{{test_equipment}}': null,
+  {% endfor %}
+            },
+limit: Infinity,
+  minLength: 0,
+    },
+    onChipAdd: (elem) => {
+
+      let selectedItems = mandatoryInstance.chipsData;
+      let newItemIndex = selectedItems.length - 1
+      let newItem = selectedItems[newItemIndex]
+      let existingItems = mandatoryInstance.options.autocompleteOptions.data
+      let tag = newItem.tag;
+      if (!(tag in existingItems)) {
+          mandatoryInstance.deleteChip(newItemIndex);
+          if (!allEquipments.includes(tag)) {
+              alert(tag + ' is not a valid selection. Must select from existing test sets.');
+          }
+          return
+      } else {
+          let optionalItems = optionalInstance.options.autocompleteOptions.data
+          delete existingItems[tag]
+          delete optionalItems[tag]
+      }
+    },
+    onChipDelete: (elem, data) => {
+      let deletedTestEquipment = data.firstChild.textContent
+      let existingItems = mandatoryInstance.options.autocompleteOptions.data
+      let optionalItems = optionalInstance.options.autocompleteOptions.data
+        if (allEquipments.includes(deletedTestEquipment)) {
+            let optionalChipsData = optionalInstance.chipsData
+            for (let i=0; i<optionalChipsData.length; i++) {
+                if (optionalChipsData[i].tag === deletedTestEquipment) {
+                    return
+                }
+            }
+          existingItems[deletedTestEquipment] = null // this adds deleted test sets to drop down list
+          optionalItems[deletedTestEquipment] = null
+        }
+    }
+  });
+
+$('#o_test_equipment-chips').chips({
+  placeholder: 'Type to Filter',
+  secondaryPlaceholder: '+Add More',
+  autocompleteOptions: {
+    data: {
+        {% for test_equipment in available_test_equipments %}
+'{{test_equipment}}': null,
+  {% endfor %}
+      },
+limit: Infinity,
+  minLength: 0,
+    },
+    onChipAdd: (elem) => {
+      let selectedItems = optionalInstance.chipsData;
+      let newItemIndex = selectedItems.length - 1
+      let newItem = selectedItems[newItemIndex]
+      let existingItems = optionalInstance.options.autocompleteOptions.data
+      let tag = newItem.tag;
+      if (!(tag in existingItems)) {
+          optionalInstance.deleteChip(newItemIndex);
+          if (!allEquipments.includes(tag)) {
+              alert(tag + ' is not a valid selection. Must select from existing test sets.');
+          }
+          return
+      } else {
+          let optionalItems = mandatoryInstance.options.autocompleteOptions.data
+          delete optionalItems[tag]
+          delete existingItems[tag]
+      }
+    },
+    onChipDelete: (elem, data) => {
+      let deletedTestEquipment = data.firstChild.textContent
+      let existingItems = optionalInstance.options.autocompleteOptions.data
+      let mandatoryInstanceItems = mandatoryInstance.options.autocompleteOptions.data
+        if (allEquipments.includes(deletedTestEquipment)) {
+            let mandatoryChipsData = mandatoryInstance.chipsData
+            for (let i=0; i<mandatoryChipsData.length; i++) {
+                if (mandatoryChipsData[i].tag === deletedTestEquipment) {
+                    return
+                }
+            }
+          existingItems[deletedTestEquipment] = null // this adds deleted test sets to drop down list
+          mandatoryInstanceItems[deletedTestEquipment] = null
+        }
+    }
+});
+function onSubmit() {
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_test_equipment").val(mandatoryValue);
+
+    var optionalValue = Array.from(optionalInstance.chipsData.map(x => x.tag)).join(",");
+    $("#optional_test_equipment").val(optionalValue);
+
+  }
+
+</script>
+{% endblock %}

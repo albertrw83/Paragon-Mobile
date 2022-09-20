@@ -1,0 +1,401 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Create Job Page 2
+{% endblock %}
+
+{% block body %}
+<style>
+  h6 {
+    font-size: 20px;
+    color: #023b59;
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #b8d8d8
+
+  }
+</style>
+<div class="container"><a class="waves-effect waves-light btn-small lapping-btn" href="{% url 'jobs' %}">◀ All Jobs</a></div>
+        
+<h4 style = "text-align: center; padding-bottom: 3rem;">Create a New Job - Page 2</h4>
+
+      <div class="container">
+        <form style="margin-bottom: 50px" class="col s12" action="{% url 'create_job' %}" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="input-field col s12">
+              <label for="job_site">Job Site</label>
+              <input type="text" onClick="this.select()" class="autocomplete" autocomplete="off" id="job_site" name="job_site" placeholder="Filter by site name or address" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 m4 l3">
+              <label for="job_number">Job Number (Must be Unique)</label>
+              <input type="text" id="job_number" name="job_number" placeholder="e.g. 12345abc" required>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="customer_name">Customer Name</label>
+              <input type="text" id="customer_name" name="customer_name" placeholder="e.g. Acme Industries" required>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="job_name">Job Name</label>
+              <input type="text" id="job_name" name="job_name" placeholder="e.g. Acme Industries Breaker Testing" required>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="project_manager">Project Manager</label>
+              <input type="text" id="project_manager" name="project_manager" placeholder="e.g. Eddy Yang">
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="start_date">Job Start Date</label>
+              <input onfocus="$(this).click()" class ="datepicker" class="active" type="text" id="start_date" name="start_date" placeholder="Click to Select">
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="end_date">Job End Date</label>
+              <input onfocus="$(this).click()" class ="datepicker" class="active" type="text" id="end_date" name="end_date" placeholder="Click to Select">
+            </div>
+          </div>
+          
+          <div class="row">
+            <h6>Scope Specifications</h6>
+              <label>
+                <input id="is_startup" name="is_startup" type="checkbox" class="filled-in">
+                <span >New Equipment Startup</span>
+              </label> <br>
+              <label>
+                <input id="is_preventative_maintenance" name="is_preventative_maintenance" type="checkbox" class="filled-in">
+                <span >Preventative Maintenance</span>
+              </label><br>
+              <label>
+                <input id="is_troubleshooting" name="is_troubleshooting" type="checkbox" class="filled-in">
+                <span >Troubleshooting</span>
+              </label><br>
+              <label>
+                <input id="is_warranty" name="is_warranty" type="checkbox" class="filled-in">
+                <span >Warranty</span>
+              </label><br>
+              <label>
+                <input id="is_standard_testing" name="is_standard_testing" type="checkbox" class="filled-in">
+                <span >Standard Testing</span>
+              </label><br>
+              <label>
+                <input id="is_neta_testing" name="is_neta_testing" type="checkbox" class="filled-in">
+                <span >NETA Testing</span>
+              </label><br>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6 l4" style="margin-top:1rem;">
+              <textarea id="job_scope_details" name="job_scope_details"
+                class="materialize-textarea" placeholder="Enter scope specifications."></textarea>
+              <label class="active" for="job_scope_details">Scope</label>
+            </div>
+          </div>
+          <div class="row">
+            <h6>Schedule </h6>
+            <div class="input-field col s12 m6 l4">
+              <textarea id="work_schedule" name="work_schedule"
+                class="materialize-textarea" placeholder="e.g. Work will be 8am-7pm with an hour off for lunch..."></textarea>
+              <label class="active" for="work_schedule">Work Schedule</label>
+            </div>
+          </div>
+          <div class="row">
+            
+            <h6>Safety</h6>
+
+              <label>
+                <input id="is_hardhat" name="is_hardhat" type="checkbox" class="filled-in" checked>
+                <span >Hardhat Required</span>
+              </label><br>
+              <label>
+                <input id="is_safety_glasses" name="is_safety_glasses" type="checkbox" class="filled-in" checked>
+                <span >Safety Glasses Required</span>
+              </label><br>
+              <label>
+                <input id="is_safety_shoes" name="is_safety_shoes" type="checkbox" class="filled-in" checked>
+                <span > Safety Shoes Required</span>
+              </label><br>
+              <label>
+                <input id="is_safety_vest" name="is_safety_vest" type="checkbox" class="filled-in" checked>
+                <span >Safety Vest Required</span>
+              </label><br>
+              <label>
+                <input id="is_safety_gloves" name="is_safety_gloves" type="checkbox" class="filled-in">
+                <span >Safety Gloves Required</span>
+              </label><br>
+              <label>
+                <input id="is_fr_clothes" name="is_fr_clothes" type="checkbox" class="filled-in" checked>
+                <span >Flame Resistant Clothing Required</span>
+              </label><br>
+              <label>
+                <input id="is_h2s_monitor" name="is_h2s_monitor" type="checkbox" class="filled-in" >
+                <span >H2S Monitor Required</span>
+              </label><br>
+              <label>
+                <input id="is_mv_voltage_detector" name="is_mv_voltage_detector" type="checkbox" class="filled-in" >
+                <span >1000-5000 Volt Proximity Detector Required</span>
+              </label><br>
+              <label>
+                <input id="is_insulated_gloves" name="is_insulated_gloves" type="checkbox" class="filled-in">
+                <span >Insulated Gloves (1000V) Required</span>
+              </label><br>
+              <label>
+                <input id="is_8cal_protection" name="is_8cal_protection" type="checkbox" class="filled-in">
+                <span >10 Cal Arc Flash Suit Required</span>
+              </label><br>
+              <label>
+                <input id="is_40cal_protection" name="is_40cal_protection" type="checkbox" class="filled-in">
+                <span >40 Cal Arc Flash Suit Required</span>
+              </label><br>
+              <label>
+                <input id="is_harness" name="is_harness" type="checkbox" class="filled-in">
+                <span >Fall Protection Harness Required</span>
+              </label><br>
+              <label>
+                <input id="is_grounding_cluster" name="is_grounding_cluster" type="checkbox" class="filled-in">
+                <span >Grounding Clusters Required</span>
+              </label><br>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 m4 l3">
+              <label for="grounding_wire_size">Grounding Cable Size</label>
+              <input type="text" id="grounding_wire_size" name="grounding_wire_size" placeholder="e.g. 2 AWG">
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <label for="grounding_clamp_style">Grounding Clamp Style</label>
+              <input type="text" id="grounding_clamp_style" name="grounding_clamp_style" placeholder="Cylindrical/Flat/Ball">
+            </div>
+            <div class="input-field col s4 m3 l2">
+              <label class="active" for="grounding_cluster_quantity">Cluster Quantity </label>
+              <input type="number" min="0" id="grounding_cluster_quantity" name="grounding_cluster_quantity" value=1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="other_ppe" name="other_ppe" class="materialize-textarea" 
+                placeholder="e.g. Earmuffs Required. A Face Shield will Be Required For Grinding."></textarea>
+              <label class="active" for="other_ppe">Enter Any and All Additional PPE Requirements</label>
+            </div>
+          </div>
+          <div class="row">
+            
+              <label>
+                <input id="is_6ft_work" name="is_6ft_work" type="checkbox" class="filled-in">
+                <span >Job Includes Work at 6ft or Higher</span>
+                
+              </label><br>
+              <label>
+                <input id="is_confined_space" name="is_confined_space" type="checkbox" class="filled-in">
+                <span >Job Includes Confined Space Work</span>
+                
+              </label><br>
+              <label>
+                <input id="is_ungaurded_holes" name="is_ungaurded_holes" type="checkbox" class="filled-in">
+                <span >Job Has Unguarded Holes Over 1 Meter Deep</span>
+                
+              </label><br>
+              <label>
+                <input id="is_live_work_required" name="is_live_work_required" type="checkbox" class="filled-in">
+                <span >Live Work above 50V Must be Completed</span>
+                
+              </label><br>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m6 l4">
+              <label for="live_work_voltage">Specify Voltage for Live Work</label>
+              <input type="text" id="live_work_voltage" name="live_work_voltage" placeholder="e.g. 480 Volts">
+            </div>
+            <div class="input-field col s12 m6 l4">
+              <textarea id="chemical_hazards" name="chemical_hazards" class="materialize-textarea" 
+                placeholder="e.g. H2S, Anydrous Ammonia"></textarea>
+              <label class="active" for="chemical_hazards">Chemical Hazards</label>
+            </div>
+            <div class="input-field col s12 m6 l4">
+              <textarea id="permit_requirements" name="permit_requirements" class="materialize-textarea" 
+                placeholder="e.g. Permit is Required for Elevated Work"></textarea>
+              <label class="active" for="permit_requirements">Permit Requirements</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s2">
+              <label>
+                <input id="is_switching_required" name="is_switching_required" type="checkbox" class="filled-in">
+                <span >Switching Required</span>
+                
+              </label> 
+            </div>
+            <div class="input-field col s10">
+              <textarea id="switching_specifications" name="switching_specifications" class="materialize-textarea" 
+                placeholder="e.g. Four 5kV Switches with 12cal Arc Flash Exposure"></textarea>
+              <label class="active" for="switching_specifications">Switching Specifications and Arc Flash Hazards</label>
+            </div>
+          </div>
+          <div class="row">
+            <h6>Resource Requirements</h6>
+              <label>
+                <input id="is_standard_handtools" name="is_standard_handtools" type="checkbox" class="filled-in" checked>
+                <span >Standard Handtools Required</span>
+                
+              </label><br>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 m5 l4">
+              <textarea id="extension_cords" name="extension_cords" class="materialize-textarea" 
+                placeholder="e.g. Need QTY:7 25ft Extension Cords"></textarea>
+              <label class="active" for="extension_cords">Extension Cords</label>
+            </div>
+            <div class="input-field col s12 m5 l4">
+              <textarea id="generators" name="generators" class="materialize-textarea" 
+                placeholder="Quantity, Fuel Type, Max Power, ect."></textarea>
+              <label class="active" for="generators">Generators</label>
+            </div>
+            <div class="input-field col s6 m2">
+              <label class="active" for="gasoline">Gasoline</label>
+              <input type="number" min="0" id="gasoline" name="gasoline" placeholder="Gallons">
+            </div>
+            <div class="input-field col s6 m2">
+              <label class="active" for="diesel">Diesel</label>
+              <input type="number" min="0" id="diesel" name="diesel" placeholder="Gallons">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 m4 l3">
+              <textarea id="ladders" name="ladders" class="materialize-textarea" 
+                placeholder="e.g. Need QTY 3 8ft. Ladders"></textarea>
+              <label class="active" for="ladders">Ladders</label>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <textarea id="harness_lanyard" name="harness_lanyard" class="materialize-textarea" 
+                placeholder="e.g. Require QTY 3 6ft. YoYo Lanyards"></textarea>
+              <label class="active" for="harness_lanyard">Harness Lanyards</label>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <textarea id="torque_wrenches" name="torque_wrenches" class="materialize-textarea" 
+                placeholder="e.g. Require QTY 2 40ft-lb Torque Wrenches"></textarea>
+              <label class="active" for="torque_wrenches">Torque Wrenches</label>
+            </div>
+            <div class="input-field col s6 m4 l3">
+              <textarea id="torque_wrenches" name="torque_wrenches" class="materialize-textarea" 
+                placeholder="e.g. Require QTY 2 40ft-lb Torque Wrenches"></textarea>
+              <label class="active" for="torque_wrenches">Torque Wrenches</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 m3">
+              <label class="active" for="tables">Tables</label>
+              <input type="number" min="0" id="tables" name="tables" value=0 >
+            </div>
+            <div class="input-field col s6 m3">
+              <label class="active" for="chairs">Chairs</label>
+              <input type="number" min="0" id="chairs" name="chairs" value=0 >
+            </div>
+            <div class="input-field col s12 m6">
+              <textarea id="lifts" name="lifts" class="materialize-textarea" 
+                placeholder="e.g. Require QTY 2 Single Man Lifts"></textarea>
+              <label class="active" for="lifts">Man-Lift Requirements</label>
+            </div>
+          </div>
+          <div class="row">
+              
+                <label>
+                  <input id="is_bus_bender" name="is_bus_bender" type="checkbox" class="filled-in">
+                  <span >Bus Bender Required</span>
+                  
+                </label><br>
+              
+                <label>
+                  <input id="is_fork_lift" name="is_fork_lift" type="checkbox" class="filled-in">
+                  <span > Fork Lift Required</span>
+                 
+                </label><br>
+              
+                <label>
+                  <input id="is_trailer" name="is_trailer" type="checkbox" class="filled-in">
+                  <span > Trailer Required</span>
+                 
+                </label><br>
+          </div>
+          <div class="row">
+            <div class="input-field col s8">
+              <textarea id="additional_tools" name="additional_tools" class="materialize-textarea" 
+                placeholder="e.g. Need a 4 Inch Metal Hole Saw"></textarea>
+              <label class="active" for="additional_tools">Additional Tools Required</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s8">
+              <textarea id="material" name="material" class="materialize-textarea" 
+                placeholder="e.g. QTY 1000 6in. Cable Ties ; QTY 3 10ft. 2x4s"></textarea>
+              <label class="active" for="material" style="font-size: 20px;font-weight: 400; ">All Required Material</label>
+            </div>
+          </div>
+          <div class="row">
+            <h6>Miscellaneous</h6>
+            <div class="input-field col s12 m6 l4">
+              <textarea id="food_accomodations" name="food_accomodations"
+                class="materialize-textarea" placeholder="e.g. Resteraunts Nearby"></textarea>
+              <label class="active" for="food_accomodations">Food Accomodations</label>
+            </div>
+            <div class="input-field col s12 m6 l4">
+              <textarea id="lodging_recommendations" name="lodging_recommendations"
+                class="materialize-textarea" placeholder="e.g. The Area Around the Hospital has Many Hotels and Amenities"></textarea>
+              <label class="active" for="lodging_recommendations">Lodging Recommendations</label>
+            </div>
+            <div class="input-field col s12 m6 l4">
+              <label for="weather_considerations">Weather Considerations</label>
+              <input type="text" id="weather_considerations" name="weather_considerations"
+               placeholder="e.g. Work is Outdoors; Heavy FR Clothing Recommended. Slick Roads "><br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="job_folder" name="job_folder" class="materialize-textarea" 
+                placeholder="Enable if Company Has Seperate File Storage" disabled></textarea>
+              <label class="active" for="job_folder">DISABLED - External Job Folder</label>
+            </div>
+          </div>
+          <div class="row">
+            <label>
+              <input id="is_time_and_materials" name="is_time_and_materials" type="checkbox" class="filled-in">
+              <span >Job is Time and Materials</span>
+            </label>
+            <h6>Internal</h6>
+            <div class="input-field col s2">
+              <label class="active" for="quoted_price">Quoted Price</label>
+              <input type="number" min="0" id="quoted_price" name="quoted_price" >
+            </div>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+          <button class="btn waves-effect waves-light" type="reset" name="action" onclick="return confirm_reset();">
+            Reset Form
+          </button>
+
+        </form>
+
+      </div>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+  $(document).ready(function(){
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoClose: true
+    });
+    $('#job_site.autocomplete').autocomplete({
+      data: {
+        {% for site in job_sites %}
+              '{{site.name}}   {{site.address}}': null,
+        {% endfor %}
+      },
+      limit: Infinity,
+      minLength: 0,
+
+    });
+  });
+  function confirm_reset() {
+    return confirm("Are you sure you want to reset the form?");
+} 
+</script>
+{% endblock %}

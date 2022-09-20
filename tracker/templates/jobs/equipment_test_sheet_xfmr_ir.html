@@ -1,0 +1,55 @@
+<div class="col s12 is-xfmr-insulation-resistance">
+  <h5 class="blue-heading" style=>Insulation Resistance of Windings</h5>
+  <table>
+    <tr style="border-top: 1px solid #f1f1f1; border-bottom: none">                    
+      <td style="text-align: center; border-right: 1px solid #f1f1f1;">
+        {% if equipment.equipment_type.name == 'Current Transformer (CT)' %}
+        Primary-to-Ground
+        {%else%}
+        Hi-to-Ground
+        {%endif%}
+        <span style="white-space: nowrap;">@<input class="test-input" type="number" step="1" name="insulation_resistance_hi_g_test_voltage" id="insulation_resistance_hi_g_test_voltage" style="width: 70px;" {% if test_results.insulation_resistance_hi_g_test_voltage %} value="{{ test_results.insulation_resistance_hi_g_test_voltage }}"{% endif %}>V</span><br>
+        
+        <input class="test-input" type="number" min="0" step=".0001" name="insulation_resistance_hi_g" id="insulation_resistance_hi_g " style="width: 70px;" {% if test_results.insulation_resistance_hi_g %} value="{{ test_results.insulation_resistance_hi_g.normalize }}"{% endif %}>
+        <select class="test-input" name="insulation_resistance_hi_g_units" id="insulation_resistance_hi_g_units">
+          <option value="Kilo"{% if test_results.insulation_resistance_hi_g_units == "Kilo" %} selected {%endif%}>Kilo</option>
+          <option value="Mega"{% if test_results.insulation_resistance_hi_g_units == "Mega" %} selected {% elif test_results.insulation_resistance_hi_g_units == None %} selected {%endif%} >Mega</option>
+          <option value="Giga"{% if test_results.insulation_resistance_hi_g_units == "Giga" %} selected {%endif%}>Giga</option>
+          <option value="Tera"{% if test_results.insulation_resistance_hi_g_units == "Tera" %} selected {%endif%}>Tera</option>
+        </select>Ohms
+        
+        {% if equipment.equipment_type.name == 'Current Transformer (CT)' %} <br> <span style="color: #aaa;">(with secondary grounded)</span>
+        {%endif%}
+      </td>                
+      <td style="text-align: center; border-right: 1px solid #f1f1f1;">
+        {% if equipment.equipment_type.name == 'Current Transformer (CT)' %}
+        Secondary-to-Ground
+        {%else%}
+        Lo-to-Ground
+        {%endif%}
+        <span style="white-space: nowrap;">@<input class="test-input" type="number" min="0" step="1" name="insulation_resistance_lo_g_test_voltage" id="insulation_resistance_lo_g_test_voltage" style="width: 70px;" {% if test_results.insulation_resistance_lo_g_test_voltage %} value="{{ test_results.insulation_resistance_lo_g_test_voltage }}"{% endif %}>V</span><br>
+        <input class="test-input" type="number" min="0" step=".0001" name="insulation_resistance_lo_g" id="insulation_resistance_lo_g" style="width: 70px;" {% if test_results.insulation_resistance_lo_g %} value="{{ test_results.insulation_resistance_lo_g.normalize }}"{% endif %}>
+        <select class="test-input" name="insulation_resistance_lo_g_units" id="insulation_resistance_lo_g_units">
+          <option value="Kilo"{% if test_results.insulation_resistance_lo_g_units == "Kilo" %} selected {%endif%}>Kilo</option>
+          <option value="Mega"{% if test_results.insulation_resistance_lo_g_units == "Mega" %} selected {% elif test_results.insulation_resistance_lo_g_units == None %} selected {%endif%} >Mega</option>
+          <option value="Giga"{% if test_results.insulation_resistance_lo_g_units == "Giga" %} selected {%endif%}>Giga</option>
+          <option value="Tera"{% if test_results.insulation_resistance_lo_g_units == "Tera" %} selected {%endif%}>Tera</option>
+        </select>Ohms
+      </td>     
+      {% if not equipment.equipment_type.name == 'Current Transformer (CT)' %}           
+      <td style="text-align: center;">
+        <span style="white-space: nowrap;">Hi-to-Lo</span> 
+        <span style="white-space: nowrap;"> @<input class="test-input" type="number" min="0" step="1" name="insulation_resistance_hi_lo_test_voltage" id="insulation_resistance_hi_lo_test_voltage" style="width: 70px;" {% if test_results.insulation_resistance_hi_lo_test_voltage %} value="{{ test_results.insulation_resistance_hi_lo_test_voltage }}"{% endif %}>V</span> <br>                      
+        <input class="test-input" type="number" min="0" step=".0001" name="insulation_resistance_hi_lo" id="insulation_resistance_hi_lo" style="width: 70px;" {% if test_results.insulation_resistance_hi_lo %} value="{{ test_results.insulation_resistance_hi_lo.normalize }}"{% endif %}>
+        <select class="test-input" name="insulation_resistance_hi_lo_units" id="insulation_resistance_hi_lo_units">
+          <option value="Kilo"{% if test_results.insulation_resistance_hi_lo_units == "Kilo" %} selected {%endif%}>Kilo</option>
+          <option value="Mega"{% if test_results.insulation_resistance_hi_lo_units == "Mega" %} selected {% elif test_results.insulation_resistance_hi_lo_units == None %} selected {%endif%} >Mega</option>
+          <option value="Giga"{% if test_results.insulation_resistance_hi_lo_units == "Giga" %} selected {%endif%}>Giga</option>
+          <option value="Tera"{% if test_results.insulation_resistance_hi_lo_units == "Tera" %} selected {%endif%}>Tera</option>
+        </select>Ohms
+      </td>
+      {% endif %}         
+      </tr>
+  </table>
+  
+</div>

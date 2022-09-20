@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://blueskysw.com/wp-content/uploads/2020/12/LOGO-ATTEMPT-1.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+  <style>
+    .btn-large, .btn-small{
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 10%), 0 3px 1px -2px rgb(0 0 0 / 9%), 0 1px 5px 0 rgb(0 0 0 / 15%);
+    }
+    .quick-div{
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 5px;
+      margin-top: 50px;
+    }
+  .wrapwords {
+    /* white-space: -moz-pre-wrap !important;  Mozilla, since 1999 */
+    /* white-space: -webkit-pre-wrap;          Chrome & Safari  */
+    /* white-space: -pre-wrap;                 Opera 4-6 */
+    /* white-space: -o-pre-wrap;               Opera 7 */
+    /* white-space: pre-wrap;                  CSS3 */
+    overflow-wrap: break-word;
+    word-wrap: break-word;                  /* Internet Explorer 5.5+ */
+    word-break: break-all;
+    /* white-space: normal; */
+  }
+  .select-wrapper input.select-dropdown{
+    outline: 2px solid #eee;
+  }
+  .dropdown-content li > a, .dropdown-content li > span {
+    color: #01579b;
+  }
+  .equipment-wrapper{
+    padding-top: 20px;
+  }
+  .lapping-btn{
+   margin-top: 16px; 
+  }
+  .lapping-help{
+    position: relative;
+    top: 15px;
+  }
+  
+.inline-icon{
+  vertical-align: bottom;
+  font-size: 18px !important;
+  font-size: 1em;
+}
+.help-btn{
+  font-size: 14px;
+  color: #5e5e5e;
+  display: inline-block;
+}
+
+  .quick-link-disable{
+    pointer-events: none;
+    background-color: #aaa !important;
+    color: #888;
+  }
+   .orig-select-month{
+     display: none;
+   }
+   .orig-select-year{
+     display: none;
+   }
+   .noselect, .material-icons, h4, .btn, .btn-small, .site_id_edit_link, .card-action *, .card-action, .dynamic-tabs, nav *, ::placeholder {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+                              
+}
+.tab_div{
+  margin-top: 20px;
+}
+.ts-collection{
+  line-height: 80px !important;
+}
+.search-div-dynamic{
+  border-bottom: 5px solid #ddd;
+  border-radius: 40px;
+}
+.search-dynamic{
+  border-bottom-right-radius: 40px !important;
+}
+.form-back{
+  background-color: #FDFBF6;
+}
+.search-arrows{
+  padding-right: 18px;
+  padding-left: 18px;  
+  color: #888;
+}
+.bottom-pad{
+  padding-bottom: 1.4rem;
+}
+.right-pad{margin-right: 20px; padding-right: 20px;}
+.left-pad{ padding-left: 30px;}
+
+
+.search-div{
+    background-color: white !important;
+    /* border-radius: 3px; */
+    /* width: 475px !important; */
+    padding: 5px 12px 5px 20px;
+    border: 1px solid #eee
+  }
+.model-toggle-sign, .type-toggle-sign{
+  color: #5b5b5b
+}
+input:focus {
+   border-bottom: 1px solid #888 !important;
+   box-shadow: 0 1px 0 0 #888 !important
+ }
+ textarea:focus {
+   border-bottom: 1px solid #888 !important;
+   box-shadow: 0 1px 0 0 #888 !important
+ }
+.highlight-text {
+    background-color: #FFFF88;
+  }
+
+.yellow-light {
+    background-color: white;
+    background-image: linear-gradient(to right, #F7EDDC 0%, #F9F2E5 100%);
+    color: black !important;
+}
+.no-display{
+  display: none;
+}
+.input-field input:focus + label {
+   color: #BF5700 !important;
+ }
+ /* label underline focus color */
+ .row .input-field input:focus {
+   border-bottom: 1px solid #BF5700 !important;
+   box-shadow: 0 1px 0 0 #BF5700 !important
+ }
+ 
+ .orange-underline:focus {
+   border-bottom: 1px solid #BF5700 !important;
+   box-shadow: 0 1px 0 0 #BF5700 !important
+ }
+.sticky-top{
+  position: sticky !important;
+  top: 0;
+  z-index: 102;
+}
+.quickly-rotate {
+  -ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+.hover-item:hover{
+  cursor: pointer;
+}
+  .wrap-pad-bottom{
+    margin-top: 30px;
+  }
+  .left-spacer{
+    margin-left: 12px
+  }
+  .card-action{
+    padding-bottom: 7px;
+  }
+  .equipment-div{
+    padding: 0 !important;
+  }
+  .eq-spacer{
+    /* padding-bottom: 80px !important; */
+    height: 20px;
+  }
+  .nested-el{
+    padding: 0 0 0 10px !important;
+    border-left: 4px solid #EBEBEB;
+    
+  }
+  .reply-div{
+    border-left: 4px solid #EBEBEB;
+  }
+  .reply-textarea{
+    margin-left: 5%!important;
+    width: 94% !important;
+  }
+  .tr-margin-btn{
+    margin-top: 18px;
+    margin-right: 7px;
+  }
+  .nest-parent{
+    border-left: 4px solid #EBEBEB;
+  }
+  /* .note-action{
+    padding-bottom: 20px;
+  } */
+  .notes-more a{
+    margin-bottom: 3px;
+  }
+  .notes-more{
+    width: 100%;
+  }
+    .eq-child-toggle{
+      cursor: pointer;
+      color: #505050;
+    }
+    .quick-link {
+    color: #039be5 !important;
+    text-decoration: underline;
+    text-decoration-color: #CFCFCF;
+    white-space: nowrap;
+  }
+  .quick-link:hover {
+    color: #1a237e !important;
+  }
+    .hidencontent {
+      margin-top: 20px;
+    }
+  </style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Goldman&family=Josefin+Sans:ital@0;1&family=Roboto:ital@0;1&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Montserrat&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Arvo&family=Libre+Franklin:wght@400&family=Sanchez&display=swap');
+    .datepicker-date-display {
+    background-color: #01579b;
+    }
+    .datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done {
+    color: #01579b;
+}
+.datepicker-table td.is-selected {
+    background-color: #01579b;
+}
+    .note-lightgrey {
+    background-color: #f0f2f5 !important;
+    padding: 7px 12px 7px 20px;
+    border-radius: 14px;
+    border-bottom-left-radius: 0;
+  }
+  .sort {
+  border-radius: 3px;
+  border: none;
+  display:inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: white;
+  color: #01579b;
+  z-index: 99;
+  padding: .4rem;
+}
+.sort:hover {
+  text-decoration: none;
+  background-color: #ebf8ff;
+  cursor: pointer;
+}
+.sort:focus {
+  outline:none;
+  background-color: #add8e6;
+}
+.sort:after {
+  display:inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+@media #{$medium-and-down} {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		font-size: 30px !important;
+  }
+}
+h4 {
+      padding: 1rem;
+      text-align: center;
+      color: #023b59;
+    }
+@media only screen and (min-width: 1520px) {
+  .quick-div{
+    padding: 10px !important;
+    margin-top: 60px;
+  }
+  .comp-padding{
+    padding-right: 30px !important;
+    padding-left: 30px !important;
+  }
+  .comp-spacer{
+    margin-left: 30px;
+  }
+  .comp-spacer-2{
+    margin-left: 12px;
+  }
+  .eq-spacer{
+    height: 10px;
+  }
+  .search-div-dynamic{
+    border-bottom: 5px solid #ddd;
+    border-radius: 20px;
+  }
+  .search-dynamic{
+    border-bottom-right-radius: 20px !important;
+  }
+  .ts-collection{
+    line-height: 50px !important;
+  }   
+  .bottom-pad{
+    padding-bottom: .4rem;
+    margin-bottom: 10px;
+  }
+  .right-pad{
+    padding-right: 1rem;
+  }
+  .left-pad{padding-left: 1rem;}
+
+  /* .note-action{
+    padding-bottom: 10px;
+  } */
+  .tr-margin-btn{
+    margin-right: 5px;
+  }
+  .phone-screen{
+    display: none;    
+  }
+  .left-spacer{
+    margin-left: 15px;
+  }
+  .phone-font-sml{
+    font-size: 14px;
+  }
+  .comp-font-sml{
+    font-size: 15px;
+  }
+  .comp-font-med{
+    font-size:18px;
+  }
+  .comp-font-ml{
+    font-size: 21px;
+  }
+  .computer-font-lrg{
+    font-size: 24px;
+  }
+  .comp-font-xl{
+    font-size: 30px;
+  }
+  .search-div{
+    width: 200px !important;
+  }
+  h4 {
+      font-size: 25px;
+    }
+    .nested-el{
+    padding: 0 0 0 20px !important;
+    border-left: 4px solid #EBEBEB;
+    
+  }
+  .search-arrows{
+  padding-right: 8px;
+  padding-left: 8px;
+}
+  
+  
+}
+@media only screen and (max-width: 1519px) {
+  
+
+  .phone-expansion{
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  .phone-btn-margin{
+    margin-bottom: 30px !important;
+  }
+  .phone-pad-bottom{
+    padding-bottom: 10px !important;
+  }
+  .no-padd{
+     padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .lapping-help{
+    top: 25px;
+  }
+  .bottom-space{
+    margin-bottom: 20px;
+  }
+  .mobile-container{
+  padding: 0 1.5% !important; 
+  }
+  .mobile-pad, div.mobile-pad.col{
+    padding-top: 1rem;
+  }
+  .mobile-pad-i{
+    padding: 16px !important;
+    padding-bottom: 11px !important;
+  }
+  .home-pad-top{
+      padding-top: 20px !important;
+    }
+  .is-insulation-resistance,.pad-remove,.is-xfmr-insulation-resistance,.is-primary-injection,.is-secondary-injection,.is-winding-resistance,.is-ttr{
+    padding: 0 !important;
+  }
+  .selects-container input{      
+      min-height: 2.5rem !important;
+      font-size: 20px !important;
+    }
+  .chip{
+    padding: 10px;
+  }
+  .phone-bold{
+    font-weight: 700;
+  }
+  .phone-spacer-left{
+    padding-left: 20px;
+  }
+  .toast{
+    font-size: 15px;
+  }
+  .left-spacer-checkbox{
+    margin-left: 15px
+  }
+  .phone-btn-spacer{
+    margin-top:15px;
+  }
+  .left-spacing{
+    padding-left: 15px;
+  }
+  .computer-screen{
+    display: none !important;
+  }
+  .phone-font-xs{
+    font-size: 13px !important;
+  }
+  .phone-font-sml{
+    font-size: 15px !important;
+  }
+  .phone-font-med{
+    font-size: 16px !important;
+  }
+  .phone-font-ml{
+    font-size: 18px !important;
+  }
+  .phone-font-lrg{
+    font-size: 23px !important;
+  }  
+  .phone-font-lrgr{
+    font-size: 27px !important;
+  }
+  .phone-font-xl{
+    font-size: 34px !important;
+  }
+  .phone-font-huge{
+    font-size: 40px !important;
+  }
+  .phone-font-jumbo{
+    font-size: 80px !important;
+  }
+  .phone-trash-spacer{
+    margin-left: 2rem;
+  }
+  
+  h4 {
+    font-size: 30px;
+  }
+  h5 {
+    font-size: 25px;
+  }
+  h6 {
+    font-size: 18px;
+  }
+  
+ .phone-button{
+  height: 45px !important;
+  line-height: 45px !important;
+  padding: 0 18px !important;
+  font-size: 1.2rem !important;
+ }
+ .phone-button-sml{   
+   margin: 25px;
+ }
+}
+
+.card .card-action:last-child {
+    border-radius: 0 0 25px 25px !important;
+}
+.card{
+  border-radius: 25px !important;
+}
+
+.phone-font {
+  font-size:18px;
+}
+.phone-title-font {
+  font-size: 25px;
+}
+.custom-table-font{
+  color:#aaa;
+}
+/*  */
+.font-24 {
+  font-size:24px !important;
+}
+
+.font-14 {
+  font-size:14px;
+}
+
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000000;
+  content:"";
+  position: relative;
+  top:4px;
+  right:-5px;
+}
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000000;
+  content:"";
+  position: relative;
+  top:-4px;
+  right:-5px;
+}
+
+  .green-link {
+    color: #00CC55;
+  }
+  .green-link:hover{
+    color:#1b512d;
+  }
+    a:hover {
+      color:#1a237e  ;
+    }
+    .file-links:hover{
+      text-decoration: underline;
+    }
+    
+    .job_edit_link {
+      padding-right: 1rem;
+    }
+    th {
+      background-color: white;
+      color: #01579b;
+      z-index: 99;
+      padding: 1.1rem;
+    }
+    td {
+      padding-inline-start: 1.2rem;
+    }
+    caption {
+      background-color: white;
+      color: #01579b;
+      border-bottom:1px solid #aaa;
+      padding: 1rem;
+    }
+
+    textarea {
+      width: 50%;
+      height: 85px;
+      background-color: transparent;
+    }
+
+    textarea.materialize-textarea {
+      line-height: normal;
+      overflow-y: hidden;
+      /* prevents scroll bar flash */
+      padding: .8rem 0 .8rem 0;
+      /* prevents text jump on Enter keypress */
+      resize: none;
+      min-height: 3rem;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    
+    .input-field>label {
+      color: #9e9e9e;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 1rem;
+      cursor: text;
+      -webkit-transition: color .2s ease-out, -webkit-transform .2s ease-out;
+      transition: color .2s ease-out, -webkit-transform .2s ease-out;
+      transition: transform .2s ease-out, color .2s ease-out;
+      transition: transform .2s ease-out, color .2s ease-out, -webkit-transform .2s ease-out;
+      -webkit-transform-origin: 0% 100%;
+      transform-origin: 0% 100%;
+      text-align: initial;
+      -webkit-transform: translateY(12px);
+      transform: translateY(12px);
+    }
+    .page-footer{
+      background-color: #eceff1;
+      color: black;
+    }
+    .btn:focus,
+    .btn-large:focus,
+    .btn-floating:focus {
+      background-color: white;
+      border-color: #BF5700;
+      text-transform: capitalize;
+    }
+
+    .btn:hover,
+    .btn-large:hover {
+      background-color: white;
+      border-color: #BF5700;
+      color: black;
+      text-transform: capitalize;
+    }
+
+    .btn,
+    .btn-large {
+      color: black;
+      background-color: white;
+      border: 1px solid;
+      border-color: #BF5700;
+      text-transform: capitalize;
+      border-radius: 8px;
+    }
+
+    .btn-small{
+      background-color: white;
+      text-transform: capitalize;
+      border-radius: 5px;
+      border:1px solid #CFCFCF;
+      color:black;
+
+    }
+
+    .btn-small:focus,
+    .btn-small:hover {
+      background-color:  #E7E7E7;
+    }
+    [type="checkbox"].filled-in:checked + span:not(.lever):after {
+    border: 2px solid #BF5700;
+    background-color: #BF5700;
+    z-index: 0;
+    }
+    /* .btn-small {
+      border: none;
+      border-radius: 2px;
+      display: inline-block;
+      height: 20px;
+      line-height: 17px;
+      padding: 0 12px;
+      vertical-align: middle;
+      -webkit-tap-highlight-color: transparent;
+
+    } */
+    .tabs .tab {
+      color: rgba(1, 87, 155, 0.7);
+      text-transform: capitalize;
+    }
+    .tabs .tab a {
+      color: rgba(1, 87, 155, 0.7);
+      font-size: 16px;
+      -webkit-transition: color .28s ease, background-color .28s ease;
+      transition: color .28s ease, background-color .28s ease;
+    }
+
+    .tabs .tab a:focus,
+    .tabs .tab a:focus.active {
+      background-color: rgba(1, 87, 155, 0.2);
+      outline: none;
+    }
+
+    .tabs .tab a:hover,
+    .tabs .tab a.active {
+      background-color: transparent;
+      color: #023b59;
+    }
+
+    .tabs .indicator {
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background-color: #023b59;
+      will-change: left, right;
+    }
+
+    .carousel {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      min-height: 1555px;
+    }
+    a.navlink:hover,
+    a.brand-logo:hover  {
+      color:white  ;
+    }
+    .dropdown-content {
+      width: max-content !important;
+      height: auto;
+    }
+    ul.sidenav * a {
+      font-size: 22px;
+      font-weight: 300;
+    }
+    body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  } 
+
+
+  .errorlist{
+    color: red;
+    font-size: 30px;
+  }
+
+  .white-button,
+  .white-button:focus,
+  .white-button:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid #CFCFCF;
+    text-transform: capitalize;
+  }
+  .white-button:focus,
+  .white-button:hover {
+    background-color:#E7E7E7;
+  }
+
+  .hidden-stuff{
+    display: none;
+  }
+  main {
+    flex: 1 0 auto;
+  }
+    .collection.with-header .collection-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    color:  #01579b;
+  }
+  .eq-action > *{
+    margin: 6px 6px 8px 6px !important;
+    display: inline-block;
+  }
+  .equipment-div:not(.nested-el){
+    /* margin-top: 15px !important; */
+  }
+  @media only screen and (min-width: 1520px) {
+  .home-pad-top{
+    padding-top: 10px !important;
+  }
+  .errorlist{
+    font-size: 20px;
+  }
+    .double-col-style{
+      padding-right: 30px !important;
+    }
+    .notes-more a{
+    margin-bottom: 15px;
+  }
+    .dynamic-menu{
+    font-size: 16px;
+        
+  }
+  .eq-action > *{
+    margin: 10px 6px 8px 6px !important;
+  }
+  .em-border{
+    border: 1px solid #BF5700;    
+  }
+  }
+@media only screen and (max-width: 1519px) {
+  .phone-left-spacer{
+    margin-left: 20px;
+  }
+  .col .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+  .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    margin-right: 10px;
+}
+  .btn, .btn-small{
+    border-radius: 8px;
+  }
+  .squarish{
+    border-radius: 12px;
+  }
+  .chip{
+      height: fit-content;
+      font-size: 18px;
+      padding-top: 15px;
+    }
+    .chip i.close{
+    font-size: 45px;
+    color: #670A0A;
+  }
+  .check-parent{
+   height: 35px !important;
+  width: 35px !important;
+  }
+  input.check-input{
+  height: 35px !important;
+  width: 35px !important;
+  }
+  span.check-span {
+  height: 35px !important;
+  width: 35px !important;
+}
+[type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+    height: 28px;
+    width: 28px;
+}
+[type="checkbox"].filled-in:checked + span:not(.lever):after {
+    height: 28px;
+    width: 28px;
+}
+[type="checkbox"].filled-in:checked + span:not(.lever):before {
+    top: 0;
+    width: 12px;
+    height: 20px;
+}
+  .container {
+    width: 98% !important;
+}
+  nav .brand-logo{
+    display: none
+  }
+  .dynamic-menu{
+    font-size:19px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    text-align: center;
+  }
+  .dynamic-tabs{
+    font-size: 18px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  .sidenav li {
+    height: 75px !important;
+    line-height: 75px !important;
+  }
+  .sidenav {
+    width: auto;
+  }
+  .phone-30{
+    width: 30%;
+  }
+  .phone-39{
+    width: 39%;
+  }
+  .sidenav li > a {
+    height: 75px;
+    line-height: 75px;
+  }
+  nav {  
+  /* height: 60px !important; */
+  /* line-height: 60px !important; */
+}
+.nav-li{
+/*   
+  height: 99% !important;
+    line-height: 99% !important; */
+    /* display: flex;
+    align-items: center; */
+}
+.em-border{
+    border: 3px solid black;
+  }
+  
+  .datepicker-day-button{
+      font-size: 18px;
+
+    }
+    .datepicker-table-wrapper thead{
+      font-size: 22px;
+    }
+    .datepicker-table-wrapper tbody tr td{
+      padding-top: 5px;
+      padding-bottom: 10px;
+    }
+    .datepicker-controls, .datepicker-table, .datepicker-footer {
+      width: auto;
+    }
+    .datepicker-cancel{
+      display: none;
+    }
+    .datepicker-done {
+      font-size: 25px;
+      margin: 10px;
+      padding: 0;
+      height: fit-content;
+      line-height: unset;
+    }
+    .month-prev, .month-next{
+      visibility: hidden;
+    }
+    .datepicker-modal{
+      width: 95%;
+      max-width: none;
+    }
+    .datepicker-date-display {
+      display: block;
+      padding: 5px 5px
+    }
+    .datepicker-table{
+      width: 100%;
+    }
+
+    .datepicker-date-display .year-text{
+      font-size: 20px;
+    }
+    .datepicker-date-display .date-text{
+      font-size: 35px;
+    }
+    .datepicker-select{
+      display: none
+    }
+    .dropdown-trigger{
+      width: 125px !important;
+    }
+
+    .datepicker-container.modal-content {
+      display: initial;
+    }
+}
+
+  .helper-text{
+    color: #757575;
+  }
+  .wrap-pad-top{
+    margin-top: -100px;
+  }
+  .eq-action{
+    padding: 0 5px 0 13px !important;
+  }
+
+  .secondary-act{
+    color: #999 !important;
+  }
+  
+  h2{
+    text-align: center;
+    font-size: 36px;
+    color: #111 ;
+  }
+  
+  .pressed-down{
+  background: #e5e5e5;
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1 !important;
+     -moz-box-shadow: inset 0px 0px 5px #c1c1c1 !important;
+          box-shadow: inset 0px 0px 5px #c1c1c1 !important;
+   outline: none;
+}
+  </style>
+
+  <title>{% block title%} {% endblock %}</title>
+
+  <nav class="" style="width: 100%; background-color: #023b59;">
+    {% if request.user.id %}
+    <div class="nav-wrapper" style="width: 100%;">
+      <a
+              {% if not request.user.id %}
+                href="{% url 'login' %}"
+              {% elif user_properties.company %}
+                href="{% url 'home' %}"
+              {% endif %}
+              class="brand-logo" style="font-weight: 100; font-size: 25px; font-family: 'Libre Franklin', serif; text-transform: uppercase;">
+        {% if user_properties.company %}
+        &nbsp {{user_properties.company}}
+        {% else %}
+        &nbsp Home
+        {% endif %}
+      </a>
+      <ul class="right">
+       {% if user_properties.company or request.user.is_superuser %}
+       {% if activated %}
+        <li class="computer-screen" style="font-size: 20px; font-weight: 200; font-family: 'Roboto', sans-serif; padding-right: 2.6rem;">
+          Welcome
+          {% if request.user.first_name %}
+          {{ request.user.first_name }}
+          {% endif %}
+        </li>
+        {%endif%}
+          {% if user_properties.company.company_key != "agapp" %}
+        <li>
+            <a class="navlink dynamic-menu" href="{% url 'home' %}">Home</a>
+        </li>
+        <li>
+            <a class="navlink dynamic-menu" href="{% url 'jobs' %}">Jobs</a>
+        </li>
+        {%endif%}
+        
+       {% endif %}
+       
+      {% if user_properties.company.company_key == "agapp" %}
+      <li>
+        <a class="navlink dynamic-menu" href="{% url 'agwells' %}">Ag Wells</a>
+        </li>
+      {%endif%}
+        <li>
+            <a class="sidenav-trigger navlink show-on-large dynamic-menu"data-target="slide-out2">
+                <i class="material-icons">menu</i>
+            </a>
+        </li>
+        {% if not user_properties.company %}
+        <li><a class="navlink dynamic-menu" href="{% url 'create_profile_view' %}">Add Key</a></li>
+        {% endif %}
+      </ul>
+     
+    </div>
+    {% endif %}
+    </nav>
+  
+    <ul id="slide-out1" class="sidenav">
+      <li><a class="phone-font-ml" href="{% url 'types' %}">Types</a></li>
+      <li><a class="phone-font-ml" href="{% url 'create_type_view' %}">Create Type</a></li>
+      <li><a class="phone-font-ml" href="{% url 'models' %}">Models</a></li>
+      <li><a class="phone-font-ml" href="{% url 'create_model_view' %}">Create Model</a></li>
+      <li><a class="phone-font-ml" href="{% url 'manufacturers' %}">Manufacturers</a></li>
+      <li><a class="phone-font-ml" href="{% url 'create_manufacturer_view' %}">Create Manufacturer</a></li>
+      <li><a class="phone-font-ml" href="{% url 'test_equipment' %}">Test Sets</a></li>
+      <li><a class="phone-font-ml" href="{% url 'create_test_eq_view' %}">Create Test Eq.</a></li>
+      <li><a class="phone-font-ml" href="{% url 'job_sites' %}">Job Sites</a></li>
+      <li><a class="phone-font-ml" href="{% url 'create_job_site_view' %}">Create Job Site</a></li>
+    </ul>
+    <ul id="slide-out2" class="sidenav">
+      <li><a class="phone-font-ml" href="{% url 'profile' %}">Profile</a></li>
+      {% if user_properties.company.company_key == "agapp" %}
+        <li><a class="phone-font-ml" href="{% url 'agwells' %}">Ag Wells</a></li>
+      {%endif%}
+      <li><a class="phone-font-ml" href="{% url 'feedback' %}">Feedback</a></li>
+      <li><a class="phone-font-ml" href="{% url 'job_sites' %}">Job Sites</a></li>
+      <li><a class="phone-font-ml" href="{% url 'types' %}">Types</a></li>
+      <li><a class="phone-font-ml" href="{% url 'models' %}">Models</a></li>
+      <li><a class="phone-font-ml" href="{% url 'manufacturers' %}">Manufactuers</a></li>
+      <li><a class="phone-font-ml" href="{% url 'test_equipment' %}">Test Sets</a></li>
+      {% if request.user.is_superuser %}
+      <li><a class="phone-font-ml" href="{% url 'working_page' %}">Working Page</a></li>
+      <li><a class="phone-font-ml" href="{% url 'admin:index' %}" target="_blank">Admin</a></li>
+      {% endif %}
+      <li><a class="phone-font-ml" href="{% url 'logout' %}"> Logout</a></li>    
+    </ul>
+</head>
+<body onbeforeunload="return confirmExit()">
+
+  <main>
+    
+  {% block body %}
+  {% endblock %}
+  <a class="modal-trigger hidden-stuff" id="modal_trigger" href="#modal_main" style="color: #039be5">x</a>
+        <div id="modal_main" class="modal">
+          <div class="modal-content">
+            <h4 id="modal_title"></h4>
+            <p id="modal_p" class="phone-font-med"></p>
+          </div>
+        </div>
+  <div class="fixed-action-btn" id="cancel-div" style="right: auto; left: 25px; display: none;">
+    <button id="cancel-submit" class="btn-small phone-button"
+    style="text-align: center; border: 1px solid #222; color: #888; background-color: #ebe9e9;" onclick="window.location.reload();">Cancel</button>
+  </div>
+</main>
+
+  <!-- Load React. -->
+  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Load our React component. -->
+  <script src="../../static/js/like_button.js"></script>
+</body>
+
+<script src="../../static/highlight.js"></script>
+
+<script>
+  $('.confirm-check').on('click', function (event) {
+        return confirm('Are you sure?');
+    });
+  $(".integer-input").keydown(function(e){
+    if(e.key == "." ){
+      event.preventDefault();
+      M.toast({ html: 'Decimals not allowed'})
+    }
+  })
+
+  function helpFunction(title, content){
+    console.log("dkjfs;l")
+    $('#modal_title').html(title);
+    $('#modal_p').html(content);
+    var modal_inst =  M.Modal.getInstance($('#modal_main'));
+    modal_inst.open();
+  }
+var elem_main = document.documentElement;
+function openFullscreen() {
+  console.log('here')
+  if (elem_main.requestFullscreen) {
+  console.log('here')
+    elem_main.requestFullscreen();
+  } else if (elem_main.webkitRequestFullscreen) { /* Safari */
+    elem_main.webkitRequestFullscreen();
+  } else if (elem_main.msRequestFullscreen) { /* IE11 */
+    elem_main.msRequestFullscreen();
+  }
+}
+let hidden_equipment_ids = []
+let hidden_job_note_ids = []
+let hidden_equipment_note_ids = []
+let hidden_type_note_ids = []
+let hidden_model_note_ids = []
+function copyNote(note_type, note_id){
+  console.log(note_id)
+  navigator.clipboard.writeText($.trim($('#edit_'+note_type+'_input_'+note_id).val()))
+  M.toast({ html: 'Copied &#x2714' })
+}
+function dropMore(note_type, note_id){
+  $('#notes_more_'+note_type+note_id.toString()).slideDown('fast')
+}
+function cancelReply(note_id) {
+      location.reload()
+      // let reply_element = document.getElementById(`reply_note_${note_id}`);
+      // reply_element.setAttribute('hidden', true);
+  }
+
+    function cursorEnd(element){
+      
+      element.focus()
+      let temp = element.val()
+      element.val('')
+      element.val(temp)
+    }
+  var stopLeave = false
+  $(document).ready(function () {
+    
+    $('.modal').modal();
+    // openFullscreen()
+    $('.tooltipped').tooltip();
+    // $(".dropdown-trigger").dropdown({
+    //    hover: false,
+    //   closeOnClick: false,
+    //   autoTrigger: true,
+    //   coverTrigger: true,
+
+    //   });
+    $('.sidenav').sidenav();
+    $('#slide-out2').sidenav({
+      edge: 'right'
+    })
+    $('#slide-out1').sidenav({
+      edge: 'right'
+    })
+  });
+  function goBack() {
+    if ('referrer' in document) {
+        window.location = document.referrer;
+        /* OR */
+        //location.replace(document.referrer);
+    } else {
+        window.history.back();
+    }
+  }
+  function goForward() {
+    window.history.forward();
+  }
+  function toggleChild(type, item_id){
+    let child_div = $('#'+type+item_id)
+    let child_toggle = $('#'+type+'_toggle'+item_id)
+    if(child_div.is(":visible")){
+      if(type == 'job_note'){
+        hidden_job_note_ids.push(item_id)
+        localStorage.hidden_job_note_ids = JSON.stringify(hidden_job_note_ids);
+      }else if(type == 'equipment_note'){
+        hidden_equipment_note_ids.push(item_id)
+        localStorage.hidden_equipment_note_ids = JSON.stringify(hidden_equipment_note_ids);
+      }else if(type == 'type_note'){
+        hidden_type_note_ids.push(item_id)
+        localStorage.hidden_type_note_ids = JSON.stringify(hidden_type_note_ids);
+      }else if(type == 'model_note'){
+        hidden_model_note_ids.push(item_id)
+        localStorage.hidden_model_note_ids = JSON.stringify(hidden_model_note_ids);
+      }
+
+      child_div.slideUp('fast',function(){
+        child_toggle.html("&#9660");        
+      child_toggle.parent().css("color", "#ff4500")    
+      })
+    }else{
+      if(type == 'job_note'){
+        let theIndex = hidden_job_note_ids.indexOf(item_id)
+        if(theIndex>=0){
+          hidden_job_note_ids.splice(theIndex, 1);
+          localStorage.hidden_job_note_ids = JSON.stringify(hidden_job_note_ids);
+        }
+      }else if(type == 'equipment_note'){
+        let theIndex = hidden_equipment_note_ids.indexOf(item_id)
+        if(theIndex>=0){
+          hidden_equipment_note_ids.splice(theIndex, 1);
+          localStorage.hidden_equipment_note_ids = JSON.stringify(hidden_equipment_note_ids);
+        }
+      }else if(type == 'type_note'){
+        let theIndex = hidden_type_note_ids.indexOf(item_id)
+        if(theIndex>=0){
+          hidden_type_note_ids.splice(theIndex, 1);
+          localStorage.hidden_type_note_ids = JSON.stringify(hidden_type_note_ids);
+        }
+      }else if(type == 'model_note'){
+        let theIndex = hidden_model_note_ids.indexOf(item_id)
+        if(theIndex>=0){
+          hidden_model_note_ids.splice(theIndex, 1);
+          localStorage.hidden_model_note_ids = JSON.stringify(hidden_model_note_ids);
+        }
+      }
+      child_div.slideDown('fast', function(){
+      child_toggle.html("&#9650");
+      child_toggle.parent().css("color", "#888")
+      })
+    }
+}
+  function onReply(note_type, note_id) {
+        stopLeave = true
+        let reply_element = $('#'+note_type+'_reply_note_'+note_id)
+        reply_element.slideDown()
+        $('#reply_'+note_type+'_input_'+note_id).focus()
+        disableExceptId(reply_element)
+    }
+
+function disableExceptId(element){
+  $('.reply-button').css("visibility", "hidden")
+  $('.drop-link').css("visibility", "hidden")
+  $('#submit-btn-notes').prop("disabled",true)
+  $('#submit-btn-notes').siblings().prop("disabled",true)
+  // element.show()
+  $('#select_all_eq').css("visibility", "hidden")
+  $('#equip_actions_trigger').css("visibility", "hidden")
+  $('.check-input').prop("disabled","disabled")
+  $('#add_eq_button').click(function(e){e.preventDefault();})
+  $('#add_eq_button').css({"background-color": "#DFDFDF", "color": "#9F9F9F"})
+  $('.site_id_edit_link').css("visibility", "hidden")
+  $('#enter_edit_button').click(function(e){e.preventDefault();})
+  $('#enter_edit_button').css({"background-color": "#DFDFDF", "color": "#9F9F9F"})
+  $('#submit-btn').prop("disabled",true)
+  $('.file-path').prop("disabled",true)
+  $('#file_add_button').css("visibility", "hidden")
+  $('.remove-files').css("visibility", "hidden")
+  $('#new_job_number').prop("disabled",true)
+  $('#new_job_button').prop("disabled",true)
+  $('.tr-margin-btn').hide()
+}
+
+  function editNote(note_type, note_id) {
+    let edit_div=$('#edit_div'+note_type+note_id)
+    let edit_element = $('#edit_'+note_type+'_input_'+note_id);
+    edit_div.show();  
+    M.textareaAutoResize(edit_element);
+    cursorEnd(edit_element);
+    disableExceptId(edit_element)
+    $('#notes_more_'+note_type+note_id).children().show()
+  }
+  let filteredElement = [];
+  let searchText = '';
+  let searchType = '';
+  let toggleIdPrefix = '';
+  let latestSearchIndex = 0;
+  let searchTextElement = '';
+  let searchTopMargin = 0;
+
+
+    // input listener for searching text
+    $("input[id^='search_']").keyup( function (e) {
+        if (filteredElement.length) {
+            $(filteredElement[latestSearchIndex]).removeHighlight();
+        }
+        console.log(e.target.id);
+        let inputElement = e.target
+      let searchInputId = inputElement.id.split('search_')[1]
+        if (!searchType) {
+            searchType = searchInputId
+        }
+
+      let code = e.keyCode || e.which
+        if (inputElement.value && (!code || code === 13)) { // user clicks enter
+            let hasSearchedText = $(`#${searchInputId}-move-text`).is(':visible') // if visible then search for the specific note has been executed
+            if (searchType === searchInputId) {
+                if (hasSearchedText) {
+                    let matchedText = $(`#${searchType}-matched-text`).text();
+                    if (matchedText === 'No match found') {
+                        return;
+                    }
+                    nextSearchNote(searchType, toggleIdPrefix, searchTextElement, searchTopMargin);
+                } else {
+                    // this will be executed on page load where search input value has text
+                    $(`#${inputElement.id}_button`).click();
+                }
+            } else { // searchType !== searchInputId
+                let matchedText = $(`#${searchInputId}-matched-text`).text();
+                $(`#${inputElement.id}_button`).click(); // 1st searched text here will be highligthed
+
+                if (hasSearchedText) {
+                    if (matchedText === 'No match found') {
+                        return;
+                    } else if (matchedText){
+                        $(filteredElement[latestSearchIndex]).removeHighlight(); // remove highligthed text from clicking the search input
+                        latestSearchIndex = parseInt(matchedText.split('/')[0].trim()) - 1
+                        nextSearchNote(searchType, toggleIdPrefix, searchTextElement, searchTopMargin);
+                    }
+                }
+            }
+        }
+        else if (code !== 13) {
+            $(`#${inputElement.id}_button`).click();
+        }
+    });
+  
+    function searchNote(idPrefix, toggleId, searchTextEl, top = '0', lastSearchIndex = 0) {
+        let container = $(`#${idPrefix}-container`)
+        container.css({"position":"sticky","top":`${top}px`, "z-index": "101", "background-color": "white"})
+        container.addClass('search-div-dynamic')
+        $('.search-div').addClass('search-dynamic')
+        console.log('1223')
+        container.slideDown();
+        console.log('lsdkjf')
+        searchType = idPrefix;
+        searchTextElement = searchTextEl;
+        searchTopMargin = top;
+      
+        toggleIdPrefix = toggleId;
+        $(`#${searchType}-move-text`).hide();
+        filteredElement = [];
+        searchText = document.getElementById(`search_${searchType}`).value;
+        latestSearchIndex = lastSearchIndex;
+        if (!searchText) {
+            return;
+        }
+        $(`.${searchTextEl}`).filter(function () {
+            if( $(this).find('.search-text').text().toUpperCase().includes(searchText.toUpperCase())) {
+                filteredElement.push(this);
+            }
+        });
+        if (filteredElement.length) {
+            $(`#${searchType}-previous-text`).show();
+            $(`#${searchType}-next-text`).show();
+            if (filteredElement.length > 0) {
+                $(`#${searchType}-move-text`).show();
+            }
+            findText();
+        } else {
+            $(`#${searchType}-move-text`).show();
+            $(`#${searchType}-previous-text`).hide();
+            $(`#${searchType}-next-text`).hide();
+            $(`#${searchType}-matched-text`).text('No match found');
+        }
+    }
+    function nextSearchNote(idPrefix) {
+        if (searchType !== idPrefix) {
+            $(`#search_${idPrefix}`).trigger('keyup')
+            return;
+        }
+        $(filteredElement[latestSearchIndex]).removeHighlight();
+        if (filteredElement.length - 1 === latestSearchIndex) {
+            latestSearchIndex = 0;
+        } else {
+            latestSearchIndex += 1;
+        }
+        findText();
+    }
+
+    function previousSearchNote(idPrefix) {
+        if (searchType !== idPrefix) {
+            let matchedText = $(`#${idPrefix}-matched-text`).text()
+            $(`#search_${idPrefix}`).trigger('keyup')
+
+            if (matchedText === 'No match found') {
+                return;
+            } else if (matchedText){
+                $(filteredElement[latestSearchIndex]).removeHighlight();
+                latestSearchIndex = parseInt(matchedText.split('/')[0].trim()) - 1
+            }
+        }
+
+        $(filteredElement[latestSearchIndex]).removeHighlight();
+        if (latestSearchIndex <= 0) {
+            latestSearchIndex = filteredElement.length - 1
+        } else {
+            latestSearchIndex -= 1;
+        }
+        findText();
+    }
+    async function findText() {
+        $(`#${searchType}-matched-text`).text(`${latestSearchIndex + 1} of ${filteredElement.length}`);
+        $(filteredElement[latestSearchIndex]).highlight(`${searchText}`)
+        await displayHiddenNote(filteredElement[latestSearchIndex]);
+        if((!$(".search-input").is(":focus")) || window.screen.width > 1519){
+          filteredElement[latestSearchIndex].scrollIntoView({behavior: "smooth", block: "center"});  
+        }else{
+          console.log('focus')
+        }
+    }
+
+    function displayHiddenNote(hiddenNote) {
+        if ($(hiddenNote).is(':visible')) {
+            return;
+        }        
+        let hidden_note_id = $(hiddenNote).attr('id').replace(/^\D+/g, '');
+        let parentNote = $(`#${searchType}-${hidden_note_id}container`).parent();
+        let parentNoteId = parentNote.attr('id').replace(/^\D+/g, '');
+
+        $(`#${toggleIdPrefix}${parentNoteId}`).click()
+
+        if (!parentNote.is(':visible')) {
+            displayHiddenNote(parentNote);
+        }
+
+        return new Promise(resolve => setTimeout(resolve, 300));
+    }
+
+    function confirmExit() {
+      if (stopLeave) {
+          return "Some changes has not been saved. Do you want to leave anyways?";
+      }
+  }
+</script>
+
+
+<footer class="page-footer noselect" >
+  <div class="container" >
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 style="font-family: 'Goldman', Verdana;">PARAGON<sub style="font-size: 1rem; color: #aaa; padding-left: 7px; "><em style="font-family: 'Roboto', sans-serif;" class="phone-font-sml">by Blue Sky Software</em></sub></h5> 
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright" style="background-color: #023b59;">
+    <div class="container phone-font-sml">      
+      © 2022 Copyright
+      <a class="grey-text text-lighten-4 right" href="{% url 'admin:index' %}" target="_blank">Admin</a>
+    </div>
+  </div>
+</footer>
+
+
+
+</html>

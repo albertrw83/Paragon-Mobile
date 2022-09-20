@@ -1,0 +1,10 @@
+#for microsoft graph api
+
+app_id: "fccb5a15-d2f8-458d-98f0-4ac98522a31d"
+app_secret: "V3N_1E~pjedB.~7789YVVBI_ao6QXuO96z"
+redirect: "http://localhost:8000/callback"
+scopes:
+  - user.read
+  - mailboxsettings.read
+  - calendars.readwrite
+authority: "https://login.microsoftonline.com/common"

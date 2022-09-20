@@ -1,0 +1,34 @@
+
+<h3>test sheet field</h3>
+hipot_test_voltage
+insulation_resistance_unit_properties
+contact_resistance_units
+control_voltage_type
+trip_voltage_type
+CHANGE: rename equipment.test_results to manual_test_results
+<!-- transformer -->
+<h3>type and equipment qualifiers</h3> 
+
+CHANGE xfmr_class type to characterfield
+----power_rating_units (kva/mva)
+
+xfmr insulation resistance units
+power rating units
+fluid capacity units
+pressure units
+temp_rise_units
+ambient_temp_units
+
+style= 'display: table-cell; width: 65%;'
+models.CharField(max_length=64, null=True, blank=True)
+
+<select class="test-input" style="display: table-cell; width: 35%; height: auto;"  name="weight_units" id="weight_units">
+    <option value="lbs"{% if test_results.weight_units == "lbs" %} selected {%endif%}>lbs</option>
+    <option value="kg"{% if test_results.weight_units == "kg" %} selected {%endif%}>kg</option>
+</select>  
+
+
+@property check if tolerance is acceptable
+
+<!-- this is for relays and such, not trip units -->
+

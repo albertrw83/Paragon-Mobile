@@ -1,0 +1,192 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<style>
+    .center {
+    margin: auto;
+    }
+    .normal-header{
+        padding-top: 10px;
+        font-size: 21px;
+        font-weight: 500;
+        text-align: center;
+        text-transform: capitalize;
+    }
+    .title-weight{
+        font-weight: 400;
+    }
+    .right-side{
+        float: right;
+    }
+    .table-all{
+border-collapse:collapse;
+}
+.c6 {
+  float: left;
+  width: 50%;
+}
+.c5{
+  float: left;
+  width: 41.667%;
+}
+.c4 {
+    float: left;
+    width: 33.333%;
+}
+.c3 {
+  float: left;
+  width: 25%;
+}
+.center-cells{
+    border:1px solid #d3d3d3;
+    text-align: center;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.cell-borders{
+border-top:1px solid #d3d3d3;
+padding: 9px;
+text-align: center;
+}
+.compact-borders{
+border-top:1px solid #d3d3d3;
+padding: 5px;
+text-align: center;
+}
+
+</style>
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 30px">{{user_properties.company}}</span>
+            <br>
+        </div>
+        <div class="c6" style="font-size: 18px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="c5">
+            <div style="padding-right: 42px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>
+                <table class="table-all center">
+                    <tr>
+                        <td class="title-weight" style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Customer Name</td>
+                        <td style = "padding-left: 7px;">{{job.customer_name}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Job Site Name</td>
+                        <td style = "padding-left: 7px;">{{job.job_site.name}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Owner</td>
+                        <td style = "padding-left: 7px;">{{job.job_site.owner}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Job Name</td>
+                        <td style = "padding-left: 7px;">{{job.job_name}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Address</td>
+                        <td style = "padding-left: 7px;">{{job.job_site.address}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Project Lead</td>
+                        <td style = "padding-left: 7px;">{{job.project_manager}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Tested By</td>
+                        <td style = "padding-left: 7px;">{{test_sheet.testers | default_if_none:""}}</td>
+                    </tr>
+                    <tr style=" border-top: 1px solid #ededed;">
+                        <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Date</td>
+                        <td style = "padding-left: 7px;">{{ test_sheet.date_tested}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="c4">
+            <h3 class="normal-header">Equipment Information</h3>
+            <table class="table-all center" style="width: 100%;">
+                <tr>
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Serial Number
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.serial_number_data| default_if_none:""}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Equipment Location
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_location_data | default_if_none:""}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Manufacturer
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_model.model_manufacturer}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Model
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_model}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Type
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_type}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Equipment Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.equipment_voltage_data.normalize}} {% if test_sheet.is_dc_equipment_voltage_data %}DC{%else%} AC{%endif%}</td>
+                </tr>
+                
+                <tr style=" border-top: 1px solid #ededed; display: none;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Frame Rating
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.frame_size}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed; display: none;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Mount Style</td>
+                    <td style="padding-left: 7px;">{{test_sheet.mount_style}}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Control Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.control_voltage_data.normalize}} {% if test_sheet.is_dc_control_voltage_data %}DC{%else%}AC{%endif%}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed; display: none;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Trip Coil Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.trip_coil_voltage.normalize}} VAC</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td class="title-weight"  style= "border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Date Manufactured</td>
+                    <td style = "padding-left: 7px;">{{test_sheet.date_manufactured | default_if_none:""}}</td>
+                </tr>
+            </table>
+        </div></div>
+        {% if is_fuse %} 
+            {% include "jobs/test_sheet_fuse_1.html" with test_sheet=test_sheet equipment=equipment %}
+        {% endif %} 
+        {% if test_sheet.eq.is_insulation_resistance or test_sheet.eq.is_contact_resistance%}
+            {% include "jobs/test_sheet_insul_contact_resistance.html" with test_sheet=test_sheet equipment=equipment %}
+        {%endif%}
+        {% if test_sheet.eq.is_hipot %}
+            {% include "jobs/test_sheet_hipot.html" with test_sheet=test_sheet equipment=equipment %}
+        {%endif%}
+    
+    </div>
+
+  
+
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<div class="col s12 is-winding-resistance" >
+  <h5 class="blue-heading">Winding Resistance</h5>
+  <table>
+    <tr style="border-bottom: None; border-top: 1px solid #f1f1f1;">
+      <td style="text-align: center;">X0-X1 <br><input class="test-input" type="number" name="wr_x0_x1" min="0" step=".0001" id="wr_x0_x1" style="width: 60px;" {% if test_results.wr_x0_x1 %} value="{{ test_results.wr_x0_x1.normalize }}"{% endif %} > milli<span>&#8486</span></td>           </td>
+      <td style="text-align: center;">X0-X2 <br><input class="test-input" type="number" name="wr_x0_x2" min="0" step=".0001" id="wr_x0_x2" style="width: 60px;" {% if test_results.wr_x0_x2 %} value="{{ test_results.wr_x0_x2.normalize }}"{% endif %} > milli<span>&#8486</span></td>
+      <td style="text-align: center;">X0-X3 <br><input class="test-input" type="number" name="wr_x0_x3" min="0" step=".0001" id="wr_x0_x3" style="width: 60px;" {% if test_results.wr_x0_x3 %} value="{{ test_results.wr_x0_x3.normalize }}"{% endif %} > milli<span>&#8486</span></td>
+    </tr>
+    <tr style="border-bottom: None; border-top: 1px solid #f1f1f1;">
+      <td style="text-align: center;">H1-H2 <br><input class="test-input" type="number" name="wr_h1_h2" min="0" step=".0001" id="wr_h1_h2" style="width: 60px;" {% if test_results.wr_h1_h2 %} value="{{ test_results.wr_h1_h2.normalize }}"{% endif %} > <span>&#8486</span>     </td>
+      <td style="text-align: center;">H2-H3 <br><input class="test-input" type="number" name="wr_h2_h3" min="0" step=".0001" id="wr_h2_h3" style="width: 60px;" {% if test_results.wr_h2_h3 %} value="{{ test_results.wr_h2_h3.normalize }}"{% endif %} > <span>&#8486</span>     </td>
+      <td style="text-align: center;">H3-H1 <br><input class="test-input" type="number" name="wr_h3_h1" min="0" step=".0001" id="wr_h3_h1" style="width: 60px;" {% if test_results.wr_h3_h1 %} value="{{ test_results.wr_h3_h1.normalize }}"{% endif %} > <span>&#8486</span>     </td>         
+    </tr>
+    
+  </table>
+</div>

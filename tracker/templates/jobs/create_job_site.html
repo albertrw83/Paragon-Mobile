@@ -1,0 +1,274 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+Create Job Site
+{% endblock %}
+
+{% block body %}
+<style>
+    h6 {
+      font-size: 20px;
+      color: #023b59;
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 1.5rem;
+      border-bottom: 1px solid #b8d8d8
+  
+    }
+    @media only screen and (max-width: 1519px) {
+        h6 {
+        font-size: 18px;
+        }
+        input{
+            font-size: 18px !important;
+        }
+        label{
+            font-size: 16px !important;
+        }
+        .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        .check-label::after{
+            content: "\a\a";
+            white-space: pre;
+        }
+        [type="checkbox"] + span:not(.lever) {
+   font-size: 24px;
+    padding-left: 65px;
+}
+        .check-parent{
+        height: 35px !important;
+        width: 35px !important;
+        }
+        input.check-input{
+        height: 35px !important;
+        width: 35px !important;
+        
+        }
+        span.check-span {
+        height: 35px !important;
+        width: 35px !important;
+        margin-left: 75px !important;
+        }
+        [type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):after {
+            height: 45px;
+            width: 45px;
+        }
+        [type="checkbox"].filled-in:checked + span:not(.lever):before {
+            top: 0;
+            width: 18px;
+            height: 30px;
+        }
+    }
+  </style>
+<div class="container">
+    <a style="" class="waves-effect waves-light btn-small phone-button lapping-btn"
+                    href="{% url 'job_sites' %}" target="_blank">View Existing Job Sites</a>
+    <h4 style="text-align: center; color: black;">Create a Job Site</h4>
+  
+    <form id="jobsite_form" class="col s12" action="{% url 'create_job_site' %}" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+        <div class="row">
+            <h6>Basic Information</h6>
+            <div class="col s12 m12 l12 xl3">
+                <label for="site_name">Site Name <span style="color: red;">required</span> </label>
+                <input id="site_name" name="site_name" type="text" placeholder="e.g. ACME Richmond EDC-7 Datacenter"
+                form="jobsite_form" autocomplete="off" required>
+            </div>
+            <div class="col s12 m12 l12 xl3">
+                <label for="owner">Owner</label>
+                <input id="owner" name="owner" type="text" placeholder="Company that owns jobsite"
+                form="jobsite_form" autocomplete="off">
+            </div>
+
+            <div class="col s12 m12 l12 xl3">
+                <label for="site_contact">Site Contact</label>
+                <input id="site_contact" name="site_contact" type="text" placeholder="Contact On Site"
+                form="jobsite_form" autocomplete="off">
+            </div>
+            <div class="col s12 m12 l12 xl3">
+                <label class="active" for="site_contact_info">Site Contact Information</label>
+                <textarea class="materialize-textarea" id="site_contact_info" name="site_contact_info" type="text" placeholder="Phone or Email Address "
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl5">
+                <label for="facility_manager">Facility Manager</label>
+                <input id="facility_manager" name="facility_manager" type="text" placeholder="Company or Person who manages the site."
+                form="jobsite_form" autocomplete="off">
+            </div>
+            <div class="col s12 m12 l12 xl7">
+                <label class="active" for="other_contacts">Any Other Important Contacts</label>
+                <textarea class="materialize-textarea" id="other_contacts" name="other_contacts" type="text" placeholder="Include title and contact info "
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <h6>Location</h6>
+            <div class="col s12 m12 l12 xl12">
+                <label class="active" for="address">Address</label>
+                <textarea class="materialize-textarea" id="address" name="address" type="text" placeholder="e.g. 12335 Sabel Ave; Junction City, AR 65492"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label for="nav_link">URL for Navigation (PIN)</label>
+                <input id="nav_link" name="nav_link" type="url" placeholder="e.g. Copy from Google Maps"
+                form="jobsite_form" autocomplete="off">
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class="active" for="site_navigation">Site Navigation</label>
+                <textarea class="materialize-textarea" id="site_navigation" name="site_navigation" type="text" placeholder="information about site layout like electrical room locations."
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <h6>Site Safety</h6>
+            <div class="col s12">
+                <label class="check-label">
+                    <input id="is_safety_training" name="is_safety_training" type="checkbox" class="filled-in" form="jobsite_form" checked>
+                    <span>Site Specific Safety Training Required</span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="safety_training_item_requirements">Documents and Items Required for Safety Training</label>
+                <textarea class="materialize-textarea" id="safety_training_item_requirements" name="safety_training_item_requirements" type="text" placeholder="e.g. Driver's license, Hardhat, certifications"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="safety_training_time">Safety Training Schedule</label>
+                <textarea class="materialize-textarea" id="safety_training_time" name="safety_training_time" type="text" placeholder="e.g. Days available, start time, duration, ect."
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="safety_training_location">Safety Training Locations</label>
+                <textarea class="materialize-textarea" id="safety_training_location" name="safety_training_location" type="text" placeholder="e.g. Job Trailer North of House."
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="safety_training_procedure">Procedure For Safety Training</label>
+                <textarea class="materialize-textarea" id="safety_training_procedure" name="safety_training_procedure" type="text" placeholder="e.g. Lecture then Test"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12">
+                <label class="check-label">
+                    <input id="is_hardhat" name="is_hardhat" type="checkbox" form="jobsite_form"class="filled-in" checked>
+                    <span >Hardhat Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_safety_glasses" name="is_safety_glasses" type="checkbox" form="jobsite_form"class="filled-in" checked>
+                    <span >Safety Glasses Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_safety_shoes" name="is_safety_shoes" type="checkbox" form="jobsite_form"class="filled-in" checked>
+                    <span > Safety Shoes Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_safety_vest" name="is_safety_vest" type="checkbox" form="jobsite_form"class="filled-in" checked>
+                    <span >Safety Vest Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_safety_gloves" name="is_safety_gloves" type="checkbox" form="jobsite_form"class="filled-in">
+                    <span >Safety Gloves Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_fr_clothes" name="is_fr_clothes" type="checkbox" form="jobsite_form"class="filled-in" checked>
+                    <span >Flame Resistant Clothing Required</span>
+                </label><br>
+                <label class="check-label">
+                    <input id="is_h2s_monitor" name="is_h2s_monitor" type="checkbox" form="jobsite_form"class="filled-in" >
+                    <span >H2S Monitor Required</span>
+                </label><br>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="additional_ppe_requirements ">Other Required PPE</label>
+                <textarea class="materialize-textarea" id="additional_ppe_requirements " name="additional_ppe_requirements " type="text" placeholder="additional site-required PPE"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+        </div>
+        <h6>Site Access</h6>
+        <div class="row">
+            <div class="col s12 m12 l12 xl12">
+                <label class="check-label">
+                    <input id="background_checks" name="background_checks" type="checkbox" form="jobsite_form" class="filled-in" >
+                    <span >Background Check Required</span>
+                    </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="background_check_procedure">Background Check Procedure</label>
+                <textarea class="materialize-textarea" id="background_check_procedure" name="background_check_procedure" type="text" placeholder="e.g. Submit form with copy of license"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="documents_required_for_access">Documents Required for Access</label>
+                <textarea class="materialize-textarea" id="documents_required_for_access" name="documents_required_for_access" type="text" placeholder="e.g. State ID, Passport, Entry Badge"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="restricted_items">Restricted Items</label>
+                <textarea class="materialize-textarea" id="restricted_items" name="restricted_items" type="text" placeholder="Weapons, Tobacco, Alcohol, ect."
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="entry_procedure">Entry Procedure</label>
+                <textarea class="materialize-textarea" id="entry_procedure" name="entry_procedure" type="text" placeholder="e.g. Security will ask for site contact"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="parking_considerations">Parking Considerations</label>
+                <textarea class="materialize-textarea" id="parking_considerations" name="parking_considerations" type="text" placeholder="e.g. Park in contractors lot only."
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="driving_vehicles">Driving Guidelines </label>
+                <textarea class="materialize-textarea" id="driving_vehicles" name="driving_vehicles" type="text" placeholder="e.g. 15mph speed limit, honk before backing"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class="active" for="food_accomodations">Food Accomodations</label>
+                <textarea class="materialize-textarea" id="food_accomodations" name="food_accomodations" type="text" placeholder="e.g. Cafeteria Available On Site"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12 hidden-stuff">
+                <label class=active for="other_site_rules">Other Site Rules</label>
+                <textarea class="materialize-textarea" id="other_site_rules" name="other_site_rules" type="text" 
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12 hidden-stuff">
+                <label class="active" for="lodging_recommendations">Local Lodging Considerations</label>
+                <textarea class="materialize-textarea" id="lodging_recommendations" name="lodging_recommendations" type="text" placeholder="e.g. Book hotels in advance"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+            <div class="col s12 m12 l12 xl12">
+                <label class=active for="access_requirements">Other Site Access Considerations</label>
+                <textarea class="materialize-textarea" id="access_requirements" name="access_requirements" type="text" placeholder="e.g. Your vehicle will be searched before entry"
+                form="jobsite_form" autocomplete="off"></textarea>
+            </div>
+        </div>
+            
+        <div class="row">
+            <button class="btn waves-effect waves-light phone-button" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
+            <button class="btn-small waves-effect waves-light phone-button" type="reset" name="action" onclick="return confirm_reset();">
+            Reset Form
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function confirm_reset() {
+    return confirm("Are you sure you want to reset the form?");
+    }
+</script>
+
+{% endblock %}

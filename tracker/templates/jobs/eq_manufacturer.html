@@ -1,0 +1,121 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  {{ manufacturer }}
+{% endblock %}
+
+{% block body %}
+
+<style>
+     @media only screen and (max-width: 1519px) {
+    /* th, ul{
+      font-size: 30px;
+    }
+    h4{
+      font-size: 60px;
+    }
+    h5{
+        font-size: 40;
+    } */ 
+    .container{
+      width: 95% !important;
+    }
+  }
+</style>
+<form id="manufactuer_edit" name="manufactuer_edit" action="{% url 'edit_manufacturer' manufacturer.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}</form>
+    <div class="container">
+      <div class="fixed-action-btn" id="edit_submit_div" hidden>
+        <button id="edit_submit"
+                class="btn-large tooltipped pulse phone-font-lrg"
+                data-position="left"
+                data-tooltip="Must Commit Changes to Take Effect"
+                style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "
+                type="submit"
+                name="action" 
+                form="manufactuer_edit"
+                onclick="onSubmit()"
+        >Commit Changes
+        </button>
+      </div>
+        <a class="waves-effect waves-light btn-small phone-button lapping-btn" href="{% url 'manufacturers' %}">View All Manufacturers</a>
+        <a id="enter_edit_button" class="waves-effect waves-light btn-small lapping-btn phone-font-med phone-button" onclick="onEditMode()">Manufacturer Edit Mode</a>
+        
+        <h4 style="text-align: center">{{ manufacturer }}</h4>
+        <div class="phone-font-med" style="text-align: center; color: #AAAAAA; ">manufacturer</div>
+        <h5 class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem; color: #023b59;">Name</h5>
+        <p class="phone-font-ml" >
+            {% if manufacturer.name %}
+            <span style="white-space: pre-wrap;">{{ manufacturer.name }}</span>
+            {% else %}
+            ERROR: No Name, please edit to add the appropriate name. If that's not working, please contact admin.
+            {% endif %}
+            <textarea
+                class="materialize-textarea editable-field model_edit"
+                id="name"
+                name="name"
+                form="manufactuer_edit"
+                autocomplete="off"
+                hidden
+            >{{ manufacturer.name }}</textarea>
+        </p>
+
+        <h5 class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem; color: #023b59;">Customer Support</h5>
+        <p class="phone-font-ml" >
+            {% if manufacturer.customer_support %}
+            <span style="white-space: pre-wrap;">{{ manufacturer.customer_support }}</span>
+            {% else %}
+            No Customer Support has been added. 
+            {% endif %}
+            <textarea
+                class="materialize-textarea editable-field model_edit"
+                id="customer_support"
+                name="customer_support"
+                form="manufactuer_edit"
+                autocomplete="off"
+                hidden
+            >{{ manufacturer.customer_support }}</textarea>
+        </p>
+        <h5 class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem; color: #023b59;">Models</h5>
+        {% if models.count > 0 %}
+        <ul class="collection">
+            {% for model in models %}
+            <li class="collection-item"><a href="{% url 'eq_model' model.id %}">{{ model }}</a></li>
+            {% endfor %}
+        </ul>
+        {%else%}
+        <p>No models have been created for this manufacturer.  <a class="waves-effect waves-light btn-small phone-button" href="{% url 'create_model_view' %}">Create Model</a> </p>
+        
+        {%endif%}
+                  
+    </div>
+   
+    <script>
+      
+      $(document).ready(function(){
+      M.textareaAutoResize($('#customer_support'));
+      })
+      function onSubmit() {        
+        stopLeave=false
+      }
+      let is_edit_mode = false
+      function onEditMode() {
+        
+        if(is_edit_mode){
+            is_edit_mode = false;
+          $(".editmode").hide();
+          $(".editable-field").hide()
+          $("#enter_edit_button").html('Model Edit Mode')
+          $('#edit_submit_div').hide()
+          stopLeave=false
+        }else{
+          is_edit_mode = true;
+          $(".editmode").show();
+          $(".editable-field").show()
+          $("#enter_edit_button").html('Exit Edit Mode')
+          $('#edit_submit_div').show()
+          stopLeave = true
+        }
+      }
+    </script>
+
+{% endblock %}

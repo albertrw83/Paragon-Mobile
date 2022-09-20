@@ -1,0 +1,28 @@
+
+<table class="table-all lato-300" style="width: 100%; font-size: 14px;">
+    <caption class="normal-header">Bus Contact Resistance</caption>
+    <tr>
+        <th class="cell-borders lato-300" style="border-top: none ;">Starting Section </th>
+        <th class="cell-borders lato-300" style="border-top: none ;">Ending Section</th>
+        <th class="cell-borders lato-300" style="border-top: none ;">Phase A</th>
+        <th class="cell-borders lato-300" style="border-top: none ;">Phase B</th>
+        <th class="cell-borders lato-300" style="border-top: none ;">Phase C</th>
+    </tr>    
+    {% for test in test_sheet.bus_test_data.all|slice:bus_test_q%}
+    <tr>
+        <td class="cell-borders">{{ test.starting_section | default_if_none:'' }}</td>
+        <td class="cell-borders">{{ test.ending_section | default_if_none:'' }}</td>
+        <td class="cell-borders">{% if test.phase_a%}{{ test.phase_a.normalize}}&nbsp;{% if test.phase_a_units == 'microOhms'%}&#181;&#8486{% elif test.phase_a_units == 'milliOhms'%}m&#8486{%else%}&#8486{%endif%}{%endif%}</td>
+        <td class="cell-borders">{% if test.phase_b%}{{ test.phase_b.normalize}}&nbsp;{% if test.phase_b_units == 'microOhms'%}&#181;&#8486{% elif test.phase_b_units == 'milliOhms'%}m&#8486{%else%}&#8486{%endif%}{%endif%}</td>
+        <td class="cell-borders">{% if test.phase_c%}{{ test.phase_c.normalize}}&nbsp;{% if test.phase_c_units == 'microOhms'%}&#181;&#8486{% elif test.phase_c_units == 'milliOhms'%}m&#8486{%else%}&#8486{%endif%}{%endif%}</td>
+    </tr>
+    {%empty%}
+    <tr>
+        <td class="cell-borders">N/A</td>
+        <td class="cell-borders">N/A</td>
+        <td class="cell-borders">No Results</td>
+        <td class="cell-borders">No Results</td>
+        <td class="cell-borders">No Results</td>
+    </tr>
+    {%endfor%}    
+</table>

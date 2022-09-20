@@ -1,0 +1,18 @@
+<div class="row">
+    <table class="table-all lato-300" style="width: 100%;">
+        <caption class="normal-header">Winding Resistance
+        </caption>
+        <tr>
+            <td class="cell-borders" >X0-X1 <br>{% if test_sheet.wr_x0_x1 %}  {{test_sheet.wr_x0_x1.normalize }} {% else %} ______ {% endif %} m<span>&#8486</span> </td>
+            <td class="cell-borders" >X0-X2 <br>{% if test_sheet.wr_x0_x2 %}  {{test_sheet.wr_x0_x2.normalize }} {% else %} ______ {% endif %} m<span>&#8486</span> </td>
+            <td class="cell-borders" >X0-X3 <br>{% if test_sheet.wr_x0_x3 %}  {{test_sheet.wr_x0_x3.normalize }} {% else %} ______ {% endif %} m<span>&#8486</span> </td>
+            <td class="cell-borders" >H1-H2 <br>{% if test_sheet.wr_h1_h2 %}  {{test_sheet.wr_h1_h2.normalize }} {% else %} ______ {% endif %} <span>&#8486</span> </td>
+            <td class="cell-borders" >H2-H3 <br>{% if test_sheet.wr_h2_h3 %}  {{test_sheet.wr_h2_h3.normalize }} {% else %} ______ {% endif %} <span>&#8486</span> </td>
+            <td class="cell-borders" >H3-H1 <br>{% if test_sheet.wr_h3_h1 %}  {{test_sheet.wr_h3_h1.normalize }} {% else %} ______ {% endif %} <span>&#8486</span> </td>
+        </tr>
+        
+       
+    </table>
+
+    
+</div> <br><br>

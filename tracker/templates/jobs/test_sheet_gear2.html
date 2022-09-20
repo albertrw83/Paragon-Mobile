@@ -1,0 +1,80 @@
+{% include "jobs/test_sheet_fonts.html" %}
+{% block title %}
+{% endblock %}
+
+{% block body %}
+{% include "jobs/test_sheet_css.html" with test_sheet=test_sheet equipment=equipment job=job %}
+<div style="font-family: 'Lato', sans-serif; font-weight: 300; margin-left: 20px; margin-right: 20px;">
+    <div class="row">
+        <div class="c6">
+            <span style="font-family: 'Rubik', sans-serif; color: #01579b; font-size: 35px">{{user_properties.company}}</span>
+        </div>
+        <div class="c6" style="font-size: 20px; font-weight: 500; text-align: right;">
+            {{equipment.equipment_type}} <br> Test Report <i style="color: #666;">(Page 2 of 2)</i> <br> 
+            <i style="font-family: 'Rubik', sans-serif; color: #666; font-size: 14px;">Created {{now}}</i>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="c4">
+            <div style="padding-right: 32px;">
+                <div style="padding-top: 10px;">
+                    <span style="font-size: 16px; border-bottom: 1px solid #aaa;">Site Circuit Designation</span>   <br>         
+                    <span style="font-size: 24px;">{{equipment.site_id}}</span>
+                </div>               
+            </div>
+        </div>
+        <div class="c8">
+           
+            <table class="table-all center" style="width: 100%; display: none;">     
+                <tr>
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Operating Voltage
+                    </td>
+                    <td style="padding-left: 7px;">{{test_sheet.equipment_voltage_data.normalize}} {% if test_sheet.is_dc_equipment_voltage_data %}DC{%else%} AC{%endif%}</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Humidity
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.equipment_location_data| default_if_none:""}} %</td>
+                </tr>
+                <tr style=" border-top: 1px solid #ededed;">
+                    <td style="border-right: 1px solid #d3d3d3; padding-right: 7px; text-align: right;">Ambient Temperature
+                    </td>
+                    <td style="padding-left: 7px;">{{equipment.serial_number_data | default_if_none:""}} &#176;F </td>
+                </tr>               
+            </table> 
+        </div>
+    </div> <br> <br>
+     
+
+<div class="row" >
+    <div class="c6" >   
+        <div style="padding-right: 40px;">
+            {% include "jobs/test_sheet_switchgear_insul_resistance.html" with test_sheet=test_sheet equipment=equipment %}
+    {%if equipment.equipment_type.is_hipot%}
+            <table class="table-all lato-300" style="width: 100%;">
+                <caption class="normal-header">High Potential <span style="font-size: 15px !important;">{% if test_sheet.hipot_test_voltage %} @ {{test_sheet.hipot_test_voltage }} Volts{% endif %}</span>
+                </caption>
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #666;">
+                        phase to ground with other phases grounded
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-borders">A-G <br>{% if test_sheet.hipot_ptg_a %} {{test_sheet.hipot_ptg_a.normalize }} {% else %}_______{% endif %} milliAmps</td>
+                    <td class="cell-borders">B-G <br>{% if test_sheet.hipot_ptg_b %} {{test_sheet.hipot_ptg_b.normalize }} {% else %}_______{% endif %} milliAmps</td>
+                    <td class="cell-borders">C-G <br>{% if test_sheet.hipot_ptg_c %} {{test_sheet.hipot_ptg_c.normalize }} {% else %}_______{% endif %} milliAmps</td>
+                </tr>
+            </table>    
+            {% endif %}
+
+        </div>     
+    
+    </div>
+    <div class="c6" >  
+        {% include "jobs/test_sheet_bus_contact_resistance.html" with test_sheet=test_sheet equipment=equipment %}
+    </div>
+</div>
+
+
+</div>
+{% endblock %}

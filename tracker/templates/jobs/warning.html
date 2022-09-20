@@ -1,0 +1,22 @@
+{% extends "jobs/base.html" %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- <a class="waves-effect waves-light btn-small" onclick="goBack()">Go Back</a> -->
+      
+    <h1>Warning</h1>
+
+    <span class="phone-font-med lapping-btn">{{ message }}</span> <br>
+    <span>Note: Having javascript disabled may cause errors.</span>
+
+    <hr>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
+{% endblock %}

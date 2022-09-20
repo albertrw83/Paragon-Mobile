@@ -1,0 +1,158 @@
+{% if not equipment.parent_equipment or not equipment.parent_equipment.trashed or sub %}
+    <div class="col s12 card-style equipment-div
+        {% if equipment.eq_level != 0 and equipment.parent_equipment.trashed %}
+            nested-el
+        {% elif equipment.eq_level != 0 and not trashed %}
+            nested-el
+        {%endif%}"
+        id="eq_child_div-{{ equipment.pk }}container"
+    >
+    {% csrf_token %}
+    
+        <div class="card z-depth-1 hoverable" style = "border-bottom-left-radius: 0 !important; margin-bottom: 0px !important; margin-top: 0px !important;">
+            <div class="card-content eq-site-id mobile-pad-i" id="note-{{ equipment.pk }}">
+                <span class="card-title">
+                                    
+                    <a class="phone-title-font eq_child_div-content"href="{% url 'equipment' equipment.id %}">
+                        <span class="eq-site-id search-text" id="note-{{ equipment.pk }}">
+                            {{equipment.site_id_data}}
+                        </span>
+                    </a>                    
+                    {% if not trashed and not equipment.is_site_equipment %}
+                    <span class="phone-font-ml right" style="display: none;">
+                        {% if equipment.completion %}                        
+                            <span class="phone-font-lrg noselect" style=" color:#00CC55 !important" >&#x2714</span>
+                        {% else %}                        
+                            <span class="phone-font-lrg noselect" style="color:#ff6347; font-weight: 900;">&#8212</span>
+                        {% endif %}
+                    </span>
+                    {% endif %}                   
+                    <textarea
+                    id="edit_site_id_{{equipment.pk}}"
+                    class="site_id_edit_input materialize-textarea phone-font-lrg active"
+                    name="edit_site_id_{{equipment.pk}}"
+                    type="text"
+                    form="site_id_edit"
+                    autocomplete="off"
+                    placeholder="New Site ID"
+                    hidden
+                    >{{equipment.site_id_data}}</textarea>
+                    <input class = "site_id_edit_pk" type="hidden" value="{{equipment.pk}}"/>
+                    <label class="check-parent right left-spacer-checkbox " id="check_parent_label_{% if equipment.parent_equipment_data%}{{equipment.parent_equipment_data.id}}{% endif %}">
+                        <input
+                            class="filled-in equipment-item check-input {% if equipment.parent_equipment%}childof-checkbox_parent_{{equipment.parent_equipment.id}}{%endif%}"
+                             type="checkbox" id="checkbox_parent_{{equipment.id}}" value="{{ equipment.pk }}" /><span class="check-span"></span>
+                    </label>      
+                </span>
+                <span class="phone-font-med search-text">
+                    {% if equipment.equipment_model_data %}
+                        {% if equipment.equipment_model_data.model_manufacturer %}
+                            {{equipment.equipment_model_data.model_manufacturer}}
+                        {% else %}
+                            No Manufacturer
+                        {% endif %}
+                    {% else %}
+                        No Manufacturer Selected
+                    {% endif %}
+                    {% if equipment.equipment_model_data %}
+                        {{equipment.equipment_model_data}}
+                    {% else %}
+                        No Model
+                    {% endif %} {% if equipment.serial_number %} <span style="color: #aaa;">| S#:{{equipment.serial_number}}{%endif%}</span>
+                </span>
+                <a class="waves-effect waves-light btn-large phone-button phone-font-lrg move-btn " onclick="BatchMove('{{equipment.id}}')" id="moveto_{{equipment.id}}" style="text-decoration: none; color: white; background-color: #bf5700; display: none;">
+                    Move Here
+                </a>
+                <br>
+                <span class="custom-table-font phone-font-med search-text">
+                    {% if equipment.equipment_type_data %}
+                        {{equipment.equipment_type_data.name}}
+                    {% else %}
+                        No Type
+                    {% endif %}
+                </span>
+                
+                
+            </div>
+            <div class="card-action eq-action phone-font-ml" style="border-radius: 0 0 25px 0 !important;">
+                
+                {% if trashed and equipment.sub_equipments_trashed_count %}
+                <a class="waves-effect waves-light eq-child-toggle btn-small phone-button eq-child z-depth-0" {% if equipment.equipment_mold %} onclick="jobEqToggle({{equipment.pk}})"{%else%} onclick="siteEqToggle({{equipment.pk}})" {%endif%} id="eq_child_toggle{{equipment.pk}}" style="text-decoration: none;margin-right: 25px;" > 
+                    <span>
+                        <span class="phone-font-ml comp-font-med" style="color: #aaa">
+                            <span class="phone-font-med comp-font-sml" id="eq_toggle_sign{{equipment.pk}}">
+                                &#9650
+                            </span>
+                            {{equipment.sub_equipments_trashed_count}}
+                        </span>
+                    </span>
+                </a>
+                <a class="waves-effect waves-light btn-small phone-button parent-checkbox" id="parent_{{equipment.id}}" style="text-decoration: none; margin-right: 25px;">
+                    <span class="material-icons-outlined  waves-effect waves-light phone-font-lrg  ">library_add_check</span>
+                </a>
+                {%endif%}
+
+                {% if not trashed and equipment.sub_equipments_untrashed_count %}
+                <a class="waves-effect waves-light eq-child-toggle btn-small phone-button eq-child z-depth-0" {% if equipment.equipment_mold %} onclick="jobEqToggle({{equipment.pk}})" {%else%} onclick="siteEqToggle({{equipment.pk}})" {%endif%}  id="eq_child_toggle{{equipment.pk}}" style="text-decoration: none;margin-right: 25px;" >
+                    <span>
+                        <span class="phone-font-ml comp-font-med" style="color: #aaa;">
+                            <span id="eq_toggle_sign{{equipment.pk}}">
+                                &#9650
+                            </span>
+                            {{equipment.sub_equipments_untrashed_count}}
+                        </span>
+                    </span>
+                </a>
+                <a class="waves-effect waves-light btn-small phone-button parent-checkbox" id="parent_{{equipment.id}}" style="text-decoration: none; margin-right: 25px;">
+                    <span class="material-icons-outlined  waves-effect waves-light phone-font-lrg  ">library_add_check</span>
+                </a>
+                {%endif%}
+                {% if equipment.test_results %}
+                <a href="{{ equipment.test_results.url }}" class="quick-link phone-font-med" target="_blank">
+                    Test Results
+                </a>
+                {% endif %}
+                {% if equipment.test_results and equipment.equipment_model.model_manual%}|&nbsp&nbsp&nbsp <span class="computer-screen">&nbsp&nbsp</span>{% endif %}
+                {% if equipment.equipment_model.model_manual %}
+                <a href="{{equipment.equipment_model.model_manual.url}}" class="quick-link phone-font-med computer-screen" target="_blank">
+                    Open Manual
+                </a>
+                {% endif %}
+                <a href="#notes_modal" onclick="addNoteModal({{equipment.pk}}, '{{equipment.site_id}}')" class="quick-link phone-font-med modal-trigger computer-screen">
+                    Add Note
+                </a> 
+
+            {% if not trashed %}
+                {% if job_id %}
+                    <a href="{% url 'add_sub_equipment_page' equipment.id job_id %}" class="quick-link phone-font-med">
+                        Add Sub-Equipment
+                    </a>
+                {% else%}
+                    <a href="{% url 'add_sub_equipment_job_site_page' equipment.id jobsite.id %}" class="quick-link phone-font-med">
+                        Add Sub-Equipment
+                    </a>
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+        <div class="eq-spacer" {% if equipment.sub_equipments.exists %} style="border-left: 4px solid #EBEBEB;" {%endif%}>
+            
+        </div>
+      <div id="eq_child_div{{equipment.pk}}">
+      {% if trashed %}
+        {% for eq in equipment.sub_equipments.all %}
+            {% if eq.trashed %}
+            {% include "jobs/equipment_data.html" with equipment=eq sub=True %}
+            {% endif %}
+
+        {% endfor %}
+      {% else %}
+          {% for eq in equipment.sub_equipments.all|dictsort:"site_id" %}
+            {% if not eq.trashed %}
+              {% include "jobs/equipment_data.html" with equipment=eq %}
+            {% endif %}
+          {% endfor %}
+      {% endif %}
+    </div> 
+</div>
+{% endif %}

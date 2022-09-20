@@ -1,0 +1,58 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Create Manufacturer
+{% endblock %}
+
+{% block body %}
+<style>  
+  @media only screen and (max-width: 1519px) {
+    label{
+      font-size: 14px;
+    }
+  }
+</style>
+
+<div class="container">
+  
+  <a style="display: block; max-width: max-content; margin-bottom: 15px;" class="waves-effect waves-light btn-small lapping-btn phone-button"
+                href="{% url 'manufacturers' %}">View Existing Manufacturers</a>
+  <h4 style = "text-align: center">Create New Manufacturer</h4>
+
+  
+    <div class="row">
+      <div class="col s12 ">
+        <form id="manufacturer_form" class="col s12" action="{% url 'create_manufacturer' %}" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="input-field col s12 ">
+              <label class="active " for="manufacturer_name">Manufacturer Name</label>
+              <input class="" id="manufacturer_name" name="manufacturer_name" type="text" placeholder="e.g. ACME Electric"
+                autocomplete="off">
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea placeholder="Website/Phone#/Email/ect."
+                id="customer_support" name="customer_support" class="materialize-textarea "></textarea>
+              <label class="active " for="customer_support">Customer Support Information for this Manufacturer</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 ">
+              <button class="btn waves-effect waves-light phone-button" type="submit" name="action"
+                id="submit-btn"> Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% endblock %}

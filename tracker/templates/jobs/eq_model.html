@@ -1,0 +1,665 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+ Model | {{ model.name }}
+{% endblock %}
+
+{% block body %}
+<style>
+  h6{
+    text-align: center;
+    
+  }
+  .chips input.input{
+      width: 100% !important;
+    }
+    .chip{
+      height: fit-content;
+    }
+    .chips.focus{
+      border-bottom: 1px solid #bf5700;
+      -webkit-box-shadow: 0 1px 0 0 #bf5700;
+      box-shadow: 0 1px 0 0 #bf5700;
+    }
+  @media only screen and (min-width: 1519px) {
+    .computer-font-med{
+      font-size: 20px;
+    }
+  }
+  @media only screen and (max-width: 1519px) {
+     /* input[type="number"]{
+        font-size: 36px !important;
+      } */
+      [type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+        background-color: #bf5700;
+        border: 0px;
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+
+      ul.dropdown-content span {
+        font-size: 16px;
+        overflow-wrap: break-word;
+        line-height: normal;
+      }
+      .autocomplete-content{
+        width: 100% !important;
+      }
+      .chips input.input{
+        font-size: 22px;
+      }
+      .chip{
+       font-size: 18px;
+       padding-top: 0;
+       /* overflow: visible; */
+      }
+      .chip i.close{
+        font-size: 45px;
+        color: #670A0A;
+      }
+    th, td{
+      font-size: 16px;
+    }
+    .exp-list-item {
+  padding-top: 1rem; overflow: hidden;
+  }
+  .exp-list-item:hover {
+    overflow: visible;
+  }
+  .exp-list-item:hover a{
+    background-color: white;
+  }
+  /* .material-icons{
+    font-size: 36px !important;
+  } */
+  }
+</style>
+
+
+      <div class="container">
+        <a href="{% url 'models' %}" class="waves-effect waves-light btn-small lapping-btn phone-button">View All Models</a>
+        <a id="enter_edit_button" class="waves-effect waves-light btn-small lapping-btn phone-font-med phone-button" onclick="onEditMode()">Edit Mode</a>
+    
+        <div class="phone-font-lrg comp-font-med" style="text-align: center; color: #888; font-weight: 500;">Equipment Model {% if model.is_private %} <span style="color: #dc143c; font-style: italic;"> - Private </span>{% endif %} </div>
+        <h3 style="text-align: center">{{model.model_manufacturer}} {{ model.name }}</h3>
+      </div>
+      <form id="model_edit" name="model_edit" action="{% url 'edit_model' model.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}</form>
+      <div class="fixed-action-btn" id="edit_submit_div" hidden>
+        <button id="edit_submit"
+                class="btn-large tooltipped pulse phone-font-lrg"
+                data-position="left"
+                data-tooltip="Must Commit Changes to Take Effect"
+                style="text-align: center; background-color: #bf5700; color: white; font-weight: 400; "
+                type="submit"
+                name="action" 
+                form="model_edit"
+                onclick="onSubmit()"
+        >Commit Changes
+        </button>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m12 l12 xl6 double-col-style">
+            <table class="highlight" id="model_table">
+              <caption class="phone-font-lrg computer-font-lrg" style="padding-top: 1.5rem;" >General</caption>
+              {% csrf_token %}
+              <tr>
+                <td style="width: 220px">Name</td>
+                <td>
+                    {{ model.name }}
+                    <textarea
+                        class="materialize-textarea editable-field model_edit"
+                        id="name"
+                        name="name"
+                        form="model_edit"
+                        autocomplete="off"
+                        placeholder="Type Model Name"
+                        hidden
+                    >{{ model.name }}</textarea>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 220px">Model #/code</td>
+                <td>
+                    {{ model.model_id }}
+                    <textarea
+                        class="materialize-textarea editable-field model_edit"
+                        id="model_id"
+                        name="model_id"
+                        form="model_edit"
+                        autocomplete="off"
+                        placeholder="Code or number for model."
+                        hidden
+                    >{{ model.model_id }}</textarea>
+                </td>
+              </tr>
+              {% if model.company %}
+              <tr>
+                <td style="width: 220px">Model Company</td>
+                <td>
+                    {{ model.company.name }}
+                </td>
+              </tr>
+              {% endif %}
+              <tr>
+                  <td>Manufacturer</td>
+                  <td>
+                    {{ model.model_manufacturer }}
+                    <div class="input-field col s12">
+                      <select
+                        id="model_manufacturer"
+                        name="model_manufacturer"
+                        form="model_edit"
+                        class="editable-field model_edit"
+                        hidden
+                      >
+                          {% for manufacturer in manufacturers %}
+                            <option value="{{ manufacturer.id }}"
+                                    {% if manufacturer.id == model.model_manufacturer.id %}
+                                        selected
+                                    {% endif %}
+                            >
+                                {{ manufacturer.name }}
+                            </option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Type</td>
+                  <td>
+                    {{ model.model_type }}                  
+                    <div class="input-field col s12">
+                      <select
+                        id="model_type"
+                        name="model_type"
+                        form="model_edit"
+                        class="editable-field model_edit"
+                        hidden
+                      >
+                          {% for type in types %}
+                            <option value="{{ type.id }}"
+                                    {% if type.id == model.model_type.id %}
+                                        selected
+                                    {% endif %}
+                            >
+                                {{ type.name }}
+                            </option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  </td>
+              </tr>
+              {% if properties.company %}                        
+              <tr>
+                  <td>Model Manual</td>
+                  <td>
+                    {% if model.model_manual %}
+                    <a href="{{ model.model_manual.url }}" target="_blank">Open Manual</a> 
+                    
+                    {% else %}
+                    None
+                    {% endif %}
+                    <div class="file-field input-field col s12 editable-field model_edit" hidden id="model_manual_div">
+                      <div class="btn-small phone-button">
+                          <span><i class="material-icons phone-font-lrg">add</i></span>
+                          <input id="model_manual" form="model_edit" name="model_manual" type="file">
+                      </div>
+                      <div class="file-path-wrapper">
+                          <input class="file-path validate" form="model_edit" type="text" placeholder="Add Manual File">
+                      </div>
+                  </div>
+                  </td>
+              </tr>
+              {% endif %}    
+              <tr>
+                  <td>Model Customer Support</td>
+                  <td>
+                    <span style="white-space: pre-wrap;">{{ model.model_customer_support }}</span>
+                    <textarea
+                        class="materialize-textarea editable-field model_edit"
+                        id="model_customer_support"
+                        name="model_customer_support"
+                        form="model_edit"
+                        autocomplete="off"
+                        placeholder="Support contact for the model"
+                        hidden
+                    >{{ model.model_customer_support }}</textarea>
+                  </td>                
+              </tr>
+            </table>
+            <table class="highlight" id="model_table_test_eq">
+              <tr>
+                <td style="width: 220px">Default Mandatory Test Set</td>
+                <td>
+                  <ul>
+                    {% for mte in model.mandatory_model_test_equipment.all %}
+                    <li>
+                      {{ mte }}
+                    </li>
+                    {% empty %}
+                    <li>No Equipment</li>
+                    {% endfor %}
+  
+                      <div class="editable-field" hidden>
+                        <h6 style="color:#808080">Test Set</h6>
+                        <div class="row">
+                          <div class="input-field col s12 phone-font-lrg">
+                            <div id="m_test_equipment-chips" class="chips chips-autocomplete phone-font-lrg">
+                            </div>
+                            <input id="mandatory_model_test_equipment"
+                                   form="model_edit"
+                                   name="mandatory_model_test_equipment"
+                                   style="visibility: hidden;"
+                                   value=""
+                            >
+                          </div>
+                        </div>
+                      </div>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td>Default Conditional Test Set</td>
+                <td>
+                  <ul>
+                    {% for ote in model.optional_model_test_equipment.all %}
+                    <li>
+                      {{ ote }}
+                    </li>
+                    {% empty %}
+                    <li>No Equipment</li>
+                    {% endfor %}
+                      <div class="editable-field" hidden>
+                        <h6 style="color:#808080">Test Set</h6>
+                        <div class="row">
+                          <div class="input-field col s12 phone-font-lrg">
+                            <div id="o_test_equipment-chips" class="chips chips-autocomplete phone-font-lrg">
+                            </div>
+                            <input id="optional_model_test_equipment"
+                                   form="model_edit"
+                                   name="optional_model_test_equipment"
+                                   style="visibility: hidden;"
+                                   value=""
+                            >
+                          </div>
+                        </div>
+                      </div>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col s12 m12 l12 xl6 double-col-style">
+            <div class="row quick-div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59;">Notes</h4>
+              <div class="search-div" id="model_note-container" style="margin-left: 15px; float: right; position: -webkit-sticky; position: sticky;">
+                <input class="orange-underline search-input" id="search_model_note" type="text" placeholder="Search..." />
+                  <div id="model_note-move-text" style="display: none">
+                      <span id="model_note-matched-text"></span>
+                      <div style="float: right">
+                        <span class="phone-font-xl hover-item search-arrows comp-font-ml" onclick="previousSearchNote('model_note');" id="model_note-previous-text">▲</span>
+                        <span class="phone-font-xl hover-item search-arrows comp-font-ml" onclick="nextSearchNote('model_note');" id="model_note-next-text">▼</span>
+                      </div>
+                  </div>
+                  <button id="search_model_note_button" onclick="searchNote('model_note', 'model_note_child_toggle', 'model_note-content')" hidden>Search</button>
+              </div>
+                <form
+                        style="margin-right: 50px; margin-left: 15px;"
+                        id="add_note_form"
+                        action="{% url 'add_note' 'model_note' %}"
+                        method="post"
+                >
+                    {% csrf_token %}
+                    <textarea
+                            id="add_note"
+                            name="add_note"
+                            class="materialize-textarea quick-disable"
+                            placeholder="New Note..."
+                            form="add_note_form" required
+                    ></textarea>
+                    <input type="text" name="model_id" value="{{ model.id }}" hidden>
+                    <div style="padding-bottom: 10px;" >
+                      <button
+                              class="btn-small waves-effect waves-light quick-disable phone-button hidden-stuff"
+                              type="submit"
+                              name="action"
+                              style="margin-right: 0px; margin-left: auto;"
+                              id="submit-btn-notes"
+                      >Add Note<i class="material-icons right ">send</i></button>
+                    </div>
+
+                </form>
+              <div>
+              {% for note in model_notes %}
+                  {% include "jobs/job_note_data_new.html" with note=note note_type='model_note' %}
+              {% empty %}
+              <h6 style="text-align: center;">No model notes have been added.</h6>
+
+              {% endfor %}
+              </div>
+            </div>
+            <div class="row quick-div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59;">Model Files and Links</h4>
+                    <ul class="collection last-child-border" style="border: none;">
+                        {% csrf_token %}
+                        {% if model_files %}
+                            {% for file in model_files %}
+                            
+                            <li class="collection-item phone-expansion" style="padding-top: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid #00000012; background: transparent;">
+                              {% if file.model_file %}
+                              <a href="{{file.model_file.url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;">
+                                <i class="material-icons left phone-font-med">insert_drive_file</i>
+                              {% if file.file_name %}
+                                {{file.file_name}}
+                                {% else %}
+                                {{file.filename}}
+                              {% endif %}
+                              </a>
+                              {% endif %}
+                              {% if file.file_url %}
+                              <a href="{{file.file_url}}" target="_blank" class="phone-font-sml"  style="word-wrap: break-word; padding: 0;">
+                                <i class="material-icons left phone-font-med">link</i>
+                                {% if file.file_name %}                            
+                                {{file.file_name}}
+                                {% else %}
+                                {{file.hostname}}
+                                {% endif %}
+                               </a>
+                              {% endif %}
+                                {%  if request.user.is_superuser %}
+                                    <a onclick="return confirm('Permanently remove?')" href="{% url 'remove_model_files' file.id %}" ><i style="color: #D0C0C0;border: 1px solid #ddd;" class="material-icons right phone-font-lrg">delete</i></a>
+                                {% endif %}
+                              </br><a style="color: #aaa" class="phone-font-sml">Added: {{file.created_at}}</a>
+                            </li>
+                            {% endfor %}
+                      {% else %}
+                      <h6 style="margin-bottom: 30px">No Files or Links</h6> 
+                      {% endif %}
+                      
+                      
+                      <div id="file_submit_progress" class="progress">
+                        <div class="indeterminate"></div>
+                      </div>
+                    </ul>
+                    <form id="file_add_form" class="col s12" style="padding: 0" action="{% url 'add_model_files' model.id %}" method="post"
+                  enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="col s12 " style="padding: 0">
+                          <div class="file-field input-field col s12 " style="padding: 0" id="file_add_div">
+                              <div class="btn-small phone-button">
+                                  <span><i class="material-icons phone-font-lrg">add</i></span>
+                                  <input id="file_add" name="file_add" type="file" multiple>
+                              </div>
+                              <div class="file-path-wrapper">
+                                  <input class="file-path validate" type="text" placeholder="Open Explorer or Drag and Drop">
+                              </div>
+                          </div>
+                          <div class="input-field col s12 " id="file_url_div" hidden>
+                            <input placeholder="paste entire URL" id="file_url" name="file_url" type="url">
+                            <label for="file_url">URL for File</label>
+                          </div>
+                          <a class="btn-small phone-button bottom-space" id="url_display_btn" onclick="urlDisplay()">Enter link URL instead</a>
+                          <a class="btn-small phone-button" id="file_display_btn" onclick="fileDisplay()" hidden>Upload a file instead</a>
+                          <div class="input-field col s12 ">
+                            <input placeholder="optionally name the file or link" id="file_name" name="file_name" type="text" >
+                            <label class="phone-font-sml" for="file_name">File/Link Name (optional)</label>
+                          </div>
+                          
+                      </div>
+                      <div class="col s12 phone-pad-bottom">
+                        <button class="btn waves-effect waves-light right phone-button" type="submit" name="action" id="submit-btn" onclick="onFileAdd()"> Upload File/Link
+                          <i class="material-icons right">send</i>
+                        </button>
+                      </div>
+                    </form>
+            </div>            
+            <div class="row quick-div">
+              <h4 style="margin: 0; padding: .75rem; text-align: center; color: #023b59;">Model Videos</h4>
+              {% if video_guides %}
+              <ul  class="collapsible">
+                {% for guide in video_guides %}
+                <li>
+                  <div class="collapsible-header phone-font-ml" style="overflow: auto;"><i class="material-icons" >expand_more</i>{{guide.title}}</div>
+                  <div class="collapsible-body"> 
+                        <video controls="controls" controlsList=”nodownload” width="98%" height="auto">
+                        <source src="{{guide.model_test_guide.url}}" type="video/mp4"></video>
+                  </div>
+                 </li>      
+                {% endfor %}  
+              </ul>          
+              {% else %}
+              <h6>No video guides</h6>
+              {% endif %}    
+              <div id="video_submit_progress" class="progress">
+                <div class="indeterminate"></div>
+              </div>
+              <form id="video_add_form" class="col s12" action="{% url 'add_model_video' model.id %}" method="post"
+                enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="col s12 ">
+                      <div class="file-field input-field col s12 " id="video_add_div">
+                          <div class="btn-small phone-button">
+                              <span><i class="material-icons phone-font-lrg">add</i></span>
+                              <input id="video_add" name="video_add" type="file" accept="video/*">
+                          </div>
+                          <div class="file-path-wrapper">
+                              <input class="file-path validate" type="text" placeholder="Select File to Add">
+                          </div>
+                      </div>
+                      <div class="input-field col s12 ">
+                        <input placeholder="Name the video" style="margin-top: 1rem;" id="video_name" name="video_name" type="text" required>
+                        <label for="video_name" style="padding-top: 1rem;"><span>Video Title (required)</span></label>
+                      </div>
+                      
+                  </div>
+                  <div class="col s12 phone-pad-bottom">
+                    <button class="btn waves-effect waves-light phone-button right" type="submit" name="action" id="submit-btn-video" onclick="onVideoAdd()"> Add Video to Model
+                      <i class="material-icons right">send</i>
+                    </button>
+                  </div>
+              </form>  
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+<script>
+  function confirmCopy(){
+    var x=confirm('Please confirm choice to create a private copy.')
+    if(!x){
+      event.preventDefault();
+    }
+  }
+  $('#add_note').keyup(function(){
+    if($(this).val()){$('#submit-btn-notes').show()}else{$('#submit-btn-notes').hide()}
+  })
+        $(document).ready(function(){
+          mandatoryInstance = M.Chips.getInstance($("#m_test_equipment-chips"));
+          optionalInstance = M.Chips.getInstance($("#o_test_equipment-chips"));
+
+            {% for test_equipment in model.mandatory_model_test_equipment.all %}
+             mandatoryInstance.addChip({tag: '{{ test_equipment.name }}'})
+            {% endfor %}
+            {% for test_equipment in model.optional_model_test_equipment.all %}
+             optionalInstance.addChip({tag: '{{ test_equipment.name }}'})
+            {% endfor %}
+          $('#file_display_btn').hide()
+          $('#file_submit_progress').hide()
+          $('.collapsible').collapsible();          
+          $('#video_submit_progress').hide()
+        })
+        function goBack() {
+          window.history.back();
+        }
+        function urlDisplay(){
+          $('#file_url_div').show()
+          $('#file_add_div').hide()
+          $('#file_display_btn').show()
+          $('#url_display_btn').hide()
+        }
+        function fileDisplay(){
+          $('#file_add_div').show()
+          $('#file_url_div').hide()
+          $('#url_display_btn').show()
+          $('#file_display_btn').hide()
+          
+        }
+        function onFileAdd() {
+          $('#file_submit_progress').show()
+        }
+        function onVideoAdd() {          
+          if($('#video_name').val()){
+            $('#video_submit_progress').show()
+          }    
+        }
+      let is_edit_mode = false
+      function onEditMode() {
+        
+        if(is_edit_mode){
+            is_edit_mode = false;
+          $(".editmode").hide();
+          $(".editable-field").hide()
+          $("#enter_edit_button").html('Model Edit Mode')
+          $('#edit_submit_div').hide()
+          stopLeave=false
+        }else{
+          is_edit_mode = true;
+          $(".editmode").show();
+          $(".editable-field").show()
+          $(".hidden-stuff").show().css('display', 'table-row')
+          $("#enter_edit_button").html('Exit Edit Mode')
+          $('#edit_submit_div').show()
+          stopLeave = true
+        }
+      }
+   
+   
+      hidden_model_note_ids=Array.from(JSON.parse(localStorage.hidden_model_note_ids || '[]'))
+      hidden_model_note_ids.forEach((item_id) => {
+        let type = 'model_note'
+        let child_div = $('#'+type+item_id)
+        let child_toggle = $('#'+type+'_toggle'+item_id)
+        child_div.hide(function(){
+        child_toggle.html("&#9660");   
+        child_toggle.parent().css("color", "#FF4500")         
+        })
+      })
+  let allEquipments = {{ test_equipment_list|safe}}
+  $('#m_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+              },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+
+        let selectedItems = mandatoryInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            mandatoryInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test set items.');
+            }
+            return
+        } else {
+            let optionalItems = optionalInstance.options.autocompleteOptions.data
+            delete existingItems[tag]
+            delete optionalItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = mandatoryInstance.options.autocompleteOptions.data
+        let optionalItems = optionalInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let optionalChipsData = optionalInstance.chipsData
+              for (let i=0; i<optionalChipsData.length; i++) {
+                  if (optionalChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted test equipment to drop down list
+            optionalItems[deletedTestEquipment] = null
+          }
+      }
+    });
+
+  let mandatoryInstance = null;
+  let optionalInstance = null;
+
+  $('#o_test_equipment-chips').chips({
+    placeholder: 'Type to Filter',
+    secondaryPlaceholder: '+Add More',
+    autocompleteOptions: {
+      data: {
+          {% for test_equipment in test_equipments %}
+  '{{test_equipment}}': null,
+    {% endfor %}
+        },
+  limit: Infinity,
+    minLength: 0,
+      },
+      onChipAdd: (elem) => {
+
+        let selectedItems = optionalInstance.chipsData;
+        let newItemIndex = selectedItems.length - 1
+        let newItem = selectedItems[newItemIndex]
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let tag = newItem.tag;
+        if (!(tag in existingItems)) {
+            optionalInstance.deleteChip(newItemIndex);
+            if (!allEquipments.includes(tag)) {
+                alert(tag + ' is not a valid selection. Must select from existing test sets.');
+            }
+            return
+        } else {
+            let optionalItems = mandatoryInstance.options.autocompleteOptions.data
+            delete optionalItems[tag]
+            delete existingItems[tag]
+        }
+      },
+      onChipDelete: (elem, data) => {
+        let deletedTestEquipment = data.firstChild.textContent
+        let existingItems = optionalInstance.options.autocompleteOptions.data
+        let mandatoryInstanceItems = mandatoryInstance.options.autocompleteOptions.data
+          if (allEquipments.includes(deletedTestEquipment)) {
+              let mandatoryChipsData = mandatoryInstance.chipsData
+              for (let i=0; i<mandatoryChipsData.length; i++) {
+                  if (mandatoryChipsData[i].tag === deletedTestEquipment) {
+                      return
+                  }
+              }
+            existingItems[deletedTestEquipment] = null // this adds deleted test equipment to drop down list
+            mandatoryInstanceItems[deletedTestEquipment] = null
+          }
+      }
+  });
+
+  function onSubmit() {
+    
+    stopLeave=false
+    var mandatoryValue = Array.from(mandatoryInstance.chipsData.map(x => x.tag)).join(",");
+    $("#mandatory_model_test_equipment").val(mandatoryValue);
+
+
+    var optionalValue = Array.from(optionalInstance.chipsData.map(x => x.tag)).join(",");
+    $("#optional_model_test_equipment").val(optionalValue);
+
+  }
+</script>
+
+{% endblock %}

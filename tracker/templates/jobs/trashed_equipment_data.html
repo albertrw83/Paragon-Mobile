@@ -1,0 +1,127 @@
+{% if not equipment.parent_equipment or not equipment.parent_equipment.trashed or sub %}
+    <div class="col s12 card-style equipment-div
+        {% if equipment.eq_level != 0 and equipment.parent_equipment.trashed %}
+            nested-el
+        {%endif%}"
+    >
+    {% csrf_token %}
+    <div>
+        <div class="card z-depth-1" >
+            <div class="card-content">
+                <span class="card-title">
+                    <label class="check-parent">
+                        <input
+                            class="filled-in equipment-item check-input {% if equipment.parent_equipment%}childof-checkbox_parent_{{equipment.parent_equipment.id}}{%endif%}"
+                             type="checkbox" id="checkbox_parent_{{equipment.id}}" value="{{ equipment.pk }}"/><span class="check-span"></span>
+                      </label>
+
+                    <a class="phone-font-xl left-spacing"href="{% url 'equipment' equipment.id %}">
+                        {{equipment.site_id}}
+                    </a>
+                        <i class="tiny site_id_edit_link material-icons tooltipped" style="cursor: pointer;" data-position="right" data-tooltip="edit ID">
+                        edit
+                    </i>
+{#                    <span class="phone-font-ml right">#}
+{#                        {% if equipment.completion %}#}
+{##}
+{#                        <span class="phone-font-xl noselect hover-item" style=" color:#00CC55" >#}
+{#                            &#x2714#}
+{#                          </span>#}
+{#                        {% else %}#}
+{##}
+{#                        <span class="phone-font-xl noselect hover-item" style="color:#BBCC00; font-weight: 900;" ondblclick="$(this).html('&#x2714'); $(this).css('color','#00CC55' )">#}
+{#                            &#8212#}
+{#                          </span>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+
+                    <textarea
+                    id="edit_site_id_{{equipment.site_id}}"
+                    class="site_id_edit_input materialize-textarea phone-font-lrg active"
+                    name="edit_site_id_{{equipment.site_id}}"
+                    type="text"
+                    form="site_id_edit"
+                    autocomplete="off"
+                    placeholder="New Site ID"
+                    hidden
+                    >
+                        {{equipment.site_id}}
+                    </textarea>
+                    <input class = "site_id_edit_pk" type="hidden" value="{{equipment.pk}}"/>
+                </span>
+                <span class="phone-font-med">
+                    {% if equipment.equipment_model %}
+                        {% if equipment.equipment_model.model_manufacturer %}
+                            {{equipment.equipment_model.model_manufacturer}}
+                        {% else %}
+                            No Manufacturer
+                        {% endif %}
+                    {% else %}
+                        No Manufacturer Selected
+                    {% endif %}
+                    {% if equipment.equipment_model %}
+                        {{equipment.equipment_model}}
+                    {% else %}
+                        No Model
+                    {% endif %}
+                </span>
+                <a class="waves-effect waves-light btn-large phone-button phone-font-lrg move-btn pulse" onclick="BatchMove('{{equipment.id}}')" id="moveto_{{equipment.id}}" style="text-decoration: none; color: white; background-color: #bf5700; display: none;">
+                    Move Here
+                </a>
+                <br>
+                <span class="custom-table-font phone-font-med">
+                    {% if equipment.equipment_type %}
+                        {{equipment.equipment_type.name}}
+                    {% else %}
+                        No Type
+                    {% endif %}
+                </span>
+
+
+            </div>
+            <div class="card-action eq-action phone-font-ml">
+
+                {% if equipment.sub_equipments_trashed_count %}
+                <a class="waves-effect waves-light eq-child-toggle btn-small phone-button eq-child z-depth-0"  id="eq_child_toggle{{equipment.pk}}" style="text-decoration: none;margin-right: 25px;" >
+                    <span>
+                        <span class="phone-font-ml comp-font-med">
+                            <span id="eq_toggle_sign{{equipment.pk}}">
+                                &#9650
+                            </span>
+                            {{equipment.sub_equipments_trashed_count}}
+                        </span>
+                    </span>
+                </a>
+                <a class="waves-effect waves-light btn-small phone-button parent-checkbox" id="parent_{{equipment.id}}" style="text-decoration: none; margin-right: 25px;">
+                    <span class="material-icons-outlined  waves-effect waves-light phone-font-lrg  ">library_add_check</span>
+                </a>
+                {%endif%}
+                {% if equipment.test_results %}
+                <a href="{{ equipment.test_results.url }}" class="quick-link" target="_blank">
+                    Test Results
+                </a>
+                {% endif %}
+                {% if equipment.test_results and equipment.equipment_model.model_manual%}|&nbsp&nbsp&nbsp <span class="computer-screen">&nbsp&nbsp</span>{% endif %}
+                {% if equipment.equipment_model.model_manual %}
+                <a href="{{equipment.equipment_model.model_manual.url}}" class="quick-link" target="_blank">
+                    Open Manual
+                </a>
+
+            {% endif %}
+
+{#            <a href="{% url 'add_sub_equipment_page' equipment.id job.id %}" class="quick-link">#}
+{#                Add Sub-Equipment#}
+{#            </a>#}
+            </div>
+        </div>
+    </div>
+
+      <div id="eq_child_div{{equipment.pk}}">
+    {% for eq in equipment.sub_equipments.all %}
+        {% if eq.trashed %}
+        {% include "jobs/trashed_equipment_data.html" with equipment=eq sub=True%}
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
+{% endif %}

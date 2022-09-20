@@ -1,0 +1,18 @@
+<div class="row"  style="font-family: 'Lato', sans-serif; font-weight: 300">
+    <table class="table-all lato-300" style="width: 100%;">
+        <caption class="normal-header"> Bus Insulation Resistance
+        </caption>
+        <tr>
+            <td class="compact-borders"  style="border-right: 1px solid #d3d3d3; border-top: none;">Phase-to-Phase<br>@{%if test_sheet.insulation_resistance_ph_to_ph_test_voltage%}{{test_sheet.insulation_resistance_ph_to_ph_test_voltage}}{%else%}__________ {%endif%} Volts</td>
+            <td class="compact-borders" style="border-top: none;" >A-B <br> {%if test_sheet.insulation_resistance_ph_to_ph_a_b%} {{test_sheet.insulation_resistance_ph_to_ph_a_b.normalize }} {{test_sheet.insulation_resistance_ph_to_ph_a_b_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________ &nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+            <td class="compact-borders" style="border-top: none;" >B-C <br> {%if test_sheet.insulation_resistance_ph_to_ph_b_c%} {{test_sheet.insulation_resistance_ph_to_ph_b_c.normalize }} {{test_sheet.insulation_resistance_ph_to_ph_b_c_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________ &nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+            <td class="compact-borders" style="border-top: none;" >C-A <br> {%if test_sheet.insulation_resistance_ph_to_ph_c_a%} {{test_sheet.insulation_resistance_ph_to_ph_c_a.normalize }} {{test_sheet.insulation_resistance_ph_to_ph_c_a_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________ &nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+        </tr>
+        <tr>
+            <td class="compact-borders" style="border-right: 1px solid #d3d3d3;">Phase-to-Ground<br>@{%if test_sheet.insulation_resistance_ph_to_gr_test_voltage%}{{test_sheet.insulation_resistance_ph_to_gr_test_voltage}}{%else%}__________ {%endif%} Volts</td>
+            <td class="compact-borders">A-G <br>{%if test_sheet.insulation_resistance_ph_to_gr_a_g%} {{test_sheet.insulation_resistance_ph_to_gr_a_g.normalize}} {{test_sheet.insulation_resistance_ph_to_gr_a_g_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________&nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+            <td class="compact-borders">B-G <br>{%if test_sheet.insulation_resistance_ph_to_gr_b_g%} {{test_sheet.insulation_resistance_ph_to_gr_b_g.normalize}} {{test_sheet.insulation_resistance_ph_to_gr_b_g_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________&nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+            <td class="compact-borders">C-G <br>{%if test_sheet.insulation_resistance_ph_to_gr_c_g%} {{test_sheet.insulation_resistance_ph_to_gr_c_g.normalize}} {{test_sheet.insulation_resistance_ph_to_gr_c_g_units | default_if_none:"____"}}<span>&#8486</span>{%else%}<span style="white-space: nowrap;">_________&nbsp;&nbsp; ____<span>&#8486</span></span>{%endif%}</td>
+        </tr>
+    </table>
+</div> <br><br>

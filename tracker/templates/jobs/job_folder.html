@@ -1,0 +1,48 @@
+{% extends "jobs/base.html"%}
+
+{% block title %}
+  Folder_{{ job.job_name }}
+{% endblock %}
+
+{% block body %}
+<div class="container"><a class="waves-effect lapping-btn waves-light btn" href="{% url 'job' job.id %}">◀ {{ job.job_name }}</a>
+</div>
+<h1 style="text-align: center">{{ job.job_name }} Folder</h1>
+<div class="container">
+    
+        <form id="file_add_form" class="col s12" action="{% url 'add_job_files' job.id %}" method="post"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col s12 m12 l6">
+                <div class="file-field input-field col s12 m6">
+                    <div class="btn">
+                        <span>Choose Files</span>
+                        <input id="file_add" name="file_add" type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Choose File">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col s12 m12 l6">
+                <button class="btn waves-effect waves-light" type="submit" name="action" id="submit-btn"> Add File
+                    <i class="material-icons right">send</i>
+                  </button>
+            </div>
+        </form>
+
+    <ul class="collection">
+        {% csrf_token %}
+        {% if job_files %}
+            {% for file in job_files %}
+            <li class="collection-item"><a href="{{file.job_file.url}}" target="_blank" class="waves-effect waves-teal btn-flat">{{file.filename}}</a>
+                <a href="{% url 'remove_job_files' file.id %}" ><i class="material-icons right">remove_circle_outline</i></a>
+                <a style="color: #00EC12">Added: {{file.created_at}}</a></li>
+            {% endfor %}
+        {% else %}
+            No Files
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
