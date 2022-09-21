@@ -7,7 +7,10 @@ import { Provider } from "react-redux";
 import FoodForm from "./src/foodForm";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { store } from "./src/store";
+import { store, persistor } from "./src/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { ReduxNetworkProvider } from "react-native-offline";
+
 /**
  * Store - holds our state - THERE IS ONLY ONE STATE
  * Action - State can be modified using actions - SIMPLE OBJECTS
@@ -32,7 +35,15 @@ import { store } from "./src/store";
 
 class App extends Component {
   render() {
-    return <FoodForm />;
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          {/* <ReduxNetworkProvider> */}
+          <FoodForm />
+          {/* </ReduxNetworkProvider> */}
+        </PersistGate>
+      </Provider>
+    );
   }
 }
 

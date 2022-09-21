@@ -1,12 +1,34 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import foodReducer from "./reducers/foodReducer";
+import { persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  reducer as network,
+  createNetworkMiddleware,
+} from "react-native-offline";
+import reducer from "./reducers/index";
 
-const rootReducer = combineReducers({
-  foods: foodReducer,
+const persistConfig = {
+  key: "root",
+  storage: AsyncStorage,
+};
+
+const reducers = {
+  reducer,
+  network,
+};
+const allReducers = combineReducers(reducers);
+const networkMiddleware = createNetworkMiddleware({
+  regexActionType: /^OTHER/,
+  actionTypes: ["", ""],
+  queueReleaseThrottle: 1000,
 });
 
-export default configureStore({
-  reducer: {
-    foods: foodReducer,
-  },
+const persistedReducer = persistReducer(persistConfig, allReducers);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk, networkMiddleware],
 });
+
+export const persistor = persistStore(store);

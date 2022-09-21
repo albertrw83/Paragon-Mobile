@@ -21,6 +21,8 @@ import * as DocumentPicker from "expo-document-picker";
 import * as NetInfo from "@react-native-community/netinfo";
 import Spinner from "react-native-loading-spinner-overlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getEqInfoData } from "../src/Api/Middleware";
+import { useDispatch } from "react-redux";
 
 const DATA = [
   {
@@ -53,6 +55,8 @@ const EqItem = ({ eq }) => (
   </View>
 );
 const Resources = () => {
+  const dispatch = useDispatch();
+
   // const netInfo = NetInfo();
   const [image, setImage] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -67,6 +71,14 @@ const Resources = () => {
   //   console.log("Connection type", state.type);
   //   console.log("Is connected?", state.isConnected);
   // });
+
+  useEffect(() => {
+    getEQ();
+  }, []);
+
+  const getEQ = () => {
+    dispatch(getEqInfoData(12));
+  };
   const _storeData = async () => {
     try {
       await AsyncStorage.setItem("@storage_key", "eqDataOffline");
@@ -116,7 +128,9 @@ const Resources = () => {
       console.log("error-async-storage", error);
     }
   };
+
   const getLocal = async () => {
+    return;
     console.log("getlocal");
     try {
       axios
