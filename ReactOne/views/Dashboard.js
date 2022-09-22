@@ -22,15 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 // import * as Picker from "expo-document-picker";
 
 const Dashboard = () => {
-  const jobInfoData = useSelector((state) => state.reducer1.jobInfoData);
-
-  //set up variable states
-  React.useEffect(() => {
-    alert(jobInfoData.id);
-
-    return () => {};
-  }, []);
-
   //functions
   return (
     //Content

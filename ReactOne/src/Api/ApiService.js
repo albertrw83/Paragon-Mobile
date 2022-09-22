@@ -1,9 +1,15 @@
 import { axiosClient } from "./ApiConfig";
-const jobId1 = 1;
-export async function getJobInfoApi(jobId) {
-  const { data } = await axiosClient.get(`get_job_info/${jobId}`);
+export async function getDataApi(payload) {
+  const { data } = await axiosClient.get(
+    payload.url,
+    JSON.stringify(payload.payload)
+  );
   return data;
 }
-export function getEqInfoApi(eqId) {
-  return axiosClient.get(`get_eq_info/2`, JSON.stringify(payload));
+export async function postDataApi(payload) {
+  const { data } = await axiosClient.post(
+    payload.url,
+    JSON.stringify(payload.payload)
+  );
+  return data;
 }

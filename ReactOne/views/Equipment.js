@@ -19,10 +19,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import JobsList from "../src/components/JobsList";
 import JobModal from "../src/components/JobModal";
-import { getAllJobs } from "../src/Api/Middleware";
+import { dispatcher, getAllJobs } from "../src/Api/Middleware";
+import { setAllJobs } from "../src/reducers";
 
 const Equipment = () => {
-  const jobInfoData = useSelector((state) => state.reducer.jobInfoData);
+  const isNetworkAvailble = useSelector(
+    (state) => state.homeReducer.isNetworkAvailble
+  );
+  const allJobs = useSelector((state) => state.homeReducer.allJobs);
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedJob, setSelectedJob] = useState({});
 
@@ -47,11 +52,19 @@ const Equipment = () => {
   };
 
   useEffect(() => {
-    getJobs();
+    getJobs(); // this function is fetching all the jobs data
   }, []);
 
   const getJobs = () => {
-    dispatch(getAllJobs());
+    dispatch(
+      dispatcher({
+        payload: "",
+        method: "GET",
+        url: "get_jobs_info",
+        network: isNetworkAvailble,
+        actionType: setAllJobs,
+      })
+    );
   };
   let sampleElement = (
     <View>
@@ -69,7 +82,7 @@ const Equipment = () => {
         <JobsList
           showJobDetail={setModalVisible}
           setSelectedJob={setSelectedJob}
-          allJobs={jobInfoData}
+          allJobs={allJobs}
         />
       </Card.Content>
     </Card>
@@ -84,7 +97,7 @@ const Equipment = () => {
         setShowModal={setModalVisible}
       />
       <Text></Text>
-      <Text>{jobInfoData?.job_number}</Text>
+      <Text>{allJobs?.job_number}</Text>
       <View>
         <Button
           title="store locally"

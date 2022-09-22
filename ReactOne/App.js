@@ -10,6 +10,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ReduxNetworkProvider } from "react-native-offline";
+import JobView from "./navigation/jobView";
+import OfflineNotice from "./src/components/OfflineNotice";
 
 /**
  * Store - holds our state - THERE IS ONLY ONE STATE
@@ -36,13 +38,16 @@ import { ReduxNetworkProvider } from "react-native-offline";
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          {/* <ReduxNetworkProvider> */}
-          <FoodForm />
-          {/* </ReduxNetworkProvider> */}
-        </PersistGate>
-      </Provider>
+      <View style={styles.container}>
+        <Provider store={store}>
+          <OfflineNotice />
+          <PersistGate loading={null} persistor={persistor}>
+            <ReduxNetworkProvider store={store}>
+              <FoodForm />
+            </ReduxNetworkProvider>
+          </PersistGate>
+        </Provider>
+      </View>
     );
   }
 }
@@ -53,8 +58,7 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
 });
