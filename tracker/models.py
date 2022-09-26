@@ -642,6 +642,12 @@ class EquipmentFolder(models.Model):
         return extension
     def filename(self):
         return os.path.basename(self.equipment_file.name)
+    @property
+    def author_name(self):
+        user = self.author
+        if user:
+            return f'{user.first_name} {user.last_name}'
+        return 'Anonymous'
 
 class EquipmentLink(models.Model):
     link_name = models.CharField(max_length=256, null=True, blank=True)
@@ -653,6 +659,12 @@ class EquipmentLink(models.Model):
     @property
     def hostname(self):
         return urllib.parse.urlparse(self.link_url).hostname
+    @property
+    def author_name(self):
+        user = self.author
+        if user:
+            return f'{user.first_name} {user.last_name}'
+        return 'Anonymous'
 
 class EquipmentNotes(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='equipment_notes')
