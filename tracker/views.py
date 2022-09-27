@@ -1,4 +1,3 @@
-
 from http import HTTPStatus
 from PyPDF2 import PdfFileWriter
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -19,19 +18,25 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 
-from .models import Job, JobFolder, BusContactTestData, EquipmentFolder, UserProperties, WorkingNote, Type, Manufacturer, Model, ModelNotes, ModelFolder, Equipment, TestEquipment, JobNotes,EquipmentLink, EquipmentNotes, TypeNotes, TypeFolder, TypeTestStandards, TypeTestGuide, ModelTestGuide, JobSite, JobSiteNotes, JobSiteFolder, Company, FeedbackFile, FeedbackNote, TestSheet, Well, WellNotes, MaintEvent, MaintFile, MaintNotes
+from .models import Job, JobFolder, BusContactTestData, EquipmentFolder, UserProperties, WorkingNote, Type, \
+    Manufacturer, Model, ModelNotes, ModelFolder, Equipment, TestEquipment, JobNotes, EquipmentLink, EquipmentNotes, \
+    TypeNotes, TypeFolder, TypeTestStandards, TypeTestGuide, ModelTestGuide, JobSite, JobSiteNotes, JobSiteFolder, \
+    Company, FeedbackFile, FeedbackNote, TestSheet, Well, WellNotes, MaintEvent, MaintFile, MaintNotes
 from .serializers import JobSerializer, TestSheetSerializer, EquipmentSerializer
 import pdfkit
 import os
+
 
 # Create your views here.
 def home(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     # get_job_info('GET')
-    properties=UserProperties.objects.get(user=request.user)
-    jobs = Job.objects.filter(archived=False, trashed=False, user_properties=properties, company=properties.company).order_by('-start_date')
-    other_jobs = Job.objects.filter(archived=False, trashed=False, company=properties.company).exclude(user_properties=properties).order_by('-start_date')
+    properties = UserProperties.objects.get(user=request.user)
+    jobs = Job.objects.filter(archived=False, trashed=False, user_properties=properties,
+                              company=properties.company).order_by('-start_date')
+    other_jobs = Job.objects.filter(archived=False, trashed=False, company=properties.company).exclude(
+        user_properties=properties).order_by('-start_date')
 
     context = {
         "user": request.user,
@@ -41,6 +46,14 @@ def home(request):
     }
     if request.user.is_authenticated:
         return render(request, "jobs/home.html", context)
+
+
+# Pagination Generic Class
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
 
 # CRUD operation of Job
 # 1- 127.0.0.1:8000/get_jobs_info (POST: to create Job )
@@ -53,6 +66,7 @@ class GetJobsView(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     pagination_class = StandardResultsSetPagination
+
 
 # OLD CODE
 # def get_jobs_info(request):
@@ -70,16 +84,16 @@ class GetJobsView(viewsets.ModelViewSet):
 #     return "fail"
 
 
-
 def get_test_info(request):
     if request.method == 'GET':
         tests = TestSheet.objects.all()[:5]
         serializer = TestSheetSerializer(tests, many=True)
         # print(serializer)
         return JsonResponse(serializer.data, safe=False)
-    x=3
+    x = 3
     # print(x)
     return "fail"
+
 
 def get_eq_info(request, eq_id):
     if request.method == 'GET':
@@ -90,62 +104,67 @@ def get_eq_info(request, eq_id):
         return JsonResponse(serializer.data, safe=False)
     return "fail"
 
+
 def get_job_info(request, job_id):
     print("loaded")
     # print(pk)
     if request.method == 'GET':
         job = Job.objects.get(pk=job_id)
         serializer = JobSerializer(job)
-        x=2
+        x = 2
         # print(serializer)
         return JsonResponse(serializer.data, safe=False)
     return "fail"
 
-#this is from the microsft graph tutorial. redirects to microsft sign in
+
+# this is from the microsft graph tutorial. redirects to microsft sign in
 def sign_in(request):
-  # Get the sign-in flow
-  flow = get_sign_in_flow()
+    # Get the sign-in flow
+    flow = get_sign_in_flow()
 
-  # Save the expected flow so we can use it in the callback
-  try:
-    request.session['auth_flow'] = flow
-  except Exception as e:
-      x = 3
-  # Redirect to the Azure sign-in page
-  return HttpResponseRedirect(flow['auth_uri'])
+    # Save the expected flow so we can use it in the callback
+    try:
+        request.session['auth_flow'] = flow
+    except Exception as e:
+        x = 3
+    # Redirect to the Azure sign-in page
+    return HttpResponseRedirect(flow['auth_uri'])
 
-#this is from the microsft graph tutorial. signs user out
+
+# this is from the microsft graph tutorial. signs user out
 def sign_out(request):
-  # Clear out the user and token
-  remove_user_and_token(request)
+    # Clear out the user and token
+    remove_user_and_token(request)
 
-  return HttpResponseRedirect(reverse('home'))
+    return HttpResponseRedirect(reverse('home'))
+
 
 def initialize_context(request):
-  context = {}
+    context = {}
 
-  # Check for any errors in the session
-  error = request.session.pop('flash_error', None)
-  if error != None:
-    context['errors'] = []
-    context['errors'].append(error)
-  # Check for user in the session
-  context['user'] = request.session.get('user', {'is_authenticated': False})
-  return context
+    # Check for any errors in the session
+    error = request.session.pop('flash_error', None)
+    if error != None:
+        context['errors'] = []
+        context['errors'].append(error)
+    # Check for user in the session
+    context['user'] = request.session.get('user', {'is_authenticated': False})
+    return context
 
-#this is from the microsft graph tutorial. 
+
+# this is from the microsft graph tutorial.
 def callback(request):
-  # Make the token request
- 
-  result = get_token_from_code(request)
-  
+    # Make the token request
 
-  #Get the user's profile
-  user = get_user(result['access_token'])
+    result = get_token_from_code(request)
 
-  # Store user
-  store_user(request, user)
-  return HttpResponseRedirect(reverse('home'))
+    # Get the user's profile
+    user = get_user(result['access_token'])
+
+    # Store user
+    store_user(request, user)
+    return HttpResponseRedirect(reverse('home'))
+
 
 def birdseye(request):
     if not request.user.is_authenticated:
@@ -156,26 +175,27 @@ def birdseye(request):
     theone = Equipment.objects.filter(trashed=True)
     properties = None
     try:
-        properties=UserProperties.objects.get(user=request.user)
+        properties = UserProperties.objects.get(user=request.user)
         if properties.company:
-            jobsites=JobSite.objects.all()
+            jobsites = JobSite.objects.all()
         else:
             properties = None
     except:
-        properties=None
+        properties = None
     #     pass    
     context = {
         "jobsites": jobsites,
         "theone": theone
-    }    
+    }
     # try:
     if request.user.is_authenticated and properties:
-        return render(request, "jobs/birdseye.html", context)  
+        return render(request, "jobs/birdseye.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: birdseye>first_except"})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: birdseye>first_except"})
     # except:
     #     return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code: birdseye>final_except"})
-   
+
 
 def jobs(request):
     if not request.user.is_authenticated:
@@ -183,15 +203,17 @@ def jobs(request):
     eqs = Equipment.objects.filter(equipments__isnull=False)
     context = initialize_context(request)
     try:
-        properties=UserProperties.objects.get(user=request.user)
+        properties = UserProperties.objects.get(user=request.user)
         if properties.company:
-            my_jobs=Job.objects.filter(archived=False, trashed=False, user_properties=properties, company=properties.company).order_by('-pk')
-            all_jobs=Job.objects.filter(archived=False, trashed=False, company=properties.company).order_by("-pk")
+            my_jobs = Job.objects.filter(archived=False, trashed=False, user_properties=properties,
+                                         company=properties.company).order_by('-pk')
+            all_jobs = Job.objects.filter(archived=False, trashed=False, company=properties.company).order_by("-pk")
         else:
-            return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: birdseye>first_except"})
-            my_jobs=Job.objects.filter(archived=False, trashed=False, user_properties=properties).order_by('-pk')
-            all_jobs=Job.objects.filter(archived=False, trashed=False).order_by("-pk")
-        not_my_jobs=[]
+            return render(request, "jobs/error.html", {
+                "message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: birdseye>first_except"})
+            my_jobs = Job.objects.filter(archived=False, trashed=False, user_properties=properties).order_by('-pk')
+            all_jobs = Job.objects.filter(archived=False, trashed=False).order_by("-pk")
+        not_my_jobs = []
         for job in all_jobs:
             if not job in my_jobs:
                 not_my_jobs.append(job)
@@ -204,23 +226,25 @@ def jobs(request):
         except:
             pass
     except:
-        properties=None
+        properties = None
         pass
-    
+
     try:
         if request.user.is_authenticated and properties.company:
             return render(request, "jobs/jobs.html", context)
         else:
-            return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: jobs>first_except"})
+            return render(request, "jobs/error.html", {
+                "message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code.: jobs>first_except"})
     except:
         # return render(request, "jobs/jobs.html", context)
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code: jobs>final_except"})
-   
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company reference key. Click Edit Profile above to add a key. Error code: jobs>final_except"})
+
 
 def login_view(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
-    
+
     if request.user.id:
         return HttpResponseRedirect(reverse("jobs"))
 
@@ -228,9 +252,9 @@ def login_view(request):
         return render(request, "jobs/login.html")
 
     user = authenticate(request, username=username, password=password)
-    
-    if user is not None:        
-        
+
+    if user is not None:
+
         login(request, user)
         properties = UserProperties.objects.filter(user=user).first()
         if properties and properties.company:
@@ -240,12 +264,13 @@ def login_view(request):
     else:
         return render(request, "jobs/login.html", {"message": "Invalid credentials."})
 
+
 def logout_view(request):
     logout(request)
     return render(request, "jobs/login.html", {"message": "Logged out."})
 
+
 def register(request):
-    
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -256,21 +281,21 @@ def register(request):
             login(request, user)
             return redirect('create_profile_view')
     else:
-        form=UserCreationForm()
+        form = UserCreationForm()
     return render(request, 'jobs/register.html', {'form': form})
 
+
 def create_profile_view(request):
-    
-    email_value='' #initiate email as empty string
+    email_value = ''  # initiate email as empty string
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        user_properties=UserProperties.objects.get(user=request.user)
+        user_properties = UserProperties.objects.get(user=request.user)
         email_value = request.user.email
     except:
-        user_properties=None
+        user_properties = None
         username = request.user.username
-        #check that username has got some email properties
+        # check that username has got some email properties
         if '@' in username or ',' in username:
             email_value = username
         else:
@@ -282,77 +307,81 @@ def create_profile_view(request):
     if request.user.is_authenticated:
         return render(request, "jobs/create_profile.html", context)
 
+
 def job(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        user_properties=UserProperties.objects.get(user=request.user)
+        user_properties = UserProperties.objects.get(user=request.user)
         job = Job.objects.get(pk=job_id)
-        notes= JobNotes.objects.filter(job=job, parent_note__isnull=True).order_by('-updated_at')
+        notes = JobNotes.objects.filter(job=job, parent_note__isnull=True).order_by('-updated_at')
         jobsite_notes = JobSiteNotes.objects.filter(jobsite=job.job_site).order_by('-updated_at')
         jobsite_files = JobSiteFolder.objects.filter(jobsite=job.job_site).order_by('-created_at')
-        equipments=job.equipment.filter(Q(equipment_mold__isnull=True) | Q(equipment_mold__trashed=False), trashed=False, parent_equipment__isnull=True).order_by('-pk')
-        eq_notes_list=[]
-        eq_with_notes=[]
-        finished_count=equipments.filter(completion=True).count()
-        unfinished_count=equipments.filter(completion=False).count()
+        equipments = job.equipment.filter(Q(equipment_mold__isnull=True) | Q(equipment_mold__trashed=False),
+                                          trashed=False, parent_equipment__isnull=True).order_by('-pk')
+        eq_notes_list = []
+        eq_with_notes = []
+        finished_count = equipments.filter(completion=True).count()
+        unfinished_count = equipments.filter(completion=False).count()
         job_files = JobFolder.objects.filter(job=job).exclude(job_file='').order_by('-pk')
-        eq_files_list=[]
-        eq_with_files=[]
+        eq_files_list = []
+        eq_with_files = []
         quoted_hours = 0
-        for equipment in job.equipment.filter(trashed= False):
-            eq_notes=EquipmentNotes.objects.filter(equipment=equipment, parent_note__isnull=True).order_by('-updated_at')
+        for equipment in job.equipment.filter(trashed=False):
+            eq_notes = EquipmentNotes.objects.filter(equipment=equipment, parent_note__isnull=True).order_by(
+                '-updated_at')
             if eq_notes:
                 eq_with_notes.append(equipment)
             for note in eq_notes:
                 eq_notes_list.append(note)
 
-            eq_files=EquipmentFolder.objects.exclude(equipment_file='').filter(equipment=equipment).order_by('-created_at')
+            eq_files = EquipmentFolder.objects.exclude(equipment_file='').filter(equipment=equipment).order_by(
+                '-created_at')
             if eq_files:
                 eq_with_files.append(equipment)
             for eq_file in eq_files:
                 eq_files_list.append(eq_file)
-            #adding quoted default
+            # adding quoted default
             if equipment.equipment_model.quote_default:
-                quoted_hours = quoted_hours+equipment.equipment_model.quote_default
+                quoted_hours = quoted_hours + equipment.equipment_model.quote_default
             elif equipment.equipment_type.quote_default:
-                quoted_hours = quoted_hours+equipment.equipment_type.quote_default
+                quoted_hours = quoted_hours + equipment.equipment_type.quote_default
 
         fsrs = job.fsrs
-        non_fsrs=[]
-        for fsr in UserProperties.objects.filter(is_fsr=True, company = user_properties.company):
+        non_fsrs = []
+        for fsr in UserProperties.objects.filter(is_fsr=True, company=user_properties.company):
             if fsr not in fsrs:
                 non_fsrs.append(fsr)
-        #define strings that will be conditional on completion/archive/trash status'
-        if (job.trashed==False):
-            trash_button="Trash Job"
+        # define strings that will be conditional on completion/archive/trash status'
+        if (job.trashed == False):
+            trash_button = "Trash Job"
         else:
-            trash_button="Untrash Job" 
-        if (job.archived==False):
-            archive_button="Archive Job"
+            trash_button = "Untrash Job"
+        if (job.archived == False):
+            archive_button = "Archive Job"
         else:
-            archive_button="Unarchive Job"
+            archive_button = "Unarchive Job"
 
-
-        if (job.completion==False):
-            completion="Incomplete"
-            complete_button="Mark Complete"
+        if (job.completion == False):
+            completion = "Incomplete"
+            complete_button = "Mark Complete"
         else:
-            completion="Finished"
-            complete_button="Mark Incomplete"
+            completion = "Finished"
+            complete_button = "Mark Incomplete"
 
 
     except Job.DoesNotExist:
         raise Http404("Job does not exist.")
-    #check if user has permission to view this job
+    # check if user has permission to view this job
     if not job.company == user_properties.company:
-        return render(request, "jobs/error.html", {"message": "This job does not belong to your company. Contact admin if you suspect this is an error."})
+        return render(request, "jobs/error.html", {
+            "message": "This job does not belong to your company. Contact admin if you suspect this is an error."})
 
     existing_test_equipment_ids = [i[0].id for i in job.test_equipments]
     available_test_equipments = TestEquipment.objects.exclude(id__in=existing_test_equipment_ids)
     test_equipments = json.dumps(list(TestEquipment.objects.values_list('name', flat=True)))
 
-    context= {
+    context = {
         "job": job,
         "job_id": job_id,
         "notes": notes,
@@ -376,11 +405,11 @@ def job(request, job_id):
         "jobsite_notes": jobsite_notes,
         "jobsite_files": jobsite_files,
         "quoted_hours": round(quoted_hours, 2),
-        "default_quote": round(quoted_hours*255.0, 2),
+        "default_quote": round(quoted_hours * 255.0, 2),
         "available_test_equipments": available_test_equipments,
         "test_equipments": test_equipments,
     }
-    
+
     # The below code can be activated to create a copy of a job when that job is viewed. Use only for copying jobs for example jobs
     # new_job = job
     # new = new_job
@@ -390,14 +419,15 @@ def job(request, job_id):
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/job.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
 
 
 def job_folder(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        job=Job.objects.get(pk=job_id)
+        job = Job.objects.get(pk=job_id)
         job_files = JobFolder.objects.filter(job=job).exclude(job_file='').order_by('-pk')
     except Job.DoesNotExist:
         raise Http404("Folder does not exist.")
@@ -408,16 +438,17 @@ def job_folder(request, job_id):
     if request.user.is_authenticated:
         return render(request, "jobs/job_folder.html", context)
 
-#defines view for creating a new job
+
+# defines view for creating a new job
 def new_job(request, add_type):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        user_properties=UserProperties.objects.get(user=request.user)
+        user_properties = UserProperties.objects.get(user=request.user)
     except:
-        user_properties=None
+        user_properties = None
     context = {
-        "job_sites": JobSite.objects.filter(company = user_properties.company).order_by('-pk'),
+        "job_sites": JobSite.objects.filter(company=user_properties.company).order_by('-pk'),
         "job_ids": json.dumps(list(Job.objects.values_list('job_number', flat=True)))
     }
     if request.user.is_authenticated and user_properties.company:
@@ -428,54 +459,64 @@ def new_job(request, add_type):
             return render(request, "jobs/new_job_quick.html", context)
         return render(request, "jobs/new_job.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+
 
 def create_job_site_view(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    
-    user_properties=UserProperties.objects.get(user=request.user)
+
+    user_properties = UserProperties.objects.get(user=request.user)
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/create_job_site.html")
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+
 
 def job_sites(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-        
-    user_properties=UserProperties.objects.get(user=request.user)
+
+    user_properties = UserProperties.objects.get(user=request.user)
     context = {
-        "job_sites": JobSite.objects.filter(company = user_properties.company).order_by('-pk')
+        "job_sites": JobSite.objects.filter(company=user_properties.company).order_by('-pk')
     }
     if request.user.is_authenticated:
         return render(request, "jobs/job_sites.html", context)
-   
+
+
 def job_site(request, jobsite_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    
+
     mfrs = Manufacturer.objects.all()
 
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
 
     try:
-        user_properties=UserProperties.objects.get(user=request.user)
-        jobsite=JobSite.objects.get(pk=jobsite_id)       
+        user_properties = UserProperties.objects.get(user=request.user)
+        jobsite = JobSite.objects.get(pk=jobsite_id)
         if jobsite.company != user_properties.company:
-            return render(request, "jobs/error.html", {"message": "Error: Company access requirements not met. If you arrived here by manually changing the url, you are not authorized to view this job site. If you arrived here by clicking a link, please contact admin."})
+            return render(request, "jobs/error.html", {
+                "message": "Error: Company access requirements not met. If you arrived here by manually changing the url, you are not authorized to view this job site. If you arrived here by clicking a link, please contact admin."})
 
         flateq = Equipment.objects.filter(job_site=jobsite).all()
-        job_id=0
+        job_id = 0
         jobsite_notes = JobSiteNotes.objects.filter(jobsite=jobsite).order_by('-updated_at')
         jobsite_files = JobSiteFolder.objects.filter(jobsite=jobsite).order_by('-created_at')
-        equipments = Equipment.objects.filter(job_site=jobsite, parent_equipment__isnull=True, trashed=False).order_by('site_id')
-        jobs = Job.objects.filter(job_site=jobsite, company = user_properties.company).order_by('-start_date')
-        active_jobs = Job.objects.filter(job_site=jobsite, trashed = False, archived = False, company=user_properties.company).order_by('-start_date')
-        inactive_jobs = Job.objects.filter(job_site=jobsite, company=user_properties.company).exclude(trashed = False, archived = False).order_by('-start_date')
+        equipments = Equipment.objects.filter(job_site=jobsite, parent_equipment__isnull=True, trashed=False).order_by(
+            'site_id')
+        jobs = Job.objects.filter(job_site=jobsite, company=user_properties.company).order_by('-start_date')
+        active_jobs = Job.objects.filter(job_site=jobsite, trashed=False, archived=False,
+                                         company=user_properties.company).order_by('-start_date')
+        inactive_jobs = Job.objects.filter(job_site=jobsite, company=user_properties.company).exclude(trashed=False,
+                                                                                                      archived=False).order_by(
+            '-start_date')
         context = {
             "jobsite": jobsite,
             "jobsite_notes": jobsite_notes,
@@ -500,56 +541,57 @@ def job_site(request, jobsite_id):
 
 
 def create_test_eq_view(request):
-    
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    user_properties=UserProperties.objects.get(user=request.user)
-    
+    user_properties = UserProperties.objects.get(user=request.user)
+
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/create_test_eq.html")
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
 
 
-#defines and renders view for creating a new type of equipment
+# defines and renders view for creating a new type of equipment
 def create_type_view(request):
     print("000000000")
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     test_equipments = TestEquipment.objects.all()
     equipment_types = Type.objects.all().order_by('-pk')
-    user_properties=UserProperties.objects.get(user=request.user)
-    #pass in existing types of equipment
-    context= {
+    user_properties = UserProperties.objects.get(user=request.user)
+    # pass in existing types of equipment
+    context = {
         "equipment_types": equipment_types,
         "test_equipments": test_equipments
-        }
+    }
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/create_type.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
 
 
 def create_manufacturer_view(request):
-
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
 
-    manufacturers= Manufacturer.objects.all()
-    user_properties=UserProperties.objects.get(user=request.user)
-    #pass in existing types of equipment
-    context= {
+    manufacturers = Manufacturer.objects.all()
+    user_properties = UserProperties.objects.get(user=request.user)
+    # pass in existing types of equipment
+    context = {
         "manufacturers": manufacturers,
-        }
+    }
 
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/create_manufacturer.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
 
-#defines and renders view for creating a new model of equipment
+
+# defines and renders view for creating a new model of equipment
 def create_model_view(request):
-
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     test_equipments = TestEquipment.objects.all()
@@ -559,28 +601,29 @@ def create_model_view(request):
     eq_modelslist = []
     for em in equipment_models:
         eq_modelslist.append(em.model_manufacturer.name + em.model_type.name + em.name)
-        eq_models=json.dumps(eq_modelslist)
-    user_properties=UserProperties.objects.get(user=request.user)
+        eq_models = json.dumps(eq_modelslist)
+    user_properties = UserProperties.objects.get(user=request.user)
 
-    #pass in existing types of equipment
-    context= {
+    # pass in existing types of equipment
+    context = {
         "equipment_types": equipment_types,
         "test_equipments": test_equipments,
         "manufacturers": manufacturers,
         "eq_models": eq_models
-        }
+    }
 
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/create_model.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
-    
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+
 
 def model_folder(request, model_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        model=Model.objects.get(pk=model_id)
+        model = Model.objects.get(pk=model_id)
         model_files = ModelFolder.objects.filter(model=model).exclude(model_file='').order_by('-pk')
     except Model.DoesNotExist:
         raise Http404("Folder does not exist.")
@@ -591,71 +634,83 @@ def model_folder(request, model_id):
     if request.user.is_authenticated:
         return render(request, "jobs/model_folder.html", context)
 
+
 def equipment(request, equipment_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     unattached_notes = JobNotes.objects.all()
-    date_tested=""
+    date_tested = ""
     cable_test_q = ":1"
     bus_test_q = ":1"
     try:
-        equipment=Equipment.objects.get(pk=equipment_id)
+        equipment = Equipment.objects.get(pk=equipment_id)
         op_counter = False
-        if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker", "Low Voltage Power Circuit Breaker", "Enclosed Medium Voltage Air Switch", "Medium Voltage Vacuum Breaker"}:
+        if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker",
+                                                     "Low Voltage Power Circuit Breaker",
+                                                     "Enclosed Medium Voltage Air Switch",
+                                                     "Medium Voltage Vacuum Breaker"}:
             op_counter = True
         try:
             test_results = TestSheet.objects.get(eq=equipment)
             if equipment.equipment_type.is_cable:
                 cable_test_q = ":" + str(test_results.cable_hipot_quantity)
             try:
-                date_tested = test_results.date_tested.strftime( "%Y""-""%m""-" "%d")
+                date_tested = test_results.date_tested.strftime("%Y""-""%m""-" "%d")
             except:
-                date_tested=""
+                date_tested = ""
             if equipment.equipment_type.is_bus_resistance:
                 bus_test_q = ":" + str(test_results.bus_contact_resistance_quantity)
-                
+
         except:
             test_results = None
             pass
-        job=Job.objects.filter(equipment=equipment).first()
+        job = Job.objects.filter(equipment=equipment).first()
         # notes=EquipmentNotes.objects.filter(equipment=equipment)
         notes = EquipmentNotes.objects.filter(equipment=equipment, parent_note__isnull=True).order_by('-updated_at')
         equipment_files = EquipmentFolder.objects.filter(equipment=equipment).exclude(equipment_file='').order_by('-pk')
         equipment_links = EquipmentLink.objects.filter(equipment=equipment).exclude(link_url='').order_by('-pk')
-        model_te=None
+        model_te = None
         model_notes = None
-        model_files=None
-        model_guides=None
+        model_files = None
+        model_guides = None
         if equipment.equipment_model:
-            model_te=equipment.equipment_model.mandatory_model_test_equipment.all() | equipment.equipment_model.optional_model_test_equipment.all()
-            model_test_equipments=model_te.distinct()
-            model_notes = ModelNotes.objects.filter(model=equipment.equipment_model, parent_note__isnull=True).order_by('-updated_at')
-            model_files=ModelFolder.objects.filter(model=equipment.equipment_model).exclude(model_file='', file_url='').order_by('-pk')            
-            model_guides=ModelTestGuide.objects.filter(model=equipment.equipment_model).exclude(model_test_guide='').order_by('-pk')
+            model_te = equipment.equipment_model.mandatory_model_test_equipment.all() | equipment.equipment_model.optional_model_test_equipment.all()
+            model_test_equipments = model_te.distinct()
+            model_notes = ModelNotes.objects.filter(model=equipment.equipment_model, parent_note__isnull=True).order_by(
+                '-updated_at')
+            model_files = ModelFolder.objects.filter(model=equipment.equipment_model).exclude(model_file='',
+                                                                                              file_url='').order_by(
+                '-pk')
+            model_guides = ModelTestGuide.objects.filter(model=equipment.equipment_model).exclude(
+                model_test_guide='').order_by('-pk')
         else:
-            model_test_equipments=[]
+            model_test_equipments = []
         if equipment.equipment_type:
-            type_te=equipment.equipment_type.mandatory_type_test_equipment.all() | equipment.equipment_type.optional_type_test_equipment.all()
-            type_test_equipments=type_te.distinct()
-            type_notes = TypeNotes.objects.filter(eq_type=equipment.equipment_type, parent_note__isnull=True).order_by('-updated_at')
-            type_files=TypeFolder.objects.filter(eq_type=equipment.equipment_type).exclude(type_file='', file_url='').order_by('-pk')
+            type_te = equipment.equipment_type.mandatory_type_test_equipment.all() | equipment.equipment_type.optional_type_test_equipment.all()
+            type_test_equipments = type_te.distinct()
+            type_notes = TypeNotes.objects.filter(eq_type=equipment.equipment_type, parent_note__isnull=True).order_by(
+                '-updated_at')
+            type_files = TypeFolder.objects.filter(eq_type=equipment.equipment_type).exclude(type_file='',
+                                                                                             file_url='').order_by(
+                '-pk')
             type_ts = TypeTestStandards.objects.filter(ts_type=equipment.equipment_type).order_by('-pk')
-            type_guides=TypeTestGuide.objects.filter(eq_type=equipment.equipment_type).exclude(type_test_guide='').order_by('-pk')
+            type_guides = TypeTestGuide.objects.filter(eq_type=equipment.equipment_type).exclude(
+                type_test_guide='').order_by('-pk')
         else:
-            type_test_equipments=[]
+            type_test_equipments = []
         mandatory_test_equipment = equipment.mandatory_test_equipment.all()
-        optional_test_equipment=equipment.optional_test_equipment.all()
-        #merge test sets
-        test_equipments= optional_test_equipment | mandatory_test_equipment
-        #remove duplicates
-        test_equipments=test_equipments.distinct()
-        #retrieve which users are supporters for this equipments
-        model_support=UserProperties.objects.filter(equipment_models_supported = equipment.equipment_model)
-        type_support = UserProperties.objects.filter(equipment_types_supported = equipment.equipment_type)
+        optional_test_equipment = equipment.optional_test_equipment.all()
+        # merge test sets
+        test_equipments = optional_test_equipment | mandatory_test_equipment
+        # remove duplicates
+        test_equipments = test_equipments.distinct()
+        # retrieve which users are supporters for this equipments
+        model_support = UserProperties.objects.filter(equipment_models_supported=equipment.equipment_model)
+        type_support = UserProperties.objects.filter(equipment_types_supported=equipment.equipment_type)
         support_users = (model_support | type_support).distinct()
-        #filter through test sheet templates to find dominant one
-        if equipment.test_sheet_template!=False:
-            test_sheet_template=equipment.test_sheet_template
+        # filter through test sheet templates to find dominant one
+        if equipment.test_sheet_template != False:
+            test_sheet_template = equipment.test_sheet_template
         elif equipment.equipment_model.model_test_sheet:
             test_sheet_template = equipment.equipment_model.model_test_sheet
         elif equipment.equipment_type.test_sheet:
@@ -668,21 +723,21 @@ def equipment(request, equipment_id):
     except Equipment.DoesNotExist:
         raise Http404("Equipment does not exist.")
 
-
-    #get user properties
-    user_properties=UserProperties.objects.get(user=request.user)
-    #check whether user has permission to view this equipment
+    # get user properties
+    user_properties = UserProperties.objects.get(user=request.user)
+    # check whether user has permission to view this equipment
     if not request.user.is_superuser:
         if job and not job.company == user_properties.company:
-            return render(request, "jobs/error.html", {"message": "The job that this equipment is associated with does not belong to your company. Contact admin if you suspect this is an error."})
+            return render(request, "jobs/error.html", {
+                "message": "The job that this equipment is associated with does not belong to your company. Contact admin if you suspect this is an error."})
 
-    #moving all notes to new individuals MUST REMOVE AFTER SUCCESSFULL TRANSFER
+    # moving all notes to new individuals MUST REMOVE AFTER SUCCESSFULL TRANSFER
     # for eq_t in Type.objects.all():
     #     new_note = TypeNotes(note=eq_t.type_notes, eq_type=eq_t)
     #     new_note.save()
     # for eq_m in Model.objects.all():
     #     new_mnote = ModelNotes(note=eq_m.model_notes, model=eq_m)
-        # new_mnote.save()
+    # new_mnote.save()
     #     # m_note_list = []
     #     # n_note=[]
     #     # for m_note in m_notes:
@@ -692,8 +747,8 @@ def equipment(request, equipment_id):
     #     #         m_note.delete()
     context = {
         "equipment": equipment,
-        "cable_test_q":cable_test_q,
-        "bus_test_q":bus_test_q,
+        "cable_test_q": cable_test_q,
+        "bus_test_q": bus_test_q,
         "types": Type.objects.all(),
         "models": Model.objects.all(),
         "test_equipments": test_equipments,
@@ -723,6 +778,7 @@ def equipment(request, equipment_id):
     if request.user.is_authenticated:
         return render(request, "jobs/equipment.html", context)
 
+
 def equipment_test_sheet(request, equipment_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
@@ -730,16 +786,18 @@ def equipment_test_sheet(request, equipment_id):
     from PyPDF2 import PdfFileReader, PdfFileMerger
 
     equipment = Equipment.objects.filter(pk=equipment_id).first()
-    #get the quantity of pages
+    # get the quantity of pages
     page_quantity = 1
-    user_properties=UserProperties.objects.get(user=request.user)
+    user_properties = UserProperties.objects.get(user=request.user)
     today = datetime.now()
-    now=today.strftime("%b-%d-%Y %H:%M")
+    now = today.strftime("%b-%d-%Y %H:%M")
     now_date = today.date()
-    job=Job.objects.get(equipment=equipment )
-    
+    job = Job.objects.get(equipment=equipment)
+
     op_counter = False
-    if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker", "Low Voltage Power Circuit Breaker", "Enclosed Medium Voltage Air Switch", "Medium Voltage Vacuum Breaker"}:
+    if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker",
+                                                 "Low Voltage Power Circuit Breaker",
+                                                 "Enclosed Medium Voltage Air Switch", "Medium Voltage Vacuum Breaker"}:
         op_counter = True
     context = {
         "equipment": equipment,
@@ -750,25 +808,28 @@ def equipment_test_sheet(request, equipment_id):
         "now_date": now_date,
         "op_counter": op_counter
     }
-    #render html to string and place strings in an array.
-    strings_array = []    
+    # render html to string and place strings in an array.
+    strings_array = []
     html_sheet = None
     if equipment.equipment_type.name.strip() == "Low Voltage Power Circuit Breaker":
-        page_quantity=2
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_lv_ic_breaker.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_primary_secondary.html', context))
-    elif equipment.equipment_type.name.strip() in {"Low Voltage Molded Case Breaker", "Low Voltage Insulated Case Breaker"}:
-        page_quantity=2
+    elif equipment.equipment_type.name.strip() in {"Low Voltage Molded Case Breaker",
+                                                   "Low Voltage Insulated Case Breaker"}:
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_lv_mc_breaker.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_primary_secondary.html', context))
     elif equipment.equipment_type.name.strip() == "Low Voltage Switch":
         context.update({'is_fuse': True})
         html_sheet = render_to_string('jobs/test_sheet_lv_switch.html', context)
-    elif equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "High Voltage Vacuum Breaker", "Medium Voltage Air Breaker"}:
-        page_quantity=2
+    elif equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "High Voltage Vacuum Breaker",
+                                                   "Medium Voltage Air Breaker"}:
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_mv_breaker.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_mv_breaker_2.html', context))
-    elif equipment.equipment_type.name.strip() in {"Enclosed Medium Voltage Air Switch", "High Voltage Open Air Switch"}:
+    elif equipment.equipment_type.name.strip() in {"Enclosed Medium Voltage Air Switch",
+                                                   "High Voltage Open Air Switch"}:
         context.update({'is_fuse': True})
         html_sheet = render_to_string('jobs/test_sheet_mv_air_switch.html', context)
     elif equipment.equipment_type.name.strip() == "Medium Voltage Cable":
@@ -783,7 +844,7 @@ def equipment_test_sheet(request, equipment_id):
         html_sheet = render_to_string('jobs/test_sheet_mv_breaker.html', context)
     elif equipment.equipment_type.name.strip() in {"Oil-filled Transformer", "Dry Type Medium Voltage Transformer"}:
         context.update({'is_fuse': False})
-        page_quantity=2
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_transformer_2.html', context))
     elif equipment.equipment_type.name.strip() == "Low Voltage Transformer":
@@ -793,7 +854,7 @@ def equipment_test_sheet(request, equipment_id):
         html_sheet = render_to_string('jobs/test_sheet_transformer.html', context)
     elif equipment.equipment_type.name.strip() == "Voltage Transformer (VT)":
         context.update({'is_fuse': True})
-        page_quantity=2
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_transformer_2.html', context))
     elif equipment.equipment_type.name.strip() == "Current Transformer (CT)":
@@ -806,28 +867,28 @@ def equipment_test_sheet(request, equipment_id):
         if equipment.equipment_type.is_bus_resistance:
             bus_test_q = ":" + str(equipment.sheet_eq.bus_contact_resistance_quantity)
         context.update({'bus_test_q': bus_test_q})
-        page_quantity=2
+        page_quantity = 2
         strings_array.append(render_to_string('jobs/test_sheet_gear1.html', context))
         strings_array.append(render_to_string('jobs/test_sheet_gear2.html', context))
-    if page_quantity<2:
+    if page_quantity < 2:
         if not html_sheet:
-            return render(request, "jobs/error.html", {"message": "No test sheets have been built for this type. Contact Admin"})
+            return render(request, "jobs/error.html",
+                          {"message": "No test sheets have been built for this type. Contact Admin"})
 
-    if page_quantity>1:
+    if page_quantity > 1:
         pdfadder = PdfFileMerger(strict=False)
         for x in strings_array:
-            pdf_content = pdfkit.from_string(x, 'interim/'+str(user_properties.pk)+'test_sheet_temp.pdf')
-            pdf = PdfFileReader(open('interim/'+str(user_properties.pk)+'test_sheet_temp.pdf', 'rb'))
-            pdfadder.append(pdf, import_bookmarks=False)    
-        pdfadder.write('interim/'+str(user_properties.pk)+'combined_sheets.pdf')
-        output_file = open('interim/'+str(user_properties.pk)+'combined_sheets.pdf', 'rb')
+            pdf_content = pdfkit.from_string(x, 'interim/' + str(user_properties.pk) + 'test_sheet_temp.pdf')
+            pdf = PdfFileReader(open('interim/' + str(user_properties.pk) + 'test_sheet_temp.pdf', 'rb'))
+            pdfadder.append(pdf, import_bookmarks=False)
+        pdfadder.write('interim/' + str(user_properties.pk) + 'combined_sheets.pdf')
+        output_file = open('interim/' + str(user_properties.pk) + 'combined_sheets.pdf', 'rb')
     else:
         output_file = pdfkit.from_string(html_sheet, None)
-        
-    response = HttpResponse(output_file, content_type="application/pdf")
-    
-    response["Content-Disposition"] = f"filename={equipment.site_id}.pdf"
 
+    response = HttpResponse(output_file, content_type="application/pdf")
+
+    response["Content-Disposition"] = f"filename={equipment.site_id}.pdf"
 
     return response
     # if equipment.equipment_type.name == "Medium Voltage Switchgear":
@@ -837,8 +898,6 @@ def equipment_test_sheet(request, equipment_id):
     # for page in files_to_convert:
     #     html_sheet = ""
     #     html_sheet = render_to_string(page, context)
-
-
 
     # html_sheet = render_to_string('jobs/report_cover_page.html', context)
     # stream = BytesIO()
@@ -852,7 +911,7 @@ def compile_test_report(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     from io import BytesIO
-    from PyPDF2 import PdfFileReader, PdfFileMerger    
+    from PyPDF2 import PdfFileReader, PdfFileMerger
     from django.core.exceptions import ObjectDoesNotExist
 
     job = Job.objects.filter(pk=job_id).first()
@@ -860,9 +919,9 @@ def compile_test_report(request, job_id):
         raise Http404("test sheet error. Error code: get job failed")
     # pdf_file_object = BytesIO()
     # pdf_write = PdfFileWriter()
-    user_properties=UserProperties.objects.get(user=request.user)
+    user_properties = UserProperties.objects.get(user=request.user)
     today = datetime.now()
-    now=today.strftime("%b-%d-%Y %H:%M")
+    now = today.strftime("%b-%d-%Y %H:%M")
     now_date = today.date()
 
     # Add cover page
@@ -900,7 +959,10 @@ def compile_test_report(request, job_id):
         if equipment.equipment_type.is_test_sheet:
             try:
                 op_counter = False
-                if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker", "Low Voltage Power Circuit Breaker", "Enclosed Medium Voltage Air Switch", "Medium Voltage Vacuum Breaker"}:
+                if equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "Medium Voltage Air Breaker",
+                                                             "Low Voltage Power Circuit Breaker",
+                                                             "Enclosed Medium Voltage Air Switch",
+                                                             "Medium Voltage Vacuum Breaker"}:
                     op_counter = True
 
                 context = {
@@ -913,21 +975,24 @@ def compile_test_report(request, job_id):
                     "op_counter": op_counter
                 }
                 if equipment.equipment_type.name.strip() == "Low Voltage Power Circuit Breaker":
-                    page_quantity=2
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_lv_ic_breaker.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_primary_secondary.html', context))
-                elif equipment.equipment_type.name.strip() in {"Low Voltage Molded Case Breaker", "Low Voltage Insulated Case Breaker"}:
-                    page_quantity=2
+                elif equipment.equipment_type.name.strip() in {"Low Voltage Molded Case Breaker",
+                                                               "Low Voltage Insulated Case Breaker"}:
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_lv_mc_breaker.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_primary_secondary.html', context))
                 elif equipment.equipment_type.name.strip() == "Low Voltage Switch":
                     context.update({'is_fuse': True})
                     strings_array.append(render_to_string('jobs/test_sheet_lv_switch.html', context))
-                elif equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "High Voltage Vacuum Breaker", "Medium Voltage Air Breaker"}:
-                    page_quantity=2
+                elif equipment.equipment_type.name.strip() in {"SF6 Circuit Breaker", "High Voltage Vacuum Breaker",
+                                                               "Medium Voltage Air Breaker"}:
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_mv_breaker.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_mv_breaker_2.html', context))
-                elif equipment.equipment_type.name.strip() in {"Enclosed Medium Voltage Air Switch", "High Voltage Open Air Switch"}:
+                elif equipment.equipment_type.name.strip() in {"Enclosed Medium Voltage Air Switch",
+                                                               "High Voltage Open Air Switch"}:
                     context.update({'is_fuse': True})
                     strings_array.append(render_to_string('jobs/test_sheet_mv_air_switch.html', context))
                 elif equipment.equipment_type.name.strip() == "Medium Voltage Cable":
@@ -942,12 +1007,12 @@ def compile_test_report(request, job_id):
                     strings_array.append(render_to_string('jobs/test_sheet_mv_breaker.html', context))
                 elif equipment.equipment_type.name.strip() == "Oil-filled Transformer":
                     context.update({'is_fuse': False, 'is_oft': True})
-                    page_quantity=2
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_transformer_2.html', context))
                 elif equipment.equipment_type.name.strip() == "Dry Type Medium Voltage Transformer":
                     context.update({'is_fuse': False})
-                    page_quantity=2
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_transformer_2.html', context))
                 elif equipment.equipment_type.name.strip() == "Low Voltage Transformer":
@@ -960,7 +1025,7 @@ def compile_test_report(request, job_id):
                     strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
                 elif equipment.equipment_type.name.strip() == "Voltage Transformer (VT)":
                     context.update({'is_fuse': True})
-                    page_quantity=2
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_transformer.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_transformer_2.html', context))
                 elif equipment.equipment_type.name.strip() == "Current Transformer (CT)":
@@ -973,20 +1038,20 @@ def compile_test_report(request, job_id):
                     if equipment.equipment_type.is_bus_resistance:
                         bus_test_q = ":" + str(equipment.sheet_eq.bus_contact_resistance_quantity)
                     context.update({'bus_test_q': bus_test_q})
-                    page_quantity=2
+                    page_quantity = 2
                     strings_array.append(render_to_string('jobs/test_sheet_gear1.html', context))
                     strings_array.append(render_to_string('jobs/test_sheet_gear2.html', context))
-                
+
                 pdfadder = PdfFileMerger(strict=False)
-                
+
             except ObjectDoesNotExist:
                 pass
     for x in strings_array:
-        pdf_content = pdfkit.from_string(x, 'interim/'+str(user_properties.pk)+'test_sheet_temp.pdf')
-        pdf = PdfFileReader(open('interim/'+str(user_properties.pk)+'test_sheet_temp.pdf', 'rb'))
-        pdfadder.append(pdf, import_bookmarks=False)    
-    pdfadder.write('interim/'+str(user_properties.pk)+'combined_sheets.pdf')
-    output_file = open('interim/'+str(user_properties.pk)+'combined_sheets.pdf', 'rb')
+        pdf_content = pdfkit.from_string(x, 'interim/' + str(user_properties.pk) + 'test_sheet_temp.pdf')
+        pdf = PdfFileReader(open('interim/' + str(user_properties.pk) + 'test_sheet_temp.pdf', 'rb'))
+        pdfadder.append(pdf, import_bookmarks=False)
+    pdfadder.write('interim/' + str(user_properties.pk) + 'combined_sheets.pdf')
+    output_file = open('interim/' + str(user_properties.pk) + 'combined_sheets.pdf', 'rb')
 
     response = HttpResponse(output_file, content_type="application/pdf")
     response["Content-Disposition"] = f"filename={job.job_name}.pdf"
@@ -997,113 +1062,111 @@ def report_cover_page(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        job=Job.objects.get(pk=job_id)
-        user_properties=UserProperties.objects.get(user=request.user)
+        job = Job.objects.get(pk=job_id)
+        user_properties = UserProperties.objects.get(user=request.user)
         today = datetime.now()
-        now=today.strftime("%b-%d-%Y %H:%M")
+        now = today.strftime("%b-%d-%Y %H:%M")
         now_date = today.date()
         context = {
-        "job": job,
-        "user_properties": user_properties,
-        "now": now,
-        "now_date": now_date
+            "job": job,
+            "user_properties": user_properties,
+            "now": now,
+            "now_date": now_date
         }
-       
+
         html_sheet = render_to_string('jobs/report_cover_page.html', context)
         # import pdb; pdb.set_trace()
 
-        pdf_content = pdfkit.from_string(html_sheet, None,)
-        
+        pdf_content = pdfkit.from_string(html_sheet, None, )
+
         response = HttpResponse(pdf_content, content_type="application/pdf")
-        
 
         # Download
-        #response["Content-Disposition"] = "attachment; filename=sample5.pdf"
+        # response["Content-Disposition"] = "attachment; filename=sample5.pdf"
 
         # Viewing on the browser
         response["Content-Disposition"] = f"filename={job.job_name}.pdf"
 
         return response
-       
+
 
     except Job.DoesNotExist:
         raise Http404("test sheet error. Error code: get job failed")
-    
 
     if request.user.is_authenticated:
         return render(request, "jobs/report_cover_page.html", context)
+
 
 def equipment_in_scope(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        job=Job.objects.get(pk=job_id)
-        equipment=None
-        user_properties=UserProperties.objects.get(user=request.user)
+        job = Job.objects.get(pk=job_id)
+        equipment = None
+        user_properties = UserProperties.objects.get(user=request.user)
         today = datetime.now()
-        now=today.strftime("%b-%d-%Y %H:%M")
+        now = today.strftime("%b-%d-%Y %H:%M")
         try:
             equipment = job.equipment.filter(trashed=False).order_by('-pk')
         except:
             pass
         context = {
-        "job": job,
-        "equipment": equipment,
-        "user_properties": user_properties,
-        "now": now
+            "job": job,
+            "equipment": equipment,
+            "user_properties": user_properties,
+            "now": now
         }
         html_sheet = render_to_string('jobs/equipment_in_scope.html', context)
         # import pdb; pdb.set_trace()
 
         pdf_content = pdfkit.from_string(html_sheet, None)
-        
+
         response = HttpResponse(pdf_content, content_type="application/pdf")
-        
 
         # Download
-        #response["Content-Disposition"] = "attachment; filename=sample5.pdf"
+        # response["Content-Disposition"] = "attachment; filename=sample5.pdf"
 
         # Viewing on the browser
         response["Content-Disposition"] = f"filename={job.job_name}.pdf"
 
         return response
-       
+
 
     except Job.DoesNotExist:
         raise Http404("test sheet error. Error code: get job failed")
-    
 
     if request.user.is_authenticated:
         return render(request, "jobs/equipment_in_scope.html", context)
+
 
 def blank_test_sheet(request, equipment_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     is_test_results = False
     try:
-        equipment=Equipment.objects.get(pk=equipment_id)
-        user_properties=UserProperties.objects.get(user=request.user)
+        equipment = Equipment.objects.get(pk=equipment_id)
+        user_properties = UserProperties.objects.get(user=request.user)
         today = datetime.now()
-        now=today.strftime("%b-%d-%Y %H:%M")
+        now = today.strftime("%b-%d-%Y %H:%M")
         try:
-            test_sheet = TestSheet.objects.get(eq_type=equipment.equipment_type)            
+            test_sheet = TestSheet.objects.get(eq_type=equipment.equipment_type)
             is_test_results = True
         except:
             test_sheet = None
-            return render(request, "jobs/error.html", {"message": "Error: Failed to load base test sheet for eq type. Contact Admin"})
+            return render(request, "jobs/error.html",
+                          {"message": "Error: Failed to load base test sheet for eq type. Contact Admin"})
 
-        
         context = {
-        "equipment": equipment,
-        "job": job,
-        "test_sheet":test_sheet,
-        "user_properties": user_properties,
-        "now": now
+            "equipment": equipment,
+            "job": job,
+            "test_sheet": test_sheet,
+            "user_properties": user_properties,
+            "now": now
         }
-        html_sheet=""
-        pdf_content=None
+        html_sheet = ""
+        pdf_content = None
         response = None
-        
+
         if equipment.equipment_type.name == "Low Voltage Insulated Case Circuit Breaker":
             html_sheet = render_to_string('jobs/test_sheet_lv_ic_breaker.html', context)
             # import pdb; pdb.set_trace()
@@ -1112,22 +1175,20 @@ def blank_test_sheet(request, equipment_id):
         elif equipment.equipment_type.name == "Medium Voltage Motor Contactor":
             html_sheet = render_to_string('jobs/test_sheet_mv_contactor.html', context)
         pdf_content = pdfkit.from_string(html_sheet, None)
-        
+
         response = HttpResponse(pdf_content, content_type="application/pdf")
-        
 
         # Download
-        #response["Content-Disposition"] = "attachment; filename=sample5.pdf"
+        # response["Content-Disposition"] = "attachment; filename=sample5.pdf"
 
         # Viewing on the browser
         response["Content-Disposition"] = f"filename={equipment.site_id}.pdf"
 
         return response
-       
+
 
     except Equipment.DoesNotExist:
         raise Http404("test sheet error. Error code: get equipment failed")
-    
 
     if request.user.is_authenticated:
         return render(request, "jobs/test_sheet_lv_ic_breaker.html", context)
@@ -1200,7 +1261,7 @@ def blank_test_sheet(request, equipment_id):
 #         html_sheet=""
 #         pdf_content=None
 #         response = None
-        
+
 #         # try:
 #         if equipment.equipment_type.name == "Low Voltage Insulated Case Circuit Breaker":
 #             html_sheet = render_to_string('jobs/test_sheet_lv_ic_breaker.html', context)
@@ -1224,7 +1285,7 @@ def blank_test_sheet(request, equipment_id):
 #             html_sheet = render_to_string('jobs/test_sheet_gear1.html', context)
 #         pdf_content = pdfkit.from_string(html_sheet, None)
 #         response = HttpResponse(pdf_content, content_type="application/pdf")
-        
+
 
 #         # Download
 #         #response["Content-Disposition"] = "attachment; filename=sample5.pdf"
@@ -1236,11 +1297,10 @@ def blank_test_sheet(request, equipment_id):
 #         # except OSError:
 #         #     return render(request, "jobs/error.html", {"message": "Internet Connection Error. If there are no issues with internet connection, contact admin."})
 
-       
 
 #     except Equipment.DoesNotExist:
 #         raise Http404("test sheet error. Error code: get equipment failed")
-    
+
 
 #     if request.user.is_authenticated:
 #         return render(request, "jobs/test_sheet_lv_ic_breaker.html", context)
@@ -1249,21 +1309,21 @@ def equipment_test_sheet_download(request, equipment_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        equipment=Equipment.objects.get(pk=equipment_id)
-        job=Job.objects.get(equipment=equipment)
+        equipment = Equipment.objects.get(pk=equipment_id)
+        job = Job.objects.get(equipment=equipment)
         context = {
-        "equipment": equipment,
-        "job": job
+            "equipment": equipment,
+            "job": job
         }
-       
+
         html_sheet = render_to_string('jobs/test_results_test.html', context)
-        
+
         # import pdb; pdb.set_trace()
 
         pdf_content = pdfkit.from_string(html_sheet, None)
-        
+
         response = HttpResponse(pdf_content, content_type="application/pdf")
-        
+
         # Download
         response["Content-Disposition"] = "attachment; filename=sample5.pdf"
 
@@ -1271,14 +1331,15 @@ def equipment_test_sheet_download(request, equipment_id):
         # response["Content-Disposition"] = f"filename={equipment.site_id}.pdf"
 
         return response
-       
+
 
     except Equipment.DoesNotExist:
         raise Http404("test sheet does not exist. Error code: get equipment OR job failed")
-    
 
     if request.user.is_authenticated:
         return render(request, "jobs/test_results_test.html", context)
+
+
 # .
 # .
 # .
@@ -1307,7 +1368,7 @@ def equipment_test_sheet_download(request, equipment_id):
 #             # this is top level ancestor
 #             print('no parent mold found')
 #             parent_mold = None
-        
+
 #         temp = mold
 #         temp.pk = None
 #         eq = temp
@@ -1375,7 +1436,7 @@ def equipment_test_sheet_download(request, equipment_id):
 #             return eq
 #     else:
 #         return eq
-    
+
 # def add_jobsite_eq(request, job_id):
 #     job = Job.objects.get(pk=job_id)
 #     eq_name = request.POST['adding_name']
@@ -1431,10 +1492,9 @@ def equipment_test_sheet_download(request, equipment_id):
 
 #     except:
 #         return render(request, "jobs/error.html", {"message": "get eq failed. contact admin"})
-        
-    
+
+
 #     return HttpResponseRedirect(reverse("job", args=(job_id, )))
-        
 
 
 # .
@@ -1447,7 +1507,7 @@ def equipment_folder(request, equipment_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        equipment=Equipment.objects.get(pk=equipment_id)
+        equipment = Equipment.objects.get(pk=equipment_id)
         equipment_files = EquipmentFolder.objects.filter(equipment=equipment).exclude(equipment_file='').order_by('-pk')
     except Equipment.DoesNotExist:
         raise Http404("Folder does not exist.")
@@ -1460,14 +1520,14 @@ def equipment_folder(request, equipment_id):
 
 
 def add_equipment_page(request, job_id=None, equipment_id=None, job_site_id=None):
-  
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     user_properties = UserProperties.objects.get(user=request.user)
     job = job_id and Job.objects.filter(pk=job_id).first()
-    
+
     job_site = job_site_id and JobSite.objects.filter(pk=job_site_id).first()
-    existing_equipment = job and job.equipment.filter(trashed=False)#creates variable with existing untrashed equipment
+    existing_equipment = job and job.equipment.filter(
+        trashed=False)  # creates variable with existing untrashed equipment
     parent_equipment = None
     if equipment_id:
         parent_equipment = Equipment.objects.get(pk=equipment_id)
@@ -1488,21 +1548,23 @@ def add_equipment_page(request, job_id=None, equipment_id=None, job_site_id=None
     test_equipments = TestEquipment.objects.all()
     test_equipment_list = json.dumps(list(TestEquipment.objects.values_list('name', flat=True)))
     models = Model.objects.all()
-    #get list of all site_ids on the site
+    # get list of all site_ids on the site
     stripped_trashed_site_ids = []
     stripped_trashed_ids = []
     if job_site_id:
-        site_ids = json.dumps(list(Equipment.objects.filter(job_site=job_site, trashed=False).values_list('site_id', flat=True)))
+        site_ids = json.dumps(
+            list(Equipment.objects.filter(job_site=job_site, trashed=False).values_list('site_id', flat=True)))
         trashed_site_eq = Equipment.objects.filter(job_site=job_site, trashed=True).values_list('site_id', flat=True)
-        stripped_trashed_site_ids=[sub[ : -31] for sub in trashed_site_eq]
+        stripped_trashed_site_ids = [sub[: -31] for sub in trashed_site_eq]
         trashed_site_ids = json.dumps(list(stripped_trashed_site_ids))
     elif job_id:
         trashed_eq = job.equipment.filter(trashed=True).values_list('site_id', flat=True)
-        stripped_trashed_ids=[sub[ : -31] for sub in trashed_eq]
+        stripped_trashed_ids = [sub[: -31] for sub in trashed_eq]
         site_ids = json.dumps(list(Equipment.objects.filter(job_site=job.job_site).values_list('site_id', flat=True)))
-        trashed_site_eq = Equipment.objects.filter(job_site=job.job_site, trashed=True).values_list('site_id', flat=True)
-        stripped_trashed_site_ids=[sub[ : -31] for sub in trashed_site_eq]
-        
+        trashed_site_eq = Equipment.objects.filter(job_site=job.job_site, trashed=True).values_list('site_id',
+                                                                                                    flat=True)
+        stripped_trashed_site_ids = [sub[: -31] for sub in trashed_site_eq]
+
     context = {
         "job": job,
         "types": types,
@@ -1515,15 +1577,16 @@ def add_equipment_page(request, job_id=None, equipment_id=None, job_site_id=None
         "parent_equipment": parent_equipment,
         "job_site": job_site,
         "site_ids": site_ids,
-        "stripped_trashed_site_ids":stripped_trashed_site_ids,
-        "stripped_trashed_ids":stripped_trashed_ids
+        "stripped_trashed_site_ids": stripped_trashed_site_ids,
+        "stripped_trashed_ids": stripped_trashed_ids
     }
     if request.user.is_authenticated and user_properties.company:
         return render(request, "jobs/add_equipment.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
+        return render(request, "jobs/error.html", {
+            "message": "Your profile must be associated with a company to view this information. Contact us for a company key."})
 
-    
+
 def trashed_equipment(request, job_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
@@ -1551,6 +1614,7 @@ def trashed_job_site_equipment(request, job_site_id):
     if request.user.is_authenticated:
         return render(request, "jobs/trashed_job_site_equipment.html", context)
 
+
 def types(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
@@ -1567,14 +1631,15 @@ def types(request):
     if request.user.is_authenticated:
         return render(request, "jobs/types.html", context)
 
+
 def eq_type(request, type_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
         eq_type = Type.objects.get(pk=type_id)
-        video_guides=TypeTestGuide.objects.filter(eq_type=eq_type).exclude(type_test_guide='').order_by("-pk")
+        video_guides = TypeTestGuide.objects.filter(eq_type=eq_type).exclude(type_test_guide='').order_by("-pk")
         type_models = Model.objects.filter(model_type=eq_type).order_by("name")
-        type_files = TypeFolder.objects.filter(eq_type=eq_type).exclude(type_file='', file_url='').order_by('-pk')     
+        type_files = TypeFolder.objects.filter(eq_type=eq_type).exclude(type_file='', file_url='').order_by('-pk')
         type_notes = eq_type.note_model.filter(parent_note__isnull=True)
         test_equipments = TestEquipment.objects.all()
         test_equipment_list = json.dumps(list(TestEquipment.objects.values_list('name', flat=True)))
@@ -1582,7 +1647,7 @@ def eq_type(request, type_id):
 
     except Type.DoesNotExist:
         raise Http404("Type does not exist.")
-    context= {
+    context = {
         "type": eq_type,
         "video_guides": video_guides,
         "type_models": type_models,
@@ -1594,6 +1659,7 @@ def eq_type(request, type_id):
     }
     return render(request, "jobs/eq_type.html", context)
 
+
 def test_equipment(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
@@ -1602,6 +1668,7 @@ def test_equipment(request):
     }
     if request.user.is_authenticated:
         return render(request, "jobs/test_equipment.html", context)
+
 
 def manufacturers(request):
     if not request.user.is_authenticated:
@@ -1612,18 +1679,21 @@ def manufacturers(request):
     if request.user.is_authenticated:
         return render(request, "jobs/manufacturers.html", context)
 
+
 def models(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    acme = Manufacturer.objects.get(name='ACME Electric')#this needs to be removed and was only placed here for demonstration purposes. Models should not be filtered from view.
+    acme = Manufacturer.objects.get(
+        name='ACME Electric')  # this needs to be removed and was only placed here for demonstration purposes. Models should not be filtered from view.
     try:
         properties = UserProperties.objects.get(user=request.user)
-        public_models=[]
+        public_models = []
         if properties.company.name == "Admin Company":
             public_models = Model.objects.all().exclude(is_private=True).filter(status=None).order_by('name')
         else:
-            public_models = Model.objects.all().exclude(model_manufacturer=acme).filter(status=None).exclude(is_private=True).order_by('name')
-        private_models = Model.objects.all().filter(is_private=True).filter(company = properties.company).order_by('name')
+            public_models = Model.objects.all().exclude(model_manufacturer=acme).filter(status=None).exclude(
+                is_private=True).order_by('name')
+        private_models = Model.objects.all().filter(is_private=True).filter(company=properties.company).order_by('name')
     except:
         properties = None
     context = {
@@ -1633,14 +1703,15 @@ def models(request):
     if request.user.is_authenticated:
         return render(request, "jobs/models.html", context)
 
+
 def eq_model(request, model_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
         eq_model = Model.objects.get(pk=model_id)
         model_files = ModelFolder.objects.filter(model=eq_model).exclude(model_file='', file_url='').order_by('-pk')
-        video_guides=ModelTestGuide.objects.filter(model=eq_model).exclude(model_test_guide='').order_by("-pk")
-    except:    
+        video_guides = ModelTestGuide.objects.filter(model=eq_model).exclude(model_test_guide='').order_by("-pk")
+    except:
         raise Http404("Model does not exist.")
 
     try:
@@ -1654,7 +1725,7 @@ def eq_model(request, model_id):
     test_equipment_list = json.dumps(list(TestEquipment.objects.values_list('name', flat=True)))
     types = Type.objects.all().order_by('name')
     manufacturers = Manufacturer.objects.all().order_by('name')
-    context= {
+    context = {
         "properties": properties,
         "model": eq_model,
         "model_files": model_files,
@@ -1666,18 +1737,19 @@ def eq_model(request, model_id):
         "manufacturers": manufacturers
     }
     return render(request, "jobs/eq_model.html", context)
-    
+
+
 def eq_manufacturer(request, manufacturer_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
         eq_manufacturer = Manufacturer.objects.get(pk=manufacturer_id)
-        models=Model.objects.filter(model_manufacturer=eq_manufacturer)
+        models = Model.objects.filter(model_manufacturer=eq_manufacturer)
     except Manufacturer.DoesNotExist:
         raise Http404("Model does not exist.")
-    context= {
+    context = {
         "manufacturer": eq_manufacturer,
-        "models":models
+        "models": models
     }
     return render(request, "jobs/eq_manufacturer.html", context)
 
@@ -1685,15 +1757,16 @@ def eq_manufacturer(request, manufacturer_id):
 def profile(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    user=request.user
+    user = request.user
     try:
         properties = UserProperties.objects.get(user=request.user)
     except UserProperties.DoesNotExist:
         properties = UserProperties.objects.create(user=request.user)
     except:
-        return render(request, "jobs/error.html", {"message": "User profile load error. Contact Admin. 210-303-0471 or albert@blueskysw.com."})
-    #create a list of user types (normally will just be one)
-    user_types=[]
+        return render(request, "jobs/error.html",
+                      {"message": "User profile load error. Contact Admin. 210-303-0471 or albert@blueskysw.com."})
+    # create a list of user types (normally will just be one)
+    user_types = []
     if properties.is_fsr:
         user_types.append("Field Service Representative")
     elif properties.is_manager:
@@ -1707,8 +1780,8 @@ def profile(request):
     else:
         user_types.append("Unassigned")
 
-    #jobs associated with user
-    equipment_supported= properties.equipment_models_supported.all()
+    # jobs associated with user
+    equipment_supported = properties.equipment_models_supported.all()
     context = {
         "user": user,
         "user_id": user.id,
@@ -1721,20 +1794,21 @@ def profile(request):
     if request.user.is_authenticated:
         return render(request, "jobs/profile.html", context)
 
+
 # FSR info shows the information for a fsr on a job
 
 def fsr_info(request, fsr_id):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
     try:
-        users=get_user_model()
-        user_base= users.objects.get(pk=fsr_id)
+        users = get_user_model()
+        user_base = users.objects.get(pk=fsr_id)
         properties = UserProperties.objects.get(user=request.user)
     except UserProperties.DoesNotExist:
         properties = None
-         
-    #create a list of user types (normally will just be one)
-    user_types=[]
+
+    # create a list of user types (normally will just be one)
+    user_types = []
     if properties.is_fsr:
         user_types.append("Field Service Representative")
     if properties.is_manager:
@@ -1749,10 +1823,10 @@ def fsr_info(request, fsr_id):
         user_types.append("Equipment Supporter")
     if not user_types:
         user_types.append("Unassigned")
-    #pull equipment supported, if any
+    # pull equipment supported, if any
     equipment_supported = properties.equipment_models_supported.all()
-    #jobs associated with user
-    jobs=Job.objects.filter(user_properties = properties)
+    # jobs associated with user
+    jobs = Job.objects.filter(user_properties=properties)
     context = {
         "properties": properties,
         "user_types": user_types,
@@ -1763,11 +1837,12 @@ def fsr_info(request, fsr_id):
     if request.user.is_authenticated:
         return render(request, "jobs/fsr_info.html", context)
 
+
 def job_archive(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
 
-    archived_jobs=Job.objects.filter(archived=True)
+    archived_jobs = Job.objects.filter(archived=True)
 
     context = {
         "archived_jobs": archived_jobs
@@ -1775,11 +1850,12 @@ def job_archive(request):
     if request.user.is_authenticated:
         return render(request, "jobs/job_archive.html", context)
 
+
 def job_trash(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
 
-    trashed_jobs=Job.objects.filter(trashed=True)
+    trashed_jobs = Job.objects.filter(trashed=True)
 
     context = {
         "trashed_jobs": trashed_jobs
@@ -1787,90 +1863,98 @@ def job_trash(request):
     if request.user.is_authenticated:
         return render(request, "jobs/job_trash.html", context)
 
+
 def feedback(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    notes=FeedbackNote.objects.all()
-    feedback_files=FeedbackFile.objects.all()
+    notes = FeedbackNote.objects.all()
+    feedback_files = FeedbackFile.objects.all()
     # user = UserProperties.objects.get(user=request.user)
     # company = user.company
     # users = UserProperties.objects.filter(company = company)
-    context={
+    context = {
         "notes": notes,
         "feedback_files": feedback_files,
         # "users": users
     }
     if request.user.is_authenticated:
         return render(request, "jobs/feedback.html", context)
-        
+
+
 def working_page(request):
     if not request.user.is_authenticated:
         return render(request, "jobs/login.html", {"message": None})
-    note=WorkingNote.objects.first()
-    
+    note = WorkingNote.objects.first()
+
     if note:
         note = note.note
     else:
         note = ""
-    context={
+    context = {
         "note": note,
     }
     if request.user.is_authenticated:
         return render(request, "jobs/working_notes.html", context)
-        
+
+
 def agwells(request):
     if not request.user.is_authenticated:
-        return render(request, "jobs/login.html", {"message": None})        
+        return render(request, "jobs/login.html", {"message": None})
     wells = None
     try:
-        properties=UserProperties.objects.get(user=request.user)
+        properties = UserProperties.objects.get(user=request.user)
         if properties.company:
             if properties.company.company_key == "agapp":
                 wells = Well.objects.all().order_by("-pk")
         else:
-            return render(request, "jobs/error.html", {"message": "aaaaaaaaaYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})         
-        
+            return render(request, "jobs/error.html", {
+                "message": "aaaaaaaaaYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
+
     except:
-        properties=None
+        properties = None
         pass
-    context={
+    context = {
         "wells": wells,
-    }    
+    }
     # try:
     if request.user.is_authenticated and properties.company:
         return render(request, "jobs/agwells.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "bbbbbbbbbbbbbYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
+        return render(request, "jobs/error.html", {
+            "message": "bbbbbbbbbbbbbYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
     # except:
     #     # return render(request, "jobs/jobs.html", context)
     #     return render(request, "jobs/error.html", {"message": "cccccccccccccYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
-   
+
+
 def agwell(request, well_id):
     if not request.user.is_authenticated:
-        return render(request, "jobs/login.html", {"message": None})        
+        return render(request, "jobs/login.html", {"message": None})
     well = None
     maints = None
     try:
-        properties=UserProperties.objects.get(user=request.user)
+        properties = UserProperties.objects.get(user=request.user)
         if properties.company:
             if properties.company.company_key == "agapp":
-                well = Well.objects.get(pk = well_id)
+                well = Well.objects.get(pk=well_id)
                 maints = MaintEvent.objects.filter(well=well).order_by("-pk")
         else:
-            return render(request, "jobs/error.html", {"message": "aaaaaaaaaaYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})         
-  
+            return render(request, "jobs/error.html", {
+                "message": "aaaaaaaaaaYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
+
     except:
-        properties=None
+        properties = None
         pass
-    context={
+    context = {
         "well": well,
         "maints": maints,
-    }    
+    }
     # try:
     if request.user.is_authenticated and properties.company and well:
         return render(request, "jobs/agwell.html", context)
     else:
-        return render(request, "jobs/error.html", {"message": "bbbbbbbbbbbYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
+        return render(request, "jobs/error.html", {
+            "message": "bbbbbbbbbbbYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
     # except:
     #     # return render(request, "jobs/jobs.html", context)
     #     return render(request, "jobs/error.html", {"message": "ccccccccccccccccYour profile must be associated with the Agriculture portion of the App to view this information. If you don't have the company key for this, contact us.  Click Edit Profile above to add a key."})
