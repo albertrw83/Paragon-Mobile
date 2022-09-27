@@ -21,7 +21,7 @@ import * as DocumentPicker from "expo-document-picker";
 import * as NetInfo from "@react-native-community/netinfo";
 import Spinner from "react-native-loading-spinner-overlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getEqInfoData } from "../src/Api/Middleware";
+// import { getEqInfoData } from "../src/Api/Middleware";
 import { useDispatch } from "react-redux";
 
 const DATA = [

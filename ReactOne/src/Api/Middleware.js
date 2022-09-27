@@ -4,7 +4,7 @@ import { getDataApi, postDataApi } from "./ApiService";
 
 export const getAllJobs = () => {
   function thunk(dispatch) {
-    fetch("https://073c-119-152-135-145.ngrok.io/get_jobs_info")
+    fetch("http://localhost:19004//get_jobs_info")
       .then((response) => response.json())
       .then((responseJson) => {
         dispatch({

@@ -16,7 +16,7 @@ import json
 # from tracker.graph_helper import * # to get into microsft graph api
 
 from .models import Job, JobFolder, BusContactTestData, EquipmentFolder, UserProperties, WorkingNote, Type, Manufacturer, Model, ModelNotes, ModelFolder, Equipment, TestEquipment, JobNotes,EquipmentLink, EquipmentNotes, TypeNotes, TypeFolder, TypeTestStandards, TypeTestGuide, ModelTestGuide, JobSite, JobSiteNotes, JobSiteFolder, Company, FeedbackFile, FeedbackNote, TestSheet, Well, WellNotes, MaintEvent, MaintFile, MaintNotes
-from .serializers import JobSerializer, TestSheetSerializer, EquipmentSerializer
+from .serializers import JobSerializer, TestSheetSerializer, EquipmentSerializer, EquipmentNotesSerializer
 import pdfkit
 import os
 
@@ -47,6 +47,16 @@ def get_jobs_info(request):
         jobss = Job.objects.all()
         serializer = JobSerializer(jobss, many=True)
         x=2
+        # print(serializer)
+        return JsonResponse(serializer.data, safe=False)
+    # print(x)
+    return "fail"
+
+def get_equip_info(request):
+    
+    if request.method == 'GET':
+        eq = Equipment.objects.get(pk=1736)
+        serializer = EquipmentSerializer(eq)
         # print(serializer)
         return JsonResponse(serializer.data, safe=False)
     # print(x)

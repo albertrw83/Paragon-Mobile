@@ -5,6 +5,7 @@ from .models import Job, JobFolder, UserProperties, Type, Manufacturer, WorkingN
 urlpatterns = [
     path("", views.home, name="home"),
     path("get_jobs_info/", views.get_jobs_info, name="get_jobs_info"),
+    path("get_equip_info/", views.get_equip_info, name="get_equip_info"),
     path("get_test_info/", views.get_test_info, name="get_test_info"),
     path("get_eq_info/<int:eq_id>", views.get_eq_info, name="get_eq_info"),
     path("get_job_info/<int:job_id>", views.get_job_info, name="get_job_info"),
