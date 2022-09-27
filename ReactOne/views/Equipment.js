@@ -49,10 +49,14 @@ const Equipment = () => {
     }
   };
   const _retrieveData = async () => {
+    console.log('hello');
     try {
       const value = await AsyncStorage.getItem("@storage_key");
       if (value !== null) {
         return JSON.parse(value);
+      }else{
+        console.log('there is no data');
+        getJobs();
       }
     } catch (error) {}
   };

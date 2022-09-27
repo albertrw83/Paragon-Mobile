@@ -22,7 +22,7 @@ let instance = axios.create(defaultOptions);
 axios.defaults.baseURL = BASE_URL;
 export const getAllJobs = () => {
   function thunk(dispatch) {
-    fetch("https://ab05-119-155-24-99.ngrok.io/get_jobs_info")
+    fetch("http://127.0.0.1:8000/get_jobs_info")
       .then((response) => console.log(response, "cup"), response.json())
       .then((responseJson) => {
         dispatch({
