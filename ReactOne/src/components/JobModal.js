@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,14 +7,23 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  TextInput,
 } from "react-native";
-import React from "react";
 // import Modal from "react-native-modal";
 import Theme from "../assets/theme/Theme";
+import { updateJobName } from "../Api/Middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 
 export default function JobModal({ job, showModal, setShowModal }) {
+  const [jobName, setJobName] = useState("");
+  console.log(job?.job_name, "lllllll");
+  useEffect(() => {
+    setJobName(job?.job_name);
+  }, [job]);
+
+  // console.log(jobName, "jobname");
   const closeModal = () => {
     setShowModal(!showModal);
   };
@@ -25,6 +35,18 @@ export default function JobModal({ job, showModal, setShowModal }) {
       </View>
     );
   };
+  const save = () => {
+    if (jobName === "" || null) {
+      alert("Job Name Can't be empty field");
+    } else {
+      updateJobName({ jobName: jobName, id: job?.id })
+        .then((response1) => {})
+        .catch((err) => {
+          alert("Network Error ", err);
+        });
+    }
+  };
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -39,7 +61,7 @@ export default function JobModal({ job, showModal, setShowModal }) {
               <Image style={styles.crossIcon} source={Theme.icons.closeIcon} />
             </TouchableOpacity>
             <Text style={styles.jobDetailTxt}> Job Detail</Text>
-            <JobDetail
+            {/* <JobDetail
               text1={"Customer Name"}
               text2={
                 job?.customer_name === null
@@ -52,7 +74,26 @@ export default function JobModal({ job, showModal, setShowModal }) {
             <JobDetail
               text1={"Total Equipments"}
               text2={job?.equipment?.length}
-            />
+            /> */}
+            <View style={{ justifyContent: "space-between" }}>
+              <Text style={styles.heading}>Job Name</Text>
+              <TextInput
+                value={jobName}
+                onChangeText={(text) => setJobName(text)}
+                style={{ borderWidth: 1, borderColor: Theme.colors.primary }}
+              />
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "blue",
+                alignSelf: "center",
+                padding: 15,
+                marginVertical: 10,
+              }}
+              onPress={save}
+            >
+              <Text style={{ color: "#fff" }}>SAVE</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

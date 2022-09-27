@@ -4,10 +4,11 @@ export async function getDataApi(payload) {
     payload.url,
     JSON.stringify(payload.payload)
   );
+  console.log(data, "coffee");
   return data;
 }
 export async function postDataApi(payload) {
-  const { data } = await axiosClient.post(
+  const { data } = await axiosClient.patch(
     payload.url,
     JSON.stringify(payload.payload)
   );

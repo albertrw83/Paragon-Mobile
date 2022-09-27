@@ -14,7 +14,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: false,
-  allJobs: [],
+  allJobs: {},
+  userInfo: null,
   isNetworkAvailble: false,
 };
 
@@ -31,9 +32,12 @@ export const homeReducer = createSlice({
     setNetworkAvailble: (state, { payload }) => {
       state.isNetworkAvailble = payload;
     },
+    savaUserNewInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
   },
 });
 // Action creators are generated for each case reducer function
-export const { setLoading, setNetworkAvailble, setAllJobs } =
+export const { setLoading, setNetworkAvailble, setAllJobs, savaUserNewInfo } =
   homeReducer.actions;
 export default homeReducer.reducer;

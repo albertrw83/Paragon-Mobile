@@ -9,14 +9,27 @@ import {
 import React from "react";
 import Theme from "../assets/theme/Theme";
 
-export default function JobsList({ allJobs, setSelectedJob, showJobDetail }) {
+export default function JobsList({
+  allJobs,
+  setSelectedJob,
+  showJobDetail,
+  onPress,
+}) {
   return (
     <View>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={allJobs}
         keyExtractor={(job, i) => `id-${i}`}
+        ListHeaderComponent={() => {
+          return (
+            <TouchableOpacity onPress={onPress}>
+              <Text style={{ alignSelf: "center" }}>Upload Image</Text>
+            </TouchableOpacity>
+          );
+        }}
         renderItem={({ item }) => {
+          console.log(item, "uuuuuuuuu");
           return (
             <TouchableOpacity
               activeOpacity={0.9}
