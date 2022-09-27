@@ -1,10 +1,16 @@
-from django.urls import path
+from django.urls import path, include
 from . import views, constructors
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import routers
+router = routers.DefaultRouter()
+# url for the CRUD
+router.register(r'get_jobs_info', views.GetJobsView,basename="jobs")
 from .models import Job, JobFolder, UserProperties, Type, Manufacturer, WorkingNote, Model, ModelFolder, Equipment, EquipmentFolder, EquipmentLink, TestEquipment, JobNotes, EquipmentNotes, TypeFolder, TypeTestGuide, ModelTestGuide, JobSite, JobSiteNotes, JobSiteFolder, Company, TestSheet, Well, WellNotes, MaintEvent, MaintFile, MaintNotes
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("get_jobs_info/", views.get_jobs_info, name="get_jobs_info"),
+    path('', include(router.urls)),
+    # path("get_jobs_info/", views.get_jobs_info, name="get_jobs_info"),
     path("get_test_info/", views.get_test_info, name="get_test_info"),
     path("get_eq_info/<int:eq_id>", views.get_eq_info, name="get_eq_info"),
     path("get_job_info/<int:job_id>", views.get_job_info, name="get_job_info"),

@@ -14,6 +14,10 @@ import json
 
 # from tracker.auth_helper import get_sign_in_flow, get_token_from_code, store_user, remove_user_and_token, get_token # to get into microsft graph api
 # from tracker.graph_helper import * # to get into microsft graph api
+from django.views import View
+from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny
 
 from .models import Job, JobFolder, BusContactTestData, EquipmentFolder, UserProperties, WorkingNote, Type, Manufacturer, Model, ModelNotes, ModelFolder, Equipment, TestEquipment, JobNotes,EquipmentLink, EquipmentNotes, TypeNotes, TypeFolder, TypeTestStandards, TypeTestGuide, ModelTestGuide, JobSite, JobSiteNotes, JobSiteFolder, Company, FeedbackFile, FeedbackNote, TestSheet, Well, WellNotes, MaintEvent, MaintFile, MaintNotes
 from .serializers import JobSerializer, TestSheetSerializer, EquipmentSerializer
@@ -38,19 +42,34 @@ def home(request):
     if request.user.is_authenticated:
         return render(request, "jobs/home.html", context)
 
-def get_jobs_info(request):
-    print('333')
-    print(request)
-    print('333')
-    x=0
-    if request.method == 'GET':
-        jobss = Job.objects.all()
-        serializer = JobSerializer(jobss, many=True)
-        x=2
-        # print(serializer)
-        return JsonResponse(serializer.data, safe=False)
-    # print(x)
-    return "fail"
+# CRUD operation of Job
+# 1- 127.0.0.1:8000/get_jobs_info (POST: to create Job )
+# 2- 127.0.0.1:8000/get_jobs_info (GET: all job objects)
+# 3- 127.0.0.1:8000/get_jobs_info/1 (PATCH: update the object)
+# 4- 127.0.0.1:8000/get_jobs_info/1 (DELETE: delete the Job object)
+
+class GetJobsView(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    pagination_class = StandardResultsSetPagination
+
+# OLD CODE
+# def get_jobs_info(request):
+#     print('333')
+#     print(request)
+#     print('333')
+#     x=0
+#     if request.method == 'GET':
+#         jobss = Job.objects.all()
+#         serializer = JobSerializer(jobss, many=True)
+#         x=2
+#         # print(serializer)
+#         return JsonResponse(serializer.data, safe=False)
+#     # print(x)
+#     return "fail"
+
+
 
 def get_test_info(request):
     if request.method == 'GET':
